@@ -119,6 +119,7 @@ install -d -m 0770 $RPM_BUILD_ROOT%{_tmpdir}
 install -d -m 0770 $RPM_BUILD_ROOT%{_cachedir}
 install -d -m 0770 $RPM_BUILD_ROOT/var/log/%{__app}
 install -d -m 0770 $RPM_BUILD_ROOT%{_sysconfdir}/cron.d/
+install -d -m 0770 $RPM_BUILD_ROOT%{_kss_sysconfdir}/virt/
 
 pushd doc
 %{__cp} -f  application.conf.example $RPM_BUILD_ROOT%{_kss_sysconfdir}/application.conf.example
@@ -208,6 +209,8 @@ if [ -d %{_psi_sysconfdir} ]; then
   fi
 fi
 
+gpasswd -a qemu %{_group} >/dev/null 2>&1
+
 %postun
 if [ $1 = 0 ]; then
   /usr/sbin/userdel %{_user} 2> /dev/null || :
@@ -248,6 +251,7 @@ fi
 %config(noreplace) %{_kss_sysconfdir}/*.xml
 %dir %{_kss_sysconfdir}/
 %dir %{_kss_sysconfdir}/template/
+%dir %{_kss_sysconfdir}/virt/
 %{_kss_sysconfdir}/template/*
 %dir /var/log/%{__app}/
 %dir %{_kss_datadir}/
@@ -255,6 +259,7 @@ fi
 %defattr(0770,root,%{_group})
 %dir %{_cachedir}/
 /etc/cron.d/*
+%dir %{_datarootdir}/%{__app}
 
 %files lib
 %defattr(-,root,%{_group})
