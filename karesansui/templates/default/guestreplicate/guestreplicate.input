@@ -1,0 +1,219 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function validates_guesteplicate(){
+    var check = true;
+    ERROR_MSG = "";
+
+    check = check_string(
+                $("#m_name"),
+                CHECK_EMPTY | CHECK_LENGTH | CHECK_ONLYSPACE,
+                "${_('Guest Name')}",
+                null,
+                MACHINE_NAME_MIN_LENGTH,
+                MACHINE_NAME_MAX_LENGTH
+            ) && check;
+
+    check = check_string(
+                $("#note_title"),
+                CHECK_LENGTH | CHECK_ONLYSPACE,
+                "${_('Title')}",
+                null,
+                NOTE_TITLE_MIN_LENGTH,
+                NOTE_TITLE_MAX_LENGTH
+            ) && check;
+
+    check = check_string(
+                $("#note_value"),
+                CHECK_ONLYSPACE,
+                "${_('Note')}",
+                null,
+                null,
+                null
+            ) && check;
+
+    check = check_string(
+                $("#domain_dest_Name"),
+                CHECK_EMPTY | CHECK_LENGTH | CHECK_VALID | CHECK_ONLYSPACE,
+                "${_('Destination Domain Name')}",
+                /[^-_.0-9a-zA-Z]+/,
+                DOMAIN_ID_MIN_LENGTH,
+                DOMAIN_ID_MAX_LENGTH
+            ) && check;
+     
+    check = check_number(
+                $("#vm_vncport"),
+                CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                "${_('VNC Port Number')}",
+                VNC_PORT_MIN_NUMBER,
+                VNC_PORT_MAX_NUMBER
+            ) && check;
+
+    check = check_macaddr(
+                $("#vm_mac"),
+                CHECK_EMPTY | CHECK_VALID,
+                "${_('MAC Address')}"
+            ) && check;
+    
+    if($("#tags").val()){
+        var form_tmp = $("#tags").val();
+        var tags = $("#tags").val().split(",");
+        var tag_check = true;
+
+        for (var idx in tags){
+            $("#tags").val(tags[idx]);
+            tag_check = check_string(
+                        $("#tags"),
+                        CHECK_LENGTH | CHECK_ONLYSPACE,
+                        "${_('Tag')}",
+                        null,
+                        TAG_MIN_LENGTH,
+                        TAG_MAX_LENGTH
+                    ) && tag_check;
+            if(tag_check == false){
+                break;
+            }
+        }
+        $("#tags").val(form_tmp);
+        check = check && tag_check;
+    }
+
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG);
+    }
+
+    return check;                       
+}
+
+$(document).ready(function(){
+    icon_post_event(
+        "#input_guest_icon_form",
+        "${ctx.homepath}/icon",
+        function(){return true;}
+    );
+
+    machine_post_event(
+        "#input_guest_submit",
+        "${ctx.homepath}${ctx.path}",
+        "#input_guest :input",
+        validates_guesteplicate
+    );
+    // help
+    helptip("#guest_replicate_name_help", 
+        "${_('Guest Name')}", 
+        "${_('Name of the guest. This will be used in Karesansui control panel. Any letters, including spaces and symbols are allowed.')}");
+    
+    helptip("#guest_replicate_icon_help", 
+        "${_('Guest Icon')}", 
+        "${_('Icon image to be used in Karesansui control panel. Choose the file and click upload button.')}");
+    
+    helptip("#guest_replicate_src_help", 
+        "${_('Source Domain Name')}", 
+        "${_('Source VM domain name to be copied.')}");
+
+    helptip("#guest_replicate_dist_help", 
+        "${_('Destination Domain Name')}", 
+        "${_('Destination VM domain name to be copied.')}");
+
+    // TRANSLATORS:
+    // コピー先ストレージプール名
+    helptip("#guest_replicate_pool_help", 
+        "${_('Destination Storage Pool Name')}",
+        "${_('Set the destination storage pool name.')}");
+        
+    helptip("#guest_replicate_VNC_port_help", 
+        "${_('VNC Port Number')}", 
+        "${_('(Auto-recommended value displayed below.) TCP port number to access the guest with VNC. Numbers greater than 5900 are allowed. Unique number between all guests are recommended.')}");
+    
+    helptip("#guest_replicate_MAC_address_help", 
+        "${_('MAC Address')}", 
+        "${_('(Auto-recommended value displayed below.) MAC address of the guest in xx:xx:xx:xx:xx:xx format. Specify an address not used in the network.')}");
+    
+    helptip("#guest_replicate_note_help", 
+        "${_('Note')}", 
+        "${_('Notebook is for your reminders, memopads, etc.')}");
+    
+    helptip("#guest_replicate_tag_help", 
+        "${_('Tag')}", 
+        "${_(r'Tag to add to the guest to be used in Karesansui control panel. Can be used to search guests using tags in the \"Guests\" panel. Separate tags with commas to specify two or more tags. Any letters, including spaces and symbols are allowed.')}");
+});
+//-->
+</script>
+
+<div id="input_guest">
+    <div class="grayout-head">
+        <span class="grayout-title">
+            <!-- TRANSLATORS:ゲストコピー -->
+            <a href="#" id="server" class="path-a"><img src="${ctx.homepath}/static/images/settings-title.gif" alt="">${_('Replicate Guest')}</a>
+        </span>
+        <br style="clear: both;"/>
+    </div>
+
+    <div class="grayout-contents">
+        <div class="grayout-param">${_('Guest Name')}<span id="guest_replicate_name_help"/></div>
+        <div class="grayout-value grayout-form">
+            <input type="text" id="m_name" name="m_name" value="" size="40" maxlength="256" /><span class="require-text">${_('Require')}</span>
+        </div>
+        <div class="grayout-param">${_('Guest Icon')}<span id="guest_replicate_icon_help"/></div>
+        <div class="grayout-value grayout-form">
+            <form action="#" method="post" id="input_guest_icon_form" name="input_guest_icon_form">
+                <input type="file" id="multi_icon" name="multi_icon" size="40" />
+                <input type="hidden" id="icon_filename" name="icon_filename" value="" />
+                <a href="#" name="icon_upload_submit" id="icon_upload_submit" class="button" style="display: inline">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Upload')}</span>
+                </a>
+                <a href="#" name="icon_cancel_submit" id="icon_cancel_submit" class="button" style="display: inline">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Cancel')}</span>
+                </a>
+            </form>
+        </div>
+        <div class="grayout-param">${_('Source Domain Name')}<span id="guest_replicate_src_help"/></div>
+        <div class="grayout-value grayout-form">
+            ${domain_src_name | h}
+            <input type="hidden" id="src_id" name="src_id" value="${src_id | h}" />
+        </div>
+        <div class="grayout-param">${_('Destination Domain Name')}<span id="guest_replicate_dist_help"/></div>
+        <div class="grayout-value grayout-form">
+            <input type="text" id="domain_dest_Name" name="domain_dest_name" value="" /><span class="require-text">${_('Require')}</span>
+        </div>
+
+        <div class="grayout-param">${_('Destination Storage Pool Name')}<span id="guest_replicate_pool_help"/></div>
+        <div class="grayout-value grayout-form">
+            <select id="dest_pool" name="dest_pool">
+% for pool in pools:
+                <option value="${pool}">${pool}</option>
+% endfor
+            </select><span class="require-text">${_('Require')}</span>
+        </div>
+
+        <div class="grayout-param">${_('VNC Port Number')}<span id="guest_replicate_VNC_port_help"/></div>
+        <div class="grayout-value grayout-form">
+            <input type="text" id="vm_vncport" name="vm_vncport" value="${vnc_port | h}" size="6" maxlength="5" /><span class="require-text">${_('Require')}</span>
+        </div>
+        <div class="grayout-param">${_('MAC Address')}<span id="guest_replicate_MAC_address_help"/></div>
+        <div class="grayout-value grayout-form">
+            <input type="text" id="vm_mac" name="vm_mac" value="${mac_address | h}"  size="20" maxlength="17" /><span class="require-text">${_('Require')}</span>
+        </div>
+        <div class="grayout-param">${_('Notebook')}<span id="guest_replicate_note_help"/></div>
+        <div class="grayout-value grayout-form">
+            <p>${_('Title')}</p>
+            <input type="text" id="note_title" name="note_title" value="" size="40" maxlength="64" />
+            <p>${_('Note')}</p>
+            <textarea id="note_value" name="note_value" cols="50" rows="5"></textarea>
+        </div>
+        <div class="grayout-param">${_('Tag')}<span id="guest_replicate_tag_help"/></div>
+        <div class="grayout-value grayout-form">
+            <input type="text" id="tags" name="tags" value="" size="40" />
+        </div>
+        
+        <div class="grayout-footer">
+            <a href="#" name="input_guest_submit" id="input_guest_submit" class="button">
+                <span class="button-left">&nbsp;</span><span class="button-right">${_('Copy')}</span>
+            </a>
+            <br style="clear: both;"/>
+        </div>
+        <br style="clear: both;"/>
+    </div>
+</div> 

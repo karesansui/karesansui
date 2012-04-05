@@ -1,0 +1,115 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+    var close_time = 500;
+
+    $("#tool_renew").click(function(){
+        renew_msg(true);
+    });
+
+    $("#current_proxy_setting").hide();
+    $("#current_mail_setting").hide();
+
+    // Mail setting.
+    button_effect("#mail_setting");
+    $("#mail_toggle_switch").click(function(){
+        $("#current_mail_setting").toggle(close_time);
+        if($("#mail_toggle_button").attr("src").indexOf("tree-open.gif") == -1){
+            $("#mail_toggle_button").attr("src", "${ctx.homepath}/static/images/tree-open.gif");
+        }else{
+            $("#mail_toggle_button").attr("src", "${ctx.homepath}/static/images/tree-close.gif");
+        }
+    });
+    $("#mail_setting").click(function(){
+        grayout_view("GET",
+            "${ctx.homepath}/host/${host_id}/setting/mail.part?mode=input",
+            "${_('Mail Settings')}",
+            "${ctx.homepath}${ctx.path}");
+    });
+    ajax_get("#current_mail_setting",
+             "${ctx.homepath}/host/${host_id}/setting/mail.part",
+             null);
+
+    // Proxy setting.
+    button_effect("#proxy_setting");
+    $("#proxy_toggle_switch").click(function(){
+        $("#current_proxy_setting").toggle(close_time);
+        if($("#proxy_toggle_button").attr("src").indexOf("tree-open.gif") == -1){
+            $("#proxy_toggle_button").attr("src", "${ctx.homepath}/static/images/tree-open.gif");
+        }else{
+            $("#proxy_toggle_button").attr("src", "${ctx.homepath}/static/images/tree-close.gif");
+        }
+    });
+    $("#proxy_setting").click(function(){
+        grayout_view("GET",
+            "${ctx.homepath}/host/${host_id}/setting/proxy.part?mode=input",
+            "${_('Proxy Settings')}",
+            "${ctx.homepath}${ctx.path}");
+    });
+    ajax_get("#current_proxy_setting",
+             "${ctx.homepath}/host/${host_id}/setting/proxy.part",
+             null);
+
+});
+-->
+</script>
+                    <div id="setting">
+                        <div classs="alert"></div>
+
+                        <div id="action" >
+                            <div class="left"></div>
+                            <div class="right">
+                                <a href="#" class="tool-link" >
+                                    <div class="tool-mid">
+                                        <img src="${ctx.homepath}/static/images/reload.gif" alt="renew" id="tool_renew"/>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>
+                        <div class="space"/>
+                        <div id="view">
+                            <div id="list-box">
+                                <div id="minner">
+
+                                <!-- Proxy Setting-->
+                                    <div class="settings-head">
+                                        <span class="settings-title">
+                                            <div id="proxy_toggle_switch" class="settings-tree-button">
+                                                <img src="${ctx.homepath}/static/images/tree-close.gif" id="proxy_toggle_button" alt="" />
+                                                <img src="${ctx.homepath}/static/images/settings-title.gif" alt="" />${_('Proxy Settings')}
+                                            </div>
+                                        </span>
+                                        <span class="settings-form">
+                                            <a href="#" name="proxy_setting" id="proxy_setting" class="button">
+                                                <span class="button-left">&nbsp;</span><span class="button-right">${_('Settings')}</span>
+                                            </a>
+                                        </span>
+                                        <br style="clear: both;"/>
+                                    </div>
+                                    <div id="current_proxy_setting"></div>
+
+                                <!-- Mail Setting-->
+                                    <div class="settings-head">
+                                        <span class="settings-title">
+                                            <div id="mail_toggle_switch" class="settings-tree-button">
+                                                <img src="${ctx.homepath}/static/images/tree-close.gif" id="mail_toggle_button" alt="" />
+                                                <img src="${ctx.homepath}/static/images/settings-title.gif" alt="" />${_('Mail Settings')}
+                                            </div>
+                                        </span>
+                                        <span class="settings-form">
+                                            <a href="#" name="mail_setting" id="mail_setting" class="button">
+                                                <span class="button-left">&nbsp;</span><span class="button-right">${_('Settings')}</span>
+                                            </a>
+                                        </span>
+                                        <br style="clear: both;"/>
+                                    </div>
+                                    <div id="current_mail_setting"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>
+                    </div>

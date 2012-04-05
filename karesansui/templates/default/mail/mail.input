@@ -1,0 +1,92 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function validates_mail() {
+    ERROR_MSG = "";
+    var check = true;
+
+    var check_server = check_domainname(
+                    $("#server"), 
+                    CHECK_EMPTY | CHECK_VALID,
+                    "${_('Mail Server Name')}",
+                    null,
+                    null,
+                    null) ||
+                   is_full_ipaddr($("#server")[0].value);
+
+    check = check_server && check;
+    check = check_number(
+                    $("#port"),
+                    CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                    "${_('Port Number')}",
+                    PORT_MIN_NUMBER,
+                    PORT_MAX_NUMBER
+                ) && check;
+    check = check_mailaddress(
+                    $("#email"),
+                    CHECK_EMPTY | CHECK_VALID | CHECK_LENGTH,
+                    "${_('Recipient Mail Address')}",
+                    null,
+                    EMAIL_MIN_LENGTH,
+                    EMAIL_MAX_LENGTH
+                ) && check;
+
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG);
+    }
+
+    return check;
+}
+
+$(document).ready(function() {
+
+    ajax_put_event(
+        "#mail_setting_button",
+        "${ctx.homepath}${ctx.path}",
+        "#mail_input_form",
+        validates_mail
+    );
+});
+-->
+</script>
+
+<div id="mailserver_setting">
+    <form action="${ctx.homepath}${ctx.path}" method="post" id="mail_input_form" name="mail_input_form">
+    
+        <div class="grayout-head">
+            <span class="grayout-title">
+                <img src="${ctx.homepath}/static/images/settings-title.gif">${_('Edit Mail Server Settings')}
+            </span>
+            <br style="clear: both;"/>
+        </div>
+
+        <div class="grayout-contents">
+            <div class="grayout-param">${_('Mail Server Name')}</div>
+            <div class="grayout-value grayout-form">
+                <input type="text" name="server" value="${mail['server']}" id="server" size="64" maxlength="128" />
+            </div>
+
+            <div class="grayout-param">${_('Port Number')}</div>
+            <div class="grayout-value grayout-form">
+                <input type="text" name="port" value="${mail['port']}" id="port" size="7" maxlength="5" />
+            </div>
+            
+            <div class="grayout-param">${_('Recipient Mail Address')}</div>
+            <div class="grayout-value grayout-form">
+                <input type="text" name="email" value="${mail['email']}" id="email" size="64" maxlength="128" />
+            </div>
+
+            <div class="grayout-footer">
+                <input type="hidden" name="_method" id="_method" />
+                <a href="#" name="mail_setting_button" id="mail_setting_button" class="button">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Edit')}</span>
+                </a>
+                <br style="clear: both;"/>
+            </div>
+
+            <br style="clear: both;"/>
+          </div>
+      </form>
+</div>

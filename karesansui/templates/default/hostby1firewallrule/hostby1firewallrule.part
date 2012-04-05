@@ -1,0 +1,149 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+
+function pageInfo(sorter){
+    $(sorter).each(function(){
+        var c = this.config;
+        var total = c.totalRows;
+        var from = c.page * c.size + 1;
+        var to = (c.page + 1) * c.size;
+        if (to > total){
+          to = total;
+        }
+        $(c.cssPageInfo, c.container).text('[' + from + ' - ' + to + '] of ' + total);
+    });  
+}
+
+function pagePointer(sorter){ 
+    $(sorter).each(function(){
+        var c = this.config;
+        var prev_src = $(config.cssPrev, c.container).attr("src");
+        var next_src = $(config.cssNext, c.container).attr("src");
+
+        if(c.page == 0){
+            if(prev_src.indexOf("-invalid.gif") == -1){
+                prev_src = prev_src.replace(".gif", "") + "-invalid.gif";
+                $(config.cssPrev, c.container).attr("src", prev_src);
+            }
+        } else {
+            prev_src = prev_src.replace("-invalid", "");
+            $(config.cssPrev, c.container).attr("src", prev_src);
+        }
+
+        if(c.page == (c.totalPages - 1)){
+            if(next_src.indexOf("-invalid.gif") == -1){
+                next_src = next_src.replace(".gif", "") + "-invalid.gif";
+                $(config.cssNext, c.container).attr("src", next_src);
+            }
+        } else {
+            next_src = next_src.replace("-invalid", "");
+            $(config.cssNext, c.container).attr("src", next_src);
+        }
+    });
+}
+
+var pager = $('#tablesorter_pager');
+$(".pagesize", pager).val(FIREWALL_LIST_RANGE);
+var sorter = $('#rule_list') .tablesorter({
+    widgets: ['zebra', 'select']
+}).tablesorterPager({
+    size: FIREWALL_LIST_RANGE,
+    container: pager,
+    cssPageInfo: '.pageinfo',
+    positionFixed: false
+}); 
+
+$('.next, .prev', pager).click(function() {
+    pageInfo(sorter);
+    pagePointer(sorter);
+});
+
+pageInfo(sorter);
+pagePointer(sorter);
+
+});
+// -->
+</script>
+% if have_config is True:
+                                <div id="tablesorter_pager" class="tablesorter_pager">
+                                    <img name="pager_button" class="prev" src="${ctx.homepath}/static/images/list-pre-invalid.gif" alt="prev" />
+                                    <span class="pageinfo">[0 - 0] of 0</span>
+                                    <img name="pager_button" class="next" src="${ctx.homepath}/static/images/list-next-invalid.gif" alt="next" />
+                                    <input class="pagesize" type="hidden"/>
+                                </div>
+                                <br style="clear:both;" />
+                                <table id="rule_list" class="tablesorter" style="font-size:10px;">
+                                    <thead>
+                                        <tr>
+                                            <th class="header" width="5px">${_('ID')}</th>
+                                            <th class="header">${_('Target')}</th>
+                                            <th class="header">${_('Protocol')}</th>
+                                            <th class="header">${_('Source Address')}</th>
+                                            <th class="header">${_('Source Port')}</th>
+                                            <th class="header">${_('Destination Address')}</th>
+                                            <th class="header">${_('Destination Port')}</th>
+                                            <th class="header">${_('In Interface')}</th>
+                                            <th class="header">${_('Out Interface')}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+% for rule in rules:
+                                        <tr id="rule_row${rule['id']}">
+                                            <td>${rule['id']}</td>
+% if rule['target'].upper() == "REJECT":
+                                            <td style="color: #b70000;">${rule['target']}</td> 
+% elif rule['target'].upper() == "ACCEPT":
+                                            <td style="color: #0079b7;">${rule['target']}</td> 
+% elif rule['target'].upper() == "DROP":
+                                            <td style="color: #ff8a00;">${rule['target']}</td> 
+% endif
+% if rule['protocol']:
+                                            <td>${rule['protocol']}</td>
+% else:
+                                            <td style="color: #c3c3c3;">${_('N/A')}</td>
+% endif
+
+% if rule['source']:
+                                            <td>${rule['source']}</td> 
+% else:
+                                            <td style="color: #c3c3c3;">${_('N/A')}</td> 
+% endif
+% if rule['source-port']:
+                                            <td>${rule['source-port']}</td> 
+% else:
+                                            <td style="color: #c3c3c3;">${_('N/A')}</td> 
+% endif
+
+
+% if rule['destination']:
+                                            <td>${rule['destination']}</td> 
+% else:
+                                            <td style="color: #c3c3c3;">${_('N/A')}</td> 
+% endif
+
+% if rule['destination-port']:
+                                            <td>${rule['destination-port']}</td> 
+% else:
+                                            <td style="color: #c3c3c3;">${_('N/A')}</td> 
+% endif
+% if rule['in-interface']:
+                                            <td>${rule['in-interface']}</td> 
+% else:
+                                            <td style="color: #c3c3c3;">${_('N/A')}</td> 
+% endif
+% if rule['out-interface']:
+                                            <td>${rule['out-interface']}</td> 
+% else:
+                                            <td style="color: #c3c3c3;">${_('N/A')}</td> 
+% endif
+                                        </tr>
+% endfor
+                                    </tbody>
+                                </table>
+% else:
+${_('Has not been initialized. Please initialize.')}
+% endif

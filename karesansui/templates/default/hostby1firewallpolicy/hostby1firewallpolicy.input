@@ -1,0 +1,81 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function validates_firewall_policy(){
+    ERROR_MSG = "";
+    var check = true;
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG);
+    }
+    return check;
+};
+
+$(document).ready(function() {
+    ajax_put_event(
+        "#policy_setting_edit",
+        "${ctx.homepath}${ctx.path}",
+        $("#policy_setting :input"),
+        validates_firewall_policy
+    );
+
+    helptip("#firewall_policy_input_chain_help",
+            "${_('INPUT Chain')}",
+            "${_('Default policy to treat packets reaching this host. ')}${_('ACCEPT accepts the packet. DROP drops the packet silently.')}");
+
+    helptip("#firewall_policy_output_chain_help",
+            "${_('OUTPUT Chain')}",
+            "${_('Default policy to treat packets to be sent from this host. ')}${_('ACCEPT accepts the packet. DROP drops the packet silently.')}");
+
+    helptip("#firewall_policy_forward_chain_help",
+            "${_('FORWARD Chain')}",
+            "${_('Default policy to treat packets to be forwarded through this host. ')}${_('ACCEPT accepts the packet. DROP drops the packet silently.')}");
+
+});
+
+function notice_on() {
+    var lmsg = '<div class="alert-bg"><div class="succeed-alt">';
+    var msg = '<img src="${ctx.homepath}/static/images/succeed.gif" alt="${_('Alert')}" /><pre>' + "${_('For the change to take effect immediately, you need to restart/start packetfilter service.')}" + '</pre>';
+    var rmsg = '</div><br style="clear: both;"/></div>';
+    $("#notice_message").html(lmsg + msg + rmsg);
+}
+% if iptables.is_configured is not True:
+notice_on()
+% endif
+
+-->
+</script>
+    <div id="policy_setting">
+        <div class="grayout-head">
+            <span class="grayout-title">
+                <img src="${ctx.homepath}/static/images/settings-title.gif">${_('Policy Settings')}
+            </span>
+            <br style="clear: both;"/>
+        </div>
+        <div class="grayout-contents">
+            <div class="grayout-param">${_('INPUT Chain')}<span id="firewall_policy_input_chain_help" /></div>
+            <div class="grayout-value grayout-form">
+                <input type="radio" name="input_policy" value="ACCEPT" ${input_policy_ACCEPT_checked} id="input_policy_ACCEPT"/>${_('ACCEPT')}
+                <input type="radio" name="input_policy" value="DROP" ${input_policy_DROP_checked} id="input_policy_DROP"/>${_('DROP')}
+            </div>
+            <div class="grayout-param">${_('OUTPUT Chain')}<span id="firewall_policy_output_chain_help" /></div>
+            <div class="grayout-value grayout-form">
+                <input type="radio" name="output_policy" value="ACCEPT" ${output_policy_ACCEPT_checked} id="output_policy_ACCEPT"/>${_('ACCEPT')}
+                <input type="radio" name="output_policy" value="DROP" ${output_policy_DROP_checked} id="output_policy_DROP"/>${_('DROP')}
+            </div>
+            <div class="grayout-param">${_('FORWARD Chain')}<span id="firewall_policy_forward_chain_help" /></div>
+            <div class="grayout-value grayout-form">
+                <input type="radio" name="forward_policy" value="ACCEPT" ${forward_policy_ACCEPT_checked} id="forward_policy_ACCEPT"/>${_('ACCEPT')}
+                <input type="radio" name="forward_policy" value="DROP" ${forward_policy_DROP_checked} id="forward_policy_DROP"/>${_('DROP')}
+            </div>
+            <br style="clear: both;"/>
+
+            <div class="grayout-footer">
+                <a href="#" name="policy_setting_edit" id="policy_setting_edit" class="button">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Edit')}</span>
+                </a>
+                <br style="clear: both;"/>
+            </div>
+        </div>
+    </div>

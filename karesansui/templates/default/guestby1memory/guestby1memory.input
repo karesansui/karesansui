@@ -1,0 +1,104 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+
+function validates_memory(){
+    ERROR_MSG = "";
+    var check = true;
+
+    check = check_number(
+                $("#max_memory"),
+                CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                "${_('Max Memory Size (MB)')}",
+                64,
+                10240
+            ) && check;
+
+    var max_memory = parseInt($("#max_memory").val());
+
+% if hypervisor != "QEMU":
+    check = check_number(
+                $("#memory"),
+                CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                "${_('Memory Size (MB)')}",
+                64,
+                max_memory
+            ) && check;
+% endif
+
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG);
+    }
+    return check;
+}
+
+$(document).ready(function() {
+    ajax_put_event("#edit_memory_button",
+        "${ctx.homepath}${ctx.path}",
+        "#memory_setting :input",
+        validates_memory);
+
+    helptip("#device_memory_total_mem_size_help",
+            "${_('Total Memory Size on Host (MB)')}",
+            "${_('Total RAM size of the host (in mega-bytes).')}");
+
+    helptip("#device_memory_max_mem_size_help",
+            "${_('Maximum Allocatable Memory Size (MB)')}",
+            "${_('Maximum memory size which could be allocated to the guest (in mega-bytes). This should be lower than the total memory size on host.')}");
+
+    helptip("#device_memory_mem_size_help",
+            "${_('Memory Size (MB)')}",
+            "${_('Current memory size of the guest (in mega-bytes).')}");
+});
+-->
+</script>
+
+<div id="memory_setting">
+    <form action="" method="post" id="memory_edit_form" name="memory_edit_form">
+    
+        <div class="grayout-head">
+            <span class="grayout-title">
+                <img src="${ctx.homepath}/static/images/settings-title.gif">${_('Memory Information')}
+            </span>
+            <br style="clear: both;"/>
+        </div>
+
+        <div class="grayout-contents">
+
+            <div class="grayout-param">${_('Total Memory Size on Host (MB)')}<span id="device_memory_total_mem_size_help" /></div>
+            <div class="grayout-value grayout-form">
+                        ${nodeinfo["memory"]}
+            </div>
+
+            <div class="grayout-param">${_('Maximum Allocatable Memory Size (MB)')}
+
+% if hypervisor == "QEMU":
+(${_('This will be enabled on next guest bootup')})
+% endif
+            <span id="device_memory_max_mem_size_help" />
+            </div>
+            <div class="grayout-value grayout-form">
+                <input type="text" id="max_memory" name="max_memory" value="${info["maxMem"]/1024}" size="12" maxlength="10"/><span class="require-text">${_('Require')}</span>
+            </div>
+
+            <div class="grayout-param">${_('Memory Size (MB)')}<span id="device_memory_mem_size_help" /></div>
+% if hypervisor == "QEMU":
+                --
+% else:
+            <div class="grayout-value grayout-form">
+                <input type="text" id="memory" name="memory" value="${info["memory"]/1024}" size="12" maxlength="10"/><span class="require-text">${_('Require')}</span>
+            </div>
+% endif
+
+            <div class="grayout-footer">
+                <a href="#" name="edit_memory_button" id="edit_memory_button" class="button">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Edit')}</span>
+                </a>
+                <br style="clear: both;"/>
+            </div>
+            <br style="clear: both;"/>
+        </div>
+    </form>
+</div>

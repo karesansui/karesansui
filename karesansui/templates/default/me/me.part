@@ -1,0 +1,28 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<div class="settings-contents">
+    <table>
+        <tr>
+            <th>${_('ID')}</th>
+            <td>${me.id | h}</td>
+        </tr>
+        <tr>
+            <th>${_('Nickname')}</th>
+            <td>${me.nickname | h}</td>
+        </tr>
+        <tr>
+            <th>${_('Mail Address')}</th>
+            <td>${me.email | h}</td>
+        </tr>
+        <tr>
+            <th>${_('Language')}</th>
+            <td>${_(me.languages)}</td>
+        </tr>
+    </table>
+    <br style="clear: both;"/>
+</div>
+<div class="grayout-footer">
+    <input type="button" onclick="javascript:grayout_close()" value="${_('Close')}" />
+    <br style="clear: both;"/>
+</div>

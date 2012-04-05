@@ -1,0 +1,51 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<style type="text/css">
+</style>
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+});
+-->
+</script>
+% if have_config is True:
+            <table cellspacing="0" border="0" style="background-color:#bcbcbc;">
+                <tr>
+                    <th style="padding:8px;" bgcolor="#FFFFFF">
+                        <span class="guest-info-title">${_('INPUT Chain')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+                        ${input_policy}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('OUTPUT Chain')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+                        ${output_policy}
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('FORWARD Chain')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+                        ${forward_policy}
+                    </td>
+                </tr>
+            </table>
+% else:
+${_('Has not been initialized. Please initialize.')}
+% endif

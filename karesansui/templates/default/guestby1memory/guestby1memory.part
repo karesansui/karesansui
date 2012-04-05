@@ -1,0 +1,66 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+<%!
+from karesansui.lib.template import view_autounit, view_megaunit
+from karesansui.lib.const import DEFAULT_DECIMAL_POINT
+%>
+
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+
+$("#dummy_memory").click(function(){
+    grayout_view("GET",
+        "${ctx.homepath}/host/${guest.parent_id}/guest/${guest.id}/memory?mode=input",
+        "${_('Memory Settings')}",
+        "${ctx.homepath}/host/${guest.parent_id}/guest/${guest.id}/device.part");
+});
+
+});
+-->
+</script>
+
+            <table cellspacing="0" border="0" style="background-color:#bcbcbc;">
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('Total Memory Size on Host (MB)')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+                        <span>${view_megaunit(nodeinfo["memory"], 'MB') | h}</span><span class="dark-text autounit">(${view_autounit(nodeinfo["memory"], unit=('MB','GB','TB', 'PB', 'EB'), decimal_point=DEFAULT_DECIMAL_POINT, print_unit=True) |h})<span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('Max Memory Size (MB)')}
+% if hypervisor == "QEMU":
+(${_('This will be enabled on next guest bootup')})
+% endif
+                        </span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+                        <span>${view_megaunit(info["maxMem"], 'KB') | h}</span><span class="dark-text autounit">(${view_autounit(info["maxMem"], unit=('KB', 'MB','GB','TB', 'PB', 'EB'), decimal_point=DEFAULT_DECIMAL_POINT, print_unit=True) |h})<span>
+                    </td>
+                </tr>
+
+% if hypervisor != "QEMU":
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('Memory Size (MB)')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+                        <span>${view_megaunit(info["memory"], 'KB') | h}</span><span class="dark-text autounit">(${view_autounit(info["memory"], unit=('KB', 'MB','GB','TB', 'PB', 'EB'), decimal_point=DEFAULT_DECIMAL_POINT, print_unit=True) |h})<span>
+                    </td>
+                </tr>
+% endif
+
+            </table>

@@ -1,0 +1,92 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<div id="network_detail_display">
+    <table class="detail-contents">
+        <tr>
+            <th>${_('General Information')}</th>
+            <td class="detail-separator">
+                <img src="${ctx.homepath}/static/images/table-space.gif">
+            </td>
+            <td>
+                <table cellspacing="0" class="border detail-sub-contents">
+                    <tr>
+                        <th>${_('Name')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${info['name'] | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('UUID')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${info['uuid'] | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Status')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+%if info['is_active'] is True:
+                        <td><pre>${_('Active')}</pre></td>
+%else:
+                        <td><pre>${_('Inactive')}</pre></td>
+%endif
+                    </tr>
+                    <tr>
+                        <th>${_('Autostart')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+
+%if info['autostart'] == 1:
+                        <td><img src="${ctx.homepath}/static/images/server-startup.png" alt="${_('ON')}" /></td>
+% else:
+                        <td><pre>-</pre></td>
+% endif
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr><td colspan='3'><div class='detail-space'/></td></tr>
+
+        <tr>
+            <th>${_('Details')}</th>
+            <td class="detail-separator">
+                <img src="${ctx.homepath}/static/images/table-space.gif">
+            </td>
+            <td>
+                <table cellspacing="0" class="border detail-sub-contents">
+                    <tr>
+                        <th>${_('Bridge Name')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${info['bridge']['name'] | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Forward Mode')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+%if not info['forward']['mode'] is None:
+                        <td><pre>${info['forward']['mode'] | h}</pre></td>
+%else:
+                        <td><pre>${_('None')}</pre></td>
+%endif
+                    </tr>
+                    <tr>
+                        <th>${_('Forward Device')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+%if not info['forward']['dev'] is None:
+                        <td><pre>${info['forward']['dev'] | h}</pre></td>
+%else:
+                        <td><pre>${_('None')}</pre></td>
+%endif
+                    </tr>
+                    <tr>
+                        <th>${_('IP Address')}/${_('Netmask')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${info['ip']['address'] |h} / ${info['ip']['netmask'] | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('DHCP Start/End Address')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${info['dhcp']['start'] | h}&nbsp;-&nbsp;${info['dhcp']['end'] |h}</pre></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>

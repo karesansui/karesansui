@@ -1,0 +1,178 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+            <table cellspacing="0" border="0" style="background-color:#bcbcbc;">
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('On Boot')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+%if onboot == "no":
+                        ${_('Settings')}: ${_('Disabled')}
+%else:
+                        ${_('Settings')}: ${_('Enabled')}
+%endif
+                    </td>
+                </tr>
+
+%if device in bond_info:
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('Bonding Device')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:6px;" bgcolor="#FFFFFF">
+                        <table>
+                            <tr>
+                                <td>${_('Current')}:</td>
+                                <td style="padding:2px;">
+%for slave in bond_info[device]['slave']:
+                                    <div>${slave | h}</div>
+%endfor
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+%endif
+
+%if master != "":
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('Bonding Master')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+%if c_master == "":
+                        ${_('Current')}: ${_('None')}
+%else:
+                        ${_('Current')}: ${c_master | h}
+%endif
+                        <br/>
+                        ${_('Settings')}: ${master | h}
+                    </td>
+                </tr>
+%else:
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('Boot-time Protocol')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+                        ${_('Settings')}: ${bootproto | h}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('IP Address')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+%if c_ipaddr == "":
+                        ${_('Current')}: ${_('None')}
+%else:
+                        ${_('Current')}: ${c_ipaddr | h}
+%endif
+                        <br/>
+%if ipaddr == "":
+                        ${_('Settings')}: ${_('None')}
+%else:
+                        ${_('Settings')}: ${ipaddr | h}
+%endif
+                    </td>
+                </tr>
+
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('Netmask')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+%if c_netmask == "":
+                        ${_('Current')}: ${_('None')}
+%else:
+                        ${_('Current')}: ${c_netmask | h}
+%endif
+                        <br/>
+%if netmask == "":
+                        ${_('Settings')}: ${_('None')}
+%else:
+                        ${_('Settings')}: ${netmask | h}
+%endif
+                    </td>
+                </tr>
+
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('Network')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+%if c_network == "":
+                        ${_('Current')}: ${_('None')}
+%else:
+                        ${_('Current')}: ${c_network | h}
+%endif
+                        <br/>
+%if network == "":
+                        ${_('Settings')}: ${_('None')}
+%else:
+                        ${_('Settings')}: ${network | h}
+%endif
+                    </td>
+                </tr>
+
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('Broadcast')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+%if c_broadcast == "":
+                        ${_('Current')}: ${_('None')}
+%else:
+                        ${_('Current')}: ${c_broadcast | h}
+%endif
+                        <br/>
+%if broadcast == "":
+                        ${_('Settings')}: ${_('None')}
+%else:
+                        ${_('Settings')}: ${broadcast | h}
+%endif
+                    </td>
+                </tr>
+%endif
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('MAC Address')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+%if c_hwaddr == "":
+                        ${_('Current')}: ${_('None')}
+%else:
+                        ${_('Current')}: ${c_hwaddr | h}
+%endif
+                    </td>
+                </tr>
+            </table>

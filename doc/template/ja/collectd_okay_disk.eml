@@ -1,0 +1,7 @@
+X-Mailer: %{app_name}
+Subject: [Karesansui Notifier] 正常値に戻りました。ディスク (ディスク:%{plugin_instance}) - %{type}
+
+レポート時刻: %{time}
+
+ホスト %{host} の ディスク (ディスク:%{plugin_instance}) の %{type} が正常値に戻りました。
+

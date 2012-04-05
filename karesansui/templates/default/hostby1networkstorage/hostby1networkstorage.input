@@ -1,0 +1,176 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function validates_network_storage(){
+    var check = true;
+    ERROR_MSG = "";
+
+    check = check_domainname(
+                $("#network_storage_host_name"),
+                CHECK_EMPTY | CHECK_VALID,
+                "${_('Host Name')}"
+            ) && check;
+
+    check = check_number(
+                $("#network_storage_port_number"),
+                CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                "${_('Port Number')}",
+                PORT_MIN_NUMBER,
+                PORT_MAX_NUMBER
+            ) && check;
+
+    if ($("input:radio[name='network_storage_authentication']:checked").val() == "CHAP") {
+        check = check_string(
+            $("#network_storage_user"),
+            CHECK_EMPTY | CHECK_ONLYSPACE,
+            "${_('Authentication User')}",
+            null,
+            CHAP_USER_MIN_LENGTH,
+            CHAP_USER_MAX_LENGTH
+        ) && check;
+
+        check = check_password(
+            $("#network_storage_password"),
+            $("#network_storage_password"),
+            CHECK_LENGTH | CHECK_VALID | CHECK_EMPTY,
+            "${_('Authentication Password')}",
+            CHAP_PASSWORD_MIN_LENGTH,
+            CHAP_PASSWORD_MAX_LENGTH
+        ) && check;
+    }
+
+    if (!check) {
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG);
+    }
+
+    return check;
+};
+
+$(document).ready(function(){
+    ajax_post_event(
+        "#add_network_storage_button",
+        "${ctx.homepath}/host/${host_id}/networkstorage",
+        "#input_network_storage :input",
+        validates_network_storage
+        );
+
+    $("input:radio[name='network_storage_authentication']").click(function(){
+        if($(this).val() == "None") {
+            $("#auth-section").hide();
+        } else if ($(this).val() == "CHAP") {
+            $("#auth-section").show();
+        }
+    });
+
+    // help
+    // TRANSLATORS:
+    //  自前で適当な英語と日本語を入れてあるので、修正をお願いします
+    helptip("#network_storage_type_help",
+        "${_('Device Type')}",
+        "${_(r'Type of the network storage to add. Choose \"iSCSI\" to add a new iSCSI device to the host.')}");
+
+    helptip("#network_storage_host_name_help",
+        "${_('Host Name')}",
+        "${_('Network storage target. Please input either of the host name or IP address.')}");
+
+    helptip("#network_storage_port_number_help",
+        "${_('Port Number')}",
+        "${_('Network storage target port number. When nothing is input, it becomes 3260 number of the iSCSI defaults.')}");
+
+    helptip("#network_storage_authentication_help",
+        "${_('Authentication')}",
+        "${_('iSCSI authentication type. Please do not authentication or select either of the CHAP authentication.')}");
+
+    helptip("#network_storage_user_help",
+        "${_('User')}",
+        "${_('iSCSI authentication user name. Please input the alphanumeric character up to 256 characters.')}");
+
+    helptip("#network_storage_password_help",
+        "${_('Password')}",
+        "${_('iSCSI authentication password. Please input the alphanumeric character up to 256 characters. ')}");
+
+    <!--  自動接続 -->
+    helptip("#network_storage_auto_start_help",
+        "${_('Auto Connect')}",
+        "${_('When checked, the connection automatically at startup.')}");
+
+    $("#network_storage_auth_none").click();
+});
+-->
+</script>
+
+<div id="input_network_storage">
+    <form method="post" action="" id="input_network_storage_form" name="input_network_storage_form">
+        <div class="grayout-head">
+            <span class="grayout-title">
+                <a href="#" id="server" class="path-a"><img src="${ctx.homepath}/static/images/settings-title.gif">${_('Add Network Storage')}</a>
+            </span>
+            <br style="clear: both;"/>
+        </div>
+<!--
+    TRANSLATORS:
+    hostby1networkstorage.part（一覧表示の画面）と表記を統一してください
+-->
+        <div class="grayout-contents">
+            <div class="grayout-param">${_('Device Type')}<span id="network_storage_type_help" /></div>
+            <div class="grayout-value grayout-form">
+                <select name="network_storage_type" id="network_storage_type">
+                    <option id="network_storage_type_iscsi" value="iscsi">${_('iSCSI')}</option>
+                </select>
+            </div>
+
+            <div class="grayout-param">${_('Target Host Name')}<span id="network_storage_host_name_help" /></div>
+            <div class="grayout-value grayout-form">
+	            <input type="text" name="network_storage_host_name" id="network_storage_host_name" value="${info['hostname'] | h}" size="40" maxlength="256" />
+                <span class="require-text">${_('Require')}</span>
+            </div>
+
+           <div class="grayout-param">${_('Port Number')}<span id="network_storage_port_number_help" /></div>
+            <div class="grayout-value grayout-form">
+	            <input type="text" name="network_storage_port_number" id="network_storage_port_number" value="${info['port'] | h}" size="5" maxlength="5" />
+            </div>
+
+            <div class="grayout-param">${_('Authentication')}<span id="network_storage_authentication_help" /></div>
+            <div class="grayout-value grayout-form">
+                <input type="radio" name="network_storage_authentication" id="network_storage_auth_chap" value="CHAP" />${_('CHAP')}
+                <input type="radio" name="network_storage_authentication" id="network_storage_auth_none" value="None" checked/>${_('None')}
+            </div>
+
+            <div id="auth-section">
+                <div class="grayout-param">${_('Authentication User')}<span id="network_storage_user_help" /></div>
+                <div class="grayout-value grayout-form">
+	                <input type="text" name="network_storage_user" id="network_storage_user" value="${info['user'] | h}" size="40" maxlength="256" />
+                    <span class="require-text">${_('Require')}</span>
+                </div>
+
+                <div class="grayout-param">${_('Authentication Password')}<span id="network_storage_password_help" /></div>
+                <div class="grayout-value grayout-form">
+                    <input type="password" name="network_storage_password" id="network_storage_password" value="" size="40" maxlength="256" />
+                    <span class="require-text">${_('Require')}</span>
+                </div>
+            </div>
+
+            <!--  自動接続 -->
+            <div class="grayout-param">${_('Auto Connect')}<span id="network_storage_auto_start_help" /></div>
+            <div class="grayout-value grayout-form">
+% if info['autostart'] == 1:
+                <!--  自動接続 -->
+	            <input type="checkbox" name="network_storage_auto_start" id="network_storage_auto_start" value="auto_start" checked />${_('Enable Auto Connect')}
+% else:
+                <!--  自動接続 -->
+	            <input type="checkbox" name="network_storage_auto_start" id="network_storage_auto_start" value="auto_start" /> ${_('Enable Auto Connect')}
+% endif
+            </div>
+
+            <div class="grayout-footer">
+                <a href="#" name="add_network_storage_button" id="add_network_storage_button" class="button">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Add')}</span>
+                </a>
+                <br style="clear: both;"/>
+            </div>
+            <br style="clear: both;"/>
+        </div>
+    </form>
+</div>

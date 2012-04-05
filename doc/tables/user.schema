@@ -1,0 +1,13 @@
+CREATE TABLE user (
+        id INTEGER NOT NULL, 
+        email VARCHAR(256) NOT NULL, 
+        password VARCHAR(40) NOT NULL, 
+        salt VARCHAR(16) NOT NULL, 
+        nickname VARCHAR(16) NOT NULL, 
+        languages VARCHAR(6), 
+        created TIMESTAMP, 
+        modified TIMESTAMP, 
+        PRIMARY KEY (id), 
+         UNIQUE (email)
+);
+

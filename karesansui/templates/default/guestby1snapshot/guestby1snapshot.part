@@ -1,0 +1,244 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+
+$("#snapshot_list").tablesorter({
+    widgets: ['zebra', 'select'],
+    headers: {
+        0: {sorter:false}
+    }
+});
+
+$("#add_snapshot").click(function(){
+    grayout_view("GET",
+        "${ctx.homepath}${ctx.path}?mode=input",
+        "",
+        "${ctx.homepath}${ctx.path}");
+});
+
+// event
+$("tr[id*='snapshot_row']").one("click.once", function(){
+    // edit
+    $("#edit_snapshot").click(function(){
+        var uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+        var target_id = selected_row("snapshot_row");
+
+        if(target_id == undefined){
+            show_alert_msg("${_('Please select a target.')}", "ERROR");
+            tool_reset("#edit_snapshot");
+        } else {
+            var url = uri + "/" + target_id + ".part?mode=input";
+            grayout_view("GET",
+                url,
+                "${_('Snapshot Settings')}",
+                "${ctx.homepath}${ctx.path}");
+        }
+    });
+    tool_reset("#edit_snapshot");
+
+    // delete
+    $("#delete_snapshot").click(function(){
+        var uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+        var target_id = selected_row("snapshot_row");
+
+        if(target_id == undefined){
+            show_alert_msg("${_('Please select a target.')}", "ERROR");
+            tool_reset("#delete_snapshot");
+        } else {
+            var url = uri + "/" + target_id + ".part";
+            var param = null;
+            delete_dialog("#dialog", url, param, "${ctx.homepath}${ctx.path}", "#delete_snapshot", "");
+        }
+    });
+    tool_reset("#delete_snapshot");
+
+    // apply
+    $("#apply_snapshot").click(function(){
+        var uri = "${ctx.homepath}${ctx.path}".replace("/snapshot.part", "");
+        var target_id = selected_row("snapshot_row");
+
+        if(target_id == undefined){
+            show_alert_msg("${_('Please select a target.')}", "ERROR");
+            tool_reset("#apply_snapshot");
+        } else {
+            var url = uri + "/currentsnapshot.part";
+            var param = {"id" : target_id};
+            apply_dialog("#dialog", url, param, "${ctx.homepath}${ctx.path}", "#apply_snapshot", "${_('OK to apply changes?')}");
+        }
+    });
+    tool_reset("#apply_snapshot");
+   
+% if is_creatable is False:
+    $("#add_snapshot").unbind("click");
+    tool_invalid("#add_snapshot");
+    $("#apply_snapshot").unbind("click");
+    tool_invalid("#apply_snapshot");
+    $("#delete_snapshot").unbind("click");
+    tool_invalid("#delete_snapshot");
+% endif
+
+    $("tr[id*='snapshot_row']").unbind("click.once");
+});
+
+$("tr[id*='snapshot_row']").click(function(){
+    id = $(this).attr("id").replace("snapshot_row", "");
+    uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+    ajax_get("#detail_value",
+        uri + "/" + id + ".part",
+        null
+    );
+});
+
+renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
+show_detail_event();
+
+$("#action>a").hover(
+    function(){tool_over(this);},
+    function(){tool_over(this);}
+).mousedown(function(){
+    var id = $(this).attr("id");
+    tool_active(this);
+});
+
+tool_invalid("#apply_snapshot");
+tool_invalid("#delete_snapshot");
+tool_invalid("#edit_snapshot");
+
+% if is_creatable is False:
+$("#add_snapshot").unbind("click");
+tool_invalid("#add_snapshot");
+/**
+TRANSLATORS:
+翻訳お疲れさまです。
+私の方で修正してコンフリクトして手間取るとまずいので、お願いします。
+「このドメインはスナップショットをサポートしていません。」
+**/
+alert_msg = "${_('This domain does not support snapshotting.')}\n${snapshot_error_msg}";
+show_alert_msg(alert_msg, "ERROR");
+% endif
+
+});
+// -->
+</script>
+<style type="text/css">
+</style>
+                    <div id="snapshot">
+                        <div id="action" >
+                            <div class="left"></div>
+                            <a href="#" class="tool-link" name="add_snapshot" id="add_snapshot">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-add.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text">${_('Add')}</div>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="tool-link" name="apply_snapshot" id="apply_snapshot">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-snapshot.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text">${_('Apply')}</div>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="tool-link" name="edit_snapshot" id="edit_snapshot">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-edit.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text">${_('Edit')}</div>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="tool-link" name="delete_snapshot" id="delete_snapshot">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-trash.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text">${_('Delete')}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="right">
+                                <a href="#" class="tool-link" >
+                                    <div class="tool-mid">
+                                        <img src="${ctx.homepath}/static/images/reload.gif" alt="renew" id="tool_renew"/>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>
+                        <div class="space"></div>
+                        <div class="alert"></div>
+                        <div id="view">
+                            <div id="list-box">
+                                <div id="minner">
+                                    <table id="snapshot_list" class="tablesorter">
+                                        <thead>
+                                            <tr>
+                                                <th/>
+                                                <th>${_('Name')}</th>
+                                                <th>${_('Title')}</th>
+                                                <th>${_('Modified User')}</th>
+                                                <th>${_('Modified')}</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+% for snapshot in snapshots:
+                                            <tr id="snapshot_row${snapshot[0] | h}">
+                                                <td align="center">
+    % if snapshot[5]:
+                                                    <img src="${ctx.homepath}/static/images/snapshot-current.png" alt=""/>
+    % endif
+                                                </td>
+                                                <td align="center">${snapshot[0] | h}</td>
+    %if snapshot[1] != "":
+                                                <td>${snapshot[1] | h} </td>
+    %else:
+                                               <td>${_('untitled')} </td>
+    %endif
+
+                                                <td>${snapshot[3] | h}</td>
+                                                <td>${snapshot[4] | h}</td>
+                                            </tr>
+% endfor
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br style="clear: both;"/>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>
+                        <div class="space"></div>
+                        <div id="detail">
+                            <div class="panel">
+                                <div class="wrap">
+                                    <span class="title"> &nbsp;</span>
+                                    <p class="point"> </p>
+                                    <p>
+                                        <img src="${ctx.homepath}/static/images/tree-open.gif" alt="" id="show_detail_switch" class="tree-toggle-button"/>
+                                        <span class="msg-title">${_('Details')}</span><br />
+                                        <span id="detail_value">--</span>
+                                    </p>
+                                    <dl><dt>&nbsp;</dt></dl>
+                                </div>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>
+                    </div>

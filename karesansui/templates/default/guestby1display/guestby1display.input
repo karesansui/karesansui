@@ -1,0 +1,128 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function validates_display(){
+    var check = true;
+    ERROR_MSG = "";
+
+    check = check_number(
+            $("#port"),
+            CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
+            "${_('VNC Port Number')}",
+            VNC_PORT_MIN_NUMBER,
+            VNC_PORT_MAX_NUMBER
+        ) && check;
+
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG);
+    }
+    return check;
+};
+
+$(document).ready(function() {
+    ajax_put_event("#edit_display_button",
+        "${ctx.homepath}${ctx.path}",
+        "#display_setting :input",
+        validates_display);
+
+    helptip("#device_display_vnc_port_help",
+            "${_('VNC Port Number')}",
+            "${_('Current VNC port number of this interface.')}");
+
+    /* TODO 「いいえ」にするとどうなる？ */
+    helptip("#device_display_vnc_listen_help",
+            "${_('Listen on All Network Interfaces')}",
+            "${_(r'Select \"Yes\" to allow to connect to VNC via all network interfaces.')}");
+
+    helptip("#device_display_bootup_vnc_port_help",
+            "${_('VNC Port Number')}",
+            "${_('TCP port number to access the guest with VNC. Numbers greater than 5900 are allowed. Unique number between all guests are recommended. Will be valid on next guest bootup.')}");
+
+    helptip("#device_display_bootup_vnc_listen_help",
+            "${_('Listen on All Network Interfaces')}(${_('This will be enabled on next guest bootup')})",
+            "${_('Settings whether the guest allows VNC connection via all network interfaces. Will be enabled on next guest bootup.')}");
+
+    helptip("#device_display_bootup_vnc_password_help",
+            "${_('VNC Password')}",
+            "${_(r"VNC password for this guest. When choosing 'Set random phrase', the new password can be checked out on the 'Device' - 'Display' panel. Will be valid on next guest bootup.")}");
+});
+-->
+</script>
+
+<div id="display_setting">
+    <form action="" method="post" id="display_edit_form" name="display_edit_form">
+    
+        <div class="grayout-head">
+            <span class="grayout-title">
+                <img src="${ctx.homepath}/static/images/settings-title.gif">${_('Display Information')}
+            </span>
+            <br style="clear: both;"/>
+        </div>
+
+        <div class="grayout-contents">
+
+            <div class="grayout-param">${_('VNC Port Number')}<span id="device_display_vnc_port_help" /></div>
+            <div class="grayout-value grayout-form">
+                ${info["info"]["port"]}
+            </div>
+            <div class="grayout-param">${_('Listen on All Network Interfaces')}<span id="device_display_vnc_listen_help" /></div>
+            <div class="grayout-value grayout-form">
+% if info['info']['listen'] == '0.0.0.0':
+                    ${_('Yes')}
+% else:
+                    ${_('No')}
+% endif
+            </div>
+
+            <div class="grayout-param">${_('VNC Port Number')}(${_('This will be enabled on next guest bootup')})<span id="device_display_bootup_vnc_port_help" /></div>
+            <div class="grayout-value grayout-form">
+                <input type="text" id="port" name="port" value="${info["setting"]["port"]}" size="6" maxlength="5"/><span class="require-text">${_('Require')}</span>
+            </div>
+            <div class="grayout-param">${_('Listen on All Network Interfaces')}(${_('This will be enabled on next guest bootup')})<span id="device_display_bootup_vnc_listen_help" /></div>
+            <div class="grayout-value grayout-form">
+                <input type="radio" name="listen" value="0.0.0.0" id="listen_all" ${checked_listen_all}/>${_("Yes")}
+                &nbsp;
+                <input type="radio" name="listen" value="127.0.0.1" id="listen_lo" ${checked_listen_lo}/>${_("No")}
+            </div>
+
+            <div class="grayout-param">${_('VNC Password')}(${_('This will be enabled on next guest bootup')})<span id="device_display_bootup_vnc_password_help" /></div>
+            <div class="grayout-value grayout-form">
+                <input type="radio" name="change_passwd" value="keep" id="change_passwd_keep" checked="checked" />${_("Keep current setting")}
+% if info['setting']['passwd'] is None:
+                    (${_('Not set')})
+% else:
+                    (<b>${info['setting']['passwd']}</b>)
+% endif
+                &nbsp;
+                <input type="radio" name="change_passwd" value="random" id="change_passwd_random" />${_("Set random phrase")}
+                &nbsp;
+                <input type="radio" name="change_passwd" value="empty" id="change_passwd_empty" />${_("Don't set password")}
+            </div>
+
+            <input type="hidden" name="VMType" value="${VMType}">
+
+            <div class="grayout-param">${_('VNC Keymap')}(${_('Keymap of the keyboard to use with VNC.')})<span id="device_display_bootup_vnc_keymap_help" /></div>
+            <div class="grayout-value grayout-form">
+	        <select id="keymap" name="keymap">
+% for keymap in keymaps:
+% if keymap == info["setting"]["keymap"]:
+                <option value="${keymap | h}" selected="selected">${keymap | h}</option>
+% else:
+                <option value="${keymap | h}">${keymap | h}</option>
+% endif
+% endfor
+                </select>
+            </div>
+
+            <div class="grayout-footer">
+                <a href="#" name="edit_display_button" id="edit_display_button" class="button">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Edit')}</span>
+                </a>
+                <br style="clear: both;"/>
+            </div>
+            <br style="clear: both;"/>
+        </div>
+    </form>
+</div>

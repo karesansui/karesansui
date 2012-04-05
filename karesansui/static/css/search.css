@@ -1,0 +1,50 @@
+#search table{
+    width:100%;
+    border: none;
+}
+
+#search table tr td{
+    background-color:#ffffff;
+}
+
+#search table tr td table{
+    width:100%;
+    border: none;
+}
+
+#search table tr td table tr td{
+    font-size:12px;
+    padding:7px;
+    background-color:#cccccc;
+}
+
+#search .search_box {
+    padding: 5px 5px;
+    border-top: 1px solid #FFFFFF;
+    border-bottom: 1px solid #BDBEBD;
+}
+
+#search .search_item {
+}
+
+#search .search_button {
+}
+
+#search .job_search_box {
+    padding-top: 1px;
+    padding-left: 1px;
+    background-color: #CECFCE;
+    border: 1px solid #BDBEBD;
+}
+
+#search .job_search_item{
+    float: left;
+    padding: 5px 10px;
+    margin-right: 1px;
+    margin-bottom: 1px;
+    background-color: #EFEFEF;
+    height: 22px;
+}
+
+#search .job_search_button {
+}

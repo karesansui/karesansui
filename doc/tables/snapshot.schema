@@ -1,0 +1,18 @@
+CREATE TABLE snapshot (
+        id INTEGER NOT NULL, 
+        parent_id INTEGER, 
+        machine_id INTEGER, 
+        notebook_id INTEGER, 
+        created_user_id INTEGER, 
+        modified_user_id INTEGER, 
+        name VARCHAR(256), 
+        is_deleted BOOLEAN, 
+        created TIMESTAMP, 
+        modified TIMESTAMP, 
+        PRIMARY KEY (id), 
+         FOREIGN KEY(notebook_id) REFERENCES notebook (id), 
+         FOREIGN KEY(parent_id) REFERENCES snapshot (id), 
+         FOREIGN KEY(created_user_id) REFERENCES user (id), 
+         FOREIGN KEY(modified_user_id) REFERENCES user (id), 
+         FOREIGN KEY(machine_id) REFERENCES machine (id)
+);

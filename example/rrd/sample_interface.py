@@ -1,0 +1,85 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import sys
+sys.path.append('/usr/lib/python2.6/')
+import rrdtool
+
+from rrd_const import RRD_DIR, START_TIME, END_TIME, INTERFACE
+
+data = rrdtool.graph('interface_packet_graph.gif',
+                     "--font", "DEFAULT:0:IPAexGothic",
+                     "--title", INTERFACE + "のパケット情報",
+                     "--vertical-label", "Packets / sec",
+                     "--width", "500",
+                     "--height", "200",
+                     "--start", START_TIME,
+                     "--end",  END_TIME,
+#                     "--legend-direction", "bottomup",
+                     "DEF:rx=" + RRD_DIR + "interface/if_packets-" + INTERFACE + ".rrd:rx:AVERAGE",
+                     "DEF:tx=" + RRD_DIR + "interface/if_packets-" + INTERFACE + ".rrd:tx:AVERAGE",
+                     "AREA:rx#4444FF:RX",
+                     "GPRINT:rx:MIN:%6.2lf%s Min, ",
+                     "GPRINT:rx:MAX:%6.2lf%S Max, ",
+                     "GPRINT:rx:AVERAGE:%6.2lf%S Ave, ",
+                     "GPRINT:rx:LAST:%6.2lf%S Last\\n",
+                     "STACK:tx#44FF44:TX",
+                     "GPRINT:tx:MIN:%6.2lf%S Min, ",
+                     "GPRINT:tx:MAX:%6.2lf%S Max, ",
+                     "GPRINT:tx:AVERAGE:%6.2lf%S Ave, ",
+                     "GPRINT:tx:LAST:%6.2lf%S Last\\n",
+                     "LINE1:rx#0000FF",
+                     "STACK:tx#00FF00",
+                     )
+
+
+data = rrdtool.graph('interface_octet_graph.gif',
+                     "--font", "DEFAULT:0:IPAexGothic",
+                     "--title", INTERFACE + "のトラフィック情報",
+                     "--vertical-label", "Octet / sec",
+                     "--width", "500",
+                     "--height", "200",
+                     "--start", START_TIME,
+                     "--end",  END_TIME,
+#                     "--legend-direction", "bottomup",
+                     "DEF:rx=" + RRD_DIR + "interface/if_octets-" + INTERFACE + ".rrd:rx:AVERAGE",
+                     "DEF:tx=" + RRD_DIR + "interface/if_octets-" + INTERFACE + ".rrd:tx:AVERAGE",
+                     "AREA:rx#4444FF:RX",
+                     "GPRINT:rx:MIN:%6.2lf%s Min,\t",
+                     "GPRINT:rx:MAX:%6.2lf%s Max,\t",
+                     "GPRINT:rx:AVERAGE:%6.2lf%s Ave,\t",
+                     "GPRINT:rx:LAST:%6.2lf%s Last\\n",
+                     "STACK:tx#44FF44:TX",
+                     "GPRINT:tx:MIN:%6.2lf%s Min,\t",
+                     "GPRINT:tx:MAX:%6.2lf%s Max,\t",
+                     "GPRINT:tx:AVERAGE:%6.2lf%s Ave,\t",
+                     "GPRINT:tx:LAST:%6.2lf%s Last\\n",
+                     "LINE1:rx#0000FF",
+                     "STACK:tx#00FF00",
+                     )
+
+
+data = rrdtool.graph('interface_error_graph.gif',
+                     "--font", "DEFAULT:0:IPAexGothic",
+                     "--title", INTERFACE + "のエラーパケット情報",
+                     "--vertical-label", "Packets / sec",
+                     "--width", "500",
+                     "--height", "200",
+                     "--start", START_TIME,
+                     "--end",  END_TIME,
+#                     "--legend-direction", "bottomup",
+                     "DEF:rx=" + RRD_DIR + "interface/if_errors-" + INTERFACE + ".rrd:rx:AVERAGE",
+                     "DEF:tx=" + RRD_DIR + "interface/if_errors-" + INTERFACE + ".rrd:tx:AVERAGE",
+                     "AREA:rx#4444FF:RX",
+                     "GPRINT:rx:MIN:%6.2lf%s Min, ",
+                     "GPRINT:rx:MAX:%6.2lf%S Max, ",
+                     "GPRINT:rx:AVERAGE:%6.2lf%S Ave, ",
+                     "GPRINT:rx:LAST:%6.2lf%S Last\\n",
+                     "STACK:tx#44FF44:TX",
+                     "GPRINT:tx:MIN:%6.2lf%S Min, ",
+                     "GPRINT:tx:MAX:%6.2lf%S Max, ",
+                     "GPRINT:tx:AVERAGE:%6.2lf%S Ave, ",
+                     "GPRINT:tx:LAST:%6.2lf%S Last\\n",
+                     "LINE1:rx#0000FF",
+                     "STACK:tx#00FF00",
+                     )

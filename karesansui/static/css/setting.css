@@ -1,0 +1,50 @@
+.settings-head{
+    background-color:#ECEDE8;
+    border:1px solid #BCBCBC;
+    color:#FF0000;
+    font-size:12px;
+    margin-top:20px;
+    padding-bottom:5px;
+    padding-top:6px;
+    width:99.8%;
+}
+.settings-title{
+    color:#417300;
+    float:left;
+    font-size:12px;
+    margin-left:12px;
+}
+
+.settings-form{
+    float:right;
+    padding-right:10px;
+    padding-top:3px;
+}
+
+.settings-contents{
+    background-color:#FFFFFF;
+    border-color:#BCBCBC;
+    border-style:solid;
+    border-width:0 1px 1px;
+    color:#000000;
+    font-size:12px;
+    margin-bottom:15px;
+    padding-bottom:5px;
+    padding-top:6px;
+    width:99.8%;
+}
+
+.settings-contents table{
+    padding:5px; /** cellspacing **/
+    border: 1px;
+    background-color:#FFFFFF;
+}
+.settings-contents th{
+    padding:5px;
+    background-color:#F0FFB7;
+    font-weight: normal;
+}
+
+.settings-tree-button{
+    cursor:pointer;
+}

@@ -1,0 +1,126 @@
+#page #main #extra {
+/**
+    background:#ECEDE8 none repeat scroll 0 0;
+    border-color: #FFFFFF #999999 #FFFFFF #999999;
+    border-style:solid;
+    border-width:0 1px 0 1px;
+**/
+    float:right;
+    height:auto;
+    margin-top:5px;
+    padding-left:0;
+    padding-right:0;
+    padding-top:0;
+    text-align:left;
+    width:21.5%;
+}
+
+#page #main #extra #box {
+    clear:both;
+    margin:20px;
+    
+    width: 90%;
+    margin-left: 1px;
+
+}
+
+#page #main #extra #box .title {
+    background-color:#ECEDE8;
+    color:#222222;
+    float:left;
+    font-size:14px;
+    padding-left:12px;
+}
+#page #main #extra #box .value {}
+
+#page #main #extra #box .value ul {}
+
+#page #main #extra #box .value ul li {
+    color:#000000;
+    line-height:28px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:0;
+    margin-left:10px;
+    padding-top:0;
+    text-align:left;
+    text-decoration:none;
+    width:100%;
+    list-style-type:none;
+}
+
+#page #main #extra #box .value ul li a {
+    color:#335a00;
+    height:27px;
+    text-decoration:none;
+	font-size:10px;
+}
+
+#page #main #extra #box .value ul li a img {
+   border:0 none; 
+}
+
+
+div.tree-button {
+display:inline;
+float:right;
+height:auto;
+margin-left:5px;
+margin-top:5px;
+padding-bottom:0;
+padding-left:10px;
+padding-right:30px;
+text-align:right;
+width:20px;
+}
+
+
+#page #main #extra #box .value ul li .tmtree-u2 {}
+#page #main #extra #box .value ul li .tmtree-u2 .tmtree-l2 {
+    border-style:solid;
+    border-width:0;
+    color:#417300;
+    font-size:10px;
+    height:27px;
+    margin-top:0;
+    padding-right:0;
+    text-align:left;
+    width:100%;
+}
+#page #main #extra #box .value ul li .tmtree-u2 .tmtree-l2 a {
+    margin-left:30px;
+}
+
+#page #main #extra #box .value ul li .tree-left{
+    height:30px;
+    float:left;
+}
+
+#page #main #extra #box .value ul li .tree-right{
+    height:30px;
+    margin-left:3px;
+}
+
+#page #main #extra #box .value ul li .tree-mouseover .tree-left{
+    background:transparent url(../images/tree-left-mouse_over.gif) no-repeat scroll left top;
+}
+
+#page #main #extra #box .value ul li .tree-mouseover .tree-right{
+    background:transparent url(../images/tree-right-mouse_over.gif) no-repeat scroll right top;
+}
+
+#page #main #extra #box .value ul li .active .tree-left{
+    background:transparent url(../images/tree-left-open-active.gif) no-repeat scroll left top;
+}
+
+#page #main #extra #box .value ul li .active .tree-right{
+    background:transparent url(../images/tree-right-open-active.gif) no-repeat scroll right top;
+}
+
+#page #main #extra #box .value ul li>div{
+    padding:5px;
+}
+
+#page #main #extra #box .value ul li>div.tree-me{
+    background-color:#f8ffdb;
+}

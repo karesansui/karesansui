@@ -1,0 +1,209 @@
+<%doc>Copyright (C) 2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function get_form_value(form){
+    var ret;
+    if(form.jquery != undefined){
+        ret = form[0].value;
+    } else {
+        ret = form.value();
+    }
+    return ret;
+}
+
+function validates_report_time(){
+    var check = true;
+    ERROR_MSG = "";
+
+    check = check_datetime_string(
+                $("#report_start_day"),
+                CHECK_VALID,
+               "${_('Start Date')}"
+            ) && check;
+    check = check_datetime_string(
+                $("#report_end_day"),
+                CHECK_VALID,
+                "${_('End Date')}"
+            ) && check;
+    check = check_time_string(
+                $("#report_start_time"),
+                CHECK_VALID,
+                "${_('Start Time')}"
+            ) && check;
+    check = check_time_string(
+                $("#report_end_time"),
+                CHECK_VALID,
+                "${_('End Time')}"
+            ) && check;
+
+    if(check){
+        var start_day = get_form_value($("#report_start_day"));
+        var start_time = get_form_value($("#report_start_time"));
+        var end_day = get_form_value($("#report_end_day"));
+        var end_time = get_form_value($("#report_end_time"));
+
+        if (Date.parse(start_day + " " + start_time) > Date.parse(end_day + " " + end_time)){
+            ERROR_MSG += "${_('Error in specified time. Start time > end time.')}";
+            ERROR_MSG += "\n";
+            check = false;
+        }
+    }
+
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG, "ERROR");
+    }
+    return check;
+};
+
+$(document).ready(function(){
+    var copy_tag = '<div class="graph_copyright" align="center">Powered by <a href=" http://oss.oetiker.ch/rrdtool/" target="_blank">RRDTools</a></div>';
+    var img_tag = "";
+    var img_tag_header = '<img src="';
+    var img_tag_footer = '" alt="" class="graph_image" />';
+    var space_tag = '<div class="space" />';
+
+    var query = "";
+    if(validates_report_time()){
+        query += "?" + $("#report_start_day").serialize();
+        query += "&" + $("#report_start_time").serialize();
+        query += "&" + $("#report_end_day").serialize();
+        query += "&" + $("#report_end_time").serialize();
+    }
+    var img_tag_list = new Array();
+
+% if target == "libvirt":
+    var domname_id = "";
+    % for domname in virt_list.keys():
+        % if virt_file_exist[domname]:
+            img_tag_list["${domname}"] = new Array();
+            $("#report_graph_accordion").append('<div id="report_graph_libvirt_${domname}" class="enable_report_accordion_header" align="left"></div>')
+                                        .append('<div id="report_graph_libvirt_${domname}_body" class="enable_report_accordion_body"></div>');
+            $('div[id="report_graph_libvirt_${domname}"]').append('<img class="report_accordion_icon" src="${ctx.homepath}/static/images/accordion-close.png" />')
+                                                          .append('<img src="${ctx.homepath}/static/images/guest-img.png" />')
+                                                          .append('<span class="report_accordion_header_label" >${domname |h}</span>');
+
+            % for libvirt_target in virt_list[domname].keys():
+                % for dev in virt_list[domname][libvirt_target].keys():
+                    % for type in virt_list[domname][libvirt_target][dev]:
+                        img_tag = img_tag_header +
+                            "${ctx.homepath}/host/${host_id}/report/${target | u}/${dev | u}.png" +
+                            query +
+                            "&type=${type | u}" +
+                            "&host=${domname | u}" +
+                            "&libvirt_target=${libvirt_target | u}" +
+                            img_tag_footer;
+
+                        img_tag_list["${domname}"].push(img_tag);
+                    % endfor
+                % endfor
+            % endfor
+
+            for (i in img_tag_list["${domname}"]){
+                $('div[id="report_graph_libvirt_${domname}_body"]').append(img_tag_list["${domname}"][i]);
+            }
+            $('div[id="report_graph_libvirt_${domname}_body"]').append(copy_tag);
+            $('div[id="report_graph_libvirt_${domname}_body"]').corner("bottom 5px")
+                                                               .hide();
+
+            $('div[id="report_graph_libvirt_${domname}"]').toggle(
+                function() {
+                    $(this).addClass("enable_report_accordion_header_open");
+                    $('div[id="report_graph_libvirt_${domname}_body"]').show();
+                    $('div[id="report_graph_libvirt_${domname}"] img.report_accordion_icon').attr("src", "${ctx.homepath}/static/images/accordion-open.png");
+                    $('div[id="report_graph_libvirt_${domname}"]').uncorner()
+                                                                  .corner("top 5px");
+                },
+                function() {
+                    $(this).removeClass("enable_report_accordion_header_open");
+                    $('div[id="report_graph_libvirt_${domname}_body"]').hide();
+                    $('div[id="report_graph_libvirt_${domname}"] img.report_accordion_icon').attr("src", "${ctx.homepath}/static/images/accordion-close.png");
+                    $('div[id="report_graph_libvirt_${domname}"]').uncorner()
+                                                                  .corner("5px");
+                }
+            );
+
+        % else:
+            $("#report_graph_accordion").append('<div id="report_graph_libvirt_${domname}" class="disable_report_accordion_header" align="left"></div>');
+            $('div[id="report_graph_libvirt_${domname}"]').append('<span class="disable_report_accordion_space" ></span>')
+                                                          .append('<img src="${ctx.homepath}/static/images/guest-img.png" />')
+                                                          .append('<span class="report_accordion_header_label" >${domname |h}</span>');
+        % endif
+
+        $('div[id="report_graph_libvirt_${domname}"]').corner("5px");
+    % endfor
+
+% else:
+
+    % for dev in dev_list:
+        img_tag_list["${dev}"] = new Array();
+
+        % if group_display:
+            $("#report_graph_accordion").append('<div id="report_graph_${target}_${dev}" class="enable_report_accordion_header" align="left"></div>')
+                                        .append('<div id="report_graph_${target}_${dev}_body" class="enable_report_accordion_body"></div>');
+            $('div[id="report_graph_${target}_${dev}"]').append('<img class="report_accordion_icon" src="${ctx.homepath}/static/images/accordion-close.png" />')
+                                                        .append('<img src="${ctx.homepath}/static/images/accordion-${target}.png" />')
+                                                        .append('<span class="report_accordion_header_label" >${dev |h}</span>');
+
+        % endif
+        % for type in graph_type:
+            img_tag = img_tag_header +
+                      "${ctx.homepath}/host/${host_id}/report/${target}/${dev}.png" +
+                      query +
+                      "&type=${type | u}" +
+                      img_tag_footer;
+
+            img_tag_list["${dev}"].push(img_tag);
+        % endfor
+
+        % if group_display:
+            for (i in img_tag_list["${dev}"]){
+                $('div[id="report_graph_${target}_${dev}_body"]').append(img_tag_list["${dev}"][i]);
+            }
+            $('div[id="report_graph_${target}_${dev}_body"]').corner("bottom 5px")
+                                                             .hide()
+                                                             .append(copy_tag);
+            $('div[id="report_graph_${target}_${dev}"]').corner("5px");
+
+            $('div[id="report_graph_${target}_${dev}"]').toggle(
+                function() {
+                    $(this).addClass("enable_report_accordion_header_open");
+                    $('div[id="report_graph_${target}_${dev}_body"]').show();
+                    $('div[id="report_graph_${target}_${dev}"] img.report_accordion_icon').attr("src", "${ctx.homepath}/static/images/accordion-open.png");
+                    $('div[id="report_graph_${target}_${dev}"]').uncorner()
+                                                                .corner("top 5px");
+                },
+                function() {
+                    $(this).removeClass("enable_report_accordion_header_open");
+                    $('div[id="report_graph_${target}_${dev}_body"]').hide();
+                    $('div[id="report_graph_${target}_${dev}"] img.report_accordion_icon').attr("src", "${ctx.homepath}/static/images/accordion-close.png");
+                    $('div[id="report_graph_${target}_${dev}"]').uncorner()
+                                                                .corner("5px");
+                }
+            );
+
+        % else:
+            for (i in img_tag_list["${dev}"]){
+                $('div[id="report_graph_${target}_${dev}_body"]').append(img_tag_list["${dev}"][i]);
+                $("#report_graph_display").append(img_tag_list["${dev}"][i]);
+            }
+        % endif
+    % endfor
+
+    % if group_display is False:
+        $("#report_graph_display").append(copy_tag);
+    % endif
+% endif
+
+    $("#report_graph_display img.graph_image").load(function(){
+        $(this).after(space_tag);
+    });
+});
+-->
+</script>
+
+<div id="report_graph_display">
+    <div id="report_graph_accordion">
+    </div>
+</div>

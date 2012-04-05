@@ -1,0 +1,17 @@
+.error {
+    width: 233px;
+    height: 86px;
+    position: fixed;
+    right: 10px;
+    bottom: 0px;
+    background: url(../images/popup.png) 0 0 no-repeat;
+    z-index: 9999;
+}
+.error .error-message {
+    color: #FFFFFF;
+    font-size: .8em;
+    padding: 10px;
+    width: 213px;
+    height: 54px;
+    overflow-y: auto;
+}

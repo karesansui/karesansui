@@ -1,0 +1,32 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+
+<%inherit file="../include/common.part" />
+<%! from karesansui.lib.template import view %>
+<%
+if config['application.mail.server'] == '':
+    mail_server = _("Undefined")
+else:
+	mail_server = config['application.mail.server']
+
+if config['application.mail.port'] == '':
+    mail_port = _("Undefined")
+else:
+	mail_port = config['application.mail.port']
+
+%>
+
+<div class="settings-contents">
+    <table>
+        <tr>
+            <th>${_('Mail Server Name')}</th>
+            <td><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+            <td>${mail_server}</td>
+        </tr>
+        <tr>
+            <th>${_('Port Number')}</th>
+            <td><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+            <td>${mail_port}</td>
+        </tr>
+    </table>
+    <br style="clear: both;"/>
+</div>

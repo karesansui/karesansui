@@ -1,0 +1,288 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function get_activity(id) {
+    activity = false;
+    $(id).children().each(function() {
+        if ($(this).html() == "${_('Connecting')}") {
+            activity = true;
+        }
+    });
+    return activity;
+};
+function set_default_action(){
+    tool_invalid("#start_service");
+    tool_invalid("#stop_service");
+    tool_invalid("#restart_service");
+    $("#enable_autostart_service").hide();
+    $("#disable_autostart_service").show();
+    tool_invalid("#disable_autostart_service");
+}
+
+$(document).ready(function(){
+    // list
+    $("#service_list").tablesorter({
+        widgets: ['zebra', 'select']
+    });
+
+    // display detail in detail window
+    $("tr[id^='service_list_row']").click(function(){
+        
+        id = $(this).attr("id").replace("service_list_row", "");
+        uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+        url = uri + "/" + id + '.part';
+        ajax_get(
+            "#detail_value",
+            url,
+            null,
+            true
+        );
+
+        // action
+        var status_url = uri + "/" + id + "/status.json";
+
+        // start
+        $("#start_service").one("click", function(){
+            ajax_put(status_url,
+                {"status":SERVICE_START},
+                function(data, status){},
+                true,
+                "${ctx.homepath}${ctx.path}"
+            );
+        });
+        // stop
+        $("#stop_service").one("click", function(){
+            ajax_put(status_url,
+                {"status":SERVICE_STOP},
+                function(data, status){},
+                true,
+                "${ctx.homepath}${ctx.path}"
+            );
+        });
+        // restart
+        $("#restart_service").one("click", function(){
+            ajax_put(status_url,
+                {"status":SERVICE_RESTART},
+                function(data, status){},
+                true,
+                "${ctx.homepath}${ctx.path}"
+            );
+        });
+        // enable autostart
+        $("#enable_autostart_service").one("click", function(){
+            ajax_put(status_url,
+                {"status":SERVICE_ENABLE},
+                function(data, status){},
+                true,
+                "${ctx.homepath}${ctx.path}"
+            );
+        });
+        // disable autostart
+        $("#disable_autostart_service").one("click", function(){
+            ajax_put(status_url,
+                {"status":SERVICE_DISABLE},
+                function(data, status){},
+                true,
+                "${ctx.homepath}${ctx.path}"
+            );
+        });
+
+        is_readonly = null;
+        is_status = null;
+        is_autostart = null;
+
+        ajax_json(
+            status_url,
+            null,
+            function(data, _status){
+            is_readonly = data["readonly"];
+            is_status = data["status"];
+            is_autostart = data["autostart"];
+
+                if(data["readonly"] == "1"){
+                    set_default_action();
+                    $("#start_service").unbind('click');
+                    $("#stop_service").unbind('click');
+                    $("#restart_service").unbind('click');
+                    $("#disable_autostart_service").unbind('click');
+                    return true;
+                }
+                if(data["status"] != ""){
+                    tool_invalid("#start_service");
+                    tool_reset("#stop_service");
+                    tool_reset("#restart_service");
+                    $("#start_service").unbind('click');
+                } else {
+                    tool_reset("#start_service");
+                    tool_invalid("#stop_service");
+                    tool_invalid("#restart_service");
+                    $("#stop_service").unbind('click');
+                    $("#restart_service").unbind('click');
+                }
+                if(data["autostart"] == true){
+                    $("#enable_autostart_service").hide();
+                    $("#disable_autostart_service").show();
+                    tool_invalid("#enable_autostart_service");
+                    tool_reset("#disable_autostart_service");
+                    $("#enable_autostart_service").unbind('click');
+                } else {
+                    $("#enable_autostart_service").show();
+                    $("#disable_autostart_service").hide();
+                    tool_reset("#enable_autostart_service");
+                    tool_invalid("#disable_autostart_service");
+                    $("#disable_autostart_service").unbind('click');
+                }
+            },
+            false
+        );
+    });
+
+    $("#action>a").hover(
+        function(){tool_over(this);},
+        function(){tool_over(this);}
+    ).mousedown(function(){
+        var id = $(this).attr("id");
+        tool_active(this);
+    });
+
+    set_default_action();
+
+    renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
+    show_detail_event();
+
+});
+// -->
+</script>
+<style type="text/css">
+</style>
+                    <div id="service_display">
+                        <div id="action" >
+                            <div class="left"></div>
+                            <a href="#" name="start_service" id="start_service" class="tool-link">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-start.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text" >${_('Start')}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" name="stop_service" id="stop_service" class="tool-link">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-stop.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text" >${_('Stop')}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" name="restart_service" id="restart_service" class="tool-link">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-restart.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text" >${_('Restart')}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" name="enable_autostart_service" id="enable_autostart_service" class="tool-link">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-boot.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text" >${_('Enable Autostart')}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" name="disable_autostart_service" id="disable_autostart_service" class="tool-link">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-boot.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text" >${_('Disable Autostart')}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="right">
+                                <a href="#" class="tool-link" >
+                                    <div class="tool-mid">
+                                        <img src="${ctx.homepath}/static/images/reload.gif" alt="renew" id="tool_renew"/>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>
+
+                        <div class="space"></div>
+                        <div class="alert"></div>
+
+                        <div id="view">
+                            <div id="list-box">
+                                <div id="minner">
+                                    <table id="service_list" class="tablesorter">
+                                        <thead>
+                                            <tr>
+                                                <th>${_('Service Name')}</th>
+                                                <th>${_('Service Description')}</th>
+                                                <th>${_('Auto Start')}</th>
+                                                <th>${_('Status')}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+% for service in services:
+<%
+readonly = ""
+if service['readonly'] == '1':
+    readonly = 'style="color:#C3C3C3;"'
+%>
+                                            <tr id="service_list_row${service['name']}" ${readonly} >
+                                                <td>${_(service['display_name']) | h}</td>
+                                                <td>${_(service['description']) | h}</td>
+% if service['autostart'] is True:
+                                                <td align="center"><img src="${ctx.homepath}/static/images/server-startup.png" alt="${_('ON')}" /></td>
+% else:
+                                                <td align="center">-</td>
+% endif
+% if service['status']:
+                                                <td>${_('ON')}</td>
+% else:
+                                                <td>${_('OFF')}</td>
+% endif
+                                            </tr>
+% endfor
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br style="clear: both;"/>
+                            </div>
+                        </div>
+
+                        <br style="clear: both;"/>
+                        <div class="space"></div>
+                        <div id="detail">
+                            <div class="panel">
+                                <div class="wrap">
+                                    <span class="title"> &nbsp;</span>
+                                    <p class="point"> </p>
+                                    <p>
+                                            <img src="${ctx.homepath}/static/images/tree-open.gif" alt="" id="show_detail_switch" class="tree-toggle-button"/><span class="msg-title">${_('Details')}</span><br />
+                                    <span id="detail_value">--</span>
+                                    </p>
+                                    <dl><dt>&nbsp;</dt></dl>
+                                </div>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>
+                    </div>

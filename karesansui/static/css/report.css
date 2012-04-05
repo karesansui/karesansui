@@ -1,0 +1,134 @@
+#report .report_tab {
+    background-color:#E4E4DD;
+    padding:0px;
+    width:20%;
+    min-width:150px;
+    text-align:left;
+}
+
+#report .report_tab_list {
+    background-color:#e4e4dd;
+    width:100%;
+    cursor: pointer;
+}
+
+#report .report_tab_list td {
+    font-size:10px;
+    height:50px;
+}
+
+#report .report_tab_list td:hover {
+    background-color: #CACACA;
+}
+
+#report .report_tab_list td.selected {
+    background-color: #A9CF15;
+}
+
+#report .report_period {
+    background-color:#E4E4DD;
+    width:80%;
+    text-align:left;
+    line-height:30px;
+}
+
+#report .report_period .set_now {
+    cursor: pointer;
+}
+
+#report .report_period input {
+    position: relative;
+    top: 2px;
+}
+
+#report .report_period .report_refresh {
+    float: right;
+    line-height: 23px;
+    padding-top: 3px;
+}
+
+#report .report_period .report_refresh .refresh_button_left {
+    display:inline-block;
+    background: transparent url(../images/button-left.gif) no-repeat scroll left top;
+    width:6px;
+    height:23px;
+}
+#report .report_period .report_refresh .refresh_button_right {
+    display:inline-block;
+    background: transparent url(../images/button-right.gif) no-repeat scroll right top;
+    height:23px;
+    padding-right:6px;
+}
+#report .report_period .report_refresh .refresh_button_left.onclick {
+    background: transparent url(../images/button-left-onclick.gif) no-repeat scroll left top;
+}
+#report .report_period .report_refresh .refresh_button_right.onclick {
+    background: transparent url(../images/button-right-onclick.gif) no-repeat scroll right top;
+}
+
+#report .report_value {
+    background-color:#FFFFFF;
+    padding:10px;
+    width:80%;
+    height:100%;
+}
+
+#report .graph_copyright {
+    color:#555555;
+    font-size:80%;
+    padding-bottom: 8px;
+}
+
+#report .graph_copyright a:link {
+    color: #335a00;
+    text-decoration:none;
+}
+
+#report .graph_copyright a:visited {
+    color: #335a00;
+    text-decoration:none;
+}
+
+#report .graph_copyright a:hover {
+    color: #335a00;
+    text-decoration:underline;
+}
+
+#report .disable_report_accordion_header {
+    background-color:#E0E0E0;
+    border: 1px solid #E0E0E0;
+    height: 40px;
+    padding: 2px;
+    margin-top: 2px;
+    line-height: 40px;
+}
+
+#report .enable_report_accordion_header {
+    border: 1px solid #E0E0E0;
+    height: 40px;
+    padding: 2px;
+    margin-top: 2px;
+    line-height: 40px;
+    cursor: pointer;
+}
+
+#report .enable_report_accordion_header_open {
+    border-bottom-style: none;
+}
+
+#report .report_accordion_icon {
+    padding-left: 10px;
+}
+
+#report .report_accordion_header_label {
+    padding-left: 10px;
+}
+
+#report .disable_report_accordion_space {
+    padding-left: 22px;
+}
+
+#report .enable_report_accordion_body {
+    border: 1px solid #E0E0E0;
+    border-top-style: none;
+}

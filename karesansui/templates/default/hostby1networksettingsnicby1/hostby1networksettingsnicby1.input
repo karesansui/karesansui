@@ -1,0 +1,134 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function validates_nic() {
+    var check = true;
+    ERROR_MSG = "";
+
+    if($("#bootproto option:selected").val() == "static") {
+        check = check_ipaddr(
+            $("#ipaddr"),
+            CHECK_EMPTY | CHECK_VALID,
+            "${_('IP Address')}"
+        ) && check;
+
+        check = check_netmask(
+            $("#netmask"),
+            CHECK_EMPTY | CHECK_VALID,
+            "${_('Netmask')}"
+        ) && check;
+
+    } else {
+        if($("#ipaddr").val()) {
+            check = check_ipaddr(
+                $("#ipaddr"),
+                CHECK_VALID,
+                "${_('IP Address')}"
+            ) && check;
+        }
+
+        if($("#netmask").val()) {
+            check = check_netmask(
+                $("#netmask"),
+                CHECK_VALID,
+                "${_('Netmask')}"
+            ) && check;
+        }
+    }
+
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG);
+    }
+    return check;
+}
+
+$(document).ready(function() {
+    ajax_put_event("#nic_setting_button",
+                   "${ctx.homepath}${ctx.path}",
+                   "#nic_input_form",
+                   validates_nic);
+
+    show_alert_msg("${_('This will be enabled on next start')}", "CAUTION");
+
+    helptip("#network_nic_onboot_help",
+            "${_('On Boot')}",
+            "${_('This device should be activated at boot-time or not.')}");
+
+    helptip("#network_nic_bootproto_help",
+            "${_('Boot-time Protocol')}",
+            "${_('The protocol that this device should use.')}");
+
+    helptip("#network_nic_ipaddr_help",
+            "${_('IP Address')}",
+            "${_('IP address of this device.')}");
+
+    helptip("#network_nic_netmask_help",
+            "${_('Netmask')}",
+            "${_('Netmask address of this device')}");
+});
+-->
+</script>
+
+<div id="nic_setting">
+    <form action="${ctx.homepath}${ctx.path}" method="post" id="nic_input_form" name="nic_input_form">
+
+        <div class="grayout-head">
+            <span class="grayout-title">
+                <a href="#" id="nic" class="path-a"><img src="${ctx.homepath}/static/images/settings-title.gif">${_('Network Device Settings')}</a>
+            </span>
+            <br style="clear: both;"/>
+        </div>
+
+        <div class="grayout-contents">
+
+            <div class="grayout-param">${_('Device')}</div>
+            <div class="grayout-value grayout-form">
+                ${device| h}
+            </div>
+
+            <div class="grayout-param">${_('On Boot')}<span id="network_nic_onboot_help" /></div>
+            <div class="grayout-value grayout-form">
+% if onboot == "no":
+                <input type='checkbox' name='onboot'> ${_('Enable')}
+% else:
+                <input type='checkbox' name='onboot' checked='checked'> ${_('Enable')}
+% endif
+            </div>
+
+            <div class="grayout-param">${_('Boot-time Protocol')}<span id="network_nic_bootproto_help" /></div>
+            <div class="grayout-value grayout-form">
+                <select name='bootproto' id="bootproto">
+% for _proto in ['static','dhcp','bootp']:
+% if bootproto == _proto:
+                    <option value='${_proto}' selected='selected'>${_proto}</option>
+% else:
+                    <option value='${_proto}'>${_proto}</option>
+% endif
+% endfor
+                </select>
+            </div>
+
+            <div class="grayout-param">${_('IP Address')}<span id="network_nic_ipaddr_help" /></div>
+            <div class="grayout-value grayout-form">
+                <input type="text" name="ipaddr" value="${ipaddr}" id="ipaddr" size="45" maxlength="17"/><span class="require-text">${_('Require')}</span>
+            </div>
+
+            <div class="grayout-param">${_('Netmask')}<span id="network_nic_netmask_help" /></div>
+            <div class="grayout-value grayout-form">
+                <input type="text" name="netmask" value="${netmask}" id="netmask" size="45" maxlength="17"/><span class="require-text">${_('Require')}</span>
+            </div>
+
+            <div class="grayout-footer">
+                <input type="hidden" name="_method" id="_method" />
+                <a href="#" name="nic_setting_button" id="nic_setting_button" class="button">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Configure')}</span>
+                </a>
+                <br style="clear: both;"/>
+            </div>
+
+            <br style="clear: both;"/>
+        </div>
+    </form>
+</div>

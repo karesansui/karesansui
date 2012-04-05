@@ -1,0 +1,112 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function validates_guestexport(){
+    var check = true;
+    ERROR_MSG = "";
+
+    check = check_string(
+                $("#export_title"),
+                CHECK_LENGTH | CHECK_ONLYSPACE,
+                "${_('Title')}",
+                null,
+                NOTE_TITLE_MIN_LENGTH,
+                NOTE_TITLE_MAX_LENGTH
+            ) && check;
+
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG);
+    }
+
+    return check;                       
+}
+
+$(document).ready(function(){
+    icon_post_event(
+        "#input_guest_icon_form",
+        "${ctx.homepath}/icon",
+        function(){return true;}
+    );
+
+    machine_post_event(
+        "#input_guest_submit",
+        "${ctx.homepath}${ctx.path}",
+        "#input_guest :input",
+        validates_guestexport
+    );
+    // help
+    helptip("#guest_export_src_help", 
+        "${_('Domain Name')}", 
+        "${_('Source VM domain name to be exported.')}");
+
+    helptip("#guest_export_title_help",
+        "${_('Title')}",
+        "${_(r'The description of this export data. Any letters, including spaces and symbols are allowed.')}");
+
+    helptip("#guest_export_destination_storage_pool_name_help", 
+        "${_('Export Destination Storage Pool Name')}", 
+        "${_('The name of storage pool where domain image is exported in.')}");
+
+});
+% if len(pools) == 0:
+//$("#input_guest_submit").hide();
+$(".grayout-contents :input").attr("disabled", "disabled");
+$(".grayout-footer span.button-right").html("${_('Close')}");
+// for ajax_post(put)_grayout function
+$(".grayout-footer a").unbind("click");
+$(".grayout-footer a").attr("id", "grayout_close_button");
+$("#grayout_close_button span").removeClass("onclick");
+grayout_submit_effect("#grayout_close_button");
+$("#grayout_close_button").one("click", function(){
+    $('#dialog_screen').dialog('close');
+});
+% endif
+//-->
+</script>
+
+<div id="input_guest">
+    <div class="grayout-head">
+        <span class="grayout-title">
+            <!-- TRANSLATORS ゲストエクスポート -->
+            <a href="#" id="server" class="path-a"><img src="${ctx.homepath}/static/images/settings-title.gif" alt="">${_('Export Guest')}</a>
+        </span>
+        <br style="clear: both;"/>
+    </div>
+
+    <div class="grayout-contents">
+        <div class="grayout-param">${_('Domain Name')}<span id="guest_export_src_help"/></div>
+        <div class="grayout-value grayout-form">
+            ${domname | h}
+            <input type="hidden" id="sd" name="sid" value="${sid | h}" />
+        </div>
+
+        <div class="grayout-param">${_('Export Title')}<span id="guest_export_title_help"/></div>
+        <div class="grayout-value grayout-form">
+            <input type="text" id="export_title" name="export_title" value="" size="40" />
+        </div>
+
+        <div class="grayout-param">${_('Export Destination Storage Pool Name')}<span id="guest_export_destination_storage_pool_name_help"/></div>
+        <div class="grayout-value grayout-form">
+% if len(pools) == 0:
+                ${_('No storage pool is found.')}
+% else:
+                <select id="pool" name="pool">
+% for pool in pools:
+                <option value="${pool | h}">${pool | h}</option>
+% endfor
+                </select>
+% endif
+        </div>
+        
+        <div class="grayout-footer">
+            <a href="#" name="input_guest_submit" id="input_guest_submit" class="button">
+                <span class="button-left">&nbsp;</span><span class="button-right">${_('Export')}</span>
+            </a>
+            <br style="clear: both;"/>
+        </div>
+        <br style="clear: both;"/>
+    </div>
+
+</div>

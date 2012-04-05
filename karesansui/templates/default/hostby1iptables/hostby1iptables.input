@@ -1,0 +1,59 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+$(document).ready(function() {
+    function validates_iptables() {
+        var check = true;
+        ERROR_MSG = "";
+
+        if(!check){
+            show_alert_msg(ERROR_MSG, "ERROR");
+        }
+        return check;
+    }
+
+    ajax_put_event("#iptables_setting_button",
+        "${ctx.homepath}${ctx.path}",
+        "#iptables_input_form",
+        validates_iptables);
+
+    helptip("#iptables_default_gateway_help",
+            "${_('Default Gateway')}",
+            "${_('A host that serves as an access point to another network.')}");
+
+});
+-->
+</script>
+
+<div id="iptables_setting">
+    <form action="${ctx.homepath}${ctx.path}" method="post" id="iptables_input_form" name="iptables_input_form">
+    
+        <div class="grayout-head">
+            <span class="grayout-title">
+                <a href="#" id="iptables" class="path-a"><img src="${ctx.homepath}/static/images/settings-title.gif">${_('iptables Settings')}</a>
+            </span>
+            <br style="clear: both;"/>
+        </div>
+
+        <div class="grayout-contents">
+
+            <div class="grayout-param">${_('Rule')}<span id="iptables_rule_help" /></div>
+            <div class="grayout-value grayout-form">
+                <textarea name="iptables_save" id="iptables_save" rows=30 cols=65 style="font-size:90%;">${config}</textarea><span class="require-text">${_('Require')}</span>
+            </div>
+
+            <div class="grayout-footer">
+                <input type="hidden" name="_method" id="_method" />
+                <a href="#" name="iptables_setting_button" id="iptables_setting_button" class="button">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Configure')}</span>
+                </a>
+                <br style="clear: both;"/>
+            </div>
+
+            <br style="clear: both;"/>
+          </div>
+      </form>
+</div>
+

@@ -1,0 +1,8 @@
+X-Mailer: %{app_name}
+Subject: [Karesansui Notifier] 正常値に戻りました。仮想マシン (仮想マシン:%{host}) - %{type}
+
+レポート時刻: %{time}
+
+ホスト %{host} の 仮想マシン (仮想マシン:%{host}) の %{type} が正常値に戻りました。
+タイプインスタンス: %{type_instance}
+

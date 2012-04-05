@@ -1,0 +1,25 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<table border="1">
+<tr>
+<th>${_('ID')}</th>
+<th>${_('Name')}</th>
+<th>${_('Unique Key')}</th>
+<th>${_('Finish Command')}</th>
+<th>${_('Status')}</th>
+<th>${_('Register')}</th>
+<th>${_('Created')}</th>
+<th>${_('Modified')}</th>
+</tr>
+% for x in jobs:
+<tr>
+<td>${x.id}</td>
+<td>${x.name}</td>
+<td>${x.uniq_key}</td>
+<td>${x.finish_command}</td>
+<td>${x.status}</td>
+<td>${x.register}</td>
+<td>${x.created_locale(me.languages)}</td>
+<td>${x.modified_locale(me.languages)}</td>
+</tr>
+% endfor
+</table>

@@ -1,0 +1,124 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function validates_network(){
+    var check = true;
+    ERROR_MSG = "";
+
+    check = check_cidr(
+                $("#cidr"),
+                CHECK_EMPTY | CHECK_VALID,
+                "${_('Bridge IP Address/Netmask')}"
+            ) && check;
+
+    check = check_ipaddr(
+                $("#dhcp_start"),
+                CHECK_EMPTY | CHECK_VALID,
+                "${_('DHCP Start Address')}"
+            ) && check;
+
+    check = check_ipaddr(
+                $("#dhcp_end"),
+                CHECK_EMPTY | CHECK_VALID,
+                "${_('DHCP End Address')}"
+            ) && check;
+
+    check = check_netdev_name(
+               $("#bridge"),
+               CHECK_EMPTY | CHECK_VALID,
+                "${_('Bridge Device Name')}"
+            ) && check;
+
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG);
+    }
+    return check;
+}
+
+$(document).ready(function(){
+    ajax_put_event("#edit_network_button",
+        "${ctx.homepath}${ctx.path}",
+        "#input_network :input",
+        validates_network
+        );
+
+    helptip("#network_name_help", "${_('Name')}", "${_('Name of the network. Alphabets and numbers are allowed.')}");
+    helptip("#bridge_ip_help", "${_('Bridge IP Address/Netmask')}", "${_(r"IP Address/Netwask for the bridge of this network. Specify in '192.168.0.1/24' style or '192.168.0.1/255.255.255.0' style.")}");
+    helptip("#bridge_name_help", "${_('Bridge Device Name')}", "${_(r"Name of the bridge device. Should be a unique, valid name for linux network interfaces, like 'virbr1' or 'xenbr0' style, using non-spaced alphabets and numbers.")}");
+    helptip("#dhcp_start_help", "${_('DHCP Start Address')}", "${_('Start address of the range of DHCP addresses, which the DHCP server uses (DHCP server will automatically start up). Should be an address within the same network with the bridge.')}");
+    helptip("#dhcp_end_help", "${_('DHCP End Address')}", "${_('End address of the range of DHCP addresses, which the DHCP server uses (DHCP server will automatically start up). Should be an address within the same network with the bridge.')}");
+    helptip("#forward_mode_help", "${_('IP Masquerading')}", "${_('When checked, enables IP masquerading to outer network from this network.')}");
+    helptip("#autostart_help", "${_('Autostart')}", "${_('Configure the network to be automatically started when the host machine boots.')}");
+});
+-->
+</script>
+
+<div id="input_network">
+    <form method="post" action="" id="input_network_form" name="input_network_form">
+        <div class="grayout-head">
+            <span class="grayout-title">
+                <a href="#" id="server" class="path-a"><img src="${ctx.homepath}/static/images/settings-title.gif">${_('Edit Network')}</a>
+            </span>
+            <br style="clear: both;"/>
+        </div>
+
+        <div class="grayout-contents">
+            <div class="grayout-param">${_('Name')}<span id="network_name_help" /></div>
+            <div class="grayout-value grayout-form">
+% if network['name']:
+${network['name']}
+% else:
+                <input type="text" name="name" id="name" value="" size="40" maxlength="256" /><span class="require-text">${_('Require')}</span>
+% endif
+            </div>
+
+            <div class="grayout-param">${_('Bridge IP Address/Netmask')}<span id="bridge_ip_help" /></div>
+            <div class="grayout-value grayout-form">
+                <input type="text" name="cidr" id="cidr" value="${network['cidr']}" size="40" maxlength="31" /><span class="require-text">${_('Require')}</span>
+            </div>
+
+            <div class="grayout-param">${_('DHCP Start Address')}<span id="dhcp_start_help" /></div>
+            <div class="grayout-value grayout-form">
+                <input type="text" name="dhcp_start" id="dhcp_start" value="${network['dhcp_start']}" size="40" maxlength="15" /><span class="require-text">${_('Require')}</span>
+            </div>
+
+            <div class="grayout-param">${_('DHCP End Address')}<span id="dhcp_end_help" /></div>
+            <div class="grayout-value grayout-form">
+                <input type="text" name="dhcp_end" id="dhcp_end" value="${network['dhcp_end']}" size="40" maxlength="15" /><span class="require-text">${_('Require')}</span>
+            </div>
+
+            <div class="grayout-param">${_('Bridge Device Name')}<span id="bridge_name_help" /></div>
+            <div class="grayout-value grayout-form">
+                <input type="text" name="bridge" id="bridge" value="${network['bridge']}" size="40" maxlength="256" /><span class="require-text">${_('Require')}</span>
+            </div>
+
+            <div class="grayout-param">${_('IP Masquerading')}<span id="forward_mode_help" /></div>
+            <div class="grayout-value grayout-form">
+% if network['forward_mode'] == 'nat':
+                <input type="checkbox" name="forward_mode" id="forward_mode" value="nat" checked /> ${_('Enable IP masquerading from this network')}
+% else:
+                <input type="checkbox" name="forward_mode" id="forward_mode" value="nat" /> ${_('Enable IP masquerading from this network')}
+% endif
+            </div>
+
+            <div class="grayout-param">${_('Autostart')}<span id="autostart_help" /></div>
+            <div class="grayout-value grayout-form">
+% if info['autostart'] == True:
+                <input type="checkbox" name="autostart" id="autostart" value="yes" checked /> ${_('Yes')}
+% else:
+                <input type="checkbox" name="autostart" id="autostart" value="yes" /> ${_('Yes')}
+% endif
+            </div>
+
+            <div class="grayout-footer">
+                <a href="#" name="edit_network_button" id="edit_network_button" class="button">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Edit')}</span>
+                </a>
+                <br style="clear: both;"/>
+            </div>
+            <br style="clear: both;"/>
+        </div>
+    </form>
+</div>

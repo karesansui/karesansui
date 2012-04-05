@@ -1,0 +1,71 @@
+<%doc>Copyright (C) 2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<%! from karesansui.lib.template import replace_empty %>
+
+<div id="service_detail_display">
+    <table class="detail-contents">
+        <tr>
+            <th>${_('General Information')}</th>
+            <td class="detail-separator">
+                <img src="${ctx.homepath}/static/images/table-space.gif">
+            </td>
+            <td>
+                <table cellspacing="0"class="border detail-sub-contents">
+                    <tr>
+                        <th>${_('Service Name')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td>${_(service['display_name']) |h}</td>
+                    </tr>
+                    <tr>
+                        <th>${_('Service Description')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <!-- TRANSLATORS: /etc/karesansui/service.xmlの<services><service><display<description>がkeyになる -->
+                        <td>${_(service['description']) |h}</td>
+                    </tr>
+                    <tr>
+                        <th>${_('Auto Start')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+% if service['autostart'] is True:
+                                                <td><img src="${ctx.homepath}/static/images/server-startup.png" alt="${_('ON')}" /></td>
+% else:
+                                                <td>-</td>
+% endif
+                    </tr>
+                    <tr>
+                        <th>${_('Status')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+% if service['status']:
+                                                <td>${_('ON')}</td>
+% else:
+                                                <td>${_('OFF')}</td>
+% endif
+                    </tr>
+                </table>
+            </td>
+        </tr>
+<%doc>
+        <tr><td colspan='3'><div class='detail-space'/></td></tr>
+        <tr>
+            <th>${_('Detail Information')}</th>
+            <td class="detail-separator">
+                <img src="${ctx.homepath}/static/images/table-space.gif">
+            </td>
+            <td>
+                <table cellspacing="0"class="border detail-sub-contents">
+                    <tr>
+                        <th>${_('Running Process ID')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td>
+% for pid in service['status']:
+                        ${pid | h}
+% endfor
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+</%doc>
+
+    </table>
+</div>

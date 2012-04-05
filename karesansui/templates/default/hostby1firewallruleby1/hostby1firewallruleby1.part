@@ -1,0 +1,93 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+                    <div id="firewall">
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+
+$("a[id*='edit_rule']").click(function(){
+    var id = $(this).attr("id").replace("edit_rule", "")
+    alert(id)
+    grayout_view("GET",
+        "${ctx.homepath}/host/${host_id}/firewall/" + id + ".part?mode=input",
+        "")
+});
+
+});
+
+% if error_msg:
+ERROR_MSG = "";
+% for msg in error_msg:
+ERROR_MSG = ERROR_MSG + '${msg}\n';
+% endfor
+alert(ERROR_MSG)
+% endif
+// -->
+</script>
+
+                        <div id="list-box">
+                            <div id="minner">
+                                <table width="100%" cellspacing="1" cellpadding="3" border="0" style="background-color:#cccccc;">
+                                    <thead>
+                                        <tr>
+                                            <td style="background-image:url(${ctx.homepath}/static/images/msg-table-title.jpg);">
+                                                ${_('ID')}
+                                                <img src="${ctx.homepath}/static/images/msg-sort.gif" alt="" />
+                                            </td>
+                                            <td style="background-image:url(${ctx.homepath}/static/images/msg-table-title.jpg);">
+                                                ${_('Target')}
+                                                <img src="${ctx.homepath}/static/images/msg-sort.gif" alt="" />
+                                            </td>
+                                            <td style="background-image:url(${ctx.homepath}/static/images/msg-table-title.jpg);">
+                                                ${_('Protocol')}
+                                                <img src="${ctx.homepath}/static/images/msg-sort.gif" alt="" />
+                                            </td>
+                                            <td style="background-image:url(${ctx.homepath}/static/images/msg-table-title.jpg);">
+                                                ${_('Source Address')}
+                                                <img src="${ctx.homepath}/static/images/msg-sort.gif" alt="" />
+                                            </td>
+                                            <td style="background-image:url(${ctx.homepath}/static/images/msg-table-title.jpg);">
+                                                ${_('Source Port')}
+                                                <img src="${ctx.homepath}/static/images/msg-sort.gif" alt="" />
+                                            </td>
+                                            <td style="background-image:url(${ctx.homepath}/static/images/msg-table-title.jpg);">
+                                                ${_('Destination Address')}
+                                                <img src="${ctx.homepath}/static/images/msg-sort.gif" alt="" />
+                                            </td>
+                                            <td style="background-image:url(${ctx.homepath}/static/images/msg-table-title.jpg);">
+                                                ${_('Destination Port')}
+                                                <img src="${ctx.homepath}/static/images/msg-sort.gif" alt="" />
+                                            </td>
+                                            <td style="background-image:url(${ctx.homepath}/static/images/msg-table-title.jpg);">
+                                                ${_('In Interface')}
+                                                <img src="${ctx.homepath}/static/images/msg-sort.gif" alt="" />
+                                            </td>
+                                            <td style="background-image:url(${ctx.homepath}/static/images/msg-table-title.jpg);">
+                                                ${_('Out Interface')}
+                                                <img src="${ctx.homepath}/static/images/msg-sort.gif" alt="" />
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+% for rule in rules:
+                                        <tr>
+                                            <td><a href="#" name="#" id="edit_rule${rule['id']}">${rule['id']}</a></td>
+                                            <td>${rule['target']}</td> 
+                                            <td>${rule['protocol']}</td> 
+                                            <td>${rule['source']}</td> 
+                                            <td>${rule['source-port']}</td> 
+                                            <td>${rule['destination']}</td> 
+                                            <td>${rule['destination-port']}</td> 
+                                            <td>${rule['in-interface']}</td> 
+                                            <td>${rule['out-interface']}</td> 
+                                        </tr>
+% endfor
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <button type="button" name="#" id="add_rule" value="${_('Add')}">${_('Add')}</button>
+                    </div>

@@ -1,0 +1,151 @@
+<%doc>Copyright (C) 2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<%! from karesansui.lib.template import view %>
+<%
+if config['application.proxy.status'] == '1':
+    proxy_status_msg = _('Use')
+else:
+    proxy_status_msg = _("Do not use")
+
+%>
+
+<script type="text/javascript">
+<!--
+function validate_proxy() {
+    var check = true;
+    ERROR_MSG = "";
+
+    if($(":input[name='proxy_status']:checked").val() == '1'){
+        check = check_domainname(
+                    $("#proxy_server_name"),
+                    CHECK_EMPTY | CHECK_VALID,
+                    "${_('Proxy Server')}",
+                    null,
+                    null,
+                    null
+                    ) && check;
+        check = check_number(
+                    $("#proxy_server_port"),
+                    CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                    "${_('Port Number')}",
+                    PORT_MIN_NUMBER,
+                    PORT_MAX_NUMBER
+                    ) && check;
+        check = check_username(
+                    $("#proxy_server_user"),
+                    CHECK_VALID | CHECK_ONLYSPACE,
+                    "${_('User Name')}",
+                    null,
+                    null
+                    ) && check;
+        check = check_password(
+                    $("#proxy_server_password"),
+                    $("#proxy_server_password"),
+                    CHECK_VALID,
+                    "${_('Password')}",
+                    null,
+                    null
+                    ) && check;
+    }
+
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG);
+    }
+
+    return check;
+};
+
+function showswitch_proxy_setting(status) {
+    if (status == "1"){
+        $("#proxy_setting_section").show();
+    } else {
+        $("#proxy_setting_section").hide();
+    }
+}
+
+$(document).ready(function(){
+    ajax_post_event(
+        "#edit_button",
+        "${ctx.homepath}${ctx.path}",
+        "#setting_proxy :input",
+        validate_proxy
+    );
+
+    helptip("#proxy_status_help",
+        "${_('Proxy Status')}",
+        "${_("Use HTTP proxy for Karesansui internet access (yum, etc..).")}");
+
+    helptip("#proxy_server_help",
+        "${_('Proxy Server')}",
+        "${_("Specify the host name of the HTTP proxy server which Karesansui connects.")}");
+
+    helptip("#proxy_port_help",
+        "${_('Port Number')}",
+        "${_("Specify the port number of the HTTP proxy server.")}");
+
+    helptip("#proxy_user_help",
+        "${_('User Name')}",
+        "${_("Specify user name to use for proxy authentication, if required.")}");
+
+    helptip("#proxy_password_help",
+        "${_('Password')}",
+        "${_("Specify the password to use for proxy authentication, if required.")}");
+
+    $("#setting_proxy input:radio:checked").click();
+});
+-->
+</script>
+
+<div id="setting_proxy">
+    <form method="post" action="" id="setting_proxy_form" name="setting_proxy_form">
+        <div class="grayout-head">
+            <span class="grayout-title">
+                <a href="#" id="server" class="path-a">
+                    <img src="${ctx.homepath}/static/images/settings-title.gif" alt="">
+                    ${_('Edit Proxy Settings')}
+                </a>
+            </span>
+        </div>
+
+        <div class="grayout-contents">
+            <div class="grayout-param">${_('Proxy Status')}<span id="proxy_status_help"/></div>
+            <div class="grayout-value grayout-form">
+                <input type="radio" name="proxy_status" value="1" id="proxy_enable" ${enable}
+                       onClick="showswitch_proxy_setting('1')" />&nbsp;${_('Use')}&nbsp;&nbsp;
+                <input type="radio" name="proxy_status" value="0" id="proxy_disable" ${disable}
+                       onClick="showswitch_proxy_setting('0')" />&nbsp;${_('Not use')}&nbsp;&nbsp;
+            </div>
+
+            <div id="proxy_setting_section">
+                <div class="grayout-param">${_('Proxy Server')}<span id="proxy_server_help"/></div>
+                <div class="grayout-value grayout-form">
+                    <input type="text" name="proxy_server" value="${config['application.proxy.server']}" id="proxy_server_name" size="40" maxlength="128" />
+                </div>
+
+                <div class="grayout-param">${_('Port Number')}<span id="proxy_port_help"/></div>
+                <div class="grayout-value grayout-form">
+                    <input type="text" name="proxy_port" value="${config['application.proxy.port']}" id="proxy_server_port" size="7" maxlength="5" />
+                </div>
+
+                <div class="grayout-param">${_('User Name')}<span id="proxy_user_help"/></div>
+                <div class="grayout-value grayout-form">
+                    <input type="text" name="proxy_user" value="${config['application.proxy.user']}" id="proxy_server_user" size="40" maxlength="31"/>
+                </div>
+
+                <div class="grayout-param">${_('Password')}<span id="proxy_password_help"/></div>
+                <div class="grayout-value grayout-form">
+                    <input type="password" name="proxy_password" value="${config['application.proxy.password']}" id="proxy_server_password" size="40" />
+                </div>
+            </div>
+        </div>
+        <div class="grayout-footer">
+            <input type="hidden" name="_method" id="_method" />
+            <a href="#" name="edit_button" id="edit_button" class="button">
+                <span class="button-left">
+                &nbsp;</span><span class="button-right">${_('Edit')}</span>
+            </a>
+            <br style="clear: both;"/>
+        </div>
+    </form>
+</div>

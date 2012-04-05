@@ -1,0 +1,86 @@
+<%doc>Copyright (C) 2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function validate_mail() {
+    var check = true;
+    ERROR_MSG = "";
+
+    check = check_domainname(
+                $("#hostname"),
+                CHECK_LENGTH | CHECK_VALID,
+                "${_('Server Name')}",
+                null,
+                FQDN_MIN_LENGTH,
+                FQDN_MAX_LENGTH
+            ) && check;
+
+    check = check_number(
+                $("#port"),
+                CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                "${_('Port Number')}",
+                PORT_MIN_NUMBER,
+                PORT_MAX_NUMBER
+                ) && check;
+
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG);
+    }
+
+    return check;
+};
+
+$(document).ready(function(){
+    ajax_post_event(
+        "#edit_button",
+        "${ctx.homepath}${ctx.path}",
+        "#setting_mail :input",
+        validate_mail
+    );
+
+    helptip("#server_name_help",
+        "${_('Mail Server Name')}",
+        '${_("Specify the address or FQDN of the SMTP server which Karesansui should use.")}');
+
+    helptip("#port_number_help",
+        "${_('Port Number')}",
+        '${_("Specify the port number of SMTP server which Karesansui connects (usually \"25\").")}');
+});
+-->
+</script>
+
+<div id="setting_mail">
+    <form method="post" action="" id="setting_mail_form" name="setting_mail_form">
+        <div class="grayout-head">
+            <span class="grayout-title">
+                <a href="#" id="server" class="path-a">
+                    <img src="${ctx.homepath}/static/images/settings-title.gif" alt="">
+                    ${_('Edit Mail Server Setting')}
+                </a>
+            </span>
+        </div>
+
+        <div class="grayout-contents">
+            <div class="grayout-param">${_('Server Name')}<span id="server_name_help"></span></div>
+            <div class="grayout-value grayout-form">
+                <input type="text" name="hostname" id="hostname" value="${config['application.mail.server']}" size="40" maxlength="128" />
+                <span class="require-text">${_('Require')}</span>
+            </div>
+            <div class="grayout-param">${_('Port Number')}<span id="port_number_help"></span></div>
+            <div class="grayout-value grayout-form">
+                <input type="text" name="port" id="port" value="${config['application.mail.port']}" size="7" maxlength="5" />
+                <span class="require-text">${_('Require')}</span>
+            </div>
+        </div>
+
+        <div class="grayout-footer">
+            <input type="hidden" name="_method" id="_method" />
+            <a href="#" name="edit_button" id="edit_button" class="button">
+                <span class="button-left">
+                  &nbsp;</span><span class="button-right">${_('Edit')}</span>
+            </a>
+            <br style="clear: both;"/>
+        </div>
+    </form>
+</div>

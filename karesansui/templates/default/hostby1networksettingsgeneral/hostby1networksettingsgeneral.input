@@ -1,0 +1,113 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function validates_general() {
+    var check = true;
+    ERROR_MSG = "";
+
+    return true;
+
+    check = check_ipaddr(
+        $("#gateway"),
+        CHECK_EMPTY | CHECK_VALID,
+        "${_('Default Gateway')}"
+    ) && check;
+
+    check = check_domainname(
+        $("#fqdn"),
+        CHECK_EMPTY | CHECK_LENGTH | CHECK_VALID,
+        "${_('FQDN')}",
+        null,
+        FQDN_MIN_LENGTH,
+        FQDN_MAX_LENGTH
+    ) && check;
+
+    if($("#nameserver").val().length == 0){
+        check = false;
+        ERROR_MSG += minisprintf("${_('%s is missing.')}" + "\n", "${_('Nameserver')}");
+    } else {
+        var old_nameserver = $("#nameserver").val();
+        var ip_list = old_nameserver.split('\n');
+        for(var idx in ip_list){
+            if(ip_list[idx] != ''){
+                $("#nameserver").val(ip_list[idx]);
+                check = check_ipaddr(
+                    $("#nameserver"),
+                    CHECK_VALID,
+                    "${_('Nameserver')}"
+                ) && check;
+            }
+        }
+        $("#nameserver").val(old_nameserver);
+    }
+
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG);
+    }
+    return check;
+}
+
+$(document).ready(function() {
+    ajax_put_event("#general_setting_button",
+                   "${ctx.homepath}${ctx.path}",
+                   "#general_input_form",
+                   validates_general);
+
+    show_alert_msg("${_('This will be enabled on next start')}", "CAUTION");
+
+    helptip("#network_general_default_gateway_help",
+            "${_('Default Gateway')}",
+            "${_('A host that serves as an access point to another network.')}");
+
+    helptip("#network_general_fqdn_help",
+            "${_('FQDN')}",
+            "${_('FQDN of the host.')}");
+
+    helptip("#network_general_nameserver_help",
+            "${_('Nameserver')}",
+            "${_('IP address of a name server that the resolver should query.')}");
+});
+-->
+</script>
+
+<div id="general_setting">
+    <form action="${ctx.homepath}${ctx.path}" method="post" id="general_input_form" name="general_input_form">
+    
+        <div class="grayout-head">
+            <span class="grayout-title">
+                <a href="#" id="general" class="path-a"><img src="${ctx.homepath}/static/images/settings-title.gif">${_('General Settings')}</a>
+            </span>
+            <br style="clear: both;"/>
+        </div>
+
+        <div class="grayout-contents">
+
+            <div class="grayout-param">${_('Default Gateway')}<span id="network_general_default_gateway_help" /></div>
+            <div class="grayout-value grayout-form">
+                <input type="text" name="gateway" value="${gateway}" id="gateway" size="45" maxlength="17"/><span class="require-text">${_('Require')}</span>
+            </div>
+
+            <div class="grayout-param">${_('FQDN')}<span id="network_general_fqdn_help" /></div>
+            <div class="grayout-value grayout-form">
+                <input type="text" name="fqdn" value="${hostname}" id="fqdn" size="45" maxlength="50"/><span class="require-text">${_('Require')}</span>
+            </div>
+
+            <div class="grayout-param">${_('Nameserver')}<span id="network_general_nameserver_help" /></div>
+            <div class="grayout-value grayout-form">
+                <textarea name="nameserver" id="nameserver" rows=3 cols=20>${nameserver}</textarea><span class="require-text">${_('Require')}</span>
+            </div>
+
+            <div class="grayout-footer">
+                <input type="hidden" name="_method" id="_method" />
+                <a href="#" name="general_setting_button" id="general_setting_button" class="button">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Configure')}</span>
+                </a>
+                <br style="clear: both;"/>
+            </div>
+
+            <br style="clear: both;"/>
+          </div>
+      </form>
+</div>

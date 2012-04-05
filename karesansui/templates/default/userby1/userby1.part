@@ -1,0 +1,35 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+$("#user_setting_close").click(function(){
+    grayout_close();
+});
+
+});
+-->
+</script>
+
+<div class="settings-contents">
+    <table>
+      <tr>
+        <th>${_('ID')}</th>
+        <th>${_('Nickname')}</th>
+        <th>${_('Mail Address')}</th>
+        <th>${_('Language')}</th>
+      </tr>
+      <tr>
+        <td>${user.id | h}</td>
+        <td>${user.nickname | h}</td>
+        <td>${user.email | h}</td>
+        <td>${_(user.languages)}</td>
+      </tr>
+    </table>
+    <br style="clear: both;"/>
+</div>
+<div class="grayout-footer">
+    <input type="button" id="user_setting_close" value="${_('Close')}" />
+    <br style="clear: both;"/>
+</div>

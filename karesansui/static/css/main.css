@@ -1,0 +1,68 @@
+#page #main #content {
+    float:left;
+    height:auto;
+    margin-right:0;
+    padding-left:0;
+    padding-right:0;
+    width:78%;
+}
+
+#page .space{
+    background:transparent url(../images/kugiri-a.gif) repeat scroll 0 0;
+    height:4px;
+    margin-bottom:8px;
+    margin-left:12px;
+    margin-top:8px;
+    width:98%;
+}
+
+#page #main #content #action {
+    background:transparent url(../images/toolbar-back.gif) repeat scroll 0 0;
+    float:left;
+    height:30px;
+    margin: 5px 0px 0px 10px;
+    text-align:left;
+    width:98%;
+}
+
+#page #main #content #action .left {
+    background:transparent url(../images/toolbar-left-back.jpg) repeat scroll 0 0;
+    float:left;
+    height:30px;
+    width:8px;
+}
+
+#page #main #content #action .right {
+    background:transparent url(../images/toolbar-right.gif) repeat scroll right;
+    float:right;
+	text-align:left;
+    height:30px;
+    width:8px;
+}
+
+
+
+#page #main #content .end {
+    background:transparent url(../images/data-end-mid.gif) repeat scroll 0 0;
+    height:12px;
+    width:100%;
+}
+
+#page #main #content .end .left {
+    background:transparent url(../images/data-end-left.gif) repeat scroll 0 0;
+    float:left;
+    height:12px;
+    width:6px;
+}
+#page #main #content .end .mid {
+    background:transparent url(../images/data-end-mid.gif) repeat scroll 0 0;
+    float:right;
+    height:auto;
+    width:6px;
+}
+#page #main #content .end .right {
+    background:transparent url(../images/data-end-right.gif) repeat scroll 0 0;
+    float:right;
+    height:12px;
+    width:6px;
+}

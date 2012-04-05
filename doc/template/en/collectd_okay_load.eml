@@ -1,0 +1,7 @@
+X-Mailer: %{app_name}
+Subject: [Karesansui Notifier] current status is within normal range again. Load average (%{ds})
+
+Reported at: %{time}
+
+Load average (%{ds}) on %{host} is within normal range again.
+

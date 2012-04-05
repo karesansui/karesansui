@@ -1,0 +1,687 @@
+<%doc>Copyright (C) 2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function validates_watch(){
+    var check = true;
+    ERROR_MSG = "";
+
+    check = check_string(
+                    $("#watch_name"),
+                    CHECK_EMPTY | CHECK_ONLYSPACE,
+                    "${_('Name')}",
+                    null,
+                    null,
+                    null
+                ) && check;
+
+    check = check_number(
+                    $("#continuation_count"),
+                    CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                    "${_('continuation_count')}",
+                    CONTINUATION_COUNT_MIN,
+                    CONTINUATION_COUNT_MAX
+                ) && check;
+
+    check = check_number(
+                    $("#prohibition_period"),
+                    CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                    "${_('prohibition_period')}",
+                    PROHIBITION_PERIOD_MIN,
+                    PROHIBITION_PERIOD_MAX
+                ) && check;
+
+    if ($("#threshold_fraction").val() == "0"){
+        check = check_number(
+                        $("#threshold_val1"),
+                        CHECK_EMPTY | CHECK_VALID | CHECK_MIN,
+                        $("#threshold_val1_label").text(),
+                        THRESHOLD_VAL_MIN,
+                        null
+                    ) && check;
+
+        check = check_number(
+                        $("#threshold_val2"),
+                        CHECK_EMPTY | CHECK_VALID | CHECK_MIN,
+                        $("#threshold_val2_label").text(),
+                        THRESHOLD_VAL_MIN,
+                        null
+                    ) && check;
+    } else {
+        check = check_fraction(
+                        $("#threshold_val1"),
+                        CHECK_EMPTY | CHECK_VALID | CHECK_MIN,
+                        $("#threshold_val1_label").text(),
+                        THRESHOLD_VAL_MIN,
+                        null,
+                        parseInt($("#threshold_fraction").val())
+                    ) && check;
+
+        check = check_fraction(
+                        $("#threshold_val2"),
+                        CHECK_EMPTY | CHECK_VALID | CHECK_MIN,
+                        $("#threshold_val2_label").text(),
+                        THRESHOLD_VAL_MIN,
+                        null,
+                        parseInt($("#threshold_fraction").val())
+                    ) && check;
+    }
+
+    if ($("#threshold_type").val() == "max"){
+        check = check_number(
+                        $("#threshold_val1"),
+                        CHECK_MAX,
+                        $("#threshold_val1_label").text(),
+                        null,
+                        $("#threshold_val2").val()
+                ) && check;
+    } else if ($("#threshold_type").val() == "min"){
+        check = check_number(
+                        $("#threshold_val2"),
+                        CHECK_MIN,
+                        $("#threshold_val2_label").text(),
+                        $("#threshold_val1").val(),
+                        null
+                ) && check;
+    }
+
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG);
+    }
+
+    return check;
+};
+
+function set_mail_template(severity,lang) {
+    target = $("#watch_target").val();
+    uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+    uri = uri.replace(/\/[0-9]+$/, "");
+
+    ajax_json(
+        uri + "/" + target + "/" + lang + ".json",
+        target,
+        function(data, status) {
+            if(severity == "warning") {
+                $("#warning_mail_body").val(data.mail_template_warning);
+            }
+            if(severity == "failure") {
+                $("#failure_mail_body").val(data.mail_template_failure);
+            }
+            if(severity == "okay") {
+                $("#okay_mail_body").val(data.mail_template_okay);
+            }
+        },
+        true
+    );
+}
+
+
+function set_threshold_slider(target, warn, fail, type) {
+    if(typeof(type) == 'undefined'){
+        type = 'max'
+    }
+    $("#threshold_percentage").hide();
+    $("#threshold_fraction").val("0");
+
+    switch (target){
+        case "${plugins['cpu']}":
+            set_slider("#threshold_setting",0, MAX_JIFFIES_PER_SEC,warn, fail, "jiffies/sec", type);
+            break;
+        case "${plugins['memory']}":
+            var memory_size = parseInt(${memory_size});
+            set_slider("#threshold_setting",0,memory_size, warn, fail, "MB", type);
+            break;
+        case "${plugins['df']}":
+            var target_disk = $('#df_target_fs').val();
+            var disk_size = ${disk_size_info}[target_disk]
+
+            $("#threshold_percentage").change(function() {
+                var threshold_type = $("#threshold_type").val();
+                var threshold_val1 = $("#threshold_val1").val();
+                var threshold_val2 = $("#threshold_val2").val();
+
+                if ($("#use_percentage").attr("checked") == true) {
+                    threshold_val1 = parseInt(threshold_val1 / disk_size * 100);
+                    threshold_val2 = parseInt(threshold_val2 / disk_size * 100);
+                    set_slider("#threshold_setting",0, 100, threshold_val1, threshold_val2, "%");
+                }else{
+                    threshold_val1 = parseInt(threshold_val1 / 100 * disk_size);
+                    threshold_val2 = parseInt(threshold_val2 / 100 * disk_size);
+                    set_slider("#threshold_setting",0, disk_size, threshold_val1, threshold_val2, "MB");
+                }
+            });
+
+            if ($("#use_percentage").attr("checked") == true) {
+                set_slider("#threshold_setting",0, 100, warn, fail, "%", type);
+            }else{
+                set_slider("#threshold_setting",0, disk_size, warn, fail, "MB", type);
+            }
+            $("#threshold_percentage").show();
+            break;
+        case "${plugins['libvirt']}":
+            var max_value = 0;
+            var unit = ""
+            switch (true) {
+            	case /^virt_cpu/.test($("#libvirt_target").val()):
+                    max_value = MAX_LIBVIRT_CPU_TIME;
+                    unit = "msec";
+                    break;
+            	case /^disk_/.test($("#libvirt_target").val()):
+                    var disk_size_info = new Array();
+                    max_value = MAX_LIBVIRT_DISK_OCTETS;
+                    unit = "kilo octet/sec";
+                    break;
+            	case /^if_/.test($("#libvirt_target").val()):
+                    if ($("#libvirt_target").val().match(/_octets$/)) {
+                        max_value = MAX_NETWORK_OCTETS;
+                        unit = "octet/sec";
+                    }else{
+                        max_value = MAX_NETWORK_PACKETS;
+                        unit = "packet/sec";
+                    }
+                    break;
+            }
+            set_slider("#threshold_setting",0, max_value, warn, fail, unit, type);
+            break;
+        case "${plugins['interface']}":
+            if ($("#network_status").val() == "${interface_type['OCTETS']}") {
+                var max_value = MAX_NETWORK_OCTETS;
+                set_slider("#threshold_setting",0, max_value, warn, fail, "octet/sec", type);
+            }else{
+                var max_value = MAX_NETWORK_PACKETS;
+                set_slider("#threshold_setting",0, max_value, warn, fail, "packet/sec", type);
+            }
+            break;
+        case "${plugins['load']}":
+            var max_value = ${processer_num} * MAX_LOADAVERAGE_TIMES_PARAM;
+            set_slider("#threshold_setting", 0, max_value, warn, fail, type);
+            $("#threshold_setting").slider("option", "step", 0.01);
+            $("#threshold_fraction").val("2");
+            break;
+    }
+}
+
+$(document).ready(function(){
+
+    ajax_put_event(
+        "#edit_watch_button",
+        "${ctx.homepath}${ctx.path}",
+        "#watch_setting :input",
+        validates_watch
+    );
+
+    $("#threshold_val1").change(function(){
+        if (parseFloat($(this).val()) > parseFloat($("#threshold_val2").val())) {
+	        var arr = new Array(2);
+	        arr[1] = $("#threshold_val1_label").text();
+	        arr[2] = $("#threshold_val2_label").text();
+            alert(minisprintf("${_('%1$s is more than %2$s!')}",arr));
+        } else {
+            $("#threshold_setting").slider("values",0,$(this).val());
+        }
+    });
+    $("#threshold_val2").change(function(){
+        if (parseFloat($(this).val()) < parseFloat($("#threshold_val1").val())) {
+	        var arr = new Array(2);
+	        arr[1] = $("#threshold_val2_label").text();
+	        arr[2] = $("#threshold_val1_label").text();
+            alert(minisprintf("${_('%1$s is lower than %2$s!')}",arr));
+        } else {
+            $("#threshold_setting").slider("values",1,$(this).val());
+        }
+    });
+
+    $("#threshold_change_button").click(function(){
+        switch ($("#threshold_type").val()) {
+        case "max":
+            change_slider_type("min");
+            break;
+        case "min":
+            change_slider_type("max");
+            break;
+        }
+    });
+
+    // help
+    helptip("#watch_name_help",
+        "${_('Name')}",
+        "${_('Name of a new watch to edit.')}");
+
+    helptip("#watch_target_help",
+        "${_('Watch Target')}",
+        "${_('Watch target module.')}");
+        
+    helptip("#watch_logical_cpu_number_help",
+        "${_('Logical CPU Number')}",
+        "${_('Observed logical CPU number.')}");
+        
+    helptip("#watch_cpu_status_help",
+        "${_('CPU Status')}",
+        "${_('State of CPU from among Idle, User, etc.')}");
+        
+    helptip("#watch_memory_status_help",
+        "${_('Memory Status')}",
+        "${_('State of memory to be observed.')}");
+        
+    helptip("#watch_target_disk_help",
+        "${_('Target Disk')}",
+        "${_('Disk of watched target.')}");
+        
+    helptip("#watch_df_disk_status_help",
+        "${_('Disk Status')}",
+        "${_('Status(free space or used space) of target disk.')}");
+        
+    helptip("#watch_network_target_interface_help",
+        "${_('Target Interface')}",
+        "${_('Network interface to watch.')}");
+        
+    helptip("#watch_network_status_help",
+        "${_('Network Status')}",
+        "${_('State of network interface to be watched.')}");
+        
+    helptip("#watch_network_direction_help",
+        "${_('Direction')}",
+        "${_('Direction of network traffic(reveive or send)')}");
+
+    helptip("#watch_libvirt_target_host_help",
+        "${_('Target Guest')}",
+        "${_('Target guest to watch.')}");
+        
+    helptip("#watch_libvirt_target_help",
+        "${_('Module To Watch')}",
+        "${_('Target module of virtual machine to watch.')}");
+
+    helptip("#watch_libvirt_vcpu_target_help",
+        "${_('Target Virtual CPU')}",
+        "${_('Target virtual machine CPU to watch.')}");
+        
+    helptip("#watch_libvirt_disk_target_help",
+        "${_('Target Disk')}",
+        "${_('Target disk of virtual machine to watch.')}");
+
+    helptip("#watch_libvirt_disk_value_type_help",
+        "${_('Read/Write')}",
+        "${_('Specify which I/O of the target disk to watch (read or write).')}");
+
+    helptip("#watch_libvirt_target_interface_help",
+        "${_('Target Interface')}",
+        "${_('Network interface of virtual machine to watch.')}");
+
+    helptip("#watch_libvirt_network_direction_help",
+        "${_('Direction')}",
+        "${_('Direction of network traffic(reveive or send) of network interface in virtual machine.')}");
+
+    helptip("#watch_load_term_help",
+        "${_('Term')}",
+        "${_('Term of load average.')}");
+
+    helptip("#continuation_count_help",
+        "${_('Alert Trigger Count')}",
+        "${_('Alert actions will be pended until alert counts reach over this value.')}");
+        
+    helptip("#prohibition_period_help",
+        "${_('Silent Period (seconds)')}",
+        "${_('Silent period after reaching alert trigger count.')}");
+
+    helptip("#threshold_value_help",
+        "${_('Threshold Settings')}",
+        "${_('Value of threshold of which it warns.')}");
+
+    helptip("#warning_script_help",
+        "${_('Warning Script')}",
+        "${_('Script executed when warning value is exceeded. <br />ex)<br />#!/bin/bash<br />echo ALERT >> /tmp/alerts')}");
+
+    helptip("#enable_warning_mail_help",
+        "${_('Notification Mail')}",
+        "${_('Contents of the mail notified when the warning value exceeded.')}");
+
+    helptip("#failure_script_help",
+        "${_('Failure Script')}",
+        "${_('Script executed when failure value is exceeded. <br />ex)<br />#!/bin/bash<br />echo ALERT >> /tmp/alerts')}");
+
+    helptip("#enable_failure_mail_help",
+        "${_('Notification Mail')}",
+        "${_('Contents of the mail notified when the failure value exceeded.')}");
+        
+    helptip("#okay_script_help",
+        "${_('Okay Script')}",
+        "${_('Script executed when the status returns okay. <br />ex)<br />#!/bin/bash<br />echo ALERT >> /tmp/alerts')}");
+
+    helptip("#enable_okay_mail_help",
+        "${_('Notification Mail')}",
+        "${_('Contents of the notification mail which will be sent when the status returns okay.')}");
+        
+    helptip("#notify_mail_from_help",
+        "${_('Mail From')}",
+        "${_('Address to put in the From: header of the notification mail. Multiple addresses are not supported.')}");
+        
+    helptip("#notify_mail_to_help",
+        "${_('Mail To')}",
+        "${_('Address to send the notification mail to. Multiple addresses are not supported.')}");
+
+    HELP_NM_MACROS="${_(r"""<table><tr><td>%{app_name} </td><td>Application name<br />(karesansui-VER-REL)</td></tr><tr><td>%{time}</td><td>Time of the warning detection</td></tr><tr><td>%{host} </td><td>Warning detected host name</td></tr><tr><td>%{plugin} </td><td>Watch target name</td></tr><tr><td>%{plugin_instance} </td><td>Detailed info of the watch target.<br /> (Watch target is CPU: CPU core number, Other: empty string)</td></tr><tr><td>%{type} </td><td> Sub category of the watch target </td></tr><tr><td>%{type_instance} </td><td> Item to watch </td></tr><tr><td>%{ds} </td><td> Data source name </td></tr><tr><td>%{current_value} </td><td> Target value at the alert action timing </td></tr><tr><td>%{threshold_value} </td><td> Threshold value </td></tr><tr><td>%{failure_max} </td><td> Failure Value (max)  </td></tr><tr><td>%{warning_max} </td><td> Warning Value (max)  </td></tr><tr><td>%{failure_min} </td><td> Failure Value (min) </td></tr><tr><td>%{warning_min} </td><td> Warning Value (min) </td></tr><tr><td>%{severity} </td><td> Severity </td></tr><tr><td>%{script_result_message} </td><td> Action script result output </td></tr></table>""")}";
+
+    helptip("#notification_mail_body_warning_help",
+        "${_('Notification Mail')}",
+        "${_(r"Customize the notification mail message. Don't forget to include empty line between mail header part and body part. Available macros are: ")}"+HELP_NM_MACROS);
+
+    helptip("#notification_mail_body_failure_help",
+        "${_('Notification Mail')}",
+        "${_(r"Customize the notification mail message. Don't forget to include empty line between mail header part and body part. Available macros are: ")}"+HELP_NM_MACROS);
+
+    helptip("#notification_mail_body_okay_help",
+        "${_('Notification Mail')}",
+        "${_(r"Customize the notification mail message. Don't forget to include empty line between mail header part and body part. Available macros are: ")}"+HELP_NM_MACROS);
+        
+    helptip("#notify_mail_mta_help",
+        "${_('Mail Server')}",
+        "${_('SMTP server to send notification mail through. This can be modified in \\"Settings\\" - \\"Mail Settings\\" panel.')}");
+
+% if threshold_type == 'max':
+    set_threshold_slider("${watch.plugin |h}", parseFloat(${threshold_value_1 |h}),parseFloat(${threshold_value_2 |h}), "${threshold_type | h}");
+% else:
+    set_threshold_slider("${watch.plugin |h}", parseFloat(${threshold_value_2 |h}),parseFloat(${threshold_value_1 |h}), "${threshold_type | h}");
+% endif
+
+    $("#threshold-accordion").accordion({
+        header: ".accordion-header",
+        active: false,
+        collapsible: true,
+        icons: {
+            header: "accordion-header-icon",
+            headerSelected: "accordion-header-icon-open"
+        }
+    });
+});
+//-->
+</script>
+<div id="watch_setting">
+    <form method="post" action="" id="input_watch_form" name="input_watch_form">
+        <div class="grayout-head">
+            <span class="grayout-title">
+                <a href="#" id="server" class="path-a"><img src="${ctx.homepath}/static/images/settings-title.gif" alt="">${_('Edit Watch')}</a>
+            </span>
+            <br style="clear: both;"/>
+        </div>
+
+        <div class="grayout-contents">
+            <div class="grayout-param">${_('Name')}<span id="watch_name_help"></span></div>
+            <div class="grayout-value grayout-form">
+	            <input type="text" name="watch_name" id="watch_name" value="${watch.name |h}" size="40" /><span class="require-text">${_('Require')}</span>
+            </div>
+
+            <div class="grayout-param">${_('Watch Target')}<span id="watch_target_help"></span></div>
+            <div class="grayout-value grayout-form">
+                ${watch.plugin |h}
+                <input type="hidden" name="watch_target" id="watch_target" value="${watch.plugin |h}" />
+            </div>
+
+% if watch.plugin == plugins['cpu']:
+            <div class="grayout-param">${_('Logical CPU Number')}<span id="watch_logical_cpu_number_help"></span></div>
+            <div class="grayout-value grayout-form">
+                ${plugin_selector['plugin_instance'] |h}
+                <input type="hidden" name="logical_cpu_number" id="logical_cpu_number" value="${plugin_selector['plugin_instance'] |h}" />
+            </div>
+
+            <div class="grayout-param">${_('CPU Status')}<span id="watch_cpu_status_help"></span></div>
+            <div class="grayout-value grayout-form">
+                ${plugin_selector['type_instance'] |h}
+                <input type="hidden" name="cpu_status" id="cpu_status" value="${plugin_selector['type_instance'] |h}" />
+            </div>
+
+% elif watch.plugin == plugins['memory']:
+            <div class="grayout-param">${_('Memory Status')}<span id="watch_memory_status_help"></span></div>
+            <div class="grayout-value grayout-form">
+                ${plugin_selector['type_instance'] |h}
+                <input type="hidden" name="memory_status" id="memory_status" value="${plugin_selector['type_instance'] |h}" />
+            </div>
+
+% elif watch.plugin == plugins['df']:
+            <div class="grayout-param">${_('Target Disk')}<span id="watch_target_disk_help"></span></div>
+            <div class="grayout-value grayout-form">
+                ${plugin_selector['type_instance'] |h}
+                <input type="hidden" name="df_target_fs" id="df_target_fs" value="${plugin_selector['type_instance'] |h}" />
+            </div>
+
+            <div class="grayout-param">${_('Disk Status')}<span id="watch_df_disk_status_help"></span></div>
+            <div class="grayout-value grayout-form">
+                ${plugin_selector['ds'] |h}
+                <input type="hidden" name="df_disk_status" id="df_disk_status" value="${plugin_selector['ds'] |h}" />
+            </div>
+
+% elif watch.plugin == plugins['interface']:
+            <div class="grayout-param">${_('Target Interface')}<span id="watch_network_target_interface_help"></span></div>
+            <div class="grayout-value grayout-form">
+                ${plugin_selector['type_instance'] |h}
+                <input type="hidden" name="network_target_interface" id="network_target_interface" value="${plugin_selector['type_instance'] |h}" />
+            </div>
+            <div class="grayout-param">${_('Network Status')}<span id="watch_network_status_help"></span></div>
+            <div class="grayout-value grayout-form">
+                ${plugin_selector['type'] |h}
+                <input type="hidden" name="network_status" id="network_status" value="${plugin_selector['type'] |h}" />
+            </div>
+            <div class="grayout-param">${_('Direction')}<span id="watch_network_direction_help"></span></div>
+            <div class="grayout-value grayout-form">
+                ${plugin_selector['ds'] |h}
+                <input type="hidden" name="network_direction" id="network_direction" value="${plugin_selector['ds'] |h}" />
+            </div>
+
+% elif watch.plugin == plugins['libvirt']:
+            <div class="grayout-param">${_('Target Guest')}<span id="watch_libvirt_target_host_help"></span></div>
+            <div class="grayout-value grayout-form">
+                ${plugin_selector['host'] |h}
+                <input type="hidden" name="libvirt_target_host" id="libvirt_target_host" value="${plugin_selector['host'] |h}" />
+            </div>
+
+            <div class="grayout-param">${_('Watch Target of Virtual Machine')}<span id="watch_libvirt_target_help"></span></div>
+            <div class="grayout-value grayout-form">
+                ${plugin_selector['type'] |h}
+                <input type="hidden" name="libvirt_target" id="libvirt_target" value="${plugin_selector['type'] |h}" />
+            </div>
+
+    % if libvirt_type == "vcpu":
+            <div class="grayout-param">${_('Target Virtual CPU')}<span id="watch_libvirt_vcpu_target_help"></span></div>
+            <div class="grayout-value grayout-form">
+                ${plugin_selector['type_instance'] |h}
+                <input type="hidden" name="libvirt_vcpu_target" id="libvirt_vcpu_target" value="${plugin_selector['type_instance'] |h}" />
+            </div>
+
+    % elif libvirt_type == "cpu_total":
+
+
+    % elif libvirt_type == "disk":
+            <div class="grayout-param">${_('Target Disk')}<span id="watch_libvirt_disk_target_help"></span></div>
+            <div class="grayout-value grayout-form">
+                ${plugin_selector['type_instance'] |h}
+                <input type="hidden" name="libvirt_disk_target" id="libvirt_disk_target" value="${plugin_selector['type_instance'] |h}" />
+            </div>
+            <div class="grayout-param">${_('Read/Write')}<span id="watch_libvirt_disk_value_type_help"></span></div>
+            <div class="grayout-value grayout-form">
+                ${plugin_selector['ds'] |h}
+                <input type="hidden" name="libvirt_disk_value_type" id="libvirt_disk_value_type" value="${plugin_selector['ds'] |h}" />
+            </div>
+
+    % elif libvirt_type == "interface":
+            <div class="grayout-param">${_('Target Interface')}<span id="watch_libvirt_target_interface_help"></span></div>
+            <div class="grayout-value grayout-form">
+                ${plugin_selector['type_instance'] |h}
+                <input type="hidden" name="libvirt_target_interface" id="libvirt_target_interface" value="${plugin_selector['type_instance'] |h}" />
+            </div>
+            <div class="grayout-param">${_('Direction')}<span id="watch_libvirt_network_direction_help"></span></div>
+            <div class="grayout-value grayout-form">
+                ${plugin_selector['ds'] |h}
+                <input type="hidden" name="libvirt_network_direction" id="libvirt_network_direction" value="${plugin_selector['ds'] |h}" />
+            </div>
+    % endif
+
+% elif watch.plugin == plugins['load']:
+            <div class="grayout-param">${_('Term')}<span id="watch_load_term_help"></span></div>
+            <div class="grayout-value grayout-form">
+                ${plugin_selector['ds'] |h}
+                <input type="hidden" name="load_term" id="load_term" value="${plugin_selector['ds'] |h}" />
+            </div>
+
+% endif
+
+            <div class="grayout-param">${_('Alert Trigger Count')}<span id="continuation_count_help"></span></div>
+            <div class="grayout-value grayout-form">
+	            <input type="text" name="continuation_count" id="continuation_count" value="${watch.continuation_count |h}" size="40" /><span class="require-text">${_('Require')}</span>
+            </div>
+
+            <div class="grayout-param">${_('Silent Period (seconds)')}<span id="prohibition_period_help"></span></div>
+            <div class="grayout-value grayout-form">
+	            <input type="text" name="prohibition_period" id="prohibition_period" value="${watch.prohibition_period |h}" size="40" /><span class="require-text">${_('Require')}</span>
+            </div>
+
+            <div class="grayout-param">${_('Threshold Settings')}<span id="threshold_value_help"></span></div>
+            <div class="grayout-value grayout-form">
+                <div><input type="button" name="threshold_change_button" id="threshold_change_button" value="${_('Reverses Threshold')}" /></div>
+
+                <div style="width: 450px;">
+                    <div id="threshold_min" style="width: 225px; float:left;"></div>
+                    <div id="threshold_max" style="float: none; text-align: right;"></div>
+                </div>
+                <div id="threshold_setting">
+                    <div id="value-slider-left" class="slider-left"></div>
+                </div>
+                <div style="width: 450px">
+
+% if threshold_type == 'max':
+                    <div style="width: 225px; float:left;">
+                        <span id="threshold_val1_label">${_('Warning Value')} </span><input type="text" name="threshold_val1" id="threshold_val1" size="10" value="${threshold_value_1 | h}"/>
+                        <span id="threshold_max_unit"></span>
+                    </div>
+                    <div style="float: none; text-align: right;">
+                        <span id="threshold_val2_label">${_('Failure Value')} </span><input type="text" name="threshold_val2" id="threshold_val2" size="10" value="${threshold_value_2 | h}"/>
+                        <span id="threshold_min_unit"></span>
+                    </div>
+% else:
+                    <div style="width: 225px; float:left;">
+                        <span id="threshold_val1_label">${_('Failure Value')} </span><input type="text" name="threshold_val1" id="threshold_val1" size="10" value="${threshold_value_2 | h}"/>
+                        <span id="threshold_max_unit"></span>
+                    </div>
+                    <div style="float: none; text-align: right;">
+                        <span id="threshold_val2_label">${_('Warning Value')} </span><input type="text" name="threshold_val2" id="threshold_val2" size="10" value="${threshold_value_1 | h}" />
+                        <span id="threshold_min_unit"></span>
+                    </div>
+% endif
+
+% if use_percentage is True:
+                    <span id="threshold_percentage"><input type="checkbox" name="use_percentage" id="use_percentage" checked="checked"/>${_('Use Percentage')}</span>
+% else:
+                    <span id="threshold_percentage"><input type="checkbox" name="use_percentage" id="use_percentage"/>${_('Use Percentage')}</span>
+% endif
+
+                    <input type="hidden" name="threshold_type" id="threshold_type" value="max" />
+                    <input type="hidden" name="threshold_fraction" id="threshold_fraction" value="0" />
+                </div>
+            </div>
+
+            <div id="threshold-accordion">
+                <div class="accordion-header">${_('Warning Settings')}</div>
+                <div class="accordion-body">
+                    <div class="grayout-param">${_('Warning Script')}<span id="warning_script_help"></span></div>
+                    <div class="grayout-value grayout-form">
+% if watch.is_warning_script is True:
+                    <input type="checkbox" name="enable_warning_script" id="enable_warning_script" checked/> ${_('Enabled')}
+% else:
+                    <input type="checkbox" name="enable_warning_script" id="enable_warning_script" /> ${_('Enabled')}
+% endif
+	                <textarea cols="85" rows="3" name="warning_script" id="warning_script">${watch.warning_script |h}</textarea>
+                    </div>
+                    <div class="grayout-param">${_('Notification Mail')}<span id="enable_warning_mail_help"></span></div>
+                    <div class="grayout-value grayout-form">
+% if watch.is_warning_mail is True:
+                    <input type="checkbox" name="enable_warning_mail" id="enable_warning_mail" checked>${_('Enabled')}
+% else:
+                    <input type="checkbox" name="enable_warning_mail" id="enable_warning_mail">${_('Enabled')}
+% endif
+                    <br/>
+% for lang in supported_langs:
+                    <input type="button" name="warning_mail_body_init_${lang}" id="warning_mail_body_init_${lang}" onClick='javascript:set_mail_template("warning","${lang}")' value="${_('Read body template in %s') % _(lang)}">
+% endfor
+					<span id="notification_mail_body_warning_help"></span>
+	                <textarea cols="85" rows="6" name="warning_mail_body" id="warning_mail_body">${watch.warning_mail_body |h}</textarea>
+                    </div>
+                </div>
+                <div class="accordion-header">${_('Failure Settings')}</div>
+                <div class="accordion-body">
+                    <div class="grayout-param">${_('Failure Script')}<span id="failure_script_help"></span></div>
+                    <div class="grayout-value grayout-form">
+% if watch.is_failure_script is True:
+                    <input type="checkbox" name="enable_failure_script" id="enable_failure_script" checked/> ${_('Enabled')}
+% else:
+                    <input type="checkbox" name="enable_failure_script" id="enable_failure_script" /> ${_('Enabled')}
+% endif
+	                <textarea cols="85" rows="3" name="failure_script" id="failure_script">${watch.failure_script |h}</textarea>
+                    </div>
+                    <div class="grayout-param">${_('Notification Mail')}<span id="enable_failure_mail_help"></span></div>
+                    <div class="grayout-value grayout-form">
+% if watch.is_failure_mail is True:
+                    <input type="checkbox" name="enable_failure_mail" id="enable_failure_mail" checked>${_('Enabled')}
+% else:
+                    <input type="checkbox" name="enable_failure_mail" id="enable_failure_mail">${_('Enabled')}
+% endif
+                    <br/>
+% for lang in supported_langs:
+                    <input type="button" name="failure_mail_body_init_${lang}" id="failure_mail_body_init_${lang}" onClick='javascript:set_mail_template("failure","${lang}")' value="${_('Read body template in %s') % _(lang)}">
+% endfor
+					<span id="notification_mail_body_failure_help"></span>
+	                <textarea cols="85" rows="6" name="failure_mail_body" id="failure_mail_body">${watch.failure_mail_body |h}</textarea>
+                    </div>
+                </div>
+                <div class="accordion-header">${_('Okay Settings')}</div>
+                <div class="accordion-body">
+                    <div class="grayout-param">${_('Okay Script')}<span id="okay_script_help"></span></div>
+                    <div class="grayout-value grayout-form">
+% if watch.is_okay_script is True:
+                    <input type="checkbox" name="enable_okay_script" id="enable_okay_script" checked/> ${_('Enabled')}
+% else:
+                    <input type="checkbox" name="enable_okay_script" id="enable_okay_script" /> ${_('Enabled')}
+% endif
+	                <textarea cols="85" rows="3" name="okay_script" id="okay_script">${watch.okay_script |h}</textarea>
+                    </div>
+                    <div class="grayout-param">${_('Notification Mail')}<span id="enable_okay_mail_help"></span></div>
+                    <div class="grayout-value grayout-form">
+% if watch.is_okay_mail is True:
+                    <input type="checkbox" name="enable_okay_mail" id="enable_okay_mail" checked>${_('Enabled')}
+% else:
+                    <input type="checkbox" name="enable_okay_mail" id="enable_okay_mail">${_('Enabled')}
+% endif
+                    <br/>
+% for lang in supported_langs:
+                    <input type="button" name="okay_mail_body_init_${lang}" id="okay_mail_body_init_${lang}" onClick='javascript:set_mail_template("okay","${lang}")' value="${_('Read body template in %s') % _(lang)}">
+% endfor
+					<span id="notification_mail_body_okay_help"></span>
+	                <textarea cols="85" rows="6" name="okay_mail_body" id="okay_mail_body">${watch.okay_mail_body |h}</textarea>
+                    </div>
+                </div>
+                <div class="accordion-header">${_('Notification Mail Settings')}</div>
+                <div class="accordion-body">
+                    <div class="grayout-param">${_('Mail Server')}<span id="notify_mail_mta_help"></span></div>
+                    <div class="grayout-value grayout-form">
+                        ${mta}
+                    </div>
+                    <div class="grayout-param">${_('Mail From')}<span id="notify_mail_from_help"></span></div>
+                    <div class="grayout-value grayout-form">
+                        <input type="text" name="notify_mail_from" id="notify_mail_from" size="40" maxlength="256" value="${watch.notify_mail_from |h}" />
+                    </div>
+                    <div class="grayout-param">${_('Mail To')}<span id="notify_mail_to_help"></span></div>
+                    <div class="grayout-value grayout-form">
+                        <input type="text" name="notify_mail_to" id="notify_mail_to" size="40" maxlength="256" value="${watch.notify_mail_to |h}" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="grayout-footer">
+                <input type="hidden" name="_method" id="_method" />
+                <a href="#" name="edit_watch_button" id="edit_watch_button" class="button">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Edit')}</span>
+                </a>
+                <br style="clear: both;"/>
+            </div>
+        </div>
+        <br style="clear: both;"/>
+    </form>
+</div>

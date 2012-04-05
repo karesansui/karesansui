@@ -1,0 +1,159 @@
+.ui-dialog {
+    font-size: 1.1em;
+    background: transparent;
+    color: #333333;
+    position: relative;
+    padding: 0px;
+}
+.ui-widget-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    opacity: .60;
+    filter:Alpha(Opacity=60);
+}
+.ui-dialog .ui-dialog-titlebar {
+    padding: .5em .3em .3em 1em;
+    position: relative;
+    color: #000000;
+    background: #FFFFFF;
+    border-bottom: 1px solid #cccccc;
+    font-size: 1em;
+    font-weight: bold;
+    height: 20px;
+}
+.ui-dialog .ui-dialog-title {
+}
+.ui-dialog .ui-dialog-titlebar-close {
+    background: url(../images/close1.png) 0 0 no-repeat;
+    position: absolute;
+    right: 10px;
+    width: 18px;
+    height: 18px;
+}
+.ui-dialog .ui-dialog-titlebar-close:active {
+    background: url(../images/close2.png) 0 0 no-repeat;
+}
+.ui-dialog .ui-dialog-titlebar-close span {
+    display: none;
+}
+
+.ui-dialog .ui-dialog-content {
+    border: 0;
+    padding: .5em 1em;
+    background: #FFFFFF;
+    overflow: auto;
+    zoom: 1;
+}
+.ui-dialog .ui-dialog-buttonpane {
+    text-align: left;
+    width: 100%;
+    height: 50px;
+    border-top: 1px solid #dddddd;
+    background: #FFFFFF;
+    padding: 0px; 
+    margin: 0px; 
+}
+.ui-dialog .ui-dialog-buttonpane button {
+    float: right;
+    margin: .5em .4em .5em 0;
+    cursor: pointer;
+    padding: .1em .3em .1em .3em;
+    width:auto;
+    overflow:visible;
+}
+.ui-draggable .ui-dialog-titlebar {
+    cursor: move;
+}
+
+/* Resizable----------------------------------*/
+.ui-resizable {
+    position: relative;
+}
+.ui-resizable-handle {
+    position: absolute;
+    font-size: 0.1px;
+    z-index: 99999;
+    display: block;
+}
+.ui-resizable-disabled .ui-resizable-handle, .ui-resizable-autohide .ui-resizable-handle {
+    display: none;
+}
+
+.ui-resizable-n {
+    cursor: n-resize;
+    height: 7px;
+    width: 100%;
+    top: -5px;
+    left: 0px;
+    background: #FFFFFF;
+}
+.ui-resizable-s {
+    cursor: s-resize;
+    height: 7px;
+    width: 100%;
+    bottom: -5px;
+    left: 0px;
+    background: #FFFFFF;
+}
+.ui-resizable-e {
+    cursor: e-resize;
+    width: 7px;
+    right: -5px;
+    top: 0px;
+    height: 100%;
+    background: #FFFFFF;
+}
+.ui-resizable-w {
+    cursor: w-resize;
+    width: 7px;
+    left: -5px;
+    top: 0px;
+    height: 100%;
+    background: #FFFFFF;
+}
+.ui-resizable-se {
+    cursor: se-resize;
+    width: 9px;
+    height: 9px;
+    right: -5px;
+    bottom: -5px;
+    background: #FFFFFF;
+}
+.ui-resizable-sw {
+    cursor: sw-resize;
+    width: 9px;
+    height: 9px;
+    left: -5px;
+    bottom: -5px;
+    background: #FFFFFF;
+}
+.ui-resizable-nw {
+    cursor: nw-resize;
+    width: 9px;
+    height: 9px;
+    left: -5px;
+    top: -5px;
+    background: #FFFFFF;
+}
+.ui-resizable-ne {
+    cursor: ne-resize;
+    width: 9px;
+    height: 9px;
+    right: -5px;
+    top: -5px;
+    background: #FFFFFF;
+}
+
+.dialog_button {
+    float: right;
+    margin: 10px 10px 10px 5px;
+}
+
+/* for Jquery UI */
+.ui-dialog .ui-dialog-titlebar-close {
+    padding: 0px;
+}

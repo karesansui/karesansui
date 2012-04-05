@@ -1,0 +1,76 @@
+#tab {
+    height:28px;
+    width: auto;
+    overflow: hidden;
+    width: 100%;
+    float:left;
+    height:30px;
+}
+
+#tab a {
+    text-decoration:none;
+}
+
+#tab .text {
+    padding-left: 10px;
+    padding-top: 2px;
+}
+
+#tab .text ul {
+    width:auto;
+}
+
+#tab li.top-tab{
+    float:left;
+    list-style-image:none;
+    list-style-position:outside;
+    list-style-type:none;
+    margin-left:0;
+}
+
+#tab .tab-left {
+    background:transparent url(../images/tab-left.jpg) no-repeat scroll left top;
+    color:#444444;
+    display:block;
+    float:left;
+    font-size:12px;
+    height:29px;
+    padding-left:20px;
+}
+
+#tab .tab-right {
+    background:transparent url(../images/tab-right.jpg) no-repeat scroll right top;
+    display:block;
+    float:left;
+    height:29px;
+    padding:8px 20px 0 0;
+}
+
+#tab .text ul li.tab-selected .tab-left {
+    background:transparent url(../images/tab-left-active.jpg) no-repeat scroll left top;
+}
+
+#tab .text ul li.tab-selected .tab-right {
+    background:transparent url(../images/tab-right-active.jpg) no-repeat scroll right top;
+}
+
+#tab .stacktab-list {
+    background-image: url(../images/stacktab-back.png);
+    float: left;
+    border:1px solid #C7C7C7;
+
+    position: absolute;
+    display:none;
+    margin-top: 28px;
+    z-index: 3;
+}
+
+#tab .stacktab-item {
+    padding: 5px 20px 5px 20px;
+    color: #FFFFFF;
+    display: block;
+}
+
+#tab .stacktab-selected {
+    background-color: #A9CF15;
+}

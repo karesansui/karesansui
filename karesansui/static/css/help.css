@@ -1,0 +1,17 @@
+.help-red{
+color: #FF0000;
+}
+.help-yellow{
+color: #CDA901;
+}
+.help-blue{
+color: #0096FF;
+}
+
+.helptip{
+    margin-left:5px;
+}
+
+#cluetip-waitimage {
+  background-image: none !important;
+}

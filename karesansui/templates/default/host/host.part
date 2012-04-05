@@ -1,0 +1,346 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+<%!
+from karesansui.lib.template import clipping
+from karesansui.lib.const import MACHINE_NAME_CLIPPING_RANGE
+%>
+<script type="text/javascript">
+<!--
+
+// lib
+function hostby1_location(id){
+    location.href = "${ctx.homepath}/host/" + id;
+};
+
+function get_target_id(){
+    var target_id = null;
+    $("#host div").each(function(){
+        if($(this).hasClass("active") == true){
+            target_id = $(this).attr("id").replace("host_", "");
+        }
+    });
+    return target_id;
+};
+
+$(document).ready(function(){
+    var me_flag;
+    var active_id;
+    var past_active_id;
+
+    $('#host div[id^="host_"]').each(function(){
+
+        // first click event
+        $(this).click(function(){
+            me_flag = $(this).hasClass("me");
+
+            $("#edit_host").unbind("click");
+            $("#delete_host").unbind("click");
+
+            $("#edit_host").one("click", function(){
+                var target_id = get_target_id();
+                var uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+                if(target_id != null){
+                    grayout_view("GET",
+                        uri + "/" + target_id + ".part?mode=input",
+                        "${_('Host Settings')}",
+                        "${ctx.homepath}${ctx.path}");
+                } else {
+                    show_alert_msg("${_('Please select a target.')}", "ERROR");
+                }
+            });
+            tool_reset("#edit_host");
+
+            if(me_flag == true){  // My host
+                tool_reset("#delete_host");
+                tool_invalid("#delete_host");
+            } else {  // other host
+                $("#delete_host").click(function(){
+                    var target_id = get_target_id();
+                    var uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+                    if(target_id != null){
+                        var url = uri + "/" + target_id + ".part";
+                        var reflush = "${ctx.homepath}${ctx.path}";
+                        var param = null;
+                        delete_dialog("#dialog", url, param, reflush, "#delete_host", "");
+                    } else {
+                        show_alert_msg("${_('Please select a target.')}", "ERROR");
+                    }
+                });
+                tool_reset("#delete_host");
+           }
+        });
+
+        // event
+        $(this).click(function(){
+            me_flag = $(this).hasClass("me");
+            past_active_id = active_id;
+            active_id = $(this).attr("id").replace("host_", "");
+
+            if($(this).hasClass("active") == true){
+                if(me_flag == true){  // My host
+                    hostby1_location(active_id);
+                } else {  // other host
+                    location.href = $("#other_link").attr("href") + "host/" + active_id;
+                }
+            }
+
+            if($(this).hasClass("passive") == true){
+
+                // hostby1
+                ajax_json(
+                    "${ctx.homepath}/host/" + active_id + ".json",
+                    null,
+                    function(data, status) {
+                        var _s = "<table class='detail-contents'>";
+
+                        if(me_flag == false){  // other host
+                            // Link is_ssl
+                            var _l = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+                            _l += make_tr("${_('Link to Other Host Top Page')}", "<a id='other_link' href='" + data.other_url + "' alt='other host'>${_('Link')}</a>", true);
+                            _l += "</table>";
+                            _s += make_tr("${_('Other Information')}", _l, true);
+                            _s += make_space();
+                        }
+
+                        // General
+                        var _g = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+                        _g += make_tr("${_('Name')}", data.model.name);
+                        _g += make_tr("${_('Hostname')}", data.model.hostname);
+                        _g += make_tr("${_('Number of Guests')}", data.model.children.length);
+                        _g += make_tr("${_('Unique key')}", data.model.uniq_key);
+
+                        var tags = "";
+                        if(data.model.tags.length > 0){
+                            for(var i = 0; i < data.model.tags.length; i++){
+                                tags += data.model.tags[i].name + ", ";
+                            }
+                            tags = tags.slice(0, tags.length - 2);
+                        } else {
+                            tags = "${_('No tag')}";
+                        }
+                        _g += make_tr("${_('Tag Name')}", tags);
+
+                        _g += "</table>";
+                        _s += make_tr("${_('General Information')}", _g, true);
+
+                        _s += make_space();
+
+                        // Note
+                        var _n = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+                        var notebook_title = "";
+                        if(data.model.notebook.title != ""){
+                            notebook_title = data.model.notebook.title;
+                        } else {
+                            notebook_title = "${_('untitled')}";
+                        }
+                        _n += make_tr("${_('Title')}", notebook_title);
+
+                        var notebook_value = "";
+                        if(data.model.notebook.value != ""){
+                            notebook_value = data.model.notebook.value;
+                        } else {
+                            notebook_value = "${_('N/A')}";
+                        }
+                        _n += make_tr("${_('Note')}", notebook_value);
+
+                        _n += "</table>";
+                        _s += make_tr("${_('Notebook')}", _n, true);
+
+                        _s += make_space();
+
+                        // Device
+                        if(me_flag == true){  // My host
+                            var _d = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+                            _d += make_tr("${_('Number of CPUs')}", data.cpuinfo["number"]);
+                            _d += make_tr("${_('CPU Vendor')}", data.cpuinfo["vendor"]);
+                            _d += make_tr("${_('CPU Model')}", data.cpuinfo["model"]);
+                            _d += make_tr("${_('CPU Frequency (MHz)')}", data.cpuinfo["frequency"]);
+                            
+                            var total_memory = data.meminfo["total"] / 1024;
+                            var free_memory = (parseInt(data.meminfo["free"]) + parseInt(data.meminfo["buffers"]) + parseInt(data.meminfo["cached"])) / 1024;
+                            _d += make_status_bar("${_('Memory (MB)')}", total_memory, free_memory);
+
+                            var total_disk = data.diskinfo["total"];
+                            var free_disk = data.diskinfo["free"];
+                            _d += make_status_bar("${_('Disk (MB)')}", total_disk, free_disk);
+
+                            _d += "</table>";
+                            _s += make_tr("${_('Device')}", _d, true);
+
+                            _s += make_space();
+                        }
+
+                        // Audit
+                        var _a = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+                        _a += make_tr("${_('Created User')}", data.model.created_user.nickname);
+                        _a += make_tr("${_('Created Date')}", data.model.created);
+                        _a += make_tr("${_('Modified User')}", data.model.modified_user.nickname);
+                        _a += make_tr("${_('Modified Date')}", data.model.modified);
+                        _a += "</table>";
+                        _s += make_tr("${_('Audit')}", _a, true);
+
+                        _s += "</table>";
+                        $("#detail_value").html(_s);
+                    },
+                    false
+                );
+                // privent illegal error by assign class complete ajax communication
+                $("#host div[id^='host_']").each(function() {
+                    $(this).removeClass("active").addClass("passive");
+                });
+                $(this).removeClass("passive").addClass("active");
+                if(typeof(past_active_id) != "undefined"){
+                    $("#host_" + past_active_id).unbind("click.active");
+                }
+            }
+        });
+    });
+
+    $("#add_host").click(function(){
+        grayout_view("GET",
+            "${ctx.homepath}${ctx.path}?mode=input",
+            "${_('Host Settings')}",
+            "${ctx.homepath}${ctx.path}");
+    });
+
+    // tag
+    tag_get_event(
+        "#tag",
+        "#host",
+        "#detail_value",
+        "${ctx.homepath}${ctx.path}".replace(".part", "") + "/tag.part"
+    );
+
+    // init action
+    $("#action>a").hover(
+        function(){tool_over(this);},
+        function(){tool_over(this);}
+    ).mousedown(function(){
+        var id = $(this).attr("id");
+        tool_active(this);
+   });
+    tool_invalid("#edit_host");
+    tool_invalid("#delete_host");
+    
+    renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
+    show_detail_event();
+});
+-->
+</script>
+<div class="alert"></div>
+                    <div id="action">
+		                <div class="left"></div>
+                        <a href="#" class="tool-link" id="add_host">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-add.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div id="host_add"class="tool-text">${_('Add')}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="tool-link" id="edit_host">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-edit.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div id="host_edit"class="tool-text">${_('Edit')}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="tool-link" id="delete_host">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-trash.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div id="host_delete" class="tool-text">${_('Delete')}</div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <div class="right">
+                            <a href="#" class="tool-link" >
+                                <div class="tool-mid">
+                                    <img src="${ctx.homepath}/static/images/reload.gif" alt="renew" id="tool_renew"/>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <br style="clear: both;"/>
+                    <div class="space"></div>
+                    <div id="tag">
+                        <div class="left"></div>
+                        <div class="right"></div>
+                        <div id="tag-main">
+                            <div class="value">
+                                <ul>
+                                    <li>
+                                        <div class="text">${_('Now Loading')}</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="tag-progress"></div>
+                    </div>
+                    <br style="clear: both;"/>
+                    <div id="view">
+                        <div id="host">
+
+% for host in hosts:
+  % if application_uniqkey == host.uniq_key:
+                            <div id="host_${host.id}" class="passive me">
+                                <div class="icon-shadow">
+    % if host.webicon() is None:
+                                    <img src="${ctx.homepath}/static/images/notos.png" alt="" width="114px" height="114px" />
+    % else:
+                                    <img src="${host.webicon()}" alt="" width="114px" height="114px" />
+    % endif
+                                </div>
+                                ${clipping(host.name, MACHINE_NAME_CLIPPING_RANGE) | h}
+                                <br/>
+                                <span class="status">(${_('Host')})</span>
+                            </div>
+% else:
+                            <div id="host_${host.id}" class="passive">
+                                <div class="icon-shadow">
+    % if host.webicon() is None:
+                                    <img src="${ctx.homepath}/static/images/notos.png" alt="" width="114px" height="114px" />
+    % else:
+                                    <img src="${'http://%s%s' % (host.hostname, host.webicon())}" alt="" width="114px" height="114px" />
+    % endif
+                                </div>
+                                ${clipping(host.name, MACHINE_NAME_CLIPPING_RANGE) | h}
+                                <br/>
+                                <span class="status">(${_('Host')})</span>
+                            </div>
+% endif
+% endfor
+                        </div>
+
+	                    </div> 
+                        <br style="clear: both;"/>
+                        <div class="space"></div>
+                        <div id="detail">
+                            <div class="panel">
+                                <div class="wrap">
+                                    <span class="title"> &nbsp;</span>
+		                            <p class="point"> </p>
+                                    <p>
+
+<img src="${ctx.homepath}/static/images/tree-open.gif" alt="" id="show_detail_switch" class="tree-toggle-button"/><span class="msg-title">${_('Details')}</span><br />
+<span id="detail_value">--</span>
+
+
+                                    </p>
+                                    <dl><dt>&nbsp;</dt></dl>
+                                </div>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>

@@ -1,0 +1,156 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%!
+from karesansui.lib.template import clipping
+from karesansui.lib.const import MACHINE_NAME_CLIPPING_RANGE
+%>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+    var interval = 10000;
+
+    // log message click event
+    $("table#msg_list tbody tr[id*='msg_row']").click(function(){ 
+        if(this.className.indexOf('active') != -1){
+
+            // parameter
+            var current_id = $(this).attr("id").replace("msg_row", "");
+            var parent_id = $("table#msg_list tbody tr#msg_row" + current_id + " input[name=pid]").attr("value");
+            var machine_id = $("table#msg_list tbody tr#msg_row" + current_id + " input[name=mid]").attr("value");
+
+            // tab selected
+            $("#tab .text ul li[class*='tab-selected']").removeClass('tab-selected');
+            $("#tab .text ul li a[id*=job]").parent().addClass('tab-selected');
+
+            // guest job
+            if(parent_id.match(/[0-9]+/) && machine_id.match(/[0-9]+/)){
+                if(location.href.indexOf('/host/'+parent_id+'/guest/'+machine_id) != -1){
+                    goto_tab("${ctx.homepath}/host/"+parent_id+"/guest/"+machine_id+"/job.part", null);     
+                }else{
+                    location.href="${ctx.homepath}/host/"+parent_id+"/guest/"+machine_id+"/?job_id="+current_id;
+                }
+
+            // host job
+            }else if(parent_id == "None" && machine_id.match(/[0-9]+/)){
+                if(location.href.indexOf("/host/"+machine_id) != -1 && location.href.indexOf("/guest/") == -1){
+                    goto_tab("${ctx.homepath}/host/"+machine_id+"/job.part", null);
+                }else{
+                    location.href="${ctx.homepath}/host/"+machine_id+"/?job_id="+current_id;
+                }
+        
+            // top job
+            }else{
+                if(location.href.indexOf("/host/") == -1 && location.href.indexOf("/guest/") == -1 ){
+                    goto_tab("${ctx.homepath}/job.part", null);
+                }else{
+                    location.href="${ctx.homepath}/?job_id="+current_id;
+                }
+            }
+
+            // detail
+            ajax_get(
+                "#detail_value",
+                "${ctx.homepath}/job/" + current_id + ".part",
+                null
+            );
+
+            // hi light
+            $("table#job_list tbody tr#job_row" + current_id).addClass('active');
+            
+        } 
+    }); 
+
+    $("#msg_list").tablesorter({
+        widgets: ['zebra', 'select']
+    });
+
+    var state = true; 
+    $('*[id*="msg_status"]').each(function(idx){
+        if(state){
+            /* var state_text = $(this).text().trim(); */
+            var state_text = $(this).text().replace(/^[\s　]+|[\s　]+$/g, '')
+
+            if(state_text == "RUN"){
+                $("#job_run").attr("src", "${ctx.homepath}/static/images/stat-on.gif");
+                state = false;
+
+                timer = setTimeout(function(){
+                    renew_msg(true);
+                }, interval);
+            } else if(state_text == "PEND"){
+                timer = setTimeout(function(){
+                    renew_msg(true);
+                }, interval);
+
+            } else if(state){
+                /* DO NOT REACH WHEN CHANGE $("#job_run").attr("src")*/ 
+                $("#job_run").attr("src", "${ctx.homepath}/static/images/stat-off.gif");
+            }
+        }
+    });
+
+    // .unbind use because, when grayout close two or more event binding
+    $("#msg-renew-button").unbind("click.renew_msg").one("click.renew_msg", function(){
+        renew_msg(true);
+    });
+
+});
+
+
+// -->
+</script>
+                <table id="msg_list" class="tablesorter">
+                    <thead>
+                        <tr>
+                            <th>${_('ID')}</th>
+                            <th>${_('Name')}</th>
+                            <th>${_('Machine Name')}</th>
+                            <th>${_('User Name')}</th>
+                            <th>${_('Status')}</th>
+                            <th>${_('Progress')}</th>
+                            <th>${_('Date Created')}</th>
+                            <th>${_('Modified Date')}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+% for msg in msgs:
+                        <tr id="msg_row${msg['id']}">
+                            <input type="hidden" name="pid" value="${msg['machine_parent_id']}">
+                            <input type="hidden" name="mid" value="${msg['machine_id']}">
+                            <td id="msg_id${msg['id']}" align="center">${msg['id'] | h}</td>
+                            <td id="msg_name${msg['id']}">${msg['name'] | h}</td>
+    % if msg['machine_name'] is None:
+                            <td id="msg_machune_name${msg['id']}">${_('N/A')}</td>
+    % else:
+                            <td id="msg_machune_name${msg['id']}">${clipping(msg['machine_name'], MACHINE_NAME_CLIPPING_RANGE) | h}</td>
+    % endif
+    % if msg['user_name'] is None:
+                            <td id="msg_create_user${msg['id']}">${_('N/A')}</td>
+    % else:
+                            <td id="msg_create_user${msg['id']}">${msg['user_name'] | h}</td>
+    % endif
+    % for k,v in JOBGROUP_STATUS.iteritems():
+        % if v == msg['status']:
+            % if v == JOBGROUP_STATUS['NG'] or v == JOBGROUP_STATUS['APPERR']:
+                            <td id="msg_status${msg['id']}">
+                                <span class="notice-text">${k | h}</span>
+                            </td>
+            % else:
+                            <td id="msg_status${msg['id']}">
+                                <span>${k | h}</span>
+                            </td>
+            % endif
+        % endif
+    % endfor
+                            <td id="msg_progres${msg['id']}" title="${msg['progress'] | h}%">
+                                <span class="progress">
+                                    <em class="progress-cover" style="left: ${msg['progress'] | h}%;">${msg['progress'] | h}%</em>
+                                </span>
+                            </td>
+                            <td id="msg_create${msg['id']}">${msg['created'].strftime(date_format) | h}</td>
+                            <td id="msg_modified${msg['id']}">${msg['modified'].strftime(date_format) | h}</td>
+                        </tr>
+% endfor
+                    </tbody>
+		        </table>

@@ -1,0 +1,21 @@
+.accordion-header{
+    outline: none;
+    cursor: pointer;
+    background-color: #CCCCCC;
+    border: 1px solid #AAAAAA;
+    padding: 5px;
+}
+
+.accordion-header-icon{
+    width: 12px;
+    height: 12px;
+    float: left;
+    background-image: url(../images/tree-close.gif);
+}
+
+.accordion-header-icon-open{
+    width: 12px;
+    height: 12px;
+    float: left;
+    background-image: url(../images/tree-open.gif);
+}

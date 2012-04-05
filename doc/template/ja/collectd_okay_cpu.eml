@@ -1,0 +1,7 @@
+X-Mailer: %{app_name}
+Subject: [Karesansui Notifier] 正常値に戻りました。CPU (論理CPU番号:%{plugin_instance}) - %{type_instance}
+
+レポート時刻: %{time}
+
+ホスト %{host} の CPU (論理CPU番号:%{plugin_instance}) の %{type_instance} が正常値に戻りました。
+

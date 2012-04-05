@@ -1,0 +1,10 @@
+X-Mailer: %{app_name}
+Subject: [Karesansui Notifier] 警告値を越えました。メモリ (%{type_instance})
+
+レポート時刻: %{time}
+
+ホスト %{host} の メモリ (%{type_instance}) が警告値を越えました。
+
+警告値は、%{threshold_value} に設定されています。
+現在の値は、 %{current_value} です。
+

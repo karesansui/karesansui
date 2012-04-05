@@ -1,0 +1,55 @@
+#log_tree {
+    float: left;
+    height: 150px;
+    padding:2px 0px;
+}
+
+#log-tree span {
+    padding:2px 0px;
+    display:inline-block;
+}
+
+#log_toolbar {
+    background-color: #E4E4DD;
+    text-align: left;
+}
+
+#log_toolbar * {
+    vertical-align: middle;
+}
+
+#log_value {
+    background-color: #FFFFFF;
+    text-align: left;
+    white-space: nowrap;
+    overflow: auto;
+}
+
+#log-tree div.child{
+    padding-left: 30px;
+    cursor: pointer;
+}
+
+#log-tree div.parent {
+    padding-left: 10px;
+    cursor: pointer;
+}
+
+.log-highlight {
+    background-color: #A9CF15;
+}
+
+#log-content>* {
+    padding: 2px;
+}
+
+.log-content-odd {
+    background-color: #FFFFFF;
+}
+.log-content-even {
+    background-color: #F0F4EC;
+}
+
+span.match_keyword {
+	background-color: #FFCDCD;
+}

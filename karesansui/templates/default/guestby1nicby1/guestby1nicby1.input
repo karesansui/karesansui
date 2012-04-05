@@ -1,0 +1,76 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+$(document).ready(function() {
+    function validates_nic() {
+        var check = true;
+        ERROR_MSG = "";
+
+        check = check_macaddr($("#mac_address"),
+                            CHECK_EMPTY | CHECK_VALID,
+                            "${_('MAC Address')}") && check; 
+
+        if(!check){
+            show_alert_msg(ERROR_MSG, "ERROR");
+        }
+        return check;
+    }
+
+    ajax_put_event("#nic_setting_button",
+        "${ctx.homepath}${ctx.path}",
+        "#nic_input_form",
+        validates_nic);
+
+    helptip("#device_nic_source_type_help",
+            "${_('Interface Type')}",
+            "${_('Network connection type of the network interface.')}");
+
+    helptip("#device_nic_source_bridge_help",
+            "${_('Source Bridge')}",
+            "${_('Device name of the host bridge which the guest network interface is connected.')}");
+
+    helptip("#device_nic_mac_address_help",
+            "${_('MAC Address')}",
+            "${_('MAC address of the guest network interface.')}");
+});
+-->
+</script>
+
+<div id="nic_setting">
+    <form action="${ctx.homepath}${ctx.path}" method="post" id="nic_input_form" name="nic_input_form">
+    
+        <div class="grayout-head">
+            <span class="grayout-title">
+                <a href="#" id="nic" class="path-a"><img src="${ctx.homepath}/static/images/settings-title.gif">${_('NIC Settings')}</a>
+            </span>
+            <br style="clear: both;"/>
+        </div>
+
+        <div class="grayout-contents">
+            <div class="grayout-param">${_('Interface Type')}<span id="device_nic_source_type_help" /></div>
+            <div class="grayout-value grayout-form">
+                ${nic_info['type']}
+            </div>
+            <div class="grayout-param">${_('Source Bridge')}<span id="device_nic_source_bridge_help" /></div>
+            <div class="grayout-value grayout-form">
+                ${nic_info['source']['bridge']}
+            </div>
+            <div class="grayout-param">${_('MAC Address')}<span id="device_nic_mac_address_help" /></div>
+            <div class="grayout-value grayout-form">
+                <input type="text" name="mac_address" value="${nic_info['mac']['address']}" id="mac_address" size="45" maxlength="17"/><span class="require-text">${_('Require')}</span>
+            </div>
+
+            <div class="grayout-footer">
+                <input type="hidden" name="_method" id="_method" />
+                <a href="#" name="nic_setting_button" id="nic_setting_button" class="button">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Configure')}</span>
+                </a>
+                <br style="clear: both;"/>
+            </div>
+
+            <br style="clear: both;"/>
+          </div>
+      </form>
+</div>

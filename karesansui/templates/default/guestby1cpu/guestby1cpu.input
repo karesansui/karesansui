@@ -1,0 +1,101 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function validates_cpu(){
+    var check = true;
+    ERROR_MSG = "";
+
+    check = check_number(
+                $("#max_vcpus"),
+                CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                "${_('Maximum Number of Virtual CPUs')}",
+                1,
+                ${max_vcpus_limit}
+            ) && check;
+
+% if vcpus is not None and hypervisor != "QEMU":
+    check = check_number(
+                $("#vcpus"),
+                CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                "${_('Number of Virtual CPUs')}",
+                1,
+                ${vcpus_limit}
+            ) && check;
+% endif
+
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG);
+    }
+    return check;
+}
+
+$(document).ready(function() {
+    ajax_put_event("#edit_cpu_button",
+        "${ctx.homepath}${ctx.path}",
+        "#cpu_setting :input",
+        validates_cpu);
+
+    helptip("#device_cpu_time_help",
+            "${_('Consumed CPU Time')}",
+            "${_('CPU time which the guest consumed in the real world.')}");
+
+    helptip("#device_cpu_max_vcpus_help",
+            "${_('Maximum Allocatable Virtual CPUs')}",
+            "${_('Maximum number of virtual CPUs allowed to allocate to this guest.')}");
+
+    helptip("#device_cpu_bootup_max_vcpus_help",
+            "${_('Change Maximum Allocatable Virtual CPUs')}",
+            "${_('Change the max value allowed for virtual CPU allocations. Will be valid on next guest bootup.')}");
+
+    helptip("#device_cpu_vcpus_help",
+            "${_('Number of Virtual CPUs to Allocate')}",
+            "${_('Specify how many CPUs you like to allocate to the guest.')}");
+});
+-->
+</script>
+
+<div id="cpu_setting">
+    <form action="" method="post" id="cpu_edit_form" name="cpu_edit_form">
+    
+        <div class="grayout-head">
+            <span class="grayout-title">
+                <img src="${ctx.homepath}/static/images/settings-title.gif">${_('CPU Information')}
+            </span>
+            <br style="clear: both;"/>
+        </div>
+
+        <div class="grayout-contents">
+
+            <div class="grayout-param">${_('CPU Time (seconds)')}<span id="device_cpu_time_help" /></div>
+            <div class="grayout-value grayout-form">
+                ${"%.2f" % (cpuTime / (1000.00 * 1000.00 * 1000.00)) | h}
+            </div>
+            <div class="grayout-param">${_('Maximum Allocatable Virtual CPUs')}<span id="device_cpu_max_vcpus_help" /></div>
+            <div class="grayout-value grayout-form">
+                ${vcpus_limit | h}
+            </div>
+            <div class="grayout-param">${_('Change Maximum Allocatable Virtual CPUs')} (${_('This will be enabled on next guest bootup')})<span id="device_cpu_bootup_max_vcpus_help" /></div>
+            <div class="grayout-value grayout-form">
+                <input type="text" id="max_vcpus" name="max_vcpus" value="${max_vcpus | h}" size="4" maxlength="3"/> (${_('Allowable Range: %d - %d') % (1, max_vcpus_limit) | h})<span class="require-text">${_('Require')}</span>
+            </div>
+            <div class="grayout-param">${_('Number of Virtual CPUs to Allocate')}<span id="device_cpu_vcpus_help" /></div>
+            <div class="grayout-value grayout-form">
+% if vcpus is None or hypervisor == "QEMU":
+                --
+% else:
+                <input type="text" id="vcpus" name="vcpus" value="${vcpus | h}" size="4" maxlength="3"/> (${_('Allowable Range: %d - %d') % (1, vcpus_limit) | h})<span class="require-text">${_('Require')}</span>
+% endif
+            </div>
+
+            <div class="grayout-footer">
+                <a href="#" name="edit_cpu_button" id="edit_cpu_button" class="button">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Edit')}</span>
+                </a>
+                <br style="clear: both;"/>
+            </div>
+            <br style="clear: both;"/>
+        </div>
+    </form>
+</div>

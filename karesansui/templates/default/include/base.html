@@ -1,0 +1,143 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-script-type" content="text/javascript" />
+<meta http-equiv="content-style-type" content="text/css" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Cache-Control" content="no-cache" />
+<title>${title}</title>
+<link rel="shortcut icon" href="${ctx.homepath}/static/images/favicon.ico" type="image/x-icon" />
+<link rel="icon" href="${ctx.homepath}/static/images/favicon.ico" type="image/x-icon" />
+<%namespace name="common" file="common.part" />
+${common.css()}
+${common.js()}
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+
+ajax_get("#msg .m-panel .m-wrap #mouter #mguide #minner #msg_display",
+    "${ctx.homepath}/msg.part", null);
+ajax_get("#tree_display", "${ctx.homepath}/tree.part", null);
+
+$("img[id*=renew-button]").mousedown(function(){
+    $(this).attr("src", "${ctx.homepath}/static/images/reload-on_click.gif");
+}).mouseup(function(){
+    $(this).attr("src", "${ctx.homepath}/static/images/reload.gif");
+}).mouseout(function(){
+    $(this).attr("src", "${ctx.homepath}/static/images/reload.gif");
+});
+
+});
+// -->
+</script>
+<style type="text/css">
+<!--
+-->
+</style>
+</head>
+<body>
+<div id="ajax">
+    <div id="_ajax1_lock" class="error" style="display:none;">
+        <div class="error-message">
+        </div>
+    </div>
+</div>
+<div id="screen" style="display: none"></div>
+<div id="dialog" style="display: none"></div>
+<div id="page">
+    <div id="header">
+<%include file="header.part" />
+    </div>
+    <br style="clear: both;"/>
+
+    <div id="breadcrumbs">
+${self.breadcrumbs()}
+    </div>
+    <br style="clear: both;"/>
+
+    <div id="bar"></div>
+    <br style="clear: both;"/>
+
+    <div id="main">
+        <div id="content">
+            <div id="tab">
+${self.tab()}
+            </div>
+            <div class="c-panel">
+                <div class="c-wrap">
+                    <span class="c-title"><div class="c-text">&nbsp;</div></span>
+                    <p class="c-point"></p>
+                    <div id="show">
+<div align="center">
+    <img src="${ctx.homepath}/static/images/now-loading-main.gif" alt="Now Loading" />
+</div>
+${self.show()}
+                    </div>
+
+
+                    <div class="end">
+                        <div class="left"></div>
+                        <div class="mid"></div>
+                        <div class="right"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="extra">
+            <div class="t-panel">
+                <div class="t-wrap">
+                    <span class="t-title"><div class="t-text">
+                        <img src="${ctx.homepath}/static/images/tree-title.gif" alt="" />${_('Domain tree')}
+                    </div></span>
+                    <p class="t-point">
+                        <img src="${ctx.homepath}/static/images/reload.gif" alt="" id="tree-renew-button" class="tree-renew-button"/>
+                    </p>
+			        <div id="box">
+			            <div class="space"></div>
+                            <div class="value">
+                                <div id="tree_display">
+<div align="center">
+    <img src="${ctx.homepath}/static/images/now-loading-tree.gif" alt="Now Loading" />
+</div>
+                                </div>
+                            </div>
+                        </div>
+                    <dl><dt>&nbsp;</dt></dl>
+                </div>
+	        </div>
+        </div>
+    </div>
+
+    <div id="msg">
+        <div class="m-panel">
+            <div class="m-wrap">
+                <span class="m-title">
+		            <div class="m-text"><img src="${ctx.homepath}/static/images/log-title.gif" alt="" />${_('Log message')}
+                    </div>
+		        </span>
+		        <p class="m-point">
+                    <img id="msg-renew-button" class="msg-renew-button" src="${ctx.homepath}/static/images/reload.gif" alt="" />
+                </p>
+<!-- <p> -->
+	            <div id="mouter">
+	                <div id="mguide">
+	                    <div class="space"></div>
+	                    <div id="minner">
+                            <div id="msg_display">
+<div align="center">
+    <img src="${ctx.homepath}/static/images/now-loading.gif" alt="Now Loading" />
+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!-- </p> -->
+                <dl><dt>&nbsp;</dt></dl>
+            </div>
+         </div>
+    </div>
+
+</div>
+</body>
+</html>

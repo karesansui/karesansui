@@ -1,0 +1,314 @@
+.c-panel {
+    max-width: 1900px;
+    background: #e9e9e9 url(../images/t-ml.gif) repeat-y;
+    color: #333;
+    font-size: 92%;
+    margin-top: 30px;
+}
+
+.c-panel .c-wrap {
+background: url(../images/c-mr.gif) repeat-y right top;
+} 
+
+.c-panel .c-wrap span.c-title {
+float: left;
+width: 100%;
+line-height: 10px;
+margin-right: -140px;
+background: url(../images/c-tl.gif) no-repeat;
+}
+
+.c-panel .c-wrap span.t-title .c-text {
+padding-left: 12px;
+font-size:13px;
+}
+
+.c-panel .c-wrap p.c-point {
+clear: none;
+float: right;
+width: 120px;
+height: 6px;
+margin: 0 0 -61px;
+padding: 23px 20px 0 0;
+background: url(../images/c-tr.gif) no-repeat right top;
+text-align: right;
+font-size: 82%;
+margin-bottom: -15px;
+}
+
+.tcpanel .t-wrap p {
+clear: both;
+margin: 20px;
+padding-bottom: 20px;
+}
+
+.c-panel .c-wrap dl {
+list-style-type: none;
+height: 6px;
+margin-top: -20px;
+background: url(../images/c-br.gif) no-repeat right bottom;
+}
+
+.c-panel .c-wrap dl dt {
+float: left;
+line-height: 6px;
+padding-left: 20px;
+background: url(../images/c-bl.gif) no-repeat left top;
+}
+
+.c-panel .c-wrap dl dd {
+float: left;
+padding-top: 20px;
+padding-left: 7px;
+}
+.c-panel .c-wrap span.c-title a:link,
+.c-panel .c-wrap span.c-title a:visited {
+color: #33f;
+}
+.c-panel .c-wrap span.c-title a:hover {
+color: #66f;
+}
+/** tree panel end **/
+
+
+
+/** panel start **/
+.panel {
+    max-width: 1600px;
+    background: #FFFFFF url(../images/ml.gif) repeat-y;
+    color: #000000;
+    font-size: 10px;
+    margin: 0 10px 0 10px;
+}
+
+.panel .wrap {
+background: url(../images/mr.gif) repeat-y right top;
+} 
+
+.panel .wrap span.title {
+float: left;
+width: 100%;
+line-height: 10px;
+margin-right: -140px;
+background: url(../images/tl.gif) no-repeat;
+}
+
+.panel .wrap span.title a {
+margin-left: 20px;
+}
+
+.panel .wrap p.point {
+clear: none;
+float: right;
+width: 120px;
+height: 10px;
+margin: 0 0 -61px;
+padding: 23px 20px 0 0;
+background: url(../images/tr.gif) no-repeat right top;
+text-align: right;
+font-size: 82%;
+margin-bottom: -15px;
+}
+
+.panel .wrap p {
+clear: both;
+margin: 20px;
+padding-bottom: 20px;
+}
+
+.panel .wrap dl {
+list-style-type: none;
+height: 6px;
+margin-top: -20px;
+background: url(../images/br.gif) no-repeat right bottom;
+}
+
+.panel .wrap dl dt {
+float: left;
+line-height: 6px;
+padding-left: 20px;
+background: url(../images/bl.gif) no-repeat left top;
+}
+
+.panel .wrap dl dd {
+float: left;
+padding-top: 20px;
+padding-left: 7px;
+}
+.panel .wrap span.title a:link,
+.panel .wrap span.title a:visited {
+color: #33f;
+}
+.panel .wrap span.title a:hover {
+color: #66f;
+}
+
+/** tree panel start **/
+.t-panel {
+    max-width: 1900px;
+    background: #ecede8 url(../images/t-ml.gif) repeat-y;
+    color: #333;
+    font-size: 92%;
+	margin-top: 22px;
+}
+
+.t-panel .t-wrap {
+background: url(../images/t-mr.gif) repeat-y right top;
+} 
+
+.t-panel .t-wrap span.t-title {
+float: left;
+width: 100%;
+line-height: 30px;
+margin-right: -140px;
+background: url(../images/t-tl.gif) no-repeat;
+}
+
+.t-panel .t-wrap span.t-title .t-text {
+padding-left: 12px;
+font-size:13px;
+width: 100%;
+}
+
+.t-panel .t-wrap p.t-point {
+clear: none;
+float: right;
+width: 120px;
+height: 6px;
+margin: 0 0 -61px;
+padding: 23px 20px 0 0;
+background: url(../images/t-tr.gif) no-repeat right top;
+text-align: right;
+font-size: 82%;
+margin-bottom: -15px;
+}
+
+.t-point img.tree-renew-button {
+cursor: pointer;
+position: relative;
+left: 10px;
+bottom: 18px;
+}
+
+img.tree-toggle-button {
+cursor: pointer;
+padding: 3px;
+}
+
+.t-panel .t-wrap p {
+clear: both;
+margin: 20px;
+padding-bottom: 20px;
+}
+
+.t-panel .t-wrap dl {
+list-style-type: none;
+height: 6px;
+margin-top: -20px;
+background: url(../images/t-br.gif) no-repeat right bottom;
+}
+
+.t-panel .t-wrap dl dt {
+float: left;
+line-height: 6px;
+padding-left: 20px;
+background: url(../images/t-bl.gif) no-repeat left top;
+}
+
+.t-panel .t-wrap dl dd {
+float: left;
+padding-top: 20px;
+padding-left: 7px;
+}
+.t-panel .t-wrap span.t-title a:link,
+.t-panel .t-wrap span.t-title a:visited {
+color: #33f;
+}
+.t-panel .t-wrap span.t-title a:hover {
+color: #66f;
+}
+
+/** tree panel end **/
+
+
+/** panel end **/
+
+/** msg panel start **/
+.m-panel {
+    max-width: 1900px;
+    background: #FFFFFF url(../images/m-ml.gif) repeat-y;
+    color: #333;
+    font-size: 92%;
+}
+
+.m-panel .m-wrap {
+background: url(../images/m-mr.gif) repeat-y right top;
+} 
+
+.m-panel .m-wrap span.m-title {
+float: left;
+width: 100%;
+line-height: 30px;
+margin-right: -140px;
+background: url(../images/m-tl.gif) no-repeat;
+}
+
+.m-panel .m-wrap span.m-title .m-text {
+padding-left: 12px;
+font-size:13px;
+}
+
+
+
+.m-panel .m-wrap p.m-point {
+clear: none;
+float: right;
+width: 120px;
+height: 6px;
+margin: 0 0 -61px;
+padding: 23px 20px 0 0;
+background: url(../images/m-tr.gif) no-repeat right top;
+text-align: right;
+font-size: 82%;
+margin-bottom: -15px;
+}
+
+.m-point img.msg-renew-button{
+    cursor: pointer;
+    position: relative;
+    left: 6px;
+    bottom: 15px;
+}
+
+.m-panel .m-wrap p {
+clear: both;
+margin: 20px;
+padding-bottom: 20px;
+}
+
+.m-panel .m-wrap dl {
+list-style-type: none;
+height: 6px;
+margin-top: -20px;
+background: url(../images/m-br.gif) no-repeat right bottom;
+}
+
+.m-panel .m-wrap dl dt {
+float: left;
+line-height: 6px;
+padding-left: 20px;
+background: url(../images/m-bl.gif) no-repeat left top;
+}
+
+.m-panel .m-wrap dl dd {
+float: left;
+padding-top: 20px;
+padding-left: 7px;
+}
+.m-panel .m-wrap span.m-title a:link,
+.m-panel .m-wrap span.m-title a:visited {
+color: #33f;
+}
+.m-panel .m-wrap span.m-title a:hover {
+color: #66f;
+}

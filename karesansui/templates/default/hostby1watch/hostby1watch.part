@@ -1,0 +1,255 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+
+    // list
+    $("#watch_list").tablesorter({
+        widgets: ['zebra', 'select']
+    });
+
+    // display detail in detail window
+    $("tr[id^='watch_list_row']").click(function(){
+        var id;
+        var uri;
+
+        id = $(this).attr("id").replace("watch_list_row", "");
+        uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+        var url = uri + "/" + id + '.part';
+        ajax_get(
+            "#detail_value",
+            url,
+            null,
+            true
+        );
+    });
+
+
+    $("#watch_list tbody tr").each(function(){
+        $(this).one("click.once", function(){
+            // edit
+            $("#edit_watch").one("click", function(){
+                var uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+                var target_id = selected_row("watch_list_row");
+
+                if(target_id == undefined){
+                    show_alert_msg("${_('Please select a target.')}", "ERROR");
+                    tool_reset("#edit_watch");
+                } else {
+                    var url = uri + "/" + target_id + ".part?mode=input";
+                    grayout_view("GET",
+                        url,
+                        "${_('Watch Settings')}",
+                        "${ctx.homepath}${ctx.path}");
+                }
+            });
+            tool_reset("#edit_watch");
+
+            // delete
+            $("#delete_watch").click(function(){
+                var uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+                var target_id = selected_row("watch_list_row");
+
+                if(target_id == undefined){
+                    show_alert_msg("${_('Please select a target.')}", "ERROR");
+                    tool_reset("#delete_watch");
+                } else {
+                    var url = uri + "/" + target_id + ".part";
+                    var param = null;
+                    delete_dialog("#dialog", url, param, "${ctx.homepath}${ctx.path}", "#delete_watch", "");
+                }
+            });
+            tool_reset("#delete_watch");
+
+            $("#watch_list tbody tr").each(function(){
+                $(this).unbind("click.once");
+            });
+        });
+    });
+
+    // add
+    $("#add_watch").click(function(){
+        grayout_view("GET",
+        "${ctx.homepath}${ctx.path}?mode=input",
+        "${_('Watch Settings')}",
+        "${ctx.homepath}${ctx.path}");
+    });
+
+    // pager
+    $("a[id*='watch_page']").click(function(){
+        var page = $(this).attr("id").replace("watch_page", "");
+        var search = $("#search_value").serialize().replace("q=", "");
+        var query = "?p=" + page;
+        if(search != ""){
+            query = query + "&q=" + search;
+        }
+        ajax_get(
+            "#watch_display",
+            "${ctx.homepath}${ctx.path}" + query,
+            null
+        );
+    });
+
+    // search
+    $("#search_button").click(function(){
+        var search = $("#search_value").serialize().replace("q=", "");
+        var query = "";
+        if(search != ""){
+            query = query + "?q=" + search;
+        }
+        ajax_get(
+            "#watch_display",
+            "${ctx.homepath}${ctx.path}" + query,
+            null
+        );
+    });
+
+    // init
+    $("#action>a").hover(
+        function(){tool_over(this);},
+        function(){tool_over(this);}
+    ).mousedown(function(){
+        var id = $(this).attr("id");
+        tool_active(this);
+    });
+
+    tool_invalid("#edit_watch");
+    tool_invalid("#delete_watch");
+    button_effect("#search_button");
+    renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
+    show_detail_event();
+});
+// -->
+</script>
+<style type="text/css">
+</style>
+                    <div id="watch_display">
+                        <div id="action" >
+                            <div class="left"></div>
+                            <a href="#" class="tool-link" name="add_watch" id="add_watch">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-add.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text" >${_('Add')}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="tool-link" name="edit_watch" id="edit_watch">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-edit.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text" >${_('Edit')}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="tool-link" name="delete_watch" id="delete_watch">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-trash.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text" >${_('Delete')}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="right">
+                                <a href="#" class="tool-link" >
+                                    <div class="tool-mid">
+                                        <img src="${ctx.homepath}/static/images/reload.gif" alt="renew" id="tool_renew"/>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>
+
+                        <div class="space"></div>
+                        <div class="alert"></div>
+
+                        <div id="view">
+
+                            <div id="list-box">
+                                <div id="minner">
+                                    <div id="watch-search" style="text-align: right;">
+                                        <input type="text" id="search_value" name="q" value="${search_value}" maxlength="256">&nbsp;&nbsp;
+                                        <a href="#" name="search_button" id="search_button" class="button">
+                                            <span class="button-left">&nbsp;</span><span class="button-right">${_('Search')}</span><br/><br/>
+                                        </a>
+                                    </div>
+
+                                    <div class="pager">
+% if pager.exist_prev_page():
+                                        &nbsp;&nbsp;<a href="#"  name="p" id="watch_page${pager.get_prev_page()}"><img name="pager_button" class="prev" src="${ctx.homepath}/static/images/list-pre.gif" alt="prev" /></a>
+% else:
+                                        &nbsp;&nbsp;<img name="pager_button" class="prev" src="${ctx.homepath}/static/images/list-pre-invalid.gif" alt="prev" />
+% endif
+% if pager.get_page_list() == []:
+                                        &nbsp;&nbsp;<span class="active">0</span>
+% else:
+    % for x in pager.get_page_list():
+        % if pager.is_now_page(x):
+                                        &nbsp;&nbsp;<span class="active">${x}</span>
+        % else:
+                                        &nbsp;&nbsp;<a href="#" class="link" name="p" id="watch_page${x}">${x}</a>
+        % endif
+    % endfor
+% endif
+% if pager.exist_next_page():
+                                        &nbsp;&nbsp;<a href="#"  name="p" id="watch_page${pager.get_next_page()}"><img name="pager_button" class="next" src="${ctx.homepath}/static/images/list-next.gif" alt="next" /></a>
+% else:
+                                        &nbsp;&nbsp;<img name="pager_button" class="next" src="${ctx.homepath}/static/images/list-next-invalid.gif" alt="next" />
+% endif
+                                        <span class="search-result">[${pager.get_start()}&nbsp;-&nbsp;${pager.get_end()}]&nbsp;of&nbsp;${pager.get_total()}</span>
+                                    </div>
+                                    <br>
+
+                                    <table id="watch_list" class="tablesorter">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 5%;">${_('ID')}</th>
+                                                <th style="width: 30%;">${_('Watch Machine')}</th>
+                                                <th style="width: 15%;">${_('Watch Target')}</th>
+                                                <th style="width: 50%;";>${_('Name')}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+% for watch in pager.get_displays():
+                                            <tr id="watch_list_row${watch.id}">
+                                                <td align="center">${watch.id |h}</td>
+                                                <td>${watch.machine.name |h}</td>
+                                                <td>${watch.plugin |h}</td>
+                                                <td>${watch.name |h}</td>
+                                            </tr>
+% endfor
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br style="clear: both;"/>
+                            </div>
+                        </div>
+
+                        <br style="clear: both;"/>
+                        <div class="space"></div>
+                        <div id="detail">
+                            <div class="panel">
+                                <div class="wrap">
+                                    <span class="title"> &nbsp;</span>
+                                    <p class="point"> </p>
+                                    <p>
+                                            <img src="${ctx.homepath}/static/images/tree-open.gif" alt="" id="show_detail_switch" class="tree-toggle-button"/><span class="msg-title">${_('Details')}</span><br />
+                                    <span id="detail_value">--</span>
+                                    </p>
+                                    <dl><dt>&nbsp;</dt></dl>
+                                </div>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>
+                    </div>

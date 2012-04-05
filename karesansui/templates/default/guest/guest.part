@@ -1,0 +1,929 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<%!
+from karesansui.lib.template import img_status, str_status, clipping
+from karesansui.lib.const import MACHINE_NAME_CLIPPING_RANGE
+%>
+<script type="text/javascript">
+<!--
+// lib
+function guest_location(id){
+    var uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+    location.href = uri + "/" + id + ".html";
+}
+
+function get_target_type(obj){
+    var ret = null;
+    if(obj.is("[id^='export_']")){
+        ret = "export";
+    }
+    if(obj.is("[id^='guest_']")){
+        ret = "guest";
+    }
+    return ret;
+}
+
+function get_target_active(){
+    var ret = null;
+    $("#guests div").each(function(){
+        if($(this).hasClass("active") == true){
+            ret = $(this);
+        }
+    });
+    return ret;
+}
+
+
+function get_target_id(){
+    var target_id = null;
+    var target = get_target_active();
+    var type = get_target_type(target);
+    if(type == "export"){
+        target_id = target.attr("id").replace("export_", "");
+    }
+    if(type == "guest"){
+        target_id = target.attr("id").replace("guest_", "");
+    }
+    return target_id;
+}
+
+function make_status_bar(name, total, free){
+    var used = Math.round(total - free);
+    var used_percent = Math.round(100 - ((free / total) * 100));
+    var _status;
+
+    total = Math.round(total);
+    free = Math.round(free);
+
+    _status_bar = '<table cellspacing="2" cellpadding="0" class="detail-sub-contents detail-status-contents" >'
+                    + '<td><span class="status-bar-active" title="'
+                    + '${_("Used")}: '
+                    + used + 'MB"><em title="'
+                    + '${_("Free")}: '
+                    + free + 'MB" class="status-bar-back" style="left: '
+                    + used_percent + '%;">'
+                    + used_percent + '%</em></span></td><td>'
+                    + used + ' / '
+                    + total + ' MB</td></table>';
+    return make_tr(name, _status_bar, true);
+}
+
+
+function make_export_detail(data, status) {
+    var _s = "<table class='detail-contents'>";
+
+    // Info
+    var _g = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+    _g += make_tr("${_('Name')}", data.info.title);
+    _g += make_tr("${_('UUID')}", data.xml.uuid);
+    _g += make_tr("${_('Domain Name')}", data.xml.domain_name);
+    _g += make_tr("${_('Domain Type')}", data.xml.domain_type);
+
+    //_g += make_tr("${_('PAE')}", data.xml.features_pae);
+
+    //_g += make_tr("${_('On Reboot')}", data.xml.on_reboot);
+    //_g += make_tr("${_('ACPI')}", data.xml.features_acpi);
+    //_g += make_tr("${_('On Poweroff')}", data.xml.on_poweroff);
+    //_g += make_tr("${_('On Crash')}", data.xml.on_crash);
+    //_g += make_tr("${_('APIC')}", data.xml.features_apic);
+
+    //_g += make_tr("${_('Boot Dev')}", data.xml.boot_dev);
+    _g += "</table>";
+
+    _s += make_tr("${_('General Information')}", _g, true);
+    _s += make_space();
+
+    // Export Info
+    var _e = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+    _e += make_tr("${_('UUID')}", data.info.uuid);
+    _e += make_tr("${_('Directory')}", data.info.dir);
+    // TRANSLATORS:
+    // 作成日時
+    _e += make_tr("${_('Created')}", data.info.created_str);
+    _e += "</table>";
+
+    // TRANSLATORS:
+    // エクスポート情報    
+    _s += make_tr("${_('Export Information')}", _e, true);
+    _s += make_space();
+
+    // CPU
+    var _c = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+
+    _c += make_tr("${_('VCPUS')}", data.xml.vcpus);
+    //_c += make_tr("${_('VCPU Limit')}", data.xml.vcpus_limit);
+    //_c += make_tr("${_('Max VCPUS')}", data.xml.max_vcpus);
+    //_c += make_tr("${_('VCPU Limit')}", data.xml.max_vcpus_limit);
+
+    _c += "</table>";
+    _s += make_tr("${_('CPU Info')}", _c, true);
+    _s += make_space();
+
+    // VNC
+    var _v = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+
+    _v += make_tr("${_('VNC Listen')}", data.xml.vnc_listen);
+    _v += make_tr("${_('VNC Port')}", data.xml.vnc_port);
+    _v += make_tr("${_('Keymap')}", data.xml.keymap);
+    //_v += make_tr("${_('VNC AutoStart')}", data.xml.vnc_autoport);
+    //_v += make_tr("${_('VNC Password')}", data.xml.vnc_passwd);
+
+    _v += "</table>";
+    _s += make_tr("${_('VNC Info')}", _v, true);
+    _s += make_space();
+
+    // Memory
+    var _m = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+
+    var mem_size = '<span>' + view_megaunit(data.xml.memory, 'B') + '</span>';
+    mem_size += '<span class="dark-text autounit">(' + view_autounit(data.xml.memory, null, DEFAULT_DECIMAL_POINT, true) + ')</span>';
+    _m += make_tr("${_('Memory Size (MB)')}", mem_size, true);
+
+    //var max_mem_size = '<span>' + view_megaunit(data.xml.max_memory, 'B') + '</span>';
+    //max_mem_size += '<span class="dark-text autounit">(' + view_autounit(data.xml.max_memory, null, DEFAULT_DECIMAL_POINT, true) + ')</span>';
+    //_m += make_tr("${_('Max Memory')}&nbsp;(MB)", max_mem_size, true);
+
+    _m += "</table>";
+    _s += make_tr("${_('Memory Info')}", _m, true);
+    _s += make_space();
+
+    // Disk
+    var _h = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+
+    for(var count = 0; count < data.xml.disk.length; count++){
+
+        var disk_desc_name = '<span>${_("Name")}</span>&nbsp;:&nbsp;<span class="light-text">' + data.xml.disk[count].target + '</span>';
+        var disk_desc_value = '<span></span>'
+        var disk_desc_data = {'name':disk_desc_name, 'value':disk_desc_value};
+
+        var disk_detail_data = [];
+        disk_detail_data.push({'name':"${_('Name')}", 'value':data.xml.disk[count].target});
+        disk_detail_data.push({'name':"${_('Type')}", 'value':data.xml.disk[count].disk_type});
+        disk_detail_data.push({'name':"${_('Bus Type')}", 'value':data.xml.disk[count].bus});
+        disk_detail_data.push({'name':"${_('Source File')}", 'value':data.xml.disk[count].path});
+        disk_detail_data.push({'name':"${_('Driver Type')}", 'value':data.xml.disk[count].driver_type});
+        disk_detail_data.push({'name':"${_('Driver Name')}", 'value':data.xml.disk[count].driver_name});
+
+        _h += make_toggle_tr(
+            'disk_toggle_button_' + count, 
+            'disk_toggle_value_' + count,
+            disk_desc_data,
+            disk_detail_data,
+            true
+        );
+    }
+
+    _h += "</table>";
+    _s += make_tr("${_('Disk Info')}", _h, true);
+    _s += make_space();
+
+    // I/F
+    var _i = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+
+    for(var count = 0; count < data.xml.interface.length; count++){
+
+        var interface_desc_name = '<span>${_("Source Bridge")}</span>&nbsp;:&nbsp;<span class="light-text">' + data.xml.interface[count].bridge + '</span>';
+        var interface_desc_value = '<span>${_("Type")}</span>&nbsp;:&nbsp;<span class="light-text">' + data.xml.interface[count].type + '</span>';
+        var interface_desc_data = {'name':interface_desc_name, 'value':interface_desc_value};
+
+        var interface_detail_data = [];
+        interface_detail_data.push({'name':"${_('Source Bridge')}", 'value':data.xml.interface[count].bridge});
+        interface_detail_data.push({'name':"${_('Type')}", 'value':data.xml.interface[count].type});
+        interface_detail_data.push({'name':"${_('Mac Address')}", 'value':data.xml.interface[count].mac});
+        
+        _i += make_toggle_tr(
+            'interface_toggle_button_' + count, 
+            'interface_toggle_value_' + count,
+            interface_desc_data,
+            interface_detail_data,
+            true
+        );
+    }
+
+    _i += "</table>";
+    _s += make_tr("${_('Interface Info')}", _i, true);
+    _s += make_space();
+
+
+    // Storage Pool
+    var _p = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+    var pool_capacity = '<span>' + view_megaunit(data.pool.capacity, 'B') + '</span>';
+    pool_capacity += '<span class="dark-text autounit">(' + view_autounit(data.pool.capacity, null, DEFAULT_DECIMAL_POINT, true) + ')</span>';
+    var pool_available = '<span>' + view_megaunit(data.pool.available, 'B') + '</span>';
+    pool_available += '<span class="dark-text autounit">(' + view_autounit(data.pool.available, null, DEFAULT_DECIMAL_POINT, true) + ')</span>';
+    var pool_allocation = '<span>' + view_megaunit(data.pool.allocation, 'B') + '</span>';
+    pool_allocation += '<span class="dark-text autounit">(' + view_autounit(data.pool.allocation, null, DEFAULT_DECIMAL_POINT, true) + ')</span>';
+
+    var pool_desc_name = '<span>${_("Name")}</span>&nbsp;:&nbsp;<span class="light-text">' + data.pool.name + '</span>';
+    var pool_desc_value = '<span>${_("Type")}</span>&nbsp;:&nbsp;<span class="light-text">' + data.pool.type  + '</span><span><img alt="" src="${ctx.homepath}/static/images/tag-space.gif"/></span><span>${_("Capacity")}&nbsp;(MB)</span>&nbsp;:&nbsp;<span class="light-text">' + pool_capacity + '</span>';
+    var pool_desc_data = {'name':pool_desc_name, 'value':pool_desc_value};
+
+    var pool_detail_data = [];
+    pool_detail_data.push({'name':"${_('Name')}", 'value':data.pool.name});
+    pool_detail_data.push({'name':"${_('Type')}", 'value':data.pool.type});
+    pool_detail_data.push({'name':"${_('UUID')}", 'value':data.pool.uuid});
+    pool_detail_data.push({'name':"${_('Capacity')}&nbsp;(MB)", 'value':pool_capacity})
+    pool_detail_data.push({'name':"${_('Available')}&nbsp;(MB)", 'value':pool_available});
+    pool_detail_data.push({'name':"${_('Allocation')}&nbsp;(MB)", 'value':pool_allocation});
+
+    _p += make_toggle_tr(
+        'pool_toggle_button_1', 
+        'pool_toggle_value_1',
+        pool_desc_data,
+        pool_detail_data,
+        true
+    );
+
+    _p += "</table>";
+
+    _s += make_tr("${_('Storage Pool Information')}", _p, true);
+
+    $("#detail_value").html(_s);
+    return true;
+
+}
+function make_guest_detail(data, status) {
+    var _s = "<table class='detail-contents'>";
+
+    // General
+    var _g = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+    _g += make_tr("${_('Name')}", data.model.name);
+    _g += make_tr("${_('State')}", str_status(data.virt.state));
+    _g += make_tr("${_('Unique Key')}", data.model.uniq_key);
+    _g += make_tr("${_('Domain Name')}", data.virt.name);
+
+    var autostart = "";
+    if(data.autostart == true){
+        autostart = "${_('ON')}";
+    } else {
+        autostart = "${_('OFF')}";
+    }
+    _g += make_tr("${_('Autostart')}", autostart);
+
+    var type = "";
+    if(data.info["type"] != null){
+        type = data.info["type"];
+        if(data.info["hv_version"] != null){
+            type += " ("+data.info["hv_version"]+")";
+        }
+    } else {
+        type = "${_('Unknown')}";
+    }
+    _g += make_tr("${_('Hypervisor')}", type);
+
+    var os = "";
+    if(data.info["os"] != null){
+        os = data.info["os"];
+    } else {
+        os = "${_('Unknown')}";
+    }
+    _g += make_tr("${_('OS Type')}", os);
+    var tags = "";
+    if(data.model.tags.length > 0){
+        for(var i = 0; i < data.model.tags.length; i++){
+            tags += data.model.tags[i].name + ", ";
+        }
+        tags = tags.slice(0, tags.length - 2);
+    } else {
+        tags = "${_('No tag')}";
+    }
+    _g += make_tr("${_('Tag Name')}", tags);
+
+    _g += "</table>";
+    _s += make_tr("${_('General Information')}", _g, true);
+    _s += make_space();
+
+    // CPU
+    var _c = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+
+    if(data.info["hypervisor"] != "QEMU"){
+        _c += make_tr("${_('VCPUS')}", data.vcpu_info["vcpus"]);
+    }
+    _c += make_tr("${_('CPU Time (seconds)')}", format_cputime(data.info["cpu"] / (1000.00 * 1000.00 * 1000.00)));
+
+    _c += "</table>";
+    _s += make_tr("${_('CPU Info')}", _c, true);
+    _s += make_space();
+
+    // VNC
+    var _v = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+
+    _v += make_tr("${_('VNC Listen')}", data.vnc_info.info["listen"]);
+    _v += make_tr("${_('VNC Port')}", data.vnc_info.info["port"]);
+    _v += make_tr("${_('Keymap')}", data.vnc_info.info["keymap"]);
+
+    _v += "</table>";
+    _s += make_tr("${_('VNC Info')}", _v, true);
+    _s += make_space();
+
+
+    // Disk
+    var _h = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+
+    for(count=0; count<data.disk_info.length; count++){
+
+        var disk_capacity = '<span>' + view_megaunit(data.disk_info[count].source.size, 'MB') + '</span>';
+        disk_capacity += '<span class="dark-text autounit">(' + view_autounit(data.disk_info[count].source.size, ['MB','GB','TB', 'PB', 'EB'], DEFAULT_DECIMAL_POINT, true) + ')</span>';
+
+        var disk_desc_name = '<span>${_("Name")}</span>&nbsp;:&nbsp;<span class="light-text">' + data.disk_info[count].target.dev + '</span>';
+        if(data.disk_info[count].type == 'file'){
+            var disk_desc_value = '<span>${_("Capacity")}&nbsp;(MB)</span>&nbsp;:&nbsp;<span class="light-text">' + disk_capacity + '</span>';
+        } else {
+            var disk_desc_value = '<span></span>';
+        }
+        var disk_desc_data = {'name':disk_desc_name, 'value':disk_desc_value};
+
+        var disk_detail_data = [];
+        disk_detail_data.push({'name':"${_('Name')}", 'value':data.disk_info[count].target.dev});
+        if(data.disk_info[count].type == 'file'){
+            disk_detail_data.push({'name':"${_('Capacity')}&nbsp;(MB)", 'value':disk_capacity});
+        } else {
+            disk_detail_data.push({'name':"${_('Capacity')}&nbsp;(MB)", 'value':"${_('N/A')}"});
+        }
+        disk_detail_data.push({'name':"${_('Type')}", 'value':data.disk_info[count].type});
+        disk_detail_data.push({'name':"${_('Bus Type')}", 'value':data.disk_info[count].target.bus});
+        if(data.disk_info[count].type == 'file'){
+            disk_detail_data.push({'name':"${_('Source File')}", 'value':data.disk_info[count].source.file});
+        } else {
+            disk_detail_data.push({'name':"${_('Source File')}", 'value':data.disk_info[count].source.dev});
+        }
+        disk_detail_data.push({'name':"${_('Driver Type')}", 'value':data.disk_info[count].driver.type});
+        if(data.disk_info[count].type == 'file'){
+            disk_detail_data.push({'name':"${_('Driver Name')}", 'value':data.disk_info[count].driver.name});
+        } else {
+            disk_detail_data.push({'name':"${_('Driver Name')}", 'value':"${_('N/A')}"});
+        }
+
+        _h += make_toggle_tr(
+            'disk_toggle_button_' + count, 
+            'disk_toggle_value_' + count,
+            disk_desc_data,
+            disk_detail_data,
+            true
+        );
+    }
+
+    _h += "</table>";
+    _s += make_tr("${_('Disk Info')}", _h, true);
+    _s += make_space();
+
+    // Memory
+    var _m = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+
+    var mem_size = '<span>' + view_megaunit(data.info["memory"], 'KB') + '</span>';
+    mem_size += '<span class="dark-text autounit">(' + view_autounit(data.info["memory"], ['KB','MB','GB','TB', 'PB', 'EB'], DEFAULT_DECIMAL_POINT, true) + ')</span>';
+    _m += make_tr("${_('Memory Size (MB)')}", mem_size, true);
+
+    _m += "</table>";
+    _s += make_tr("${_('Memory Info')}", _m, true);
+    _s += make_space();
+
+    // I/F
+    var _i = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+
+    for(count=0; count<data.interface_info.length; count++){
+
+        var interface_desc_name = '<span>${_("Source Bridge")}</span>&nbsp;:&nbsp;<span class="light-text">' + data.interface_info[count].source.bridge + '</span>';
+        var interface_desc_value = '<span>${_("Type")}</span>&nbsp;:&nbsp;<span class="light-text">' + data.interface_info[count].type  + '</span>';
+        var interface_desc_data = {'name':interface_desc_name, 'value':interface_desc_value};
+
+        var interface_detail_data = [];
+        interface_detail_data.push({'name':"${_('Source Bridge')}", 'value':data.interface_info[count].source.bridge});
+        interface_detail_data.push({'name':"${_('Type')}", 'value':data.interface_info[count].type});
+        interface_detail_data.push({'name':"${_('Mac Address')}", 'value':data.interface_info[count].mac.address});
+        
+
+        _i += make_toggle_tr(
+            'interface_toggle_button_' + count, 
+            'interface_toggle_value_' + count,
+            interface_desc_data,
+            interface_detail_data,
+            true
+        );
+    }
+
+    _i += "</table>";
+    _s += make_tr("${_('Interface Info')}", _i, true);
+    _s += make_space();
+
+    // Network
+    var _n = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+
+    var count = 0;
+    for(var net_name in data.net_info){
+
+        var net_desc_name = '<span>${_("Name")}</span>&nbsp;:&nbsp;<span class="light-text">' + net_name + '</span>';
+        if(data.net_info[net_name].running == true){
+            var net_status = "${_('Enabled')}"
+            var net_desc_value = '<span>${_("Status")}</span>&nbsp;:&nbsp;<span class="light-text">' + net_status  + '</span><span><img alt="" src="${ctx.homepath}/static/images/tag-space.gif"/></span><span>${_('IP Address')}</span>&nbsp;:&nbsp;<span class="light-text">' + data.net_info[net_name].ipaddr + '&nbsp;/&nbsp;' + data.net_info[net_name].mask + '<span>';
+
+        } else {
+            var net_status = "${_('Disabled')}"
+            var net_desc_value = '<span>${_("Status")}</span>&nbsp;:&nbsp;<span class="light-text">' + net_status  + '</span>';
+        }
+
+        var net_desc_data = {'name':net_desc_name, 'value':net_desc_value};
+
+        var net_detail_data = [];
+        net_detail_data.push({'name':"${_('Name')}", 'value':net_name});
+        net_detail_data.push({'name':"${_('Type')}", 'value':net_status});
+        net_detail_data.push({'name':"${_('IP Address')}", 'value':data.net_info[net_name].ipaddr});
+        net_detail_data.push({'name':"${_('Netmask')}", 'value':data.net_info[net_name].mask});
+        net_detail_data.push({'name':"${_('Mac Address')}", 'value':data.net_info[net_name].hwaddr});
+
+        _n += make_toggle_tr(
+            'net_toggle_button_' + count, 
+            'net_toggle_value_' + count,
+            net_desc_data,
+            net_detail_data,
+            true
+        );
+
+        count += 1;
+    }
+    _n += "</table>";
+    _s += make_tr("${_('Network Info')}", _n, true);
+    _s += make_space();
+
+    // Storage Pool
+    var _p = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+
+    var pool_capacity = '<span>' + view_megaunit(data.pool_info.capacity, 'B') + '</span>';
+    pool_capacity += '<span class="dark-text autounit">(' + view_autounit(data.pool_info.capacity, null, DEFAULT_DECIMAL_POINT, true) + ')</span>';
+    var pool_available = '<span>' + view_megaunit(data.pool_info.available, 'B') + '</span>';
+    pool_available += '<span class="dark-text autounit">(' + view_autounit(data.pool_info.available, null, DEFAULT_DECIMAL_POINT, true) + ')</span>';
+    var pool_allocation = '<span>' + view_megaunit(data.pool_info.allocation, 'B') + '</span>';
+    pool_allocation += '<span class="dark-text autounit">(' + view_autounit(data.pool_info.allocation, null, DEFAULT_DECIMAL_POINT, true) + ')</span>';
+
+    var pool_desc_name = '<span>${_("Name")}</span>&nbsp;:&nbsp;<span class="light-text">' + data.pool_info.name + '</span>';
+    var pool_desc_value = '<span>${_("Type")}</span>&nbsp;:&nbsp;<span class="light-text">' + data.pool_info.type  + '</span><span><img alt="" src="${ctx.homepath}/static/images/tag-space.gif"/></span><span>${_("Capacity")}&nbsp;(MB)</span>&nbsp;:&nbsp;<span class="light-text">' + pool_capacity + '</span>';
+    var pool_desc_data = {'name':pool_desc_name, 'value':pool_desc_value};
+
+    var pool_detail_data = [];
+    pool_detail_data.push({'name':"${_('Name')}", 'value':data.pool_info.name});
+    pool_detail_data.push({'name':"${_('Type')}", 'value':data.pool_info.type});
+    pool_detail_data.push({'name':"${_('UUID')}", 'value':data.pool_info.uuid});
+    pool_detail_data.push({'name':"${_('Capacity')}&nbsp;(MB)", 'value':pool_capacity})
+    pool_detail_data.push({'name':"${_('Available')}&nbsp;(MB)", 'value':pool_available});
+    pool_detail_data.push({'name':"${_('Allocation')}&nbsp;(MB)", 'value':pool_allocation});
+
+    _p += make_toggle_tr(
+        'pool_toggle_button_1', 
+        'pool_toggle_value_1',
+        pool_desc_data,
+        pool_detail_data,
+        true
+    );
+
+    _p += "</table>";
+    _s += make_tr("${_('Storage Pool Information')}", _p, true);
+    _s += make_space();
+
+    // Note
+    var _n = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+    var notebook_title = "";
+    if(data.model.notebook.title != ""){
+        notebook_title = data.model.notebook.title;
+    } else {
+        notebook_title = "${_('untitled')}";
+    }
+
+    var notebook_value = "";
+    if(data.model.notebook.value != ""){
+        notebook_value = data.model.notebook.value;
+    } else {
+        notebook_value = "${_('N/A')}";
+    }
+
+    var note_desc_name = '<span class="light-text">' + notebook_title + '</span>';
+    var note_desc_value = '<span></span>'
+    var note_desc_data = {'name':note_desc_name, 'value':note_desc_value};
+
+    var note_detail_data = [];
+    note_detail_data.push({'name':"", 'value':'<pre>' + notebook_value + '</pre>'});
+
+    _n += make_toggle_tr(
+        'note_toggle_button_1', 
+        'note_toggle_value_1',
+        note_desc_data,
+        note_detail_data,
+        true
+    );
+
+    _n += "</table>";
+    _s += make_tr("${_('Notebook')}", _n, true);
+    _s += make_space();
+
+    // Audit
+    var _a = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+    _a += make_tr("${_('Created User')}", data.model.created_user.nickname);
+    _a += make_tr("${_('Modified User')}", data.model.modified_user.nickname);
+    _a += make_tr("${_('Date Created')}", data.model.created);
+    _a += make_tr("${_('Date Modified')}", data.model.modified);
+    _a += "</table>";
+    _s += make_tr("${_('Audit')}", _a, true);
+
+    $("#detail_value").html(_s);
+    return true;
+}
+
+$(document).ready(function(){
+
+// init
+var active_id;
+var past_active_id;
+//var uri;
+$("#guests div[id*='_']").each(function(){
+    // event
+    $(this).click(function(){
+        // -- edit
+         $("#edit_guest").one('click', function(){
+            var target_id = get_target_id();
+            var target = get_target_active()
+            var _type = get_target_type(target);
+
+            if(_type == "export"){
+                show_alert_msg("${_('Export can not be edited.')}", "ERROR");
+            }
+            var uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+            if(target_id != null){
+                grayout_view("GET",
+                    uri + "/" + target_id + ".part?mode=input",
+                    "${_('Guest Settings')}",
+                    "${ctx.homepath}${ctx.path}");
+            } else {
+                show_alert_msg("${_('Please select a target.')}", "ERROR");
+            }
+        });
+
+        // -- replicate
+        $("#replicate_guest").one('click', function(){
+            var target_id = get_target_id();
+            var target = get_target_active()
+            var _type = get_target_type(target);
+
+            if(_type == "export"){
+                show_alert_msg("${_('Export can not be edited.')}", "ERROR");
+            }
+            var uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+            if(target_id != null){
+                grayout_view("GET",
+                    uri + "/replicate?mode=input&src_id=" + target_id,
+                    "${_('Guest Settings')}",
+                    "${ctx.homepath}${ctx.path}");
+            } else {
+                show_alert_msg("${_('Please select a target.')}", "ERROR");
+            }
+        });
+        
+        // -- delete
+        $("#delete_guest").click(function(){
+            var target_id = get_target_id();
+            var target = get_target_active()
+            var _type = get_target_type(target);
+
+            if(target_id != null){
+                if(_type == "guest"){
+                    var uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+                    url = uri + "/" + target_id + ".part";
+                    reflush = "${ctx.homepath}${ctx.path}";
+                    param = null;
+                    delete_dialog("#dialog", url, param, reflush, "#delete_guest", "");
+                } else if(_type == "export"){
+                    var uri = "${ctx.homepath}${ctx.path}".replace("/guest.part", "");
+                    url = uri + "/guestexport/" + target_id + ".json";
+                    reflush = "${ctx.homepath}${ctx.path}";
+                    param = null;
+                    delete_dialog("#dialog", url, param, reflush, "#delete_guest", "");
+                }
+            } else {
+                show_alert_msg("${_('Please select a target.')}", "ERROR");
+            }
+        });
+
+        // -- export
+        $("#export_guest").one('click', function(){
+            var target_id = get_target_id();
+            var target = get_target_active()
+            var _type = get_target_type(target);
+
+            var uri = "${ctx.homepath}${ctx.path}".replace("/guest.part", "");
+
+            if(target_id != null){
+                grayout_view("GET",
+                    uri + "/guestexport.part?mode=input&sid=" + target_id,
+                    "${_('Export')}",
+                    "${ctx.homepath}${ctx.path}");
+            } else {
+                show_alert_msg("${_('Please select a target.')}", "ERROR");
+            }
+        });
+
+        // -- import
+        $("#import_guest").click(function(){
+            var target_id = get_target_id();
+            var target = get_target_active()
+            var _type = get_target_type(target);
+
+            var uri = "${ctx.homepath}${ctx.path}".replace("/guest.part", "");
+
+            if(target_id != null){
+                var url = uri + "/guestimport.part"
+                var param = {"uuid" : target_id}
+                var reflush = "${ctx.homepath}${ctx.path}";
+                apply_dialog("#dialog", url, param, reflush, "#import_guest", "", "POST");
+            } else {
+                show_alert_msg("${_('Please select a target.')}", "ERROR");
+            }
+        });
+
+        past_active_id = active_id;
+        var _type = get_target_type($(this));
+        if(_type == "export"){
+            active_id = $(this).attr("id").replace("export_", "");
+            tool_invalid("#edit_guest");
+            tool_invalid("#replicate_guest");
+            tool_reset("#delete_guest");
+            tool_reset("#import_guest");
+            tool_invalid("#export_guest");
+            $("#edit_guest").unbind('click');
+            $("#replicate_guest").unbind('click');
+            $("#export_guest").unbind('click');
+        }
+        if(_type == "guest"){
+            active_id = $(this).attr("id").replace("guest_", "");
+            tool_reset("#edit_guest");
+            tool_reset("#replicate_guest");
+            tool_reset("#delete_guest");
+            tool_invalid("#import_guest");
+            tool_reset("#export_guest");
+            $("#import_guest").unbind('click');
+        }
+
+        if($(this).hasClass("active") == true && _type == "guest"){
+            guest_location(active_id);
+        }
+
+        if($(this).hasClass("passive") == true){
+            if(_type == "guest"){
+                var uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+                uri += "/" + active_id + ".json";
+                _fn = make_guest_detail;
+            } else if(_type == "export"){
+                var uri = "${ctx.homepath}${ctx.path}".replace("/guest.part", "");
+                    uri += "/guestexport/" + active_id + ".json";
+                    _fn = make_export_detail;
+            }
+            // guest 
+            ajax_json(
+                uri,
+                null,
+                _fn,
+                false
+            );
+            // privent illegal error by assign class complete ajax communication
+            $("#guests div[id*='_']").each(function() {
+                $(this).removeClass("active").addClass("passive");
+            });
+            $(this).removeClass("passive").addClass("active");
+        }
+
+        $(".info_detail table tbody tr:odd").addClass("odd");
+        $("[id*='toggle_button']").each(function(){
+            var id = $(this).attr("id");
+            var parts = id.split('_');
+            var count = parts[parts.length-1]; 
+            var prefix = parts[0];
+
+            toggle_button_event("#"+prefix+"_toggle_button_"+count, "#"+prefix+"_toggle_value_"+count, "close");
+        });
+
+    }); 
+
+});
+
+// event
+// main refresh
+renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
+
+// -- create
+$("#create_guest").click(function(){
+grayout_view("GET",
+    "${ctx.homepath}${ctx.path}?mode=input",
+    "${_('Guest Settings')}",
+    "${ctx.homepath}${ctx.path}");
+});
+
+show_detail_event();
+
+// tag
+tag_get_event(
+    "#tag",
+    "#guests",
+    "#detail_value",
+    "${ctx.homepath}${ctx.path}".replace(".part", "") + "/tag.part"
+);
+// init action
+$("#action>a").hover(
+    function(){tool_over(this);},
+    function(){tool_over(this);}
+).mousedown(function(){
+    var id = $(this).attr("id");
+    tool_active(this);
+});
+tool_invalid("#edit_guest");
+tool_invalid("#replicate_guest");
+tool_invalid("#delete_guest");
+tool_invalid("#export_guest");
+tool_invalid("#import_guest");
+
+});
+// -->
+</script>
+<div class="alert"></div>
+                    <div id="action" >
+                        <div class="left"></div>
+
+                        <a href="#" class="tool-link" name="create_guest" id="create_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-add.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Create')}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="tool-link" id="edit_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-edit.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Edit')}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="tool-link" name="" id="replicate_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-copy.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Copy')}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="tool-link" name="delete_guest" id="delete_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-trash.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Delete')}</div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="#" class="tool-link" name="export_guest" id="export_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-exp.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Export')}</div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="#" class="tool-link" name="import_guest" id="import_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-imp.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Import')}</div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <div class="right">
+                            <a href="#" class="tool-link" >
+                                <div class="tool-mid">
+                                    <img src="${ctx.homepath}/static/images/reload.gif" alt="renew" id="tool_renew"/>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <br style="clear: both;"/>
+                    <div class="space"></div>
+
+
+                    <div id="tag">
+                        <div class="left"></div>
+                        <div class="right"></div>
+                        <div id="tag-main">
+                            <div class="value">
+                                <ul>
+                                    <li>
+                                        <div class="text">${_('Now loading')}</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="tag-progress"></div>
+                    </div>
+                    <br style="clear: both;"/>
+
+                        <div id="view">
+
+
+                        <!-- host start -->
+                            <div id="guests">
+% if guests:
+    % for guest in guests:
+                                <div id="guest_${guest.info['model'].id}" class="passive">
+                                    <span class="status-b">
+        % if guest.info['virt'] is None:
+                                        <img src="${ctx.homepath}/static/images/nostate.png" alt="Unknown" />
+        % else:
+                                        ${img_status(guest.info['virt'].status())}
+        % endif
+                                    </span>
+                                    <div class="icon-shadow">
+    % if guest.info['model'].webicon() is None:
+                                        <img src="${ctx.homepath}/static/images/notos.png" alt="" width="114px" height="114px" />
+    % else:
+                                        <img src="${guest.info['model'].webicon()}" alt="" width="114px" height="114px" />
+    % endif
+                                    </div>
+                                    ${clipping(guest.info['model'].name, MACHINE_NAME_CLIPPING_RANGE) | h}
+                                    <br/>
+                                    <span class="status">
+        % if guest.info['virt'] is None:
+                                        <!--
+                                        TRANSLATORS:
+                                        不明                                        
+                                        -->
+                                        (${_('Unknown')})
+        % else:
+                                        (${str_status(guest.info['virt'].status(), _)})
+        % endif
+                                    </span>
+                                </div>
+    % endfor
+% endif
+
+% if exports:
+%     for pool in exports.keys():
+%         for export in exports[pool]:
+                                <div id="export_${export['uuid']}" class="passive">
+                                    <span class="exported-f">
+                                        <img src="${ctx.homepath}/static/images/backup-f.png" alt="" />
+                                    </span>
+                                    <div class="icon-shadow">
+%             if export["icon"]:
+                                        <img  src="${ctx.homepath}/static/icon/${export['icon']}" alt="" width="114px" height="114px" />
+%             else:
+                                        <img  src="${ctx.homepath}/static/images/notos.png" alt="" width="114px" height="114px" />
+
+%             endif
+                                    </div>
+                                    ${clipping(export["name"], MACHINE_NAME_CLIPPING_RANGE) | h}
+                                    <br />
+                                    <span class="status">
+                                        ${_("Exported")}
+                                    </span>
+                                </div>
+%         endfor
+%     endfor
+% endif
+
+                            </div> 
+                        </div> 
+                        <br style="clear: both;"/>
+                        <div class="space"></div>
+                        <div id="detail">
+                            <div class="panel">
+                                <div class="wrap">
+                                    <span class="title"> &nbsp;</span>
+                                    <p class="point"> </p>
+                                    <p>
+
+<img src="${ctx.homepath}/static/images/tree-open.gif" alt="" id="show_detail_switch" class="tree-toggle-button"/><span class="msg-title">${_('Details')}</span><br />
+<span id="detail_value">--</span>
+
+
+                                    </p>
+                                    <dl><dt>&nbsp;</dt></dl>
+                                </div>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>

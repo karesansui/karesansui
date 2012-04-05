@@ -1,0 +1,81 @@
+[loggers]
+keys=root,karesansui,karesansui_trace,sqlalchemy.engine,sqlalchemy.pool,sqlalchemy.orm
+
+[handlers]
+keys=default,karesansui,karesansui_trace,sqlalchemy.engine,sqlalchemy.pool,sqlalchemy.orm
+
+[formatters]
+keys=default,common
+
+[formatter_default]
+format=%(asctime)s %(levelname)s %(message)s
+datefmt=[%d/%b/%Y:%H:%M:%S]
+
+[formatter_common]
+class=logging.Formatter
+format=[%(asctime)s] [%(levelname)s] [%(process)d] [%(name)s] [%(lineno)d] %(message)s
+datefmt=%d/%b/%Y:%H:%M:%S (%Z) 
+
+[handler_default]
+class=StreamHandler
+formatter=default
+args=(sys.stdout,)
+
+[handler_karesansui]
+class=handlers.RotatingFileHandler
+formatter=common
+args=('/var/log/karesansui/application.log', 'a', (5 *1024 *1024), 5)
+
+[handler_karesansui_trace]
+class=handlers.RotatingFileHandler
+formatter=common
+args=('/var/log/karesansui/error.log', 'a', (5 *1024 *1024), 5)
+
+[handler_sqlalchemy.engine]
+class=handlers.RotatingFileHandler
+formatter=common
+args=('/var/log/karesansui/sql.log', 'a', (5 *1024 *1024), 5)
+
+[handler_sqlalchemy.pool]
+class=handlers.RotatingFileHandler
+formatter=common
+args=('/var/log/karesansui/sql.log', 'a', (5 *1024 *1024), 5)
+
+[handler_sqlalchemy.orm]
+class=handlers.RotatingFileHandler
+formatter=common
+args=('/var/log/karesansui/sql.log', 'a', (5 *1024 *1024), 5)
+
+[logger_root]
+level=ERROR
+handlers=default
+
+[logger_karesansui]
+level=INFO
+handlers=karesansui
+propagate=0
+qualname=karesansui
+
+[logger_karesansui_trace]
+level=INFO
+handlers=karesansui_trace
+propagate=0
+qualname=karesansui_trace
+
+[logger_sqlalchemy.engine]
+level=WARNING
+handlers=sqlalchemy.engine
+propagate=0
+qualname=sqlalchemy.engine
+
+[logger_sqlalchemy.pool]
+level=WARNING
+handlers=sqlalchemy.pool
+propagate=0
+qualname=sqlalchemy.pool
+
+[logger_sqlalchemy.orm]
+level=INFO
+handlers=sqlalchemy.orm
+propagate=0
+qualname=sqlalchemy.orm

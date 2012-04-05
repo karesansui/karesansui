@@ -1,0 +1,835 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%!
+from karesansui.lib.template import locale_hypervisor, \
+    str_status, img_status, clipping, locale_bool, replace_empty, \
+    view_autounit, view_megaunit
+from karesansui.lib.const import MACHINE_NAME_CLIPPING_RANGE, DEFAULT_DECIMAL_POINT
+%>
+
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+
+function action(status){
+    ajax_put("${ctx.homepath}/host/${model.parent_id}/guest/${model.id}/status.part",
+        {"status" : status},
+        function(data, status){
+        },
+        true
+    );
+}
+
+$(document).ready(function(){
+    $(".info_detail table tbody tr:odd").addClass("odd");
+    $("[id*='toggle_button']").each(function(){
+        var id = $(this).attr("id");
+        var parts = id.split('_');
+        var count = parts[parts.length-1]; 
+        var prefix = parts[0];
+
+        toggle_button_event("#"+prefix+"_toggle_button_"+count, "#"+prefix+"_toggle_value_"+count, "close");
+    });
+
+    $("#start_guest").one('click', function(){
+        action(0);
+    });
+
+    $("#shutdown_guest").one('click', function(){
+        action(1);
+    });
+
+    $("#restart_guest").one('click', function(){
+        action(5);
+    });
+
+    $("#suspend_guest").one('click', function(){
+        action(3);
+    });
+
+    $("#resume_guest").one('click', function(){
+        action(4);
+    });
+
+    $("#destroy_guest").one('click', function(){
+        action(2);
+    });
+
+    $("#disable_autostart_guest").one('click', function(){
+        action(7);
+    });
+
+    $("#enable_autostart_guest").one('click', function(){
+        action(6);
+    });
+
+    $("#action>a").hover(
+        function(){tool_over(this);},
+        function(){tool_over(this);}
+    ).mousedown(function(){
+        var id = $(this).attr("id");
+        if(id == "tool-shutdown"){
+            tool_invalid("#tool-destroy");
+            $("#tool-destroy").find("img").attr("src", "${ctx.homepath}/static/images/tool-esc-invalid.png");
+        }
+        tool_active(this);
+    });
+
+    renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
+});
+-->
+</script>
+                <div id="guest">
+                    <div class="alert"></div>
+
+                    <div id="action" >
+		                <div class="left"></div>
+% if virt.is_creatable() is True:
+                        <a href="#" class="tool-link" id="start_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-start.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Start')}</div>
+                                </div>
+                            </div>
+                        </a>
+% elif virt.is_shutdownable() is True and virt.is_active():
+                        <a href="#" class="tool-link" id="shutdown_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-stop.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Shutdown')}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="tool-link" id="restart_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-restart.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Reboot')}</div>
+                                </div>
+                            </div>
+                        </a>
+% endif
+
+% if virt.is_suspendable() is True and virt.is_active():
+                        <a href="#" class="tool-link" id="suspend_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-pose.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Suspend')}</div>
+                                </div>
+                            </div>
+                        </a>
+% elif virt.is_resumable() is True and virt.is_active():
+                        <a href="#" class="tool-link" id="resume_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-resume.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Resume')}</div>
+                                </div>
+                            </div>
+                        </a>
+% endif
+
+% if virt.is_destroyable() is True and virt.is_active():
+                        <a href="#" class="tool-link" id="destroy_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-esc.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Destroy')}</div>
+                                </div>
+                            </div>
+                        </a>
+% endif
+%if autostart is True:
+                        <a href="#" class="tool-link" id="disable_autostart_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-boot.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Disable Autostart')}</div>
+                                </div>
+                            </div>
+                        </a>
+%else:
+                        <a href="#" class="tool-link" id="enable_autostart_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-boot.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Enable Autostart')}</div>
+                                </div>
+                            </div>
+                        </a>
+%endif
+                        <div class="right">
+                            <a href="#" class="tool-link" >
+                                <div class="tool-mid">
+                                    <img src="${ctx.homepath}/static/images/reload.gif" alt="renew" id="tool_renew"/>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <br style="clear: both;"/>
+                    <div class="space"></div>
+                    <br style="clear: both;"/>
+                    <div id="view">
+                        <div id="list-box">
+                            <div id="minner">
+                                <table cellspacing="1">
+                                    <tr>
+                                        <td id="summary-icon">
+                                            <div class="passive">
+                                                <span class="status-b">${img_status(virt.status())}</span>
+                                                <div class="icon-shadow">
+% if model.webicon() is None:
+                                                    <img src="${ctx.homepath}/static/images/notos.png" alt="" width="114px" height="114px" />
+% else:
+                                                    <img src="${model.webicon()}" alt="" width="114px" height="114px" />
+% endif
+                                                </div>
+                                                <span class="virt">${clipping(model.name, MACHINE_NAME_CLIPPING_RANGE) | h}</span>
+                                            </div>
+                                        </td>
+                                        <td id="summary-info">
+                                            <table cellspacing="0" class="border summary-main-info">
+                                                <tr>
+                                                    <th>
+                                                        <span class="summary-info-title">${_('General Information')}</span>
+                                                    </th>
+                                                    <td class="summary-info-space">
+                                                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                                                    </td>
+                                                    <td>
+                                                        <table cellspacing="0" class="border summary-sub-info">
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('Name')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+                                                                    <span class="summary-info-data">${model.name | h}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('Status')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+                                                                    <span class="summary-info-data">${str_status(virt.status(), _) | h}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('Unique key')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+                                                                    <span class="summary-info-data">${model.uniq_key | h}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('Domain Name')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+                                                                    <span class="summary-info-data">${virt.get_domain_name() | h}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('Autostart')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+%if autostart is True:
+                                                                    <span class="summary-info-data">${_('Enabled')}</span>
+%else:
+                                                                    <span class="summary-info-data">${_('Disabled')}</span>
+%endif
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('Hypervisor')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+%if not info["type"] is None:
+                                                                    <span class="summary-info-data">${info["type"] | h}</span>
+  %if not info["hv_version"] is None and not info["hv_version"] == -1:
+                                                                    (${info["hv_version"] | h})
+  %endif
+%else:
+                                                                    <span class="summary-info-data">${_('Unknown')}</span>
+%endif
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('OS Type')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+%if not info["os"] is None:
+                                                                    <span class="summary-info-data">${info["os"] | h}</span>
+%else:
+                                                                    <span class="summary-info-data">${_('Unknown')}</span>
+%endif
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('Tags')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+                                                                    <span class="summary-info-data">
+%if len(model.tags) > 0:
+    % for i in xrange(len(model.tags)):
+        %if len(model.tags) - 1 == i:
+                                                                        ${model.tags[i].name | h}
+        %else:
+                                                                        ${model.tags[i].name | h}&nbsp;,
+        %endif
+    % endfor
+%else:
+                                                                        ${_('No tag')}
+%endif
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+
+                                                <tr><td colspan="3"><div class="summary-space" /></td></tr>
+                                                <tr>
+                                                    <th>
+                                                        <span class="summary-info-title">${_('CPU Info')}</span>
+                                                    </th>
+                                                    <td class="summary-info-space">
+                                                        <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                    </td>
+                                                    <td>
+                                                        <table cellspacing="0" class="border summary-sub-info">
+% if info["hypervisor"] != "QEMU":
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('VCPUS')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+                                                                    <span class="summary-info-data">${vcpu_info["vcpus"] | h}</span>
+                                                                </td>
+                                                            </tr>
+% endif
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('CPU time(seconds)')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+                                                                    <span class="summary-info-data">${"%.2f" % (info["cpu"] / (1000.00 * 1000.00 * 1000.00)) | h}</span>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+
+                                                <tr><td colspan="3"><div class="summary-space" /></td></tr>
+                                                <tr>
+                                                    <th>
+                                                        <span class="summary-info-title">${_('VNC Info')}</span>
+                                                    </th>
+                                                    <td class="summary-info-space">
+                                                        <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                    </td>
+                                                    <td>
+                                                        <table cellspacing="0" class="border summary-sub-info">
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('VNC Listen')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+                                                                    <span class="summary-info-data">${vnc_info['info']['listen']}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('VNC Port')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+                                                                    <span class="summary-info-data">${vnc_info['info']['port']}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('Keymap')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+                                                                    <span class="summary-info-data">${vnc_info['info']['keymap']}</span>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+
+                                                <tr><td colspan="3"><div class="summary-space" /></td></tr>
+
+                                                <tr>
+                                                    <th>
+                                                        <span class="summary-info-title">${_('Disk Info')}</span>
+                                                    </th>
+                                                    <td class="summary-info-space">
+                                                        <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                    </td>
+                                                    <td>
+                                                        <table cellspacing="0" class="border summary-sub-info">
+<% count = 1 %>
+% for disk in disk_info:
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="info_desc">
+                                                                        <div id="disk_toggle_button_${count}" class="info_desc_name">
+                                                                            <span>${_('Name')}</span>&nbsp;:&nbsp;<span class="light-text">${disk['target']['dev'] |h}</span>
+                                                                        </div>
+                                                                        <div class="info_desc_value">
+    % if disk['type'] == 'block':
+                                                                            <span><span>
+    % else:
+                                                                            <span>${_('Capacity (MB)')}</span>&nbsp;:&nbsp;<span class="light-text">${disk['source']['size'] |h}</span><span class="dark-text autounit">(${view_autounit(disk['source']['size'], unit=('MB','GB','TB', 'PB', 'EB'), decimal_point=DEFAULT_DECIMAL_POINT, print_unit=True) |h})<span>
+    % endif
+                                                                        </div>
+                                                                    </div>
+                                                                    <div style="clear:both"></div>
+                                                                    <div id="disk_toggle_value_${count}" class="info_detail">
+                                                                        <table>
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td class="info_detail_name">${_('Name')}</td>
+                                                                                    <td class="info_detail_value"><pre>${disk['target']['dev'] | h}</pre></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="info_detail_name">${_('Capacity (MB)')}</td>
+                                                                                    <td class="info_detail_value">
+    % if disk['type'] == 'block':
+                                                                                        ${_('N/A')}
+    % else:
+                                                                                        <span>${disk['source']['size'] | h}</span><span class="dark-text autounit">(${view_autounit(disk['source']['size'], unit=('MB','GB','TB', 'PB', 'EB'), decimal_point=DEFAULT_DECIMAL_POINT, print_unit=True) |h})<span>
+    % endif
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="info_detail_name">${_('Type')}</td>
+                                                                                    <td class="info_detail_value"><pre>${disk['type'] | h}</pre></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="info_detail_name">${_('Bus Type')}</td>
+                                                                                    <td class="info_detail_value"><pre>${disk['target']['bus'] | h}</pre></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="info_detail_name">${_('Source File')}</td>
+%     if disk['type'] == 'file':
+                                                                                    <td class="info_detail_value">${disk['source']['file'] | h}</td>
+%     else:
+                                                                                    <td class="info_detail_value">${disk['source']['dev'] | h}</td>
+%     endif
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="info_detail_name">${_('Driver Type')}</td>
+                                                                                    <td class="info_detail_value"><pre>${disk['driver']['type'] | h}</pre></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="info_detail_name">${_('Driver Name')}</td>
+                                                                                    <td class="info_detail_value">
+    % if disk['type'] == 'block':
+                                                                                        ${_('N/A')}
+                            
+    % else:
+                                                                                        ${disk['driver']['name'] | h}
+    % endif
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+<% count += 1 %>
+% endfor
+                                                        </table>
+                                                    </td>
+                                                </tr>
+
+                                                <tr><td colspan="3"><div class="summary-space" /></td></tr>
+                                                <tr>
+                                                    <th>
+                                                        <span class="summary-info-title">${_('Memory Info')}</span>
+                                                    </th>
+                                                    <td class="summary-info-space">
+                                                        <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                    </td>
+                                                    <td>
+                                                        <table cellspacing="0" class="border summary-sub-info">
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('Memory Size (MB)')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+                                                                    <span>${view_megaunit(info["memory"], 'KB') | h}</span><span class="dark-text autounit">(${view_autounit(info["memory"], unit=('KB', 'MB','GB','TB', 'PB', 'EB'), decimal_point=DEFAULT_DECIMAL_POINT, print_unit=True) | h})</span>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+
+
+                                                <tr><td colspan="3"><div class="summary-space" /></td></tr>
+
+                                                <tr>
+                                                    <th>
+                                                        <span class="summary-info-title">${_('Interface Info')}</span>
+                                                    </th>
+                                                    <td class="summary-info-space">
+                                                        <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                    </td>
+                                                    <td>
+                                                        <table cellspacing="0" class="border summary-sub-info">
+<% count = 1 %>
+% for interface in interface_info:
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="info_desc">
+                                                                        <div id="interface_toggle_button_${count}" class="info_desc_name">
+                                                                            <span>${_('Source Bridge')}</span>&nbsp;:&nbsp;<span class="light-text">${interface['source']['bridge'] |h}</span>
+                                                                        </div>
+                                                                        <div class="info_desc_value">
+                                                                            <span>${_('Type')}</span>&nbsp;:&nbsp;<span class="light-text">${interface['type'] |h}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div style="clear:both"></div>
+                                                                    <div id="interface_toggle_value_${count}" class="info_detail">
+                                                                        <table>
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td class="info_detail_name">${_('Source Bridge')}</td>
+                                                                                    <td class="info_detail_value"><pre>${interface['source']['bridge'] | h}</pre></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="info_detail_name">${_('Type')}</td>
+                                                                                    <td class="info_detail_value"><pre>${interface['type'] | h}</pre></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="info_detail_name">${_('Mac Address')}</td>
+                                                                                    <td class="info_detail_value"><pre>${interface['mac']['address'] | h}</pre></td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+<% count += 1 %>
+% endfor
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr><td colspan="3"><div class="summary-space" /></td></tr>
+
+                                                <tr>
+                                                    <th>
+                                                        <span class="summary-info-title">${_('Network Info')}</span>
+                                                    </th>
+                                                    <td class="summary-info-space">
+                                                        <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                    </td>
+                                                    <td>
+                                                        <table cellspacing="0" class="border summary-sub-info">
+<% count = 1 %>
+% for net_name in sorted(net_info.keys()):
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="info_desc">
+                                                                        <div id="network_toggle_button_${count}" class="info_desc_name">
+                                                                            <span>${_('Device')}</span>&nbsp;:&nbsp;<span class="light-text">${net_name |h}</span>
+                                                                        </div>
+                                                                        <div class="info_desc_value">
+%     if net_info[net_name]['running'] is True:
+                                                                            <span>${_('Status')}</span>&nbsp;:&nbsp;<span class=light-text">${locale_bool(net_info[net_name]['running'], _) |h}</span><span><img alt="" src="${ctx.homepath}/static/images/tag-space.gif"/></span><span>${_('IP Address')}</span>&nbsp;:&nbsp;<span class="light-text">${net_info[net_name]['ipaddr'] |h}&nbsp;/&nbsp;${net_info[net_name]['mask'] |h}</span>
+%     else:
+                                                                            <span>${_('Status')}</span>&nbsp;:&nbsp;<span class=light-text">${locale_bool(net_info[net_name]['running'], _) |h}</span>
+%     endif
+                                                                        </div>
+                                                                    </div>
+                                                                    <div style="clear:both"></div>
+                                                                    <div id="network_toggle_value_${count}" class="info_detail">
+                                                                        <table>
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td class="info_detail_name">${_('Device')}</td>
+                                                                                    <td class="info_detail_value"><pre>${net_name | h}</pre></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="info_detail_name">${_('Status')}</td>
+                                                                                    <td class="info_detail_value"><pre>${locale_bool(net_info[net_name]['running'], _) | h}</pre></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="info_detail_name">${_('IP Address')}</td>
+                                                                                    <td class="info_detail_value"><pre>${replace_empty(net_info[net_name]['ipaddr'], _('N/A')) | h}</pre></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="info_detail_name">${_('Netmask')}</td>
+                                                                                    <td class="info_detail_value"><pre>${replace_empty(net_info[net_name]['mask'], _('N/A')) | h}</pre></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="info_detail_name">${_('Mac Address')}</td>
+                                                                                    <td class="info_detail_value"><pre>${net_info[net_name]['hwaddr'] | h}</pre></td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+<% count += 1 %>
+% endfor
+                                                        </table>
+                                                    </td>
+                                                </tr>
+    
+% if len(pool_info) > 0:
+                                                <tr><td colspan="3"><div class="summary-space" /></td></tr>
+
+                                                <tr>
+                                                    <th>
+                                                        <span class="summary-info-title">${_('Storage Pool Information')}</span>
+                                                    </th>
+                                                    <td class="summary-info-space">
+                                                        <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                    </td>
+                                                    <td>
+                                                        <table cellspacing="0" class="border summary-sub-info">
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="info_desc">
+                                                                        <div id="pool_toggle_button_1" class="info_desc_name">
+                                                                            <span>${_('Name')}</span>&nbsp;:&nbsp;<span class="light-text">${pool_info['name'] | h}</span>
+                                                                        </div>
+                                                                        <div class="info_desc_value">
+                                                                            <span>${_('Type')}</span>&nbsp;:&nbsp;<span class="light-text">${pool_info['type'] | h}</span><span><img alt="" src="${ctx.homepath}/static/images/tag-space.gif"/></span><span>${_('Capacity')}&nbsp;(MB)</span>&nbsp;:&nbsp;<span class="light-text">${view_megaunit(pool_info['capacity'], 'B') | h}</span><span class="dark-text autounit">(${view_autounit(pool_info['capacity'], decimal_point=DEFAULT_DECIMAL_POINT, print_unit=True) | h})</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div style="clear:both"></div>
+                                                                    <div id="pool_toggle_value_1" class="info_detail">
+                                                                        <table>
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td class="info_detail_name">${_('Name')}</td>
+                                                                                    <td class="info_detail_value"><pre>${pool_info['name'] | h}</pre></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="info_detail_name">${_('Type')}</td>
+                                                                                    <td class="info_detail_value"><pre>${pool_info['type'] | h}</pre></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="info_detail_name">${_('UUID')}</td>
+                                                                                    <td class="info_detail_value"><pre>${pool_info['uuid'] | h}</pre></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="info_detail_name">${_('Capacity')}&nbsp;(MB)</td>
+                                                                                    <td class="info_detail_value">
+                                                                                        <span>${view_megaunit(pool_info['capacity'], 'B') | h}</span><span class="dark-text autounit">(${view_autounit(pool_info['capacity'], decimal_point=DEFAULT_DECIMAL_POINT, print_unit=True) | h})</span>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="info_detail_name">${_('Available')}&nbsp;(MB)</td>
+                                                                                    <td class="info_detail_value">
+                                                                                        <span>${view_megaunit(pool_info['available'], 'B') | h}</span><span class="dark-text autounit">(${view_autounit(pool_info['available'], decimal_point=DEFAULT_DECIMAL_POINT, print_unit=True) | h})</span>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="info_detail_name">${_('Allocation')}&nbsp;(MB)</td>
+                                                                                    <td class="info_detail_value">
+                                                                                        <span>${view_megaunit(pool_info['allocation'], 'B') | h}</span><span class="dark-text autounit">(${view_autounit(pool_info['allocation'], decimal_point=DEFAULT_DECIMAL_POINT, print_unit=True) | h})</span>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+% endif
+
+                                                <tr><td colspan="3"><div class="summary-space" /></td></tr>
+
+                                                <tr>
+                                                    <th>
+                                                        <span class="summary-info-title">${_('Notebook')}</span>
+                                                    </th>
+                                                    <td class="summary-info-space">
+                                                        <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                    </td>
+                                                    <td>
+                                                        <table cellspacing="0" class="border summary-sub-info">
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="info_desc">
+                                                                        <div id="note_toggle_button_1" class="info_desc_name">
+%if model.notebook.title != "":
+                                                                            ${model.notebook.title | h}
+%else:
+                                                                            ${_('untitled')}
+%endif
+                                                                        </div>
+                                                                        <div class="info_desc_value">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div style="clear:both"></div>
+                                                                    <div id="note_toggle_value_1" class="info_detail">
+                                                                        <table>
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td class="info_detail_value" colspan="2">
+%if model.notebook.value != "":
+                                                                                        <pre>${model.notebook.value | h}</pre>
+%else:
+                                                                                        ${_('N/A')}
+%endif
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+
+                                                <tr><td colspan="3"><div class="summary-space" /></td></tr>
+
+                                                <tr>
+                                                    <th>
+                                                        <span class="summary-info-title">${_('Audit')}</span>
+                                                    </th>
+                                                    <td class="summary-info-space">
+                                                        <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                    </td>
+                                                    <td>
+                                                        <table cellspacing="0" class="border summary-sub-info">
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('Created User')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+                                                                    <span class="summary-info-data">${model.created_user.nickname | h}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('Created Date')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+                                                                    <span class="summary-info-data">${model.created_locale(me.languages) | h}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('Modified User')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+                                                                    <span class="summary-info-data">${model.modified_user.nickname | h}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('Modified Date')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+                                                                    <span class="summary-info-data">${model.modified_locale(me.languages) | h}</span>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br style="clear: both;"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br style="clear: both;"/>

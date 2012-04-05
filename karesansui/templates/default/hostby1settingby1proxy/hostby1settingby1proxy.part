@@ -1,0 +1,37 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<%! from karesansui.lib.template import view %>
+<%
+if config['application.proxy.status'] == '1':
+    proxy_status_msg = _('Use')
+else:
+    proxy_status_msg = _("Do not use")
+
+%>
+
+<div class="settings-contents">
+    <table>
+        <tr>
+            <th>${_('Proxy Status')}</th>
+            <td><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+            <td>${proxy_status_msg}</td>
+        </tr>
+        <tr>
+            <th>${_('Server Name')}</th>
+            <td><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+            <td>${view(config['application.proxy.server'],_) | h}</td>
+        </tr>
+        <tr>
+            <th>${_('Port Number')}</th>
+            <td><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+            <td>${view(config['application.proxy.port'],_) | h}</td>
+        </tr>
+        <tr>
+            <th>${_('User Name')}</th>
+            <td><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+            <td>${view(config['application.proxy.user'],_) | h}</td>
+        </tr>
+    </table>
+    <br style="clear: both;"/>
+</div>

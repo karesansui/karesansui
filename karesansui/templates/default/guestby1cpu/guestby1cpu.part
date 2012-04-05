@@ -1,0 +1,62 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<style type="text/css">
+</style>
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+});
+-->
+</script>
+            <table cellspacing="0" border="0" style="background-color:#bcbcbc;">
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('CPU Time (seconds)')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+                        ${"%.2f" % (cpuTime / (1000.00 * 1000.00 * 1000.00)) | h}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('Maximum Number of Virtual CPUs')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+                        ${vcpus_limit | h}
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('Maximum Number of Virtual CPUs')} (${_('This will be enabled on next guest bootup')})</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+                        ${max_vcpus | h}
+                    </td>
+                </tr>
+
+% if hypervisor != "QEMU":
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('Number of Virtual CPUs')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+                        ${vcpus | h}
+                    </td>
+                </tr>
+% endif
+
+            </table>

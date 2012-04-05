@@ -1,0 +1,24 @@
+div.pager {
+    background-color:#CCCCCC;
+    color:#417300;
+    font-size:14px;
+    padding:3px;
+}
+
+.pager .active {
+    background-color:#739100;
+    color:#FFFFFF;
+    padding:2px;
+}
+
+.pager a.link:visited {
+    color:#739100;
+    text-decoration:none;
+}
+
+.tablesorter_pager{
+    background-color:#CCCCCC;
+    color:#417300;
+    font-size:14px;
+    padding:3px;
+}

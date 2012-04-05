@@ -1,0 +1,32 @@
+#page #breadcrumbs {
+    background:transparent url(../images/path-mid.gif) repeat scroll 0 0;
+    float:left;
+    height:27px;
+    width:100%;
+}
+#page #breadcrumbs .left {
+    background:transparent url(../images/path-left.gif) no-repeat scroll 0 0;
+    float:left;
+    height:27px;
+    width:8px;
+}
+#page #breadcrumbs .text {
+    color:#FFFFFF;
+    float:left;
+    height:auto;
+    padding-top:6px;
+    width:auto;
+	font-size:12px;
+}
+
+#page #breadcrumbs .right {
+    background:transparent url(../images/path-right.gif) repeat scroll 0 0;
+    float:right;
+    height:27px;
+    width:8px;
+}
+
+#page #breadcrumbs img {
+    position: relative;
+    top: -4px;
+}

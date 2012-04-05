@@ -1,0 +1,83 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+
+    // Pulldown
+    function show_menu(){
+        $(this).children("ul").removeClass("hide_menu").addClass("show_menu");
+    };
+    function hide_menu() {
+        $(this).children("ul").removeClass("show_menu").addClass("hide_menu");
+    };
+
+    $(".me ul li").each(function(){
+        $(this).toggle(show_menu, hide_menu).children("ul").addClass("hide_menu");
+    });            
+    
+    // me grayout
+    $("#my_account").click(function(){
+        grayout_view("GET",
+            "${ctx.homepath}/me.part?mode=input",
+            "${_('My Account Settings')}",
+            null);
+
+    });
+
+    // About
+    $("#about").click(function(){
+        grayout_view("GET",
+            "${ctx.homepath}/about.part",
+            "${_('About')}",
+            null);
+   });
+
+    // logout
+    $("#logout").click(function(){
+        ajax_delete(
+            "#page", 
+            "${ctx.homepath}/me.part", 
+            null
+        );
+    });
+    
+    // scroll to LOG MSG
+    $("#job_run").click(function(){
+        renew_msg(true);
+        renew_extra(true);
+        location.href = "#log_msg";
+    });
+});
+-->
+</script>
+        <div class="left"><a href="${ctx.homepath}/"><img src="${ctx.homepath}/static/images/logo.jpg" alt="" /></a></div>
+        <div id="about_dialog"></div>
+        <div class="right">
+            <div class="me">
+                <ul>
+                    <li class="first"><img src="${ctx.homepath}/static/images/server-s.gif" alt="" />&nbsp;</li>
+                    <li class="first" style="padding-right: 15px;" id="current_server">${ctx.host}</li>
+                    <li class="first"><img src="${ctx.homepath}/static/images/account.gif" alt="" />&nbsp;</li>
+                    <li class="first" style="padding-right: 15px;">${me.email}</li>
+                    <li class="first me-separator"><a href="#" title="${_('Options')}" >${_('Options')}</a>
+                        <ul class="hide_menu">
+                            <li><a href="#screen" title="${_('My Account')}" id="my_account" >${_('My Account')}</a></li>
+                            <li><a href="#screen" title="${_('About')}" id="about">${_('About')}</a></li>
+                        </ul>
+                    </li>
+                    <li class="first me-separator"><a href="#" title="${_('Logout')}" id="logout">${_('Logout')}</a></li>
+                    <li class="first">            
+                    <span class="access">
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <img id="job_run" src="${ctx.homepath}/static/images/stat-off.gif" alt="" />
+                    </span>
+                    </li>
+                    <li class="first">
+                    <span class="access">&nbsp;&nbsp;
+                        <img id="traffic" src="${ctx.homepath}/static/images/access-off.gif" alt="" />
+                    </span>
+                    </li>
+
+                </ul>
+            </div>
+        </div>

@@ -1,0 +1,957 @@
+<%doc>Copyright (C) 2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function validates_watch(){
+    var check = true;
+    ERROR_MSG = "";
+
+    check = check_string(
+                    $("#watch_name"),
+                    CHECK_EMPTY | CHECK_ONLYSPACE,
+                    "${_('Name')}",
+                    null,
+                    null,
+                    null
+                ) && check;
+
+    check = check_number(
+                    $("#continuation_count"),
+                    CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                    "${_('continuation_count')}",
+                    CONTINUATION_COUNT_MIN,
+                    CONTINUATION_COUNT_MAX
+                ) && check;
+
+    check = check_number(
+                    $("#prohibition_period"),
+                    CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                    "${_('prohibition_period')}",
+                    PROHIBITION_PERIOD_MIN,
+                    PROHIBITION_PERIOD_MAX
+                ) && check;
+
+    if ($("#threshold_fraction").val() == "0"){
+        check = check_number(
+                        $("#threshold_val1"),
+                        CHECK_EMPTY | CHECK_VALID | CHECK_MIN,
+                        $("#threshold_val1_label").text(),
+                        THRESHOLD_VAL_MIN,
+                        null
+                    ) && check;
+
+        check = check_number(
+                        $("#threshold_val2"),
+                        CHECK_EMPTY | CHECK_VALID | CHECK_MIN,
+                        $("#threshold_val2_label").text(),
+                        THRESHOLD_VAL_MIN,
+                        null
+                    ) && check;
+    } else {
+        check = check_fraction(
+                        $("#threshold_val1"),
+                        CHECK_EMPTY | CHECK_VALID | CHECK_MIN,
+                        $("#threshold_val1_label").text(),
+                        THRESHOLD_VAL_MIN,
+                        null,
+                        parseInt($("#threshold_fraction").val())
+                    ) && check;
+
+        check = check_fraction(
+                        $("#threshold_val2"),
+                        CHECK_EMPTY | CHECK_VALID | CHECK_MIN,
+                        $("#threshold_val2_label").text(),
+                        THRESHOLD_VAL_MIN,
+                        null,
+                        parseInt($("#threshold_fraction").val())
+                    ) && check;
+    }
+
+    if ($("#threshold_type").val() == "max"){
+        check = check_number(
+                        $("#threshold_val1"),
+                        CHECK_MAX,
+                        $("#threshold_val1_label").text(),
+                        null,
+                        $("#threshold_val2").val()
+                ) && check;
+    } else if ($("#threshold_type").val() == "min"){
+        check = check_number(
+                        $("#threshold_val2"),
+                        CHECK_MIN,
+                        $("#threshold_val2_label").text(),
+                        $("#threshold_val1").val(),
+                        null
+                ) && check;
+    }
+
+    if ($("#notify_mail_from").val() != ""){
+        check = check_mailaddress(
+                    $("#notify_mail_from"),
+                    CHECK_LENGTH | CHECK_VALID,
+                    "${_('Mail From')}",
+                    null,
+                    EMAIL_MIN_LENGTH,
+                    EMAIL_MAX_LENGTH
+                ) && check;
+    }
+
+    if ($("#notify_mail_to").val() != ""){
+        check = check_mailaddress(
+                    $("#notify_mail_to"),
+                    CHECK_LENGTH | CHECK_VALID,
+                    "${_('Mail To')}",
+                    null,
+                    EMAIL_MIN_LENGTH,
+                    EMAIL_MAX_LENGTH
+                ) && check;
+    }
+
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG);
+    }
+
+    return check;
+};
+
+function show_target_section(target) {
+    $("#watch_setting div[id$='section']:visible").hide();
+    $("#" + target + "-section").show();
+}
+
+function show_libvirt_target_section(target) {
+    var target_list = new Array();
+    target_list.push("cpu");
+    target_list.push("disk");
+    target_list.push("network");
+
+    var dom_info = new Array();
+
+% for domname in dom_info.keys():
+	dom_info["${domname}"] = {'vcpu': ${dom_info[domname]['vcpu']},
+        				      'network': new Array(),
+        				      'disk': new Array(),
+                              };
+    % for network in dom_info[domname]["network"]:
+        dom_info["${domname}"]['network'].push("${network}");
+    % endfor 
+    % for disk in dom_info[domname]["disk"]:
+        dom_info["${domname}"]['disk'].push("${disk}");
+    % endfor
+% endfor
+
+    $.each(target_list, function(index, value){
+        if (target == value) {
+            if (target == "cpu") {
+             	$("#libvirt_vcpu_target").after($("#libvirt_vcpu_target").clone()).remove();
+                $("#libvirt_vcpu_target").html("");
+                $("#libvirt_vcpu_target").append($('<option>').attr({ value: "total"}).text("${_('Total')}"));
+            	for (i = 1; i <= dom_info[$("#libvirt_target_machine").val()]['vcpu']; i = i + 1) {
+                  	$("#libvirt_vcpu_target").append($('<option>').attr({ value: i}).text(i));
+                }
+            }
+            if (target == "disk") {
+             	$("#libvirt_disk_target").after($('#libvirt_disk_target').clone()).remove();
+                $("#libvirt_disk_target").html("");
+
+                $.each(dom_info[$("#libvirt_target_machine").val()]["disk"], function(index, value){
+                  	$("#libvirt_disk_target").append($('<option>').attr({ value: value}).text(value));
+                });
+            }
+            if (target == "network") {
+             	$("#libvirt_target_interface").after($("#libvirt_target_interface").clone()).remove();
+                $("#libvirt_target_interface").html("");
+                $.each(dom_info[$("#libvirt_target_machine").val()]["network"], function(index, value){
+                  	$("#libvirt_target_interface").append($('<option>').attr({ value: value}).text(value));
+                });
+            }
+            $("#${plugins['libvirt']}-" + value + "-section").show();
+        } else {
+            $("#${plugins['libvirt']}-" + value + "-section").hide();
+        }
+    });
+}
+
+function set_mail_template(severity,lang) {
+    target = $("#watch_target").val();
+    uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+    ajax_json(
+        uri + "/" + target + "/" + lang + ".json",
+        target,
+        function(data, status) {
+            if(severity == "warning") {
+                $("#warning_mail_body").val(data.mail_template_warning);
+            }
+            if(severity == "failure") {
+                $("#failure_mail_body").val(data.mail_template_failure);
+            }
+            if(severity == "okay") {
+                $("#okay_mail_body").val(data.mail_template_okay);
+            }
+        },
+        true
+    );
+}
+
+function set_threshold_slider(target) {
+    $("#threshold_percentage").hide();
+    $("#threshold_fraction").val("0");
+
+    switch (target){
+        case "${plugins['cpu']}":
+        set_slider("#threshold_setting",0, MAX_JIFFIES_PER_SEC, Math.floor(MAX_JIFFIES_PER_SEC * 0.2), Math.floor(MAX_JIFFIES_PER_SEC * 0.8), "jiffies/sec");
+            break;
+        case "${plugins['memory']}":
+            var memory_size = parseInt(${memory_size});
+            set_slider("#threshold_setting",0,memory_size, Math.floor(memory_size * 0.2), Math.floor(memory_size * 0.8), "MB");
+            break;
+        case "${plugins['df']}":
+            var target_disk = $('#df_target_fs').val();
+            var disk_size = ${disk_size_info}[target_disk]
+
+            $("#threshold_percentage").change(function() {
+                var threshold_val1 = $("#threshold_val1").val();
+                var threshold_val2 = $("#threshold_val2").val();
+                var threshold_type = $("#threshold_type").val();
+
+                if ($("#use_percentage").attr("checked") == true) {
+                    threshold_val1 = parseInt(threshold_val1 / disk_size * 100);
+                    threshold_val2 = parseInt(threshold_val2 / disk_size * 100);
+                    set_slider("#threshold_setting",0, 100, threshold_val1, threshold_val2, "%", threshold_type);
+                }else{
+                    threshold_val1 = parseInt(threshold_val1 / 100 * disk_size);
+                    threshold_val2 = parseInt(threshold_val2 / 100 * disk_size);
+                    set_slider("#threshold_setting",0, disk_size, threshold_val1, threshold_val2, "MB", threshold_type);
+                }
+            });
+
+            if ($("#use_percentage").attr("checked") == true) {
+                set_slider("#threshold_setting",0, 100, 20, 80, "%");
+            }else{
+                set_slider("#threshold_setting",0, disk_size, Math.floor(disk_size * 0.2), Math.floor(disk_size * 0.8), "MB");
+            }
+            $("#threshold_percentage").show();
+            break;
+        case "${plugins['interface']}":
+            if ($("#network_status").val() == "${interface_type['OCTETS']}") {
+                var max_value = MAX_NETWORK_OCTETS;
+                set_slider("#threshold_setting",0, max_value, Math.floor(max_value * 0.2), Math.floor(max_value * 0.8), "octet/sec");
+            }else{
+                var max_value = MAX_NETWORK_PACKETS;
+                set_slider("#threshold_setting",0, max_value, Math.floor(max_value * 0.2), Math.floor(max_value * 0.8), "packet/sec");
+            }
+            break;
+        case "${plugins['libvirt']}":
+            var max_value = 0;
+            var unit = ""
+            switch ($("#libvirt_target").val()) {
+                case "cpu":
+                    max_value = MAX_LIBVIRT_CPU_TIME;
+                    unit = "msec";
+                    break;
+                case "disk":
+                    var disk_size_info = new Array();
+% for domname in dom_info.keys():
+                    disk_size_info["${domname}"] = new Array();
+    % for disk_name in dom_info[domname]["disk_size"].keys():
+                    disk_size_info["${domname}"]["${disk_name}"] = "${dom_info[domname]['disk_size'][disk_name]}";
+    % endfor
+% endfor
+                    //max_value = disk_size_info[$("#libvirt_target_machine").val()][$("#libvirt_disk_target").val()];
+                	max_value = MAX_LIBVIRT_DISK_OCTETS;
+                    unit = "kilo octet/sec";
+                    break;
+                case "network":
+                    if ($("#libvirt_network_status").val() == "octets") {
+                        max_value = MAX_NETWORK_OCTETS;
+                        unit = "octet/sec";
+                    }else{
+                        max_value = MAX_NETWORK_PACKETS;
+                        unit = "packet/sec";
+                    }
+                    break;
+            }
+            set_slider("#threshold_setting",0, max_value, Math.floor(max_value * 0.2), Math.floor(max_value * 0.8), unit);
+            break;
+        case "${plugins['load']}":
+            var max_value = ${processer_num} * MAX_LOADAVERAGE_TIMES_PARAM;
+            set_slider("#threshold_setting", 0, max_value, Math.floor(max_value * 0.2), Math.floor(max_value * 0.8));
+            $("#threshold_setting").slider("option", "step", 0.01);
+            $("#threshold_fraction").val("2");
+            break;
+    }
+}
+
+$(document).ready(function(){
+
+    ajax_post_event(
+        "#add_watch_button",
+        "${ctx.homepath}${ctx.path}",
+        "#watch_setting :input",
+        validates_watch
+    );
+
+    $("#libvirt_target_machine").change(function(){
+        show_libvirt_target_section($("#libvirt_target").val());
+        set_threshold_slider("${plugins['libvirt']}");
+    });
+    $("#libvirt_network_status").change(function(){
+        set_threshold_slider("${plugins['libvirt']}");
+    });
+
+    $("#watch_target").change(function(){
+        show_target_section($(this).val());
+
+        set_threshold_slider($(this).val());
+        if ($(this).val() == "${plugins['libvirt']}") {
+            show_libvirt_target_section($("#libvirt_target").val());
+        }
+    });
+    $("#df_target_fs").change(function(){
+        set_threshold_slider("${plugins['df']}");
+    });
+    $("#network_status").change(function(){
+        set_threshold_slider("${plugins['interface']}");
+    });
+
+    $("#libvirt_target").change(function(){
+        show_libvirt_target_section($(this).val());
+        set_threshold_slider("${plugins['libvirt']}");
+    });
+
+    $("#threshold_val1").change(function(){
+        if (parseFloat($(this).val()) > parseFloat($("#threshold_val2").val())) {
+	        var arr = new Array(2);
+	        arr[1] = $("#threshold_val1_label").text();
+	        arr[2] = $("#threshold_val2_label").text();
+            alert(minisprintf("${_('%1$s should be less than %2$s!')}",arr));
+        } else {
+            $("#threshold_setting").slider("values",0,$(this).val());
+        }
+    });
+    $("#threshold_val2").change(function(){
+        if (parseFloat($("#threshold_val1").val()) > parseFloat($(this).val())) {
+	        var arr = new Array(2);
+	        arr[1] = $("#threshold_val2_label").text();
+	        arr[2] = $("#threshold_val1_label").text();
+            alert(minisprintf("${_('%1$s should be equal or more than %2$s!')}",arr));
+        } else {
+            $("#threshold_setting").slider("values",1,$(this).val());
+        }
+    });
+
+    $("#threshold_change_button").click(function(){
+        switch ($("#threshold_type").val()) {
+        case "max":
+            change_slider_type("min");
+            break;
+        case "min":
+            change_slider_type("max");
+            break;
+        }
+    });
+
+    // help
+    helptip("#watch_name_help",
+        "${_('Name')}",
+        "${_('Name of a new watch to add.')}");
+
+    helptip("#watch_target_help",
+        "${_('Watch Target')}",
+        "${_('Watch target module.')}");
+
+    /*
+     * TRANSLATORS:
+     * CPUのコア番号です。
+     */
+    helptip("#watch_logical_cpu_number_help",
+        "${_('CPU Number')}",
+        "${_('Observed CPU number.')}");
+
+    /*
+     * TRANSLATORS:
+     * 監視するCPUの状態を指定します。
+     * Idel : CPUが空いている割合
+     * Nice : 優先度によるユーザーレベルのCPU使用率
+     * User : ユーザーモードで使われたCPU使用率
+     * Wait : I/O待ちしているCPU使用率
+     * System : システムモードで使われたCPU使用率
+     * SoftIRQ : ソフトウェア割り込みで使われたCPU使用率
+     * Steal : ハードウェア割り込みで使われたCPU使用率
+     */
+    helptip("#watch_cpu_status_help",
+        "${_('CPU Status')}",
+        "${_('State of CPU from among Idle, User, etc.')}");
+
+    /*
+     * TRANSLATORS:
+     * 監視するメモリの状態を指定します。
+     * 空きメモリ容量 : 空きメモリの容量を監視対象にします。
+     * キャッシュ容量 : キャッシュの容量を監視対象にします。
+     * バッファ容量 : バッファの容量を監視対象にします。
+     * 使用メモリ容量 : 使用メモリの容量をを監視対象にします。
+     */
+    helptip("#watch_memory_status_help",
+        "${_('Memory Status')}",
+        "${_('State of memory to be observed.')}");
+
+    /*
+     * TRANSLATORS:
+     * 現在システムがマウントしているファイルシステムを指定します。
+     */
+    helptip("#watch_target_disk_help",
+        "${_('Target Disk')}",
+        "${_('Disk of watched target.')}");
+
+    /*
+     * TRANSLATORS:
+     * 監視するディスクの状態を指定します。
+     * 空き容量 : 空き容量を監視対象にします。
+     * 使用容量 : 使用容量監視対象にします。
+     */
+    helptip("#watch_df_disk_status_help",
+        "${_('Disk Status')}",
+        "${_('Status(free space or used space) of target disk.')}");
+
+    /*
+     * TRANSLATORS:
+     * 監視するインターフェースを指定します。
+     */
+    helptip("#watch_network_target_interface_help",
+        "${_('Target Interface')}",
+        "${_('Network interface to watch.')}");
+
+    /*
+     * TRANSLATORS:
+     * 監視するネットワークの状態を指定します。
+     * トラフィック : トラフィック数を監視対象にします。
+     * パケット数 : パケット数を監視対象にします。
+     * エラーパケット数 : エラーパケットを監視対象にします。
+     */
+    helptip("#watch_network_status_help",
+        "${_('Network Status')}",
+        "${_('State of network interface to be watched.')}");
+
+    /*
+     * TRANSLATORS:
+     * 通信方向を指定します。
+     * 送信(送信 -> 受信)
+     * 受信(受信 -> 送信)
+     */
+    helptip("#watch_network_direction_help",
+        "${_('Direction')}",
+        "${_('Direction of network traffic (receive or send)')}");
+
+    helptip("#watch_libvirt_target_host_help",
+        "${_('Target Guest')}",
+        "${_('Target guest to watch.')}");
+
+    helptip("#watch_libvirt_target_help",
+        "${_('Module To Watch')}",
+        "${_('Target module of virtual machine to watch.')}");
+
+    helptip("#watch_libvirt_vcpu_target_help",
+        "${_('Target Virtual CPU')}",
+        "${_('Target virtual machine CPU to watch.')}");
+        
+    helptip("#watch_libvirt_disk_target_help",
+        "${_('Target Disk')}",
+        "${_('Target disk of virtual machine to watch.')}");
+
+    helptip("#watch_libvirt_disk_value_type_help",
+        "${_('Read/Write')}",
+        "${_('Specify which I/O of the target disk to watch (read or write).')}");
+
+    helptip("#watch_libvirt_target_interface_help",
+        "${_('Target Interface')}",
+        "${_('Network interface to watch.')}");
+
+    helptip("#watch_libvirt_network_direction_help",
+        "${_('Direction')}",
+        "${_('Direction of network traffic(reveive or send) of network interface in virtual machine.')}");
+    /*
+     * 仮想マシンここまで
+     */
+
+    /*
+     * TRANSLATORS:
+     * 監視間隔を指定します。
+     * Short Term : １分
+     * Middle Term: ５分
+     * Long Term : 15分
+     */
+    helptip("#watch_load_term_help",
+        "${_('Term')}",
+        "${_('Load average term to watch (short: 1min, middle: 5mins, long: 15mins).')}");
+
+    helptip("#continuation_count_help",
+        "${_('Alert Trigger Count')}",
+        "${_('Alert actions will be pended until alert counts reach over this value.')}");
+
+    helptip("#prohibition_period_help",
+        "${_('Silent Period (seconds)')}",
+        "${_('Silent period after reaching alert trigger count.')}");
+
+    helptip("#threshold_value_help",
+        "${_('Threshold Settings')}",
+        "${_('Threshold value for alerts.')}");
+
+    /*
+     * TRANSLATORS:
+     * 警告値を超えた場合に実行されるスクリプトを指定することができます。
+     * 
+     * example)
+     * #!/bin/bash
+     * echo "Alert!!" >> /tmp/Alert
+     */
+    helptip("#warning_script_help",
+        "${_('Warning Script')}",
+        "${_('Script executed when warning value was exceeded. <br />ex)<br />#!/bin/bash<br />echo ALERT >> /tmp/alerts')}");
+
+    helptip("#enable_warning_mail_help",
+        "${_('Notification Mail')}",
+        "${_('Contents of the notification mail which is sent when the warning value was exceeded.')}");
+
+    helptip("#failure_script_help",
+        "${_('Failure Script')}",
+        "${_('Script executed when failure value was exceeded. <br />ex)<br />#!/bin/bash<br />echo ALERT >> /tmp/alerts')}");
+
+    helptip("#enable_failure_mail_help",
+        "${_('Notification Mail')}",
+        "${_('Contents of the notification mail which is sent when the failure value was exceeded.')}");
+        
+    helptip("#okay_script_help",
+        "${_('Okay Script')}",
+        "${_('Script executed when status returns okay. <br />ex)<br />#!/bin/bash<br />echo ALERT >> /tmp/alerts')}");
+
+    helptip("#enable_okay_mail_help",
+        "${_('Notification Mail')}",
+        "${_('Contents of the notification mail which is sent when the status returns okay.')}");
+        
+    helptip("#notify_mail_from_help",
+        "${_('Mail From')}",
+        "${_('Address to put in the From: header of the notification mail. Multiple addresses are not supported.')}");
+        
+    helptip("#notify_mail_to_help",
+        "${_('Mail To')}",
+        "${_('Address to send the notification mail to. Multiple addresses are not supported.')}");
+
+    /*
+     * TRANSLATORS:
+     * 通知メールのメッセージをカスタマイズできます。
+     * メールヘッダと本文の間には空行を一つ以上入れてください。
+     * 設定するメッセージの中に下記の文字列を入れると、送信されるメール内で文字列の置き換えが行われます。<br/>
+     <table>
+       <tr>
+         <td> %{app_name} </td>
+         <td> アプリケーション名  </td>
+       </tr>
+       <tr>
+         <td> %{time} </td>
+         <td> 検知した時刻  </td>
+       </tr>
+       <tr>
+         <td> %{host} </td>
+         <td> 検知したホストの名前 </td>
+       </tr>
+       <tr>
+         <td> %{plugin} </td>
+         <td> 監視対象名  </td>
+       </tr>
+       <tr>
+         <td> %{plugin_instance} </td>
+         <td> 監視対象の特定 </td>
+       </tr>
+       <tr>
+         <td> %{type} </td>
+         <td> 監視対象のサブカテゴリ  </td>
+       </tr>
+       <tr>
+         <td> %{type_instance} </td>
+         <td> 監視する項目名 </td>
+       </tr>
+       <tr>
+         <td> %{ds} </td>
+         <td> データソース名  </td>
+       </tr>
+       <tr>
+         <td> %{current_value} </td>
+         <td> 検知した時点での監視対象の値 </td>
+       </tr>
+       <tr>
+         <td> %{threshold_value </td>
+         <td> 設定したしきい値 </td>
+       </tr>
+       <tr>
+         <td> %{failure_max} </td>
+         <td> 危険値のしきい値(上限設定)  </td>
+       </tr>
+       <tr>
+         <td> %{warning_max} </td>
+         <td> 警告値のしきい値(上限設定)  </td>
+       </tr>
+       <tr>
+         <td> %{failure_min} </td>
+         <td> 危険値のしきい値(下限設定) </td>
+       </tr>
+       <tr>
+         <td> %{warning_min} </td>
+         <td> 警告値のしきい値(下限設定) </td>
+       </tr>
+       <tr>
+         <td> %{severity} </td>
+         <td> 警告レベル </td>
+       </tr>
+       <tr>
+         <td> %{script_result_message} </td>
+         <td> アクションスクリプト実行結果 </td>
+       </tr>
+     </table>
+     */
+
+    HELP_NM_MACROS="${_(r"""<table><tr><td>%{app_name} </td><td>Application name<br />(karesansui-VER-REL)</td></tr><tr><td>%{time}</td><td>Time of the warning detection</td></tr><tr><td>%{host} </td><td>Warning detected host name</td></tr><tr><td>%{plugin} </td><td>Watch target name</td></tr><tr><td>%{plugin_instance} </td><td>Detailed info of the watch target.<br /> (Watch target is CPU: CPU core number, Other: empty string)</td></tr><tr><td>%{type} </td><td> Sub category of the watch target </td></tr><tr><td>%{type_instance} </td><td> Item to watch </td></tr><tr><td>%{ds} </td><td> Data source name </td></tr><tr><td>%{current_value} </td><td> Target value at the alert action timing </td></tr><tr><td>%{threshold_value} </td><td> Threshold value </td></tr><tr><td>%{failure_max} </td><td> Failure Value (max)  </td></tr><tr><td>%{warning_max} </td><td> Warning Value (max)  </td></tr><tr><td>%{failure_min} </td><td> Failure Value (min) </td></tr><tr><td>%{warning_min} </td><td> Warning Value (min) </td></tr><tr><td>%{severity} </td><td> Severity </td></tr><tr><td>%{script_result_message} </td><td> Action script result output </td></tr></table>""")}";
+
+    helptip("#notification_mail_body_warning_help",
+        "${_('Notification Mail')}",
+        "${_(r"Customize the notification mail message. Don't forget to include empty line between mail header part and body part. Available macros are: ")}"+HELP_NM_MACROS);
+
+    helptip("#notification_mail_body_failure_help",
+        "${_('Notification Mail')}",
+        "${_(r"Customize the notification mail message. Don't forget to include empty line between mail header part and body part. Available macros are: ")}"+HELP_NM_MACROS);
+
+    helptip("#notification_mail_body_okay_help",
+        "${_('Notification Mail')}",
+        "${_(r"Customize the notification mail message. Don't forget to include empty line between mail header part and body part. Available macros are: ")}"+HELP_NM_MACROS);
+
+    helptip("#notify_mail_mta_help",
+        "${_('Mail Server')}",
+        "${_('SMTP server to send notification mail through. This can be modified in \\"Settings\\" - \\"Mail Settings\\" panel.')}");
+
+    $("#libvirt_target").change();
+    $("#watch_target").change();
+
+    $("#threshold-accordion").accordion({
+        header: ".accordion-header",
+        active: false,
+        collapsible: true,
+        icons: {
+            header: "accordion-header-icon",
+            headerSelected: "accordion-header-icon-open"
+        }
+    });
+
+});
+//-->
+</script>
+<div id="watch_setting">
+    <form method="post" action="" id="input_watch_form" name="input_watch_form">
+        <div class="grayout-head">
+            <span class="grayout-title">
+                <a href="#" id="server" class="path-a"><img src="${ctx.homepath}/static/images/settings-title.gif" alt="">${_('Add Watch')}</a>
+            </span>
+            <br style="clear: both;"/>
+        </div>
+
+        <div class="grayout-contents">
+            <div class="grayout-param">${_('Name')}<span id="watch_name_help"></span></div>
+            <div class="grayout-value grayout-form">
+	            <input type="text" name="watch_name" id="watch_name" size="40"/><span class="require-text">${_('Require')}</span>
+            </div>
+
+            <div class="grayout-param">${_('Watch Target')}<span id="watch_target_help"></span></div>
+            <div class="grayout-value grayout-form">
+                <select name="watch_target" id="watch_target">
+                    <option id="watch_target_cpu" value="${plugins['cpu']}">${_('CPU')}</option>
+                    <option id="watch_target_memory" value="${plugins['memory']}">${_('Memory')}</option>
+                    <option id="watch_target_df" value="${plugins['df']}">${_('Disk Space')}</option>
+                    <option id="watch_target_network" value="${plugins['interface']}">${_('Network')}</option>
+                    <option id="watch_target_libvirt" value="${plugins['libvirt']}">${_('Virtual Machine')}</option>
+                    <option id="watch_target_load" value="${plugins['load']}">${_('Load Average')}</option>
+                </select>
+            </div>
+
+            <div id="${plugins['cpu']}-section">
+                <div class="grayout-param">${_('CPU Number')}<span id="watch_logical_cpu_number_help"></span></div>
+                <div class="grayout-value grayout-form">
+                    <select name="logical_cpu_number" id="logical_cpu_number">
+% for cpu_number in cpu_logical_number:
+                        <option id="logical_cpu_number_${cpu_number}" value="${cpu_number}">${cpu_number}</option>
+% endfor
+                    </select>
+                </div>
+
+                <div class="grayout-param">${_('CPU Status')}<span id="watch_cpu_status_help"></span></div>
+                <div class="grayout-value grayout-form">
+                    <select name="cpu_status" id="cpu_status">
+                        <option id="cpu_status_idle" value="${cpu_type_instance['IDLE']}">Idle</option>
+                        <option id="cpu_status_nice" value="${cpu_type_instance['NICE']}">Nice</option>
+                        <option id="cpu_status_user" value="${cpu_type_instance['USER']}">User</option>
+                        <option id="cpu_status_wait" value="${cpu_type_instance['WAIT']}">Wait</option>
+                        <option id="cpu_status_system" value="${cpu_type_instance['SYSTEM']}">System</option>
+                        <option id="cpu_status_softirq" value="${cpu_type_instance['SOFTIRQ']}">SoftIRQ</option>
+                        <option id="cpu_status_interrupt" value="${cpu_type_instance['INTERRUPT']}">Interrupt</option>
+                        <option id="cpu_status_steal" value="${cpu_type_instance['STEAL']}">Steal</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="${plugins['memory']}-section">
+                <div class="grayout-param">${_('Memory Status')}<span id="watch_memory_status_help"></span></div>
+                <div class="grayout-value grayout-form">
+                    <select name="memory_status" id="memory_status">
+                        <option id="memory_status_free" value="${memory_type_instance['FREE']}">${_('Free Memory')}</option>
+                        <option id="memory_status_cached" value="${memory_type_instance['CACHED']}">${_('Cached Memory')}</option>
+                        <option id="memory_status_buffered" value="${memory_type_instance['BUFFERED']}">${_('Buffered Memory')}</option>
+                        <option id="memory_status_used" value="${memory_type_instance['USED']}">${_('Used Memory')}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="${plugins['df']}-section">
+                <div class="grayout-param">${_('Target Disk')}<span id="watch_target_disk_help"></span></div>
+                <div class="grayout-value grayout-form">
+                    <select name="df_target_fs" id="df_target_fs">
+% for fs in df_list:
+                        <option id="df_target_fs_${fs['Filesystem']}" value="${fs['Filesystem']}">${fs['Filesystem']}</option>
+% endfor
+                    </select>
+                </div>
+
+                <div class="grayout-param">${_('Disk Status')}<span id="watch_df_disk_status_help"></span></div>
+                <div class="grayout-value grayout-form">
+                    <select name="df_disk_status" id="df_disk_status">
+                        <option id="df_disk_status_free" value="${df_ds['FREE']}">${_('Free Space')}</option>
+                        <option id="df_disk_status_used" value="${df_ds['USED']}">${_('Used Space')}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="${plugins['interface']}-section">
+                <div class="grayout-param">${_('Target Interface')}<span id="watch_network_target_interface_help"></span></div>
+                <div class="grayout-value grayout-form">
+                    <select name="network_target_interface" id="network_target_interface">
+% for interface in interface_list:
+                        <option id="network_target_interface_${interface}" value="${interface}">${interface}</option>
+% endfor
+                    </select>
+                </div>
+                <div class="grayout-param">${_('Network Status')}<span id="watch_network_status_help"></span></div>
+                <div class="grayout-value grayout-form">
+                    <select name="network_status" id="network_status">
+                        <option id="network_status_octets" value="${interface_type['OCTETS']}">${_('Traffic')}</option>
+                        <option id="network_status_packets" value="${interface_type['PACKETS']}">${_('Packet Count')}</option>
+                        <option id="network_status_errors" value="${interface_type['ERRORS']}">${_('Error Packet Count')}</option>
+                    </select>
+                </div>
+
+                <div class="grayout-param">${_('Direction')}<span id="watch_network_direction_help"></span></div>
+                <div class="grayout-value grayout-form">
+                    <select name="network_direction" id="network_direction">
+                        <option id="network_direction_tx" value="${interface_ds['TX']}">${_('Send')}</option>
+                        <option id="network_direction_rx" value="${interface_ds['RX']}">${_('Receive')}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="${plugins['libvirt']}-section">
+                <div class="grayout-param">${_('Target Guest')}<span id="watch_libvirt_target_host_help"></span></div>
+                <div class="grayout-value grayout-form">
+                	<select name="libvirt_target_machine" id="libvirt_target_machine">
+% for dom in dom_list:
+                        <option name="libvirt_target_machine" id="libvirt_target_machine" value="${dom}">${dom}</option>
+% endfor
+    				</select>
+                </div>
+                <div class="grayout-param">${_('Watch Target of Virtual Machine')}<span id="watch_libvirt_target_help"></span></div>
+                <div class="grayout-value grayout-form">
+                    <select name="libvirt_target" id="libvirt_target">
+                        <option id="libvirt_target_cpu" value="cpu">${_('Virtual CPU')}</option>
+                        <option id="libvirt_target_disk" value="disk">${_('Virtual Disk')}</option>
+                        <option id="libvirt_target_network" value="network">${_('Virtual Network')}</option>
+                    </select>
+                </div>
+
+                <div id="${plugins['libvirt']}-cpu-section">
+                    <div class="grayout-param">${_('Target Virtual CPU')}<span id="watch_libvirt_vcpu_target_help"></span></div>
+                    <div class="grayout-value grayout-form">
+                        <select name="libvirt_vcpu_target" id="libvirt_vcpu_target">
+                            <option id="libvirt_vcpu_target_total" value="total">${_('Total')}</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="${plugins['libvirt']}-disk-section">
+                    <div class="grayout-param">${_('Target Disk')}<span id="watch_libvirt_disk_target_help"></span></div>
+                    <div class="grayout-value grayout-form">
+                        <select name="libvirt_disk_target" id="libvirt_disk_target" onChange="set_threshold_slider('${plugins['libvirt']}');">
+                        </select>
+                    </div>
+                    <!--
+                    TRANSLATORS:
+                    読み込み/書き込み
+                    監視する入出力処理の内容(読み込みもしくは書き込み)を指定します。
+                    -->
+                    <div class="grayout-param">${_('Read/Write')}<span id="watch_libvirt_disk_value_type_help"></span></div>
+                    <div class="grayout-value grayout-form">
+                        <select name="libvirt_disk_value_type" id="libvirt_disk_value_type">
+                            <option id="libvirt_disk_value_type_read" value="read">${_('Read')}</option>
+                            <option id="libvirt_disk_value_type_write" value="write">${_('Write')}</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="${plugins['libvirt']}-network-section">
+                    <div class="grayout-param">${_('Target Interface')}<span id="watch_libvirt_target_interface_help"></span></div>
+                    <div class="grayout-value grayout-form">
+                        <select name="libvirt_target_interface" id="libvirt_target_interface">
+                        </select>
+                    </div>
+                    <div class="grayout-param">${_('Network Status')}<span id="watch_libvirt_network_status_help"></span></div>
+                    <div class="grayout-value grayout-form">
+                        <select name="libvirt_network_status" id="libvirt_network_status">
+                            <option id="libvirt_network_status_octets" value="octets">${_('Traffic')}</option>
+                            <option id="libvirt_network_status_packets" value="packets">${_('Packet Count')}</option>
+                            <option id="libvirt_network_status_errors" value="errors">${_('Error Packet Count')}</option>
+                        </select>
+                    </div>
+
+                    <div class="grayout-param">${_('Direction')}<span id="watch_libvirt_network_direction_help"></span></div>
+                    <div class="grayout-value grayout-form">
+                        <select name="libvirt_network_direction" id="libvirt_network_direction">
+                            <option id="libvirt_network_direction_tx" value="tx">${_('Send')}</option>
+                            <option id="libvirt_network_direction_rx" value="rx">${_('Receive')}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="${plugins['load']}-section">
+                <div class="grayout-param">${_('Term')}<span id="watch_load_term_help"></span></div>
+                <div class="grayout-value grayout-form">
+                    <select name="load_term" id="load_term">
+                        <option id="load_term_shortterm" value="${load_ds['SHORTTERM']}">${_('Short Term')}</option>
+                        <option id="load_term_midterm" value="${load_ds['MIDTERM']}">${_('Middle Term')}</option>
+                        <option id="load_term_longterm" value="${load_ds['LONGTERM']}">${_('Long Term')}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grayout-param">${_('Alert Trigger Count')}<span id="continuation_count_help"></span></div>
+            <div class="grayout-value grayout-form">
+	            <input type="text" name="continuation_count" id="continuation_count" size="10" maxlength="4" value="${alert_trigger_count}"/><span class="require-text">${_('Require')}</span>
+            </div>
+
+            <div class="grayout-param">${_('Silent Period (seconds)')}<span id="prohibition_period_help"></span></div>
+            <div class="grayout-value grayout-form">
+	            <input type="text" name="prohibition_period" id="prohibition_period" size="10" maxlength="4" value="${slient_period}"/><span class="require-text">${_('Require')}</span>
+            </div>
+
+            <div class="grayout-param">${_('Threshold Settings')}<span id="threshold_value_help"></span></div>
+            <div class="grayout-value grayout-form">
+                <div><input type="button" name="threshold_change_button" id="threshold_change_button" value="${_('Reverses Threshold')}" /></div>
+
+                <div style="width: 450px;">
+                    <div id="threshold_min" style="width: 225px; float:left;"></div>
+                    <div id="threshold_max" style="float: none; text-align: right;"></div>
+                </div>
+                <div id="threshold_setting">
+                    <div id="value-slider-left" class="slider-left"></div>
+                </div>
+                <div style="width: 450px">
+                    <div style="width: 225px; float:left;">
+                        <span id="threshold_val1_label">${_('Warning Value')} </span><input type="text" name="threshold_val1" id="threshold_val1" size="10" />
+                        <span id="threshold_max_unit"></span>
+                    </div>
+                    <div style="float: none; text-align: right;">
+                        <span id="threshold_val2_label">${_('Failure Value')} </span><input type="text" name="threshold_val2" id="threshold_val2" size="10" />
+                        <span id="threshold_min_unit"></span>
+                    </div>
+                    <span id="threshold_percentage"><input type="checkbox" name="use_percentage" id="use_percentage" />${_('Use Percentage')}</span>
+                    <input type="hidden" name="threshold_type" id="threshold_type" value="max" />
+                    <input type="hidden" name="threshold_fraction" id="threshold_fraction" value="0" />
+                </div>
+            </div>
+
+            <div id="threshold-accordion">
+                <div class="accordion-header">${_('Warning Settings')}</div>
+                <div class="accordion-body">
+                    <div class="grayout-param">${_('Warning Script')}<span id="warning_script_help"></span></div>
+                    <div class="grayout-value grayout-form">
+                        <input type="checkbox" name="enable_warning_script" id="enable_warning_script" /> ${_('Enabled')}
+	                    <textarea cols="85" rows="3" name="warning_script" id="warning_script"></textarea>
+                    </div>
+                    <div class="grayout-param">${_('Notification Mail')}<span id="enable_warning_mail_help"></span></div>
+                    <div class="grayout-value grayout-form">
+                        <input type="checkbox" name="enable_warning_mail" id="enable_warning_mail">${_('Enabled')}
+                        <br/>
+% for lang in supported_langs:
+                        <input type="button" name="warning_mail_body_init_${lang}" id="warning_mail_body_init_${lang}" onClick='javascript:set_mail_template("warning","${lang}")' value="${_('Read body template in %s') % _(lang)}">
+% endfor
+                            <span id="notification_mail_body_warning_help"></span>
+                           <textarea cols="85" rows="6" name="warning_mail_body" id="warning_mail_body"></textarea>
+                    </div>
+                </div>
+
+                <div class="accordion-header">${_('Failure Settings')}</div>
+                <div class="accordion-body">
+                    <div class="grayout-param">${_('Failure Script')}<span id="failure_script_help"></span></div>
+                    <div class="grayout-value grayout-form">
+                        <input type="checkbox" name="enable_failure_script" id="enable_failure_script" /> ${_('Enabled')}
+	                    <textarea cols="85" rows="3" name="failure_script" id="failure_script"></textarea>
+                    </div>
+                    <div class="grayout-param">${_('Notification Mail')}<span id="enable_failure_mail_help"></span></div>
+                    <div class="grayout-value grayout-form">
+                        <input type="checkbox" name="enable_failure_mail" id="enable_failure_mail">${_('Enabled')}
+                        <br/>
+% for lang in supported_langs:
+                        <input type="button" name="failure_mail_body_init_${lang}" id="failure_mail_body_init_${lang}" onClick='javascript:set_mail_template("failure","${lang}")' value="${_('Read body template in %s') % _(lang)}">
+% endfor
+                            <span id="notification_mail_body_failure_help"></span>
+	                    <textarea cols="85" rows="6" name="failure_mail_body" id="failure_mail_body"></textarea>
+                    </div>
+                </div>
+                <div class="accordion-header">${_('Okay Settings')}</div>
+                <div class="accordion-body">
+                    <div class="grayout-param">${_('Okay Script')}<span id="okay_script_help"></span></div>
+                    <div class="grayout-value grayout-form">
+                        <input type="checkbox" name="enable_okay_script" id="enable_okay_script" /> ${_('Enabled')}
+	                    <textarea cols="85" rows="3" name="okay_script" id="okay_script"></textarea>
+                    </div>
+                    <div class="grayout-param">${_('Notification Mail')}<span id="enable_okay_mail_help"></span></div>
+                    <div class="grayout-value grayout-form">
+                        <input type="checkbox" name="enable_okay_mail" id="enable_okay_mail">${_('Enabled')}
+                        <br/>
+% for lang in supported_langs:
+                        <input type="button" name="okay_mail_body_init_${lang}" id="okay_mail_body_init_${lang}" onClick='javascript:set_mail_template("okay","${lang}")' value="${_('Read body template in %s') % _(lang)}">
+% endfor
+                           <span id="notification_mail_body_okay_help"></span>
+	                    <textarea cols="85" rows="6" name="okay_mail_body" id="okay_mail_body"></textarea>
+                    </div>
+                </div>
+                <div class="accordion-header">${_('Notification Mail Settings')}</div>
+                <div class="accordion-body">
+                    <div class="grayout-param">${_('Mail Server')}<span id="notify_mail_mta_help"></span></div>
+                    <div class="grayout-value grayout-form">
+                        ${mta}
+                    </div>
+                    <div class="grayout-param">${_('Mail From')}<span id="notify_mail_from_help"></span></div>
+                    <div class="grayout-value grayout-form">
+                        <input type="text" name="notify_mail_from" id="notify_mail_from" size="40" maxlength="256" value="${myaddress}"/>
+                    </div>
+                    <div class="grayout-param">${_('Mail To')}<span id="notify_mail_to_help"></span></div>
+                    <div class="grayout-value grayout-form">
+                        <input type="text" name="notify_mail_to" id="notify_mail_to" size="40" maxlength="256" value="${myaddress}"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grayout-footer">
+                <input type="hidden" name="_method" id="_method" />
+                <a href="#" name="add_watch_button" id="add_watch_button" class="button">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Add')}</span>
+                </a>
+                <br style="clear: both;"/>
+            </div>
+        </div>
+        <br style="clear: both;"/>
+    </form>
+</div>

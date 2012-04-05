@@ -1,0 +1,40 @@
+.alert-bg {
+    background-color:#DDDDDD;
+    border:1px solid #AAAAAA;
+    color:#FF0000;
+    font-size:12px;
+    margin-bottom:15px;
+    margin-left:11px;
+    margin-top:20px;
+    padding-bottom:6px;
+    padding-top:10px;
+    width:97.5%;
+}
+
+.alert-bg .error-alt {
+    color:#FF0000;
+    font-size:12px;
+    font-weight:bold;
+    margin-left:11px;
+}
+.alert-bg .succeed-alt {
+    color:#009CB3;
+    font-size:12px;
+    font-weight:bold;
+    margin-left:11px;
+}
+.alert-bg .caution-alt {
+    color:#C05F00;
+    font-size:12px;
+    font-weight:bold;
+    margin-left:11px;
+}
+
+.alert-bg img {
+    float:left;
+}
+
+.alert-bg pre {
+    float:left;
+    white-space:pre-wrap;
+}

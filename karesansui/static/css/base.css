@@ -1,0 +1,127 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    font-family: "Lucida Grande", "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "メイリオ", "Meiryo", "ＭＳ Ｐゴシック", Geneva,Arial, Verdana, sans-serif;
+    background-image: url(../images/body-back.jpg);
+    background-repeat: repeat-x;
+    color: #000000;
+    font-size: 12px;
+}
+#page{
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    max-width: 1900px;
+    min-width: 980px;
+    text-align: left;
+    width: 90%;
+}
+
+#job-run {
+    cursor: pointer;
+}
+
+#page #bar {
+    height:5px;
+    margin-left:0;
+    margin-right:0;
+    margin-top:4px;
+    text-align:left;
+    width:100%;
+}
+#page #main #content #show {
+padding: 16px 5px 5px 5px;
+}
+#page #main #content #show #view {
+    float:left;
+    padding-left:12px;
+    width:97.7%;
+}
+#page #main #content #show #detail {}
+a.path-a:link {
+    color: #335a00;
+    text-decoration:none;
+}
+a.path-a:visited {
+    color: #335a00;
+    text-decoration:none;
+}
+
+a.path-a:hover {
+    color: #335a00;
+    text-decoration:underline;
+}
+
+img {
+    border:0 none;
+    vertical-align:middle;
+}
+
+img#_screen_close {
+    cursor: pointer;
+}
+
+a.button {
+    color: #000000;
+    text-decoration:none;
+}
+
+a.button:link {
+}
+a.button:visited {
+}
+a.button:hover {
+}
+a.button>*{
+    display:inline-block;
+    height:23px;
+    line-height:23px;
+}
+a.button .button-left{
+    background: transparent url(../images/button-left.gif) no-repeat scroll left top;
+    width:6px;
+}
+a.button .button-right{
+    background: transparent url(../images/button-right.gif) no-repeat scroll right top;
+    padding-right:6px;
+}
+a.button .button-left.onclick{
+    background: transparent url(../images/button-left-onclick.gif) no-repeat scroll left top;
+}
+a.button .button-right.onclick{
+    background: transparent url(../images/button-right-onclick.gif) no-repeat scroll right top;
+}
+
+a {
+    outline: none;
+}
+
+#login_retry{
+    font-size: 12px;
+}
+
+span.require-text{
+    font-size: 10px;
+    color: #777777;
+    margin-left:8px;
+}
+
+span.notice-text{
+    color: #b70000;
+}
+
+span.light-text{
+    color: #335A00;
+}
+
+span.dark-text{
+    color: #6B6B6B;
+}
+
+span.autounit{
+    margin: 0px 5px;
+}

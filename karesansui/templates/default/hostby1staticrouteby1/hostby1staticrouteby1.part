@@ -1,0 +1,87 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+
+    helptip("#route_flags_help", "${_('Flags')}", "${_('Possible flags include')}");
+    helptip("#route_ref_help", "${_('Ref')}", "${_('Number of references to this route.')}");
+    helptip("#route_use_help", "${_('Use')}", "${_('Count of lookups for the route.')}");
+    helptip("#route_metric_help", "${_('Metric')}", "${_('The distance to the target \(usually counted in hops\).')}");
+
+});
+-->
+</script>
+
+<div id="route_detail_display">
+    <table class="detail-contents">
+        <tr>
+            <th>${_('General Information')}</th>
+            <td class="detail-separator">
+                <img src="${ctx.homepath}/static/images/table-space.gif">
+            </td>
+            <td>
+                <table cellspacing="0" class="border detail-sub-contents">
+                    <tr>
+                        <th>${_('Destination')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${route['ipaddr'] | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Netmask')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${route['netmask'] | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Gateway')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${route['gateway'] | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Device')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${route['device'] | h}</pre></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+
+        <tr><td colspan='3'><div class='detail-space'/></td></tr>
+
+        <tr>
+            <th>${_('Details')}</th>
+            <td class="detail-separator">
+                <img src="${ctx.homepath}/static/images/table-space.gif">
+            </td>
+            <td>
+                <table cellspacing="0" class="border detail-sub-contents">
+                    <tr>
+                        <th>${_('Flags')}<span id="route_flags_help" /></th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${route['flags'] | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Metric')}<span id="route_metric_help" /></th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${route['metric'] | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Use')}<span id="route_use_help" /></th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${route['use'] | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Ref')}<span id="route_ref_help" /></th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${route['ref'] | h}</pre></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+
+
+    </table>
+</div>

@@ -1,0 +1,93 @@
+/**TOOL-BUTTON**/
+div .tool-mid {
+    float:left;
+    height:23px;
+    margin: 4px 7px 0px 0px;
+    text-align:left;
+    width:auto;
+}
+
+div .tool-left  {
+    background:transparent url(../images/tool-left.png) repeat scroll 0 0;
+    float:left;
+    height:23px;
+    width:9px;
+}
+
+div .tool-img  {
+    background-image:url(../images/tool-back.png);
+    float:left;
+    height:23px;
+    width:auto;
+}
+
+div .tool-right {
+    background:transparent url(../images/tool-right.png) repeat scroll right;
+    float:right;
+    height:23px;
+    width:auto;
+	padding-right:20px;
+}
+
+div .tool-text {
+    float:right;
+    height:23px;
+    width:auto;
+	padding-left:5px;
+	padding-top:5px;
+	font-size:12px;
+}
+
+a.tool-link:link {
+color: #333333;
+text-decoration:none;
+}
+
+a.tool-link:visited {
+color: #333333;
+text-decoration:none;
+}
+
+a.tool-link:hover .too{
+color: #599d00;
+text-decoration:underline;
+}
+
+a.tool-link div .tool-left-over  {
+    background:transparent url(../images/tool-left-over.png) repeat scroll 0 0;
+}
+a.tool-link div .tool-right-over {
+    background:transparent url(../images/tool-right-over.png) repeat scroll right;
+}
+a.tool-link div .tool-img-over {
+    background-image:url(../images/tool-back-over.png);
+}
+
+a.tool-link div .tool-left-active  {
+    background:transparent url(../images/tool-left-onclick.png) repeat scroll 0 0;
+}
+a.tool-link div .tool-right-active {
+    background:transparent url(../images/tool-right-onclick.png) repeat scroll right;
+}
+a.tool-link div .tool-img-active {
+    background-image:url(../images/tool-back-active.png);
+}
+
+a.tool-link div .tool-left-invalid  {
+    background:transparent url(../images/tool-left-invalid.png) repeat scroll 0 0;
+    cursor:default;
+}
+a.tool-link div .tool-right-invalid {
+    background:transparent url(../images/tool-right-invalid.png) repeat scroll right;
+    cursor:default;
+}
+a.tool-link div .tool-img-invalid {
+    background-image:url(../images/tool-back-invalid.png);
+    cursor:default;
+}
+
+img#tool_renew {
+    position: relative;
+    right: 100%;
+    top: 10%;
+}

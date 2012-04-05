@@ -1,0 +1,290 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<%!
+from karesansui.lib.template import clipping, total_progress
+from karesansui.lib.const import MACHINE_NAME_CLIPPING_RANGE
+%>
+<script type="text/javascript">
+<!--
+function get_form_value(form){
+    var ret;
+    if(form.jquery != undefined){
+        ret = form[0].value;
+    } else {
+        ret = form.value();
+    }
+    return ret;
+}
+
+function validates_guest_jobsearch(){
+    var check = true;
+    ERROR_MSG = "";
+
+    check = check_string(
+                $("#created_user"),
+                CHECK_LENGTH | CHECK_ONLYSPACE,
+                "${_('User Name')}",
+                null,
+                0,
+                USER_MAX_LENGTH
+            ) && check;
+    check = check_datetime_string(
+                $("#created_start"),
+                CHECK_VALID,
+                "${_('Created')}"
+            ) && check;
+    check = check_datetime_string(
+                $("#created_end"),
+                CHECK_VALID,
+                "${_('Created')}"
+            ) && check;
+
+    if(check){
+        var start_day = get_form_value($("#created_start"));
+        var end_day = get_form_value($("#created_end"));
+
+        if (Date.parse(start_day) > Date.parse(end_day)){
+            ERROR_MSG += "${_('Error in specified time. Start time > end time.')}";
+            ERROR_MSG += "\n";
+            check = false;
+        }
+    }
+
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG, "ERROR");
+    }
+    return check;
+}
+
+$(document).ready(function(){
+    $(".job_search_item").corner('round 5px');
+
+    $("#job_list").tablesorter({
+        widgets: ['zebra', 'select']
+    });
+
+    $("a[id*='job_page']").click(function(){
+        var search = "";
+        var page = $(this).attr("id").replace("job_page", "");
+        var query = "?p=" + page;
+
+        if(validates_guest_jobsearch()){
+            search += "&"+$("#created_user").serialize();
+            search += "&"+$("#created_start").serialize();
+            search += "&"+$("#created_end").serialize();
+            search += "&"+$("#job_status").serialize();
+        }
+
+        if(search != ""){
+            query = query + "&q=" + search;
+        }
+        ajax_get(
+            "#job",
+            "${ctx.homepath}${ctx.path}" + query,
+            null
+        );
+    });
+
+    button_effect("#job_search");
+    $("#job_search").click(function(){
+        var query = "";
+
+        if(validates_guest_jobsearch()){
+            query += "?"+$("#created_user").serialize();
+            query += "&"+$("#created_start").serialize();
+            query += "&"+$("#created_end").serialize();
+            query += "&"+$("#job_status").serialize();
+            ajax_get(
+                "#job",
+                "${ctx.homepath}${ctx.path}" + query,
+                null
+            );
+        }
+    });
+
+    $("tr[id*='job_row']").click(function(){
+        var id;
+
+        id = $(this).attr("id").replace("job_row", "");
+        ajax_get(
+            "#detail_value",
+            "${ctx.homepath}/job/" + id + ".part",
+            null
+        );
+    });
+
+    // main job list and msg panel update at the same time
+    // NOTICE: $.click() event binded before renew_main_event()
+    // if not, can't binding $.click() event
+    $("#tool_renew").click(function(){
+        renew_msg(true);
+    });
+    renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
+
+    show_detail_event();
+    $("#created_start").datepicker({altFormat: '${USER_DATE_FORMAT[2]}'});
+    $("#created_end").datepicker({altFormat: '${USER_DATE_FORMAT[2]}'});
+
+
+    helptip("#guestby1_job_search_status_help",
+        "${_('Status')}", 
+        "${_('Status of the job. OK means normal exit. PEND means the job is in the queue and waiting to be executed. RUN means the job is being executed and running. APPERR means the background system error. NG means job command execution error.')}");
+});
+
+-->
+</script>
+                    <div id="job">
+                        <div class="alert"></div>
+
+                        <div id="action" >
+                            <div class="left"></div>
+                            <div class="right">
+                                <a href="#" class="tool-link" >
+                                    <div class="tool-mid">
+                                        <img src="${ctx.homepath}/static/images/reload.gif" alt="renew" id="tool_renew"/>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>
+                        <div class="space"/>
+
+                        <div id="view">
+                            <div id="list-box">
+                                <div id="minner">
+
+                                    <div id="search">
+                                        <div class="job_search_box">
+                                            <div class="job_search_item">
+                                                ${_('User Name')}：<input type="text" maxlength="16" size="18" value="${user | h}" name="user" id="created_user"/>
+                                            </div>
+                                            <div class="job_search_item">
+                                                ${_('Status')}： <select name="status" id="job_status" style="min-width:71px;">
+                                                    <option value=""
+% if status == '':
+                                                    selected="selected"
+% endif
+                                                    >-</option>
+% for k,v in JOBGROUP_STATUS.iteritems():
+                                                    <option value="${v}"
+    % if status == v:
+                                                    selected="selected"
+    % endif
+                                                    >${_(k)}</option>
+% endfor
+                                                </select><span id="guestby1_job_search_status_help"/>
+                                            </div>
+                                            <div class="job_search_item">
+                                                ${_('Date Created')}：
+                                                <input type="text" id="created_start" name="start" value="${start | h}" size="14" maxlength="10" /> - 
+                                                <input type="text" id="created_end" name="end" value="${end | h}" size="14" maxlength="10" />
+                                            </div>
+                                            <div class="job_search_item job_search_button">
+                                                <a href="#" name="job_search" id="job_search" class="button">
+                                                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Search')}</span>
+                                                </a>
+                                            </div>
+                                            <br style="clear: both;"/>
+                                        </div>
+                                    </div>
+
+                                    <br style="clear: both;"/>
+
+                                    <div class="pager">
+% if pager.exist_prev_page():
+                                        &nbsp;&nbsp;<a href="#"  name="p" id="job_page${pager.get_prev_page()}"><img name="pager_button" class="prev" src="${ctx.homepath}/static/images/list-pre.gif" alt="prev" /></a>
+% else:
+                                        &nbsp;&nbsp;<img name="pager_button" class="prev" src="${ctx.homepath}/static/images/list-pre-invalid.gif" alt="prev" />
+% endif
+% if pager.get_page_list() == []:
+                                        &nbsp;&nbsp;<span class="active">0</span>
+% else:
+    % for x in pager.get_page_list():
+        % if pager.is_now_page(x):
+                                        &nbsp;&nbsp;<span class="active">${x}</span>
+        % else:
+                                        &nbsp;&nbsp;<a href="#" class="link" name="p" id="job_page${x}">${x}</a>
+        % endif
+    % endfor
+% endif
+% if pager.exist_next_page():
+                                        &nbsp;&nbsp;<a href="#"  name="p" id="job_page${pager.get_next_page()}"><img name="pager_button" class="next" src="${ctx.homepath}/static/images/list-next.gif" alt="next" /></a>
+% else:
+                                        &nbsp;&nbsp;<img name="pager_button" class="next" src="${ctx.homepath}/static/images/list-next-invalid.gif" alt="next" />
+% endif
+                                        <span class="search-result">[${pager.get_start()}&nbsp;-&nbsp;${pager.get_end()}]&nbsp;of&nbsp;${pager.get_total()}</span>
+                                    </div>
+
+                                    <br style="clear: both;"/>
+
+                                    <table id="job_list" class="tablesorter" >
+                                        <thead>
+                                            <tr>
+                                            <th>${_('ID')}</th>
+                                            <th>${_('Name')}</th>
+                                            <th>${_('Machine Name')}</th>
+                                            <th>${_('User Name')}</th>
+                                            <th>${_('Status')}</th>
+                                            <th>${_('Progress')}</th>
+                                            <th>${_('Created')}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+% for x in pager.get_displays():
+                                            <tr id="job_row${x.id}">
+                                                <td align="center">${x.id | h}</td>
+                                                <td>${x.name | h}</td>
+    % for m2j in m_m2js:
+        % if m2j.Machine2Jobgroup.jobgroup_id == x.id:
+            % if m2j.Machine2Jobgroup.machine_id == m2j.Machine.id:
+                                                <td>${clipping(m2j.Machine.name, MACHINE_NAME_CLIPPING_RANGE) | h}</td>
+                                                <td>${m2j.Machine2Jobgroup.created_user.nickname | h}</td>
+            % endif
+        % endif
+    % endfor
+
+    % for k,v in JOBGROUP_STATUS.iteritems():
+        % if v == x.status:
+                                                <td>
+            % if v == JOBGROUP_STATUS['NG'] or v == JOBGROUP_STATUS['APPERR']:
+                                                    <span class="notice-text">${k | h}</span>
+            % else:
+                                                    <span>${k | h}</span>
+            % endif
+                                                </td>
+        % endif
+    % endfor
+                                                <td title="${total_progress(x.jobs) | h}%">
+                                                    <span class="progress">
+                                                        <em class="progress-cover" style="left: ${total_progress(x.jobs)}%;">${total_progress(x.jobs) | h}%</em>
+                                                    </span>
+                                                </td> 
+                                                <td>${x.created.strftime(date_format) | h}</td>
+                                            </tr>
+% endfor
+                                        </tbody>
+                                    </table>
+                                    <br style="clear: both;"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br style="clear: both;"/>
+                        <div class="space"></div>
+                        <div id="detail">
+                            <div class="panel">
+                                <div class="wrap">
+                                    <span class="title"> &nbsp;</span>
+                                    <p class="point"> </p>
+                                    <p>
+
+<img src="${ctx.homepath}/static/images/tree-open.gif" alt="" id="show_detail_switch" class="tree-toggle-button"/><span class="msg-title">${_('Details')}</span><br />
+<span id="detail_value">--</span>
+                                    </p>
+                                    <dl><dt>&nbsp;</dt></dl>
+                                </div>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>
+                    </div>

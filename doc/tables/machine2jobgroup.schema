@@ -1,0 +1,14 @@
+CREATE TABLE machine2jobgroup (
+        id INTEGER NOT NULL, 
+        machine_id INTEGER, 
+        jobgroup_id INTEGER NOT NULL, 
+        uniq_key VARCHAR(36) NOT NULL, 
+        created_user_id INTEGER, 
+        modified_user_id INTEGER, 
+        created TIMESTAMP, 
+        modified TIMESTAMP, 
+        PRIMARY KEY (id), 
+         FOREIGN KEY(machine_id) REFERENCES machine (id), 
+         FOREIGN KEY(created_user_id) REFERENCES user (id), 
+         FOREIGN KEY(modified_user_id) REFERENCES user (id)
+);

@@ -1,0 +1,104 @@
+a.tag{
+    color: #599d00;
+    padding:3px 5px;
+}
+a.tag:link {
+    text-decoration:none;
+}
+a.tag:visited {
+    text-decoration:none;
+}
+a.tag:hover {
+    text-decoration:underline;
+}
+a.active {
+    color:#FFFFFF;
+    background-color:#ADCF10;
+}
+
+#page #main #content #tag #tag-main .text {
+    float:left;
+    height:32px;
+    padding-left: 10px;
+    padding-top: 8px;
+    font-size:10px;
+}
+
+#page #main #content #tag #tag-main ul li {
+    list-style-type:none;
+}
+
+#page #main #content #tag #tag-main .value img {
+    float:right;
+    height:19px;
+    width:24px;
+    padding-top: 5px;
+}
+
+#page #main #content #tag {
+    overflow: hidden;
+    background-color: #E9E9E9;
+    margin: 5px 0px 0px 10px;
+    width: 98%;
+    background:transparent url(../images/tag-back.jpg) repeat scroll 0 0;
+    float:left;
+    height:30px;
+}
+
+#tag-main .jcarousel-item {
+    height:30px;
+    width:1900px;
+}
+
+#tag .left {
+    position:relative;
+    float:left;
+    background:transparent url(../images/tag-left.jpg) repeat scroll 0 0;
+    height:30px;
+    width:24px;
+    cursor:pointer;
+    z-index:3;
+}
+
+#tag .left.off{
+    background:transparent url(../images/tag-left-off.jpg) repeat scroll 0 0;
+    cursor:default;
+}
+
+#tag-main .jcarousel-clip {
+    height:30px;
+}
+
+#tag .right{
+    position:relative;
+    float:right;
+    background:transparent url(../images/tag-right.jpg) repeat scroll 0 0;
+    height:30px;
+    width:24px;
+    cursor:pointer;
+    z-index:3;
+}
+
+#tag .right.off{
+    cursor:default;
+    background:transparent url(../images/tag-right-off.jpg) repeat scroll 0 0;
+}
+
+#tag #tag-progress {
+    position:relative;
+    height:30px;
+    top: -29px;
+    padding: 0px 24px;
+    z-index:0;
+}
+
+#tag #tag-progress div{
+    position:relative;
+    float:left;
+    height:28px;
+    z-index:0;
+}
+
+#tag #tag-progress .display{
+    background-color: #EAFF99;
+}

@@ -1,0 +1,11 @@
+X-Mailer: %{app_name}
+Subject: [Karesansui Notifier] 危険値を越えました。仮想マシン (仮想マシン:%{host}) - %{type}
+
+レポート時刻: %{time}
+
+ホスト %{host} の 仮想マシン (仮想マシン:%{host}) の %{type} が危険値を越えました。
+タイプインスタンス: %{type_instance}
+
+危険値は、%{threshold_value} に設定されています。
+現在の値は、 %{current_value} です。
+

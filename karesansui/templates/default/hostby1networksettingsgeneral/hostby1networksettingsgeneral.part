@@ -1,0 +1,41 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+            <table cellspacing="0" border="0" style="background-color:#bcbcbc;">
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('Default Gateway')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+                        ${gateway | h}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('Nameserver')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+                        ${nameserver | h}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('FQDN')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+                        ${hostname | h}
+                    </td>
+                </tr>
+
+            </table>

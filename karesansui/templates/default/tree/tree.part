@@ -1,0 +1,99 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<%!
+import karesansui
+from libvirt import VIR_DOMAIN_NOSTATE
+from karesansui.lib.template import img_status, clipping
+from karesansui.lib.const import MACHINE_NAME_CLIPPING_RANGE
+%>
+
+<script type="text/javascript">
+<!--
+function show_switch() {
+    $(".tree-toggle-button").toggle(
+        function(){
+            var id = $(this).attr("id").replace("tree", "");
+            $("#child" + id).hide(500);
+            $(this).attr("src", "${ctx.homepath}/static/images/tree-close.gif");
+        },
+        function(){
+            var id = $(this).attr("id").replace("tree", "");
+            $("#child" + id).show(500);
+            $(this).attr("src", "${ctx.homepath}/static/images/tree-open.gif");
+        }
+    );
+
+    $(".tree-other .tmtree-u2").hide();
+    $(".tree-other .tree-toggle-button").click();
+};
+
+$(document).ready(function(){
+    $('div[id*="tree-"]').hover(
+    function(){
+        $(this).addClass("tree-mouseover");
+    },
+    function(){
+        $(this).removeClass("tree-mouseover");
+    });
+
+    if(typeof(g_current_tree_id) != 'undefined'){
+        $(g_current_tree_id).addClass("active");
+    }
+
+    // .unbind use because, when grayout close two or more event binding
+    $("#tree-renew-button").unbind("click.renew_tree").one("click.renew_tree", function(){
+        renew_extra(true);
+    });
+
+    show_switch();
+
+});
+//-->
+</script>
+                <span class="tree_value">
+% if machines:
+                    <ul>
+    % for host in machines:
+                        <li>
+        % if host.info['model'].uniq_key == application_uniqkey:
+                            <div class="tree-me">
+        % else:
+                            <div class="tree-other">
+        % endif
+                                <div id="tree-host${host.info['model'].id}">
+                                    <div class="tree-left">
+                                        <img src="${ctx.homepath}/static/images/tree-open.gif" alt="" id="tree${host.info['model'].id}" class="tree-toggle-button"/>
+        % if host.info['model'].uniq_key == application_uniqkey:
+                                        <a href="${ctx.homepath}/host/${host.info['model'].id}"><img src="${ctx.homepath}/static/images/host-icon.png" alt="" align="absmiddle" />${clipping(host.info['model'].name, MACHINE_NAME_CLIPPING_RANGE) | h}</a>
+        % else:
+                                        <a href="${ctx.protocol}://${host.info['model'].hostname}${karesansui.config['application.url.prefix']}/host/${host.info['model'].id}"><img src="${ctx.homepath}/static/images/host-icon.png" alt="" align="absmiddle" />${clipping(host.info['model'].name, MACHINE_NAME_CLIPPING_RANGE) | h}</a>
+        % endif
+                                    </div>
+                                    <div class="tree-right"></div>
+                                </div>
+                                <div style="clear:both" />
+                                <div class="tmtree-u2" id="child${host.info['model'].id}">
+        % for guest in host.guests:
+                                    <div id="tree-guest${guest.info['model'].id}" class="tmtree-l2">
+                                        <div class="tree-left">
+            % if host.info['model'].uniq_key == application_uniqkey:
+                                            <a href="${ctx.homepath}/host/${host.info['model'].id}/guest/${guest.info['model'].id}">${img_status(guest.info['virt'].status(), 'tree-', 'align="absmiddle"')}${clipping(guest.info['model'].name, MACHINE_NAME_CLIPPING_RANGE) | h}</a>
+            % else:
+                                            <a href="${ctx.protocol}://${host.info['model'].hostname}${karesansui.config['application.url.prefix']}/host/${host.info['model'].id}/guest/${guest.info['model'].id}">${img_status(VIR_DOMAIN_NOSTATE, 'tree-', 'align="absmiddle"')}${clipping(guest.info['model'].name, MACHINE_NAME_CLIPPING_RANGE) | h}</a>
+            % endif
+                                        </div>
+                                        <div class="tree-right"></div>
+                                    </div>
+                                    <div style="clear:both" />
+        % endfor
+                               </div>
+                           </div>
+                        </li>
+                        <div class="space"></div>
+    % endfor
+                    </ul>
+% else:
+                    <p>${_('No Machines Found.')}</p>
+% endif:
+                </span>

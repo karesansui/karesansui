@@ -1,0 +1,80 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/base.html" />
+
+<%def name="breadcrumbs()">
+        <div class="left"></div>
+        <div class="text">
+            <img src="${ctx.homepath}/static/images/top.png" alt=""/><a href="${ctx.homepath}/" class="path-a">${_('Top')}</a>
+        </div>
+        <div class="right"></div>
+</%def>
+
+<%def name="tab()">
+<script type="text/javascript">
+<!--
+
+$(document).ready(function(){
+
+    var job_id = "${job_id}";
+    if(job_id.match(/[0-9]+/)){
+        
+        // tab select
+        $("#tab .text ul li[class*='tab-selected']").removeClass('tab-selected');
+        $("#tab .text ul li a[id*=job]").parent().addClass('tab-selected');
+        
+        // content
+        goto_tab("${ctx.homepath}/job.part", null);
+        ajax_get(
+            "#detail_value",
+            "${ctx.homepath}/job/" + job_id + ".part",
+            null
+        );
+            
+        // hi-light
+        $("table#job_list tbody tr#job_row" + job_id).addClass('active');
+
+    }
+
+    var tab_url = null;
+    $("#tab .text li a").click(function(){
+        tab_url = $(this).attr("id");
+        if(tab_url != null){
+            $("#tab .text ul li[class*='tab-selected']").removeClass('tab-selected');
+            $(this).parent().addClass('tab-selected');
+            goto_tab(tab_url, null);
+        }
+    });
+});
+
+// -->
+</script>
+	            <div class="text">
+	                <ul>
+                        <li class="top-tab">
+                            <a class="tab-left" href="#" id="${ctx.homepath}/host.part"><span class="tab-right">${_('Summary')}</span></a>
+                        </li>
+                        <li class="top-tab">
+                            <a class="tab-left" href="#" id="${ctx.homepath}/user.part"><span class="tab-right">${_('User')}</span></a>
+                        </li>
+                        <li class="top-tab">
+                            <a class="tab-left" href="#" id="${ctx.homepath}/job.part"><span class="tab-right">${_('Job')}</span></a>
+                        </li>
+                        <li class="top-tab">
+                            <a class="tab-left" href="#" id="${ctx.homepath}/tag.part"><span class="tab-right">${_('Tag')}</span></a>
+                        </li>
+                    </ul>
+                </div>
+</%def>
+
+<%def name="show()">
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+    var job_id = "${job_id}";
+    if(!job_id.match(/[0-9]+/)){
+        $("#tab .text ul li a[id$='host.part']").click();
+    };
+});
+// -->
+</script>
+</%def>

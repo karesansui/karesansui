@@ -1,0 +1,234 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<%! from karesansui.lib.template import replace_empty, locale_hypervisor, total_progress, clipping, newline2br %>
+
+<script type="text/javascript">
+<!--
+
+$(document).ready(function(){
+    $(".info_detail table tbody tr:odd").addClass("odd");
+    $("[id*='toggle_button']").each(function(){
+        var id = $(this).attr("id");
+        var parts = id.split('_');
+        var count = parts[parts.length-1]; 
+        var prefix = parts[0];
+
+        toggle_button_event("#"+prefix+"_toggle_button_"+count, "#"+prefix+"_toggle_value_"+count, "close");
+    });
+});
+//-->
+</script>
+
+<div id="job_detail_display">
+    <table class="detail-contents">
+        <tr>
+            <th>${_('General Information')}</th>
+            <td class="detail-separator">
+                <img src="${ctx.homepath}/static/images/table-space.gif">
+            </td>
+            <td>
+                <table cellspacing="0"class="border detail-sub-contents">
+                    <tr>
+                        <th>${_('ID')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${jg.id | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Name')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${jg.name | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Machine Name')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${m2mj.Machine.name | h}</pre></td></tr>
+                    <tr>
+                        <th>${_('Unique Key')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${m2mj.Machine.uniq_key | h}</pre></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr><td colspan='3'><div class='detail-space'/></td></tr>
+
+        <tr>
+            <th>${_('Detail Information')}</th>
+            <td class="detail-separator">
+                <img src="${ctx.homepath}/static/images/table-space.gif">
+            </td>
+            <td>
+                <table cellspacing="0" class="border detail-sub-contents">
+% for k,v in JOBGROUP_STATUS.iteritems():
+    % if v == jg.status:
+                    <tr>
+                        <th>${_('Status')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td>
+        % if v == JOBGROUP_STATUS['NG'] or v == JOBGROUP_STATUS['APPERR']:
+                                <pre><span class="notice-text">${k | h}</span></pre>
+        % else:
+                                <pre><span>${k | h}</span></pre>
+        % endif
+                            </pre>
+                        </td>
+                    </tr>
+    % endif
+% endfor
+                    <tr>
+                        <th>${_('Total Progress')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td>
+                            <table>
+                                <td title="${total_progress(jg.jobs) | h}%">
+                                    <span class="progress" style="width:100px;">
+                                        <em class="progress-cover" style="left: ${total_progress(jg.jobs)}%;">${total_progress(jg.jobs) | h}%</em>
+                                    </span>
+                                </td>
+                                <td>
+                                    ${total_progress(jg.jobs) | h}%
+                                </td>
+                            </table>
+                        </td>
+                    </tr>
+% for k,v in HYPERVISOR.iteritems():
+    % if v == jg.status:
+                    <tr>
+                        <th>${_('Hypervisor')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${locale_hypervisor(k, _)}</pre></td>
+                    </tr>
+    % endif
+% endfor
+                    <tr>
+                        <th>${_('Finish Command')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${replace_empty(jg.finish_command, _('N/A')) | h}</pre></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr><td colspan='3'><div class='detail-space'/></td></tr>
+
+        <tr>
+            <th>${_('Command')}</th>
+            <td class="detail-separator">
+                <img src="${ctx.homepath}/static/images/table-space.gif">
+            </td>
+            <td>
+                <table cellspacing="0" class="border detail-sub-contents">
+<% count = 1 %>
+% for job in jg.jobs:
+                    <tr>
+
+                        <td>
+                            <div class="info_desc">
+                                <div id="job_toggle_button_${count}" class="info_desc_name">
+                                    <span>${_('Command')}${count}</span>
+                                </div>
+                                <div class="info_desc_value">
+                                    <table style="display:inline">
+                                        <td title="${job.progress | h}%">
+                                            <span class="progress" style="width:100px;">
+                                                <em class="progress-cover" style="left: ${job.progress}%;">${job.progress | h}%</em>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            ${job.progress | h}%
+                                        </td>
+                                    </table>
+                                </div>
+                            </div>
+                            <div style="clear:both"></div>
+                            <div id="job_toggle_value_${count}" class="info_detail">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td class="info_detail_name">${_('Action Command')}</td>
+                                            <td class="info_detail_value"><pre>${replace_empty(job.action_command, _('N/A')) | h}</pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="info_detail_name">${_('Action Exit Code')}</td>
+                                            <td class="info_detail_value"><pre>${replace_empty(job.action_exit_code, _('N/A')) | h}</pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="info_detail_name">${_('Action stdout')}</td>
+                                            <td class="info_detail_value"><pre>${replace_empty(job.action_stdout, _('N/A')) | h}</pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="info_detail_name">${_('Action stderr')}</td>
+                                            <td class="info_detail_value"><pre>${replace_empty(job.action_stderr, _('N/A')) | h}</pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="info_detail_name">${_('Rollback Command')}</td>
+                                            <td class="info_detail_value"><pre>${replace_empty(job.rollback_command, _('N/A')) | h}</pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="info_detail_name">${_('Rollback Exit Code')}</td>
+                                            <td class="info_detail_value"><pre>${replace_empty(job.rollback_exit_code, _('N/A')) | h}</pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="info_detail_name">${_('Rollback stdout')}</td>
+                                            <td class="info_detail_value"><pre>${replace_empty(job.rollback_stdout, _('N/A')) | h}</pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="info_detail_name">${_('Rollback stderr')}</td>
+                                            <td class="info_detail_value"><pre>${replace_empty(job.rollback_stderr, _('N/A')) | h}</pre></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+    % if count != len(jg.jobs):
+                    <tr>
+                        <td>
+                            <div class='detail-space'/>
+                        </td>
+                    </tr>
+    % endif
+<% count += 1 %>
+% endfor
+                </table>
+            </td>
+
+        </tr>
+
+
+        <tr><td colspan='3'><div class='detail-space'/></td></tr>
+
+        <tr>
+            <th>${_('Audit')}</th>
+            <td class="detail-separator">
+                <img src="${ctx.homepath}/static/images/table-space.gif">
+            </td>
+            <td>
+                <table cellspacing="0" class="border detail-sub-contents">
+                    <tr>
+                        <th>${_('Created User')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${m2mj.Machine2Jobgroup.created_user.nickname | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Created Date')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${jg.created.strftime(date_format) | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Modified User')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${m2mj.Machine2Jobgroup.modified_user.nickname | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Modified Date')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${jg.modified.strftime(date_format) | h}</pre></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>

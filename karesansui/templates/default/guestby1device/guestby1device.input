@@ -1,0 +1,386 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+<%!
+from karesansui.lib.template import userid2realname, \
+    groupid2realname, view_autounit, view_megaunit, replace_empty
+from karesansui.lib.const import DEFAULT_DECIMAL_POINT
+%>
+
+<script type="text/javascript">
+<!--
+function switch_section_pool() {
+    var _checkedObj = $("input:radio[name='disk_layout']:checked");
+    if(_checkedObj.val() == "create") {
+        $("#disk_dir_section").show();
+        $("#pool-iscsi-section").hide();
+    } else if(_checkedObj.val() == "iscsi") {
+        $("#disk_dir_section").hide();
+        $("#pool-iscsi-section").show();
+    }
+}
+
+function switch_section() {
+    var _checkedObj = $("input:radio[name='device_type']:checked");
+    if(_checkedObj.val() == "nic") {
+        $("#nic-section").show();
+        $("#disk-section").hide();
+    } else if(_checkedObj.val() == "disk") {
+        $("#nic-section").hide();
+        $("#disk-section").show();
+    }
+}
+
+function validates_device(){
+    var check = true;
+    ERROR_MSG = "";
+
+    var _checkedObj = $("input:radio[name='device_type']:checked");
+    if(_checkedObj.val() == "nic"){
+        check = check_macaddr($("#mac_address"),
+                              CHECK_EMPTY | CHECK_VALID,
+                              "${_('MAC Address')}") && check;
+
+    } else if (_checkedObj.val() == "disk"){
+        /**
+         check = check_number($("#disk_size"),
+         CHECK_EMPTY | CHECK_VALID | CHECK_MIN,
+         "${_('Disk Size (MB)')}",
+         DISK_MIN_SIZE) && check;
+         **/
+
+    } else {
+        ERROR_MSG = "${_('Please select a target.')}";
+        check = false;
+    }
+
+    if(!check){
+        show_alert_msg(ERROR_MSG, "ERROR");
+    }
+    return check;
+}
+
+function get_pools_info(){
+    var pools_info = new Array();
+% for pool_name in pools_info.keys():
+    var pool_info = new Array();
+    pool_info['available'] = "${pools_info[pool_name]['available']}";
+    pool_info['capacity'] = "${pools_info[pool_name]['capacity']}";
+    pool_info['type'] = "${pools_info[pool_name]['type']}";
+    pools_info["${pool_name}"] = pool_info
+% endfor
+
+    return pools_info;
+}
+
+function get_vols_info(){
+    var vols_info = new Array();
+% for pool_name in pools_iscsi_blocks.keys():
+%     for vol_info in pools_iscsi_blocks[pool_name]:
+    var vol_info = new Array();
+    vol_info['capacity'] = "${vol_info['capacity']}";
+    vol_info['path'] = "${vol_info['target']['path']}";
+    vol_info['realpath'] = "${vol_info['real']['dir']}/${vol_info['real']['name']}";
+    vols_info["${vol_info['name']}"] = vol_info;
+%     endfor
+% endfor
+
+    return vols_info;
+}
+
+function set_pool_name(name){
+
+    var default_start_disk_size = 8192;
+    var default_view_start_disk_size = view_autounit(default_start_disk_size, ['MB','GB','TB', 'PB', 'EB'], DEFAULT_DECIMAL_POINT, true);
+    var pools_info = get_pools_info();
+    var vols_info = get_vols_info();
+    var parts = name.split("/");
+    var pool_name = parts[0];
+    var disk_type = pools_info[pool_name]['type'];
+
+    if(disk_type == 'iscsi'){
+        var vol_name = null;
+        if(parts.length > 1){
+            var vol_name = parts[1];
+        }
+        var disk_capacity = view_megaunit(vols_info[vol_name]['capacity'], 'B');
+        var view_disk_capacity = view_autounit(vols_info[vol_name]['capacity'], null, DEFAULT_DECIMAL_POINT, true);
+        $("#disk_size_box").hide();
+        $("#disk_type_value_box").html(disk_type);
+        $("#disk_available_capacity_box").hide();
+        $("#disk_capacity_box").show();
+        $("#disk_capacity_value_box").html('<span>' + disk_capacity + '</span><span class="dark-text slider_autounit">(' + view_disk_capacity + ')</span>');
+        $("#disk_format_box").hide();
+        $("#disk_path_value_box").html(vols_info[vol_name]['path']);
+        $("#disk_realpath_value_box").html(vols_info[vol_name]['realpath']);
+        $("#disk_path_box").show();
+        $("#disk_realpath_box").show();
+    } else { // type is 'dir' or 'fs'
+        var disk_available = view_megaunit(pools_info[pool_name]['available'], 'B');
+        var disk_capacity = view_megaunit(pools_info[pool_name]['capacity'], 'B');
+        var view_disk_available = view_autounit(pools_info[pool_name]['available'], null, DEFAULT_DECIMAL_POINT, true);
+        var view_disk_capacity = view_autounit(pools_info[pool_name]['capacity'], null, DEFAULT_DECIMAL_POINT, true);
+
+        var start_disk_size = default_start_disk_size;
+        var view_start_disk_size = default_view_start_disk_size;
+        if(disk_available < default_start_disk_size){
+            start_disk_size = disk_available;
+            view_start_disk_size = view_autounit(start_disk_size, ['MB','GB','TB', 'PB', 'EB'], DEFAULT_DECIMAL_POINT, true)
+        }
+        $("#disk_size_box").show();
+        set_simple_slider(
+            "#disk_slider", 
+            "#disk_size", 
+            0, 
+            disk_available,
+            disk_available,
+            start_disk_size
+        );
+        $("#disk_size_autounit").text('(' + view_start_disk_size + ')');
+        $("#disk_size").change(function(){
+            var value = $(this).attr('value');
+            var view_value = view_autounit(value, ['MB','GB','TB', 'PB', 'EB'], DEFAULT_DECIMAL_POINT, true);
+            $("#disk_size_autounit").text('(' + view_value + ')');
+        });
+        $("#disk_type_value_box").html(disk_type);
+        $("#disk_available_capacity_box").show();
+        $("#disk_available_capacity_value_box").html('<span>' + disk_available + '</span><span class="dark-text slider_autounit">(' + view_disk_available + ')</span>&nbsp;/&nbsp;<span>' + disk_capacity + '</span><span class="dark-text slider_autounit">(' + view_disk_capacity + ')</span>');
+        $("#disk_capacity_box").hide();
+        $("#disk_format_box").show();
+        $("#disk_path_box").hide();
+        $("#disk_realpath_box").hide();
+    }
+}
+
+$(document).ready(function(){
+    $("input:radio[name='device_type']").click(function(){
+        switch_section();
+    });
+    switch_section();
+
+    var pool_name = $('#pool_dir option:selected').val();
+    set_pool_name(pool_name);
+    $("#pool_dir").change(function(){
+        var pool_name = $('#pool_dir option:selected').val();
+        set_pool_name(pool_name);
+    });
+
+
+    if("${VMType}" == "KVM") {
+        $("#bus_type_html").show();
+        alert_on(".caution-alt", "CAUTION", "${_('This will be enabled on next guest bootup')}");
+    } else {
+        $("#bus_type_html").hide();
+        alert_off(".caution-alt");
+    }
+
+    ajax_post_event("#add_device_button",
+        "${ctx.homepath}/host/${guest.info['model'].parent_id}/guest/${guest.info['model'].id}/device",
+        "#input_device :input",
+        validates_device);
+
+    helptip("#device_dev_type_help",
+            "${_('Device Type')}",
+            "${_(r'Type of the device to add. Choose \"Network\" to add a new network interface to the guest, or \"Disk\" to add a new virtual hard disk device.')}");
+
+    helptip("#device_interface_type_help",
+            "${_('Interface Type')}",
+            "${_(r'Type of the virtual network interface connection. Choose \"Physical Device\" to connect directly to the physical network, or \"Virtual Network\" to connect guest to the virtual network (which are in \"Network\" tab of the host). ')}");
+
+    helptip("#device_mac_address_help",
+            "${_('MAC Address')}",
+            "${_('(Auto-recommended value displayed below.) MAC address of the guest in xx:xx:xx:xx:xx:xx format. Specify an address not used in the network.')}");
+
+    helptip("#device_sparse_file_help",
+            "${_('Sparse File')}",
+            "${_('Check if you like to create the disk file image in sparse file format. Using sparse file format saves disk space and time to create the image, but are inferior in writing performance.')}");
+
+    helptip("#device_disk_size_help",
+            "${_('Disk Size (MB)')}",
+            "${_('Size of the disk to add in mega-bytes.')}");
+
+    helptip("#device_disk_device_type_help",
+            "${_('Disk Device Type')}",
+            "${_('Type of disk device to emulate.')}");
+});
+-->
+</script>
+
+<div id="input_device">
+    <div class="caution-alt"></div>
+    <form method="post" action="" id="input_device_form" name="input_device_form">
+        <div class="grayout-head">
+            <span class="grayout-title"><img src="${ctx.homepath}/static/images/settings-title.gif">${_('Device Settings')}</span>
+            <br style="clear: both;"/>
+        </div>
+        <div class="grayout-contents">
+            <div class="grayout-param">${_('Device Type')}<span id="device_dev_type_help" /></div>
+            <div class="grayout-value grayout-form">
+                <input type="radio" name="device_type" id="device_type_nic" value="nic" checked />${_('Network')}
+                <input type="radio" name="device_type" id="device_type_disk" value="disk" />${_('Disk')}
+            </div>
+            <!-- NIC -->
+            <div id="nic-section">
+                <div class="grayout-param">${_('Interface Type')}<span id="device_interface_type_help" /></div>
+                <div class="grayout-value grayout-form"><table width="100%">
+                    <tr>
+                        <td><input type="radio" name="nic_type" id="nic_type_phy" value="phydev" checked /></td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <div class="grayout-value grayout-form" style="width:150px;">${_('Physical Device')}<span id="nic_type_phy_help"/></div>
+                                    <td><select name='phydev'>
+% for dev in phydev:
+                                        <option value='${dev}'>${dev}</option>
+% endfor
+                                    </select></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="radio" name="nic_type" id="nic_type_vir" value="virnet" /></td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <div class="grayout-value grayout-form" style="width:150px;">${_('Virtual Network')}<span id="nic_type_vir_help"/></div>
+                                    <td><select name='virnet'>
+% for net in virnet:
+                                        <option value='${net}'>${net}</option>
+% endfor
+                                    </select></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table></div>
+                <div class="grayout-param">${_('MAC Address')}<span id="device_mac_address_help" /></div>
+                <div class="grayout-value grayout-form">
+                    <input type="text" name="mac_address" value="${mac_address}" id="mac_address" size="45" maxlength="17"/><span class="require-text">${_('Require')}</span>
+                </div>
+            </div>
+
+            <!-- Disk -->
+            <div id="disk-section">
+                <div class="grayout-param">${_('Storage Type')}<span id="disk_layout_help"/></div>
+                <div class="grayout-value grayout-form">
+
+                    ${_("Storage Pool Name")}&nbsp;:&nbsp;
+                    <select id="pool_dir" name="pool_dir">
+% for group_type in ['dir', 'fs', 'iscsi']:
+                        <optgroup label="${group_type}">
+%     for name in sorted(pools_info.keys()):
+%         if group_type == 'dir' and pools_info[name]['type'] == 'dir':
+%             if pools_info[name]['name'] == 'default':
+                            <option value="${name}" selected>${name}</option>
+%             else:
+                            <option value="${name}">${name}</option>
+%             endif
+%         endif
+
+%         if group_type == 'fs' and pools_info[name]['type'] == 'fs':
+                            <option value="${name}">${name}</option>
+%         endif
+
+%         if group_type == 'iscsi' and pools_info[name]['type'] == 'iscsi':
+%             if name in pools_iscsi_blocks:
+%                 for vol_info in pools_iscsi_blocks[name]:
+                            <option value="${name}/${vol_info['name']}">${name} - ${vol_info['name']}</option>
+%                 endfor
+%             endif
+%         endif
+%     endfor
+                        </optgroup>
+% endfor
+                    </select>
+                    <div class="grayout-detail">
+                        <input type="hidden" id="pool_type" name="pool_type" value="dir" />
+                        <table class="detail-contents">
+                            <tr id="disk_type_box">
+                                <th>${_('Storage Pool Type')}</th>
+                                <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                                <td id="disk_type_value_box">
+                                    <span>${_('-')}</span>
+                                </td>
+                            </tr>
+                            <tr id="disk_size_box">
+                                <th>${_('Disk Size (MB)')}</th>
+                                <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                                <td id="disk_size_value_box">
+                                    <div id="disk_slider" class="slider"></div>
+                                    <div class="slider_value">
+                                        <input type="text" id="disk_size" name="disk_size" value="0" size="16" /><span id="disk_size_autounit" class="dark-text slider_autounit">(0B)</span><span class="require-text">${_('Require')}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="disk_available_capacity_box">
+                                <th>
+                                    <span>${_('Available (MB)')}</span><span>&nbsp;/&nbsp;</span><span>${_('Capacity (MB)')}</span>
+                                </th>
+                                <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                                <td id="disk_available_capacity_value_box">
+                                    <span>${_('-')}</span>
+                                </td>
+                            </tr>
+                            <tr id="disk_capacity_box" style="display:none">
+                                <th>${_('Capacity (MB)')}</th>
+                                <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                                <td id="disk_capacity_value_box">
+                                    <span>${_('-')}</span>
+                                </td>
+                            </tr>
+                            <tr id="disk_format_box">
+                                <th>${_('OS Image Type')}</th>
+                                <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                                <td id="disk_format_value_box">
+                                    <select id="select_disk_format" name="disk_format">
+% for x in DISK_FORMATS.values():
+%     if x == "qcow2":
+                                        <option value="${x}" selected>${x}</option>
+%     else:
+                                        <option value="${x}">${x}</option>
+%     endif
+% endfor
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr id="disk_path_box">
+                                <th>${_('Device Path')}</th>
+                                <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                                <td id="disk_path_value_box"></td>
+                            </tr>
+                            <tr id="disk_realpath_box">
+                                <th>${_('Device Real Path')}</th>
+                                <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                                <td id="disk_realpath_value_box"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="bus_type_html">
+                    <div class="grayout-param">${_('Disk Device Type')}<span id="device_disk_device_type_help" /></div>
+                    <div class="grayout-value grayout-form">
+                        <select name='bus_type'>
+% for x in bus_types:
+%     if x == "virtio":
+                            <option value="${x}" selected>${_(x)}</option>
+%     else:
+                            <option value="${x}">${_(x)}</option>
+%     endif
+% endfor
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grayout-footer">
+                <a href="#" name="add_device_button" id="add_device_button" class="button">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Add')}</span>
+                </a>
+                <br style="clear: both;"/>
+            </div>
+            <br style="clear: both;"/>
+        </div>
+        <input type="hidden" id="iscsi_block" name="iscsi_block" value="" />
+    </form>
+</div>

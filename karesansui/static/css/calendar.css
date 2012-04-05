@@ -1,0 +1,72 @@
+#ui-datepicker-div .ui-datepicker-control{
+    background:#a9cf15 none repeat scroll 0 0 !important;
+}
+
+#ui-datepicker-div .ui-datepicker-control a:hover{
+    background-color: #f8ffdb !important; 
+}
+
+#ui-datepicker-div {
+    background: url("../lib/jquery.ui/themes/images/ui-bg_flat_75_ffffff_40x100.png") repeat-x scroll 50% 50% #FFFFFF;
+    border: 1px solid #AAAAAA;
+}
+
+#ui-datepicker-div .ui-datepicker-header{
+    background: url("../lib/jquery.ui/themes/images/ui-bg_highlight-soft_75_cccccc_1x100.png") repeat-x scroll 50% 50% #CCCCCC;
+    border: 1px solid #AAAAAA;
+}
+
+#ui-datepicker-div .ui-datepicker-calendar .ui-state-default{
+    background:url("../lib/jquery.ui/themes/images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 50% #E6E6E6;
+    border:1px solid #D3D3D3;
+    color:#555555;
+    font-weight:normal;
+    outline:medium none;
+}
+
+#ui-datepicker-div .ui-datepicker-calendar .ui-state-highlight{
+    background:url("../lib/jquery.ui/themes/images/ui-bg_glass_55_fbf9ee_1x400.png") repeat-x scroll 50% 50% #FBF9EE;
+    border:1px solid #FCEFA1;
+    color:#363636;
+}
+
+#ui-datepicker-div .ui-datepicker-header .ui-datepicker-prev span,
+#ui-datepicker-div .ui-datepicker-header .ui-datepicker-next span{
+    position: relative;
+    top: 2px;
+    left: 2px;
+    margin: 0px;
+    cursor: pointer;
+}
+
+#ui-datepicker-div .ui-datepicker-header .ui-datepicker-prev{
+    top: 2px;
+    left: 1px;
+}
+#ui-datepicker-div .ui-datepicker-header .ui-datepicker-next{
+    top: 2px;
+    right: 1px;
+}
+
+#ui-datepicker-div .ui-datepicker-header .ui-datepicker-prev-hover{
+    top: 2px;
+    left: 1px;
+}
+#ui-datepicker-div .ui-datepicker-header .ui-datepicker-next-hover{
+    top: 2px;
+    right: 1px;
+}
+
+#ui-datepicker-div .ui-datepicker-header .ui-datepicker-prev span{
+    background-image: url(../images/list-pre.gif);
+    background-repeat: no-repeat;
+    height: 18px;
+    width: 18px;
+}
+
+#ui-datepicker-div .ui-datepicker-header .ui-datepicker-next span{
+    background-image: url(../images/list-next.gif);
+    background-repeat: no-repeat;
+    height: 18px;
+    width: 18px;
+}

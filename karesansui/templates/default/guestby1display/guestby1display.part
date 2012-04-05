@@ -1,0 +1,89 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+            <table cellspacing="0" border="0" style="background-color:#bcbcbc;">
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('VNC Port Number')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+                        ${info["info"]["port"] | h}
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('Listen on All Network Interfaces')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+% if info['info']['listen'] == '0.0.0.0':
+                        ${_('Yes')}
+% else:
+                        ${_('No')}
+% endif
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('VNC Port Number')}(${_('This will be enabled on next guest bootup')})</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+                        ${info["setting"]["port"] | h}
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('Listen on All Network Interfaces')}(${_('This will be enabled on next guest bootup')})</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+% if info['setting']['listen'] == '0.0.0.0':
+                        ${_('Yes')}
+% else:
+                        ${_('No')}
+% endif
+                    </td>
+                </tr>
+
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('VNC Password')}(${_('This will be enabled on next guest bootup')})</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+% if info['setting']['passwd'] is None:
+                        ${_('Not set')}
+% else:
+                        ${info['setting']['passwd'] | h} 
+% endif
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('VNC Keymap')}(${_('Keymap of the keyboard to use with VNC.')})</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+% if info['setting']['keymap'] is None:
+                        ${_('Undefined')}
+% else:
+                        ${info['setting']['keymap'] | h} 
+% endif
+                    </td>
+                </tr>
+            </table>

@@ -1,0 +1,8 @@
+X-Mailer: %{app_name}
+Subject: [Karesansui Notifier] current status is within normal range again. Virtual machine (%{host}) - %{type}
+
+Reported at: %{time}
+
+%{type} of virtual machine (%{host}) is within normal range again.
+type instance: %{type_instance}
+

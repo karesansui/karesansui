@@ -1,0 +1,259 @@
+<%doc>Copyright (C) 2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+<%!
+from karesansui.lib.template import view_autounit, view_megaunit
+from karesansui.lib.const import DEFAULT_DECIMAL_POINT
+%>
+<script type="text/javascript">
+<!--
+function get_target_id(){
+    var target_id = $("#storagepool_list tr[id^='storagepool_row_'].active").attr("id");
+    return target_id;
+}
+
+function bind_start_event(){
+    $("#start_storagepool").unbind("click");
+    $("#start_storagepool").one("click", function(){ 
+        var target_id = get_target_id();
+        var val = target_id.split("_");
+        ajax_put("${ctx.homepath}/host/${host_id}/storagepool/" + val[2] + "/status.part",
+            {"status" : STORAGE_POOL_START},
+            function(data, status){},
+            true,
+            "${ctx.homepath}${ctx.path}"
+        );
+    });
+}
+
+function unbind_start_event(){
+    $("#start_storagepool").unbind("click");
+}
+
+function bind_stop_event(){
+    $("#stop_storagepool").unbind("click");
+    $("#stop_storagepool").one("click", function(){ 
+        var target_id = get_target_id();
+        var val = target_id.split("_");
+        ajax_put("${ctx.homepath}/host/${host_id}/storagepool/" + val[2] + "/status.part",
+            {"status" : STORAGE_POOL_STOP},
+            function(data, status){},
+            true,
+            "${ctx.homepath}${ctx.path}"
+        );
+    });
+}
+
+function unbind_stop_event(){
+    $("#stop_storagepool").unbind("click");    
+}
+
+function bind_add_event(){
+    $("#add_storagepool").unbind("click");
+    $("#add_storagepool").click(function() {
+        grayout_view("GET",
+            "${ctx.homepath}${ctx.path}?mode=input",
+            "${_('Storage Pool Settings')}",
+            "${ctx.homepath}${ctx.path}");
+    });
+}
+
+function unbind_add_event(){
+    $("#add_storagepool").unbind("click");    
+}
+
+function bind_delete_event(){
+    $("#delete_storagepool").unbind("click");
+    $("#delete_storagepool").click(function(){
+        var target_id = get_target_id();
+        var val = target_id.split("_");
+        var delete_url = null;
+        delete_url = "${ctx.homepath}/host/${host_id}/storagepool/" + val[2] + ".part";
+        var param = null;
+        delete_dialog("#dialog", delete_url, param, "${ctx.homepath}${ctx.path}", "#delete_storagepool", "");
+    });
+}
+
+function unbind_delete_event(){
+    $("#delete_storagepool").unbind("click");
+}
+
+$(document).ready(function(){
+    $("#storagepool_list").tablesorter({
+        widgets: ['zebra', 'select']
+    });
+
+    $("#storagepool_list tr[id^='storagepool_row_']").click(function(){
+        var target = $(this).attr("id");
+        var target_val = target.split("_");
+
+	    ajax_get("#detail_value", 
+            "${ctx.homepath}/host/${host_id}/storagepool/" + target_val[2] + ".part", 
+            null);
+
+        tool_invalid("#start_storagepool");
+        tool_invalid("#stop_storagepool");
+        tool_invalid("#delete_storagepool");
+        unbind_start_event();
+        unbind_stop_event();
+        unbind_delete_event();
+
+        if(target_val[3] == "true"){
+            //Running
+            tool_reset("#stop_storagepool");
+            bind_stop_event();
+
+        } else if(target_val[3] == "false"){
+            //Stop
+            tool_reset("#start_storagepool");
+            bind_start_event();
+            if($("#"+ target + " .storagepool_name").text() != "default"){
+                tool_reset("#delete_storagepool");
+                bind_delete_event();
+            }
+        }
+    });
+
+    $("#action>a").hover(
+        function(){tool_over(this);},
+        function(){tool_over(this);}
+    ).mousedown(function(){
+        var id = $(this).attr("id");
+        tool_active(this);
+    });
+
+    tool_invalid("#start_storagepool");
+    tool_invalid("#stop_storagepool");
+    tool_invalid("#delete_storagepool");
+
+    renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
+
+    bind_add_event();
+    show_detail_event();
+});
+-->
+</script>
+                    <div id="action">
+                        <div class="left"></div>
+
+                        <a href="#" name="start_storagepool" id="start_storagepool" class="tool-link">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-start.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text" >${_('Start')}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" name="stop_storagepool" id="stop_storagepool" class="tool-link">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-stop.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text" >${_('Stop')}</div>
+                                </div>
+                            </div>
+                        </a>
+
+
+                        <a href="#" name="add_storagepool" id="add_storagepool" class="tool-link">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-add.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text" >${_('Add')}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" name="delete_storagepool" id="delete_storagepool" class="tool-link">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-trash.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text" >${_('Delete')}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="right">
+                            <a href="#" class="tool-link" >
+                                <div class="tool-mid">
+                                    <img src="${ctx.homepath}/static/images/reload.gif" alt="renew" id="tool_renew"/>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <br style="clear: both;"/>
+                    <div class="space"></div>
+                    <div class="alert"></div>
+                    <div id="view">
+                        <div id="list-box">
+                            <div id="minner">
+                                <table id="storagepool_list" class="tablesorter">
+                                    <thead>
+                                        <tr>
+                                          <!--
+                                              TRANSLATORS:
+                                              上から順に
+                                              ・ストレージプールの種類
+                                              　　現在は「dir」「fs」「iscsi」の3種類です。
+                                              ・名前
+                                              ・現在の状態
+                                              ・自動起動のONOFF
+                                            -->
+                                            <th width="10%">${_('Type')}</th>
+                                            <th width="70%">${_('Name')}</th>
+                                            <th width="10%" style="white-space:nowrap">${_('Capacity')}&nbsp;(MB)</th>
+                                            <th width="10%">${_('Status')}</th>
+                                            <th width="10%" style="white-space:nowrap">${_('Autostart')}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+% for i in range(0, len(pools_info)):
+                                        <tr id="storagepool_row_${pools_info[i]['uuid']}_${str(pools_info[i]['is_active']).lower()}">
+                                            <td align="center">${pools_info[i]['type'] |h}</td>
+                                            <td class="storagepool_name">${pools_info[i]['name'] |h}</td>
+                                            <td align="right">
+                                                ${view_megaunit(pools_info[i]['capacity'], 'B') | h}
+                                            </td>
+    % if pools_info[i]['is_active'] is True:
+                                            <td align="center">${_("RUNNING") |h}</td>
+    % else:
+                                            <td align="center">${_("STOPPED") |h}</td>
+    % endif
+    % if pools_info[i]['is_autostart'] is True:
+                                            <td align="center"><img src="${ctx.homepath}/static/images/server-startup.png" alt="${_('ON')}" /></td>
+    % else:
+                                            <td align="center">-</td>
+    % endif
+                                        </tr>
+% endfor
+                                    </tbody>
+                                </table>
+                                <br style="clear: both;"/>
+                            </div>
+                        </div>
+                    </div>
+                    <br style="clear: both;"/>
+                    <div class="space"></div>
+                    <div id="detail">
+                        <div class="panel">
+                            <div class="wrap">
+                                <span class="title"> &nbsp;</span>
+                                <p class="point"> </p>
+                                <p>
+                                    <img src="${ctx.homepath}/static/images/tree-open.gif" alt="" id="show_detail_switch" class="tree-toggle-button"/><span class="msg-title">${_('Details')}</span><br />
+                                    <span id="detail_value">--</span>
+                                </p>
+                                <dl><dt>&nbsp;</dt></dl>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>
+                    </div>
+                    <br style="clear: both;"/>

@@ -1,0 +1,1 @@
+0 0,6,12,18 * * * root find /var/lib/karesansui/tmp -mindepth 1 -cmin +360 -exec rm -rf "{}" \; >/dev/null 2>&1

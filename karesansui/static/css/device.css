@@ -1,0 +1,58 @@
+#device {}
+
+#device .active {
+    background-color:#9bd70f;
+    color:#ffffff;
+    height:100%;
+}
+
+#device .passive {
+    color:#444444;
+}
+
+#device_tab {
+   cursor: pointer; 
+}
+
+#device_tab td.device_highlight {
+    background-color: #f2f2f2;
+}
+
+#device_tab td:hover {
+    background-color: #cacaca;
+}
+
+#device_tab td.device_active {
+    background-color: #a9cf15;
+}
+
+#input_device .grayout-detail {
+    border: 1px solid #BCBCBC;
+    width: 100%;
+    margin: 5px 0px;
+}
+#input_device .detail-contents {
+    width: 100%;
+}
+#input_device .detail-separator{
+    height:18px;
+    width:60px;
+}
+#input_device .detail-space {
+    background:transparent url(${ctx.homepath}/static/images/kugiri-a.gif) repeat scroll 0 0;
+    height:4px;
+    margin-bottom:8px;
+    margin-top:8px;
+    width:100%;
+}
+#input_device table.detail-contents>tbody>tr>th{
+    font-weight: bold;
+    background-color: #FFFFFF;
+    padding:0px 10px;
+    width:20%;
+    text-align: left;
+    white-space: nowrap;
+}
+#input_device table.detail-contents>tbody>tr>td{
+    background-color: #FFFFFF;
+}

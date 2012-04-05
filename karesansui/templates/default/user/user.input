@@ -1,0 +1,120 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+function validates_user(){
+    var check = true;
+    ERROR_MSG = "";
+
+    check = check_username(
+                $("#nickname"),
+                CHECK_EMPTY | CHECK_LENGTH | CHECK_ONLYSPACE,
+                "${_('Nickname')}",
+                USER_MIN_LENGTH,
+                USER_MAX_LENGTH
+            ) && check;
+    
+    check = check_mailaddress(
+                $("#email"),
+                CHECK_EMPTY | CHECK_VALID,
+                "${_('Mail Address')}",
+                null,
+                EMAIL_MIN_LENGTH,
+                EMAIL_MAX_LENGTH
+            ) && check;
+    
+    check = check_password(
+                $("#new_password"),
+                $("#retype"),
+                CHECK_EMPTY | CHECK_VALID | CHECK_LENGTH,
+                "${_('Password')}",
+                PASSWORD_MIN_LENGTH,
+                PASSWORD_MAX_LENGTH
+            ) && check;
+    
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}" + "\n" + ERROR_MSG);
+        return false;
+    } else {
+        return true;
+    }
+};
+
+$(document).ready(function(){
+
+    ajax_post_event(
+        "#add_user_button",
+        "${ctx.homepath}${ctx.path}",
+        "#user_setting :input",
+        validates_user
+        );
+
+    // help    
+    helptip("#user_nickname_help", 
+        "${_('User Name')}", 
+        "${_('User name to be displayed in Karesansui user interface. Symbols including spaces can be used.')}");
+
+    helptip("#user_email_help", 
+        "${_('Mail Address')}",
+        "${_('Mail address and password are used to login to Karesansui. Should be unique between all users. Valid mail address format required.')}"); 
+
+    helptip("#user_password_help", 
+        "${_('Password')}", 
+        "${_('Password to login to Karesansui. Alphabets, numbers and symbols can be used.')}");
+
+    helptip("#user_languages_help", 
+        "${_('Language')}", 
+        "${_('User interface language to use.')}");
+});
+</script>
+<div id="user_setting">
+    <form method="post" action="" id="input_user_add_form" name="input_user_add_form">
+        <div class="grayout-head">
+            <span class="grayout-title">
+                <img src="${ctx.homepath}/static/images/settings-title.gif" alt="" >${_('Add User')}
+            </span>
+            <br style="clear: both;"/>
+        </div>
+
+        <div class="grayout-contents">
+            <div class="grayout-param">${_('User Name')}<span id="user_nickname_help"></span></div>
+            <div class="grayout-value grayout-form">
+                <input type="text" name="nickname" value="${user.nickname}" id="nickname" size="40" maxlength="16" /><span class="require-text">${_('Require')}</span>
+            </div>
+
+            <div class="grayout-param">${_('Mail Address')}<span id="user_email_help"></span></div>
+            <div class="grayout-value grayout-form">
+                <input type="text" name="email" value="${user.email}" id="email" size="40" maxlength="256" /><span class="require-text">${_('Require')}</span>
+            </div>
+
+            <div class="grayout-param">${_('Password')}<span id="user_password_help"></span></div>
+            <div class="grayout-value grayout-form">
+                <p>${_('New Password')}</p>
+                <input type="password" name="new_password" id="new_password" size="30" maxlength="40" /><span class="require-text">${_('Require')}</span>
+                <p>${_('Retype')}</p>
+                <input type="password" name="retype" id="retype" size="30" maxlength="40" /><span class="require-text">${_('Require')}</span>
+            </div>
+
+            <div class="grayout-param">${_('Language')}<span id="user_languages_help"></span></div>
+            <div class="grayout-value grayout-form">
+                <select name="languages" id="languages">
+% for locale in locales:
+% if user.languages == locale:
+                    <option value="${locale}" selected="selected">${_(locale)}</option>
+% else:
+                    <option value="${locale}">${_(locale)}</option>
+% endif
+% endfor
+                </select>
+            </div>
+
+
+            <div class="grayout-footer">
+                <a href="#" name="add_user_button" id="add_user_button" class="button">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Add')}</span>
+                </a>
+            </div>
+            <br style="clear: both;"/>
+        </div>
+    </form>
+</div>

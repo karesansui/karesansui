@@ -1,0 +1,173 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+<script type="text/javascript">
+<!--
+function validates_host(){
+    var check = true;
+    var m_hostname_tmp;
+    var m_hostname_parts;
+    ERROR_MSG = "";
+
+    check = check_string(
+                $("#m_name"),
+                CHECK_EMPTY | CHECK_LENGTH | CHECK_ONLYSPACE,
+                "${_('Guest Name')}",
+                null,
+                MACHINE_NAME_MIN_LENGTH,
+                MACHINE_NAME_MAX_LENGTH
+            ) && check;
+
+    m_hostname_tmp = $("#m_hostname").val();
+    m_hostname_parts = m_hostname_tmp.split(":");
+    if(m_hostname_parts.length > 2){
+        check = false;
+        ERROR_MSG += minisprintf("${_('%s contains too many colon(:)s.')}", "${_('FQDN')}");
+    } else {
+        $("#m_hostname").val(m_hostname_parts[0]);
+        check = check_domainname(
+                    $("#m_hostname"),
+                    CHECK_EMPTY | CHECK_LENGTH | CHECK_VALID,
+                    "${_('FQDN')}",
+                    null,
+                    FQDN_MIN_LENGTH,
+                    FQDN_MAX_LENGTH
+                ) && check;
+        if(m_hostname_parts[1]){
+            $("#m_hostname").val(m_hostname_parts[1]);
+            check = check_number(
+                            $("#m_hostname"),
+                            CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                            "${_('Port Number')}",
+                            PORT_MIN_NUMBER,
+                            PORT_MAX_NUMBER
+                        ) && check;
+        }
+        $("#m_hostname").val(m_hostname_tmp);
+    }
+    
+    check = check_unique_key(
+                    $("#m_uuid"),
+                    CHECK_EMPTY | CHECK_VALID,
+                    "${_('Karesansui Unique Key')}"
+                ) && check;
+    
+    check = check_string(
+                $("#note_title"),
+                CHECK_LENGTH | CHECK_ONLYSPACE,
+                "${_('Title')}",
+                null,
+                NOTE_TITLE_MIN_LENGTH,
+                NOTE_TITLE_MAX_LENGTH
+            ) && check;
+
+    check = check_string(
+                $("#note_value"),
+                CHECK_ONLYSPACE,
+                "${_('Note')}",
+                null,
+                null,
+                null
+            ) && check;
+
+    if($("#tags").val()){
+        var form_tmp = $("#tags").val();
+        var tags = $("#tags").val().split(",");
+        var tag_check = true;
+
+        for (var idx in tags){
+            $("#tags").val(tags[idx]);
+            tag_check = check_string(
+                        $("#tags"),
+                        CHECK_LENGTH | CHECK_ONLYSPACE,
+                        "${_('Tag')}",
+                        null,
+                        TAG_MIN_LENGTH,
+                        TAG_MAX_LENGTH
+                    ) && tag_check;
+            if(tag_check == false){
+                break;
+            }
+        }
+        $("#tags").val(form_tmp);
+        check = check && tag_check;
+    }
+    
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG);
+    }
+
+    return check;
+}
+
+$(document).ready(function(){
+    machine_post_event(
+        "#input_host_submit",
+        "${ctx.homepath}${ctx.path}",
+        "#input_host :input",
+        validates_host
+    );
+
+    // help
+    helptip("#m_hostname_help", 
+        "${_('FQDN')}",
+        "${_(r"FQDN of the host. If the Karesansui server on the host waits on the port other than 80, then specify in 'FQDN:portnumber' format.")}");
+    helptip("#host_name_help", 
+        "${_('Host Name')}", 
+        "${_('Name of the host. This will be used in Karesansui control panel. Any letters, including spaces and symbols are allowed.')}");
+    helptip("#host_tag_help", 
+        "${_('Tag')}", 
+        "${_(r"Tag to add to the host to be used in Karesansui control panel. Can be used to search hosts using tags in the 'Hosts' panel (features planned in future version). Separate tags with commas to specify two or more tags. Any letters, including spaces and symbols are allowed.")}");
+        
+    helptip("#uniqkey_help",
+        "${_('Unique Key')}",
+        "${_("A unique ID to distinguish each host when using Karesansui in multi-host configuration. Should be a unique value between all hosts and guests. Format: 5 fields separated by '-'. Each field should have 8-4-4-4-12 letters.")}");
+        
+});
+//-->
+</script>
+
+<div id="input_host">
+    <div class="grayout-head">
+        <span class="grayout-title">
+            <a href="#" id="server" class="path-a"><img src="${ctx.homepath}/static/images/settings-title.gif" alt="" >${_('Add Host')}</a>
+        </span>
+        <br style="clear: both;"/>
+    </div>
+    
+    <div class="grayout-contents">
+        <div class="grayout-param">${_('Host Name')}<span id="host_name_help"/></div>
+        <div class="grayout-value grayout-form">
+            <input type="text" id="m_name" name="m_name" value="" size="40" maxlength="256" /><span class="require-text">${_('Require')}</span>
+        </div>
+
+        <div class="grayout-param">${_('FQDN')}<span id="m_hostname_help"/></div>
+        <div class="grayout-value grayout-form">
+            <input type="text" id="m_hostname" name="m_hostname" value="" size="40" maxlength="256" /><span class="require-text">${_('Require')}</span>
+        </div>
+
+        <div class="grayout-param">${_('Unique Key')}<span id="uniqkey_help"/></div>
+        <div class="grayout-value grayout-form">
+            <input type="text" id="m_uuid" name="m_uuid" value="" size="40" maxlength="36" /><span class="require-text">${_('Require')}</span>
+        </div>
+
+        <div class="grayout-param">${_('Notebook')}</div>
+        <div class="grayout-value grayout-form">
+            <p>${_('Title')}</p>
+                <input type="text" id="note_title" name="note_title" value="" size="40" maxlength="64" />
+            <p>${_('Note')}</p>
+                <textarea id="note_value" name="note_value" cols="50" rows="5"></textarea>
+        </div>
+        <div class="grayout-param">${_('Tags')}<span id="host_tag_help"/></div>
+        <div class="grayout-value grayout-form">
+            <input type="text" id="tags" name="tags" value="" size="40" />
+        </div>
+
+        <div class="grayout-footer">
+            <a href="#" name="input_host_submit" id="input_host_submit" class="button">
+                <span class="button-left">&nbsp;</span><span class="button-right">${_('Add')}</span>
+            </a>
+            <br style="clear: both;"/>
+        </div>
+        <br style="clear: both;"/>
+    </div>
+</div>

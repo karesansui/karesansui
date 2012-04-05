@@ -1,0 +1,65 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<%! from karesansui.lib.template import view %>
+<%
+ip_list = ''
+if config['access'][0] == 'network':
+    ip_list = config['access'][1]
+    access_msg = _('Permit access from same network')
+elif config['access'][0] == 'ipaddress':
+    for ip in config['access'][1:]:
+        ip = '<p>' + ip + '</p>'
+        ip_list += ip
+    access_msg = _('Permit specified IP address')
+else:
+    access_msg = _('Permit access from all')
+
+if config['ssl_status'] == 'enable':
+    ssl_status_msg = _('Use')
+else:
+    ssl_status_msg = _("Do not use")
+
+%>
+
+
+<div class="settings-contents">
+    <table>
+        <tr>
+            <th>${_('Unique Key')}</th>
+            <td>
+                <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+            </td>
+            <td>${view(config['uniqkey'],_) | h}</td>
+        </tr>
+        <tr>
+            <th>${_('Port Number')}</th>
+            <td>
+                <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+            </td>
+            <td>${view(config['port'],_) | h}</td>
+        </tr>
+        <tr>
+            <th>${_('Access Policy')}</th>
+            <td>
+                <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+            </td>
+            <td> ${access_msg}</td>
+        </tr>
+        <tr>
+            <th>${_('Access List')}</th>
+            <td>
+                <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+            </td>
+            <td>${view(ip_list,_)}</td>
+        </tr>
+        <tr>
+            <th>${_('SSL Status')}</th>
+            <td>
+                <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+            </td>
+            <td>${ssl_status_msg}</td>
+        </tr>
+    </table>
+    <br style="clear: both;"/>
+</div>

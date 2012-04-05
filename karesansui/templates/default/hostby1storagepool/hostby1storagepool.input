@@ -1,0 +1,248 @@
+<%doc>Copyright (C) 2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function validates_storagepool(){
+    var check = true;
+    ERROR_MSG = "";
+
+    check = check_string(
+                $("#pool_name"),
+                CHECK_EMPTY | CHECK_LENGTH | CHECK_ONLYSPACE | CHECK_VALID,
+                "${_('Storage Pool Name')}",
+                "[^A-Za-z0-9-_]",
+                MACHINE_NAME_MIN_LENGTH,
+                MACHINE_NAME_MAX_LENGTH
+            ) && check;
+
+    if($("#pool_type option:selected").text() == "dir"){
+        check = check_directory(
+            $("#pool_target_path"),
+            CHECK_EMPTY | CHECK_STARTROOT | CHECK_NOTROOT | CHECK_VALID,
+            "${_('Directory Path')}"
+        ) && check;
+
+    } else if($("#pool_type option:selected").text() == "iscsi") {
+        check = check_string(
+                $("#pool_target_iscsi"),
+                CHECK_EMPTY | CHECK_ONLYSPACE,
+                "${_('iSCSI Target')}",
+                null,
+                null,
+                null
+            ) && check;
+    } else {
+        ERROR_MSG += minisprintf("${_('%s is unknown storagepool type')}",$("#pool_type option:selected").text());
+        ERROR_MSG += "\n";
+        check = false;
+    }
+
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}" + "\n" + ERROR_MSG);
+    }
+    return check;
+}
+
+function get_select_pool(){
+    var target = $("#storagepool_list tr[id^='storagepool_row_'].active").attr("id");
+    return target;
+}
+
+function switch_type_section() {
+    var _type_obj = $("#pool_type option:selected");
+    if(_type_obj.text() == "dir"){
+        $("#pool-dir-section").show();
+        $("#pool-iscsi-section").hide();
+    } else if(_type_obj.text() == "iscsi") {
+        $("#pool-dir-section").hide();
+        $("#pool-iscsi-section").show();
+        switch_iscsi_section();
+    }
+}
+
+function switch_iscsi_section() {
+    var target_val = $("#pool_target_iscsi option:selected").val();
+    $("#pool-iscsi-section table[id^='iscsi-disk-']:visible").hide();
+    $("#pool-iscsi-section table[id='iscsi-disk-" + target_val + "']").show();
+
+    $("#pool_iscsi_select_help").appendTo("#pool-iscsi-section table[id='iscsi-disk-" + target_val + "'] th.pool_iscsi_select");
+    $("#pool_iscsi_format_help").appendTo("#pool-iscsi-section table[id='iscsi-disk-" + target_val + "'] th.pool_iscsi_format");
+}
+
+$(document).ready(function(){
+    ajax_post_event(
+        "#add_storagepool_button",
+        "${ctx.homepath}/host/${host_id}/storagepool.part",
+        "#input_storagepool :input",
+        validates_storagepool
+        );
+
+    helptip("#pool_name_help",
+            "${_('Storage Pool Name')}",
+            "${_('Specify the storage pool name to use in Karesansui control panel. Must be unique between all storage pools.')}");
+
+    helptip("#pool_type_help",
+            "${_('Storage Pool Type')}",
+            "${_('The type of this storage pool. Choose \\"dir\\" to use an existing directory, or \\"iscsi\\" to use remote iSCSI target.')}");
+
+    helptip("#pool_target_path_help",
+            "${_('Directory Path')}",
+            "${_('Input a full path of an existing directory to use for this storage pool.')}");
+
+    helptip("#pool_target_iscsi_help",
+            "${_('iSCSI Target')}",
+            "${_('Select the iSCSI target to use for this storage pool')}");
+
+    helptip("#pool_iscsi_select_help",
+           "${_('Mount/Block')}",
+           "${_('Choose \\"mount\\" to automatically mount this device to a directory, or \\"block\\" to use the whole device as a block device. \\"mount\\" is recommended if you plan to share one volume with multiple guests. \\"block\\" is recommended if you like to dedicate a volume to a single guest.')}");
+
+    helptip("#pool_iscsi_format_help",
+           "${_('Format')}",
+           "${_('Check this if you want the volume to be formatted when mount fails.')}");
+
+    $("#pool_type").click(function(){
+        switch_type_section();
+    });
+    $("#pool_target_iscsi").click(function(){
+        switch_iscsi_section();
+    });
+
+    $("td.partitionable input").click(function(){
+        var parent_id = $(this).parent().parent().attr("id");
+        if ($(this).val() == "block") {
+            $("tr[id^='" + parent_id + "'][id!='" + parent_id + "']").addClass("row_inactive");
+            $("tr[id^='" + parent_id + "'][id!='" + parent_id + "'] input").attr("disabled", "disabled");
+        } else if ($(this).val() == "mount") {
+            $("tr[id^='" + parent_id + "'][id!='" + parent_id + "']").removeClass("row_inactive");
+            $("tr[id^='" + parent_id + "'][id!='" + parent_id + "'] input").removeAttr("disabled");
+        }
+    });
+
+    $("#pool-iscsi-section table").hide();
+    switch_type_section();
+});
+// -->
+</script>
+<div id="input_storagepool">
+    <div class="caution-alt"></div>
+    <form method="post" action="" id="input_storagepool_form" name="input_storagepool_form">
+        <div class="grayout-head">
+            <span class="grayout-title">
+                <img src="${ctx.homepath}/static/images/settings-title.gif">${_('Add Storage Pool')}
+            </span>
+            <br style="clear: both;"/>
+        </div>
+        <div class="grayout-contents">
+            <div class="grayout-param">${_('Storage Pool Name')}<span id="pool_name_help" /></div>
+                <div class="grayout-value grayout-form">
+	            <input type="text" name="pool_name" id="pool_name" value="" size="24" maxlength="18" /><span class="require-text">${_('Require')}</span>
+                </div>
+                <div class="grayout-param">${_('Storage Pool Type')}<span id="pool_type_help" /></div>
+                <div class="grayout-value grayout-form">
+                    <select id="pool_type" name="pool_type">
+% for type in pool_types:
+                        <option value="${type | h}">${type | h}</option>
+% endfor
+                    </select>
+                </div>
+                <div id="pool-dir-section">
+                  <!--
+                      TRANSLATORS:
+                      ストレージプールにしたいディレクトリパスの指定。
+                    -->
+                    <div class="grayout-param">${_('Directory Path')}<span id="pool_target_path_help" /></div>
+                    <div class="grayout-value grayout-form">
+	                <input type="text" name="pool_target_path" id="pool_target_path" value="" size="40" /><span class="require-text">${_('Require')}</span>
+                    </div>
+                </div>
+                <div id="pool-iscsi-section">
+                    <div class="grayout-param">${_('iSCSI Target')}<span id="pool_target_iscsi_help" /></div>
+                    <div class="grayout-value grayout-form">
+% if network_storages == []:
+                        <div>${_('No usable iSCSI target found.')}</div>
+% else:
+                        <select id="pool_target_iscsi" name="pool_target_iscsi">
+% for iscsi in network_storages:
+                            <option value="${iscsi['iqn'] | h}">${iscsi['hostname'] | h}&nbsp;:&nbsp;${iscsi['iqn'] | h}&nbsp;&nbsp;&nbsp;</option>
+% endfor
+                        </select>
+% for iscsi in network_storages:
+                        <table id="iscsi-disk-${iscsi['iqn']}">
+                            <thead>
+                                <tr>
+                                  <!--
+                                      TRANSLATORS:
+                                      接続されているiSCSIディスクの一覧の表です。
+                                      分かりづらいので、画面を見ると良いかもしれません。
+                                        ストレージプール -> 追加 -> ストレージプールの種類でiscsiを選択
+
+                                      上から順に
+                                      ・ディスクを一意に特定できる名前
+                                      　　/dev/disk/by-path/以下に自動的に作られるシンボリックリンクの名前です。
+                                      　　例：ip-192.168.166.52:3260-iscsi-iqn.2010-01.jp.co.hde.prd:iscsi0-lun-1
+                                      ・ディスクのデバイス名
+                                      　　上記のシンボリックリンクが指す実体です。/dev/sd*のうち、一番右の名前を取ってきています。
+                                      　　例：sda
+                                      ・このディスクをブロックデバイスとして使用するか、ディレクトリマウントして使用するか。ラジオボタン。
+                                      　　ブロックデバイスとして使用する場合は、このディスクに直接ゲストOSをインストールできる。
+                                      　　ディレクトリマウントすると、そのディレクトリ以下にゲストOSのイメージファイルを複数置くことが出来る。
+                                      ・マウントできない場合、フォーマットを行うか。
+                                      　　生HDDの場合など、フォーマットされていない場合はマウントできない。
+                                      　　マウントできない場合にフォーマットを行うかどうかのチェックボックス。
+                                    -->
+                                    <th width="58%">${_('Name')}</th>
+                                    <th width="12%">${_('Device Name')}</th>
+                                    <th width="15%" class="pool_iscsi_select">${_('Mount/Block')}<span id="pool_iscsi_select_help" /></th>
+                                    <th width="15%" class="pool_iscsi_format">${_('Format')}<span id="pool_iscsi_format_help" /></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+    % for disk in iscsi['disk_list']:
+                                <tr id="${disk['symlink_name']}">
+                                    <td>${disk['symlink_name'] | h}</td>
+                                    <td>${disk['realpath_list'][1] | h}</td>
+        % if disk['is_blockable'] is True:
+            % if disk['is_partitionable'] is True:
+                                    <td class="partitionable">
+            % else:
+                                    <td>
+            % endif
+            <!--
+                TRANSLATORS:
+                ブロックデバイスとして使用するか、ディレクトリマウントして使用するかのラジオボタン。
+                すでにLVMなどでパーティションが切られているディスクはディレクトリマウントしか表示されない。
+                画面上でボタンを押してみるとよく分かります。
+              -->
+                                        <input type="radio" name="iscsi-disk-use-type-${disk['symlink_name']}" value="mount" checked>${_('mount')}</input>
+                                        <input type="radio" name="iscsi-disk-use-type-${disk['symlink_name']}" value="block">${_('block')}</input>
+                                    </td>
+        % else:
+                                    <td>
+                                        <input type="radio" name="iscsi-disk-use-type-${disk['symlink_name']}" value="mount" checked>${_('mount')}</input>
+                                    </td>
+        % endif
+                                    <td align="center">
+                                        <input type="checkbox" name="iscsi-disk-format-${disk['symlink_name']}" value="true" />
+                                    </td>
+                                </tr>
+    % endfor
+                            </tbody>
+                        </table>
+% endfor
+% endif
+                    </div>
+                </div>
+            </div>
+
+            <div class="grayout-footer">
+                <a href="#" name="add_storagepool_button" id="add_storagepool_button" class="button">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Add')}</span>
+                </a>
+                <br style="clear: both;"/>
+            </div>
+            <br style="clear: both;"/>
+        </div>
+    </form>
+</div>

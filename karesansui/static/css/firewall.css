@@ -1,0 +1,11 @@
+#firewall_tab td:hover{
+    background-color: #CACACA;
+}
+
+#firewall_tab td.firewall_active{
+    background-color: #a9cf15;
+}
+
+#firewall_tab td{
+    padding:5px 0px;
+}

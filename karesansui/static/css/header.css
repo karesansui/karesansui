@@ -1,0 +1,22 @@
+#page #header {
+    height:60px;
+    width:100%;
+}
+#page #header .left {   
+    float:left;
+    height:80px;
+    text-align:left;
+    width:auto;
+    line-height:0px;
+}
+#page #header .right {
+    float:right;
+    height:80px;
+    text-align:right;
+    line-height:80px;
+    font-size:12px;
+}
+
+#job_run {
+    cursor: pointer;
+}

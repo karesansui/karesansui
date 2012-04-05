@@ -1,0 +1,46 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+                    <div id="action" >
+		                <div class="left"></div>
+                        <!--icon start-->
+                        <div class="tool-mid">
+                            <div class="tool-left"></div>
+                            <div class="tool-img">
+                                <img src="${ctx.homepath}/static/images/tool-start.png" alt="" />
+                            </div>
+                            <div class="tool-right">
+                                <div class="tool-text">
+                                    <a href="#" class="tool-link">Start</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!--icon end-->
+                        <!--icon start-->
+                        <div class="tool-mid">
+                            <div class="tool-left"></div>
+                            <div class="tool-img">
+                                <img src="${ctx.homepath}/static/images/tool-start.png" alt="" />
+                            </div>
+                            <div class="tool-right">
+                                <div class="tool-text">
+                                    <a href="#" class="tool-link">Start</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!--icon end-->
+                        <!--icon start-->
+                        <div class="tool-mid">
+                            <div class="tool-left"></div>
+                            <div class="tool-img">
+                                <img src="${ctx.homepath}/static/images/tool-start.png" alt="" />
+                            </div>
+                            <div class="tool-right">
+                                <div class="tool-text">
+                                    <a href="#" class="tool-link">Start</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!--icon end-->
+                        <div class="right"></div>
+                    </div>
+                    <br style="clear: both;"/>
+                    <div class="space"></div>

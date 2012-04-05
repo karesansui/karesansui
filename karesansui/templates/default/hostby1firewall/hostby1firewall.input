@@ -1,0 +1,249 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<style type="text/css">
+</style>
+<script type="text/javascript">
+<!--
+// lib
+function validates_rule(){
+    var check = true;
+    ERROR_MSG = "";
+
+    check = check_number(
+                $("#rule_id"),
+                CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                "${_('ID')}",
+                1,
+                ${default_rule_id}
+            ) && check;
+
+    var _selectedObj = $("#protocol").children(":selected");
+    if(_selectedObj.val() == "tcp" || _selectedObj.val() == "udp") {
+      if($("#sport").val()){
+          check = check_number(
+                      $("#sport"),
+                      CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                      "${_('Source Port')}",
+                      1,
+                      65535
+                  ) && check;
+      }
+
+      if($("#dport").val()){
+          check = check_number(
+                      $("#dport"),
+                      CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                      "${_('Destination Port')}",
+                      1,
+                      65535
+                  ) && check;
+      }
+    }
+
+    if($("#source").val()){
+        if(is_full_ipaddr($("#source").val())) {
+            check = check_ipaddr($("#source"), CHECK_EMPTY | CHECK_VALID,
+                                "${_('Source Address')}") && check;
+        } else {
+            check = check_cidr($("#source"), CHECK_EMPTY | CHECK_VALID,
+                                "${_('Source Address')}") && check;
+        }
+    }
+
+    if($("#destination").val()){
+        if(is_full_ipaddr($("#destination").val())) {
+            check = check_ipaddr($("#destination"), CHECK_EMPTY | CHECK_VALID,
+                                "${_('Destination Address')}") && check;
+        } else {
+            check = check_cidr($("#destination"), CHECK_EMPTY | CHECK_VALID,
+                                "${_('Destination Address')}") && check;
+        }
+    }
+
+    if(!check){
+      show_alert_msg(ERROR_MSG, "ERROR");
+    }
+
+    return check;
+}
+function show_textbox(id,flag) {
+    if(flag) {
+        $(id).show();
+    } else {
+        $(id).hide();
+    }
+}
+function show_port_textbox() {
+    var _selectedObj = $("#protocol").children(":selected");
+    if(_selectedObj.val() == "tcp" || _selectedObj.val() == "udp") {
+        show_textbox("#sport",true)
+        show_textbox("#dport",true)
+        $(".text_port").text("")
+    } else {
+        show_textbox("#sport",false)
+        show_textbox("#dport",false)
+        $(".text_port").text("${_('Can only be specified in conjunction with tcp or udp.')}")
+    }
+}
+
+$(document).ready(function(){
+
+    // define
+    var data = new Array();
+
+% for cidr in cidrs:
+    data.push("${cidr}");
+% endfor
+
+% for ip in ips:
+    data.push("${ip}");
+% endfor
+
+    // init
+    $("#source").autocomplete(data);
+    $("#destination").autocomplete(data);
+    show_port_textbox()
+
+    // event
+    $('#protocol').change(function(){
+        show_port_textbox()
+    });
+
+    ajax_post_event(
+        "#create_setting",
+        "${ctx.homepath}${ctx.path}",
+        $("#firewall_rule_form :input"),
+        validates_rule
+    );
+
+    helptip("#firewall_rule_id_help",
+            "${_('Rule ID')}",
+            "${_('Priority for applying firewall rules. Smaller ID applies earlier.')}");
+
+    helptip("#firewall_rule_target_help",
+            "${_('Target')}",
+            "${_('Action when the packet matches the rule. ')}${_('ACCEPT accepts the packet. DROP drops the packet silently. REJECT rejects the packet and returns an error response to the sender.')}");
+
+    helptip("#firewall_rule_protocol_help",
+            "${_('Protocol')}",
+            "${_('Packets matching the protocol specified here will be checked.')}");
+
+    helptip("#firewall_rule_source_address_help",
+            "${_('Source Address')}",
+            "${_(r"Packets having the source address specified here will be checked. To specify network address, use formats like '192.168.0.0/24'. Leave this empty if you like to check all packets regardless of the source address.")}");
+
+    helptip("#firewall_rule_source_port_help",
+            "${_('Source Port')}",
+            "${_(r"Packets having the source port specified here will be checked. This item can be specified when you choose 'tcp' or 'udp' for 'Protocol'.")}");
+    helptip("#firewall_rule_destination_address_help",
+            "${_('Destination Address')}",
+            "${_(r"Packets having the destination address specified here will be checked. To specify network address, use formats like '192.168.0.0/24'. Leave this empty if you like to check all packets regardless of the destination address.")}");
+
+    helptip("#firewall_rule_destination_port_help",
+            "${_('Destination Port')}",
+            "${_(r"Packets having the destination port specified here will be checked. This item can be specified when you choose 'tcp' or 'udp' for 'Protocol'.")}");
+    helptip("#firewall_rule_in_interface_help",
+            "${_('Inbound Interface')}",
+            "${_('Packets received through this interface will be checked.')}");
+
+    helptip("#firewall_rule_out_interface_help",
+            "${_('Outbound Interface')}",
+            "${_('Packets sent through this interface will be checked.')}");
+});
+// -->
+</script>
+
+<form method="post" action="" id="firewall_rule_form" name="firewall_rule_form">
+    <div class="grayout-head">
+        <span class="grayout-title">
+            <img src="${ctx.homepath}/static/images/settings-title.gif">${_('Rule Settings')}
+        </span>
+        <br style="clear: both;"/>
+    </div>
+    <div class="grayout-contents">
+        <div class="grayout-param">${_('Add Rule')}</div>
+        <div class="grayout-value grayout-form">
+
+    <table width="100%" style="padding:0px;">
+        <thead>
+            <tr>
+                <th>${_('ID')}<span id="firewall_rule_id_help" /></th>
+                <th>${_('Target')}<span id="firewall_rule_target_help" /></th>
+                <th>${_('Protocol')}<span id="firewall_rule_protocol_help" /></th>
+                <th>${_('Src Addr')}<span id="firewall_rule_source_address_help" /></th>
+                <th>${_('Src Port')}<span id="firewall_rule_source_port_help" /></th>
+                <th>${_('Dest Addr')}<span id="firewall_rule_destination_address_help" /></th>
+                <th>${_('Dest Port')}<span id="firewall_rule_destination_port_help" /></th>
+                <th>${_('In I/F')}<span id="firewall_rule_in_interface_help" /></th>
+                <th>${_('Out I/F')}<span id="firewall_rule_out_interface_help" /></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="width:60px">
+                <input type="text" name="rule_id" value="${default_rule_id}" id="rule_id" size=3 maxlength=3 /><span class="require-text">${_('Require')}</span>
+                </td>
+                <td>
+                    <select name="target" id="target">
+% for target in targets:
+                        <option value="${target}">${target}</option>
+% endfor
+                    </select>
+                </td>
+                <td>
+                    <select name="protocol" id="protocol">
+                        <option value="">${_('All')}</option>
+% for protocol in protocols:
+                            <option value="${protocol}">${protocol}</option>
+% endfor
+                        </select>
+                </td>
+                <td><input type="text" name="source" value="" id="source" size=12/></td>
+                <td><div class='text_port'></div><input type="text" name="sport" value="" id="sport" size="5" /></td>
+                <td><input type="text" name="destination" value="" id="destination" size=12/></td>
+                <td><div class='text_port'></div><input type="text" name="dport" value="" id="dport" size="5" /></td>
+                <td>
+                    <select name="inif" id="inif">
+                        <option value="">${_('All')}</option>
+% for dev_v in devs:
+% for type,type_v in dev_v.iteritems():
+                        <optgroup label='${type}'>
+% for dev in type_v:
+                            <option value="${dev}">${dev}</option>
+% endfor
+                        </optgroup>
+% endfor
+% endfor
+                    </select>
+                </td>
+                <td>
+                    <select name="outif" id="outif">
+                        <option value="">${_('All')}</option>
+% for dev_v in devs:
+% for type,type_v in dev_v.iteritems():
+                        <optgroup label='${type}'>
+% for dev in type_v:
+                            <option value="${dev}">${dev}</option>
+% endfor
+                        </optgroup>
+% endfor
+% endfor
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+        </div>
+        <div class="grayout-footer">
+            <a href="#" name="create_setting" id="create_setting" class="button">
+                <span class="button-left">&nbsp;</span><span class="button-right">${_('Create')}</span>
+            </a>
+            <br style="clear: both;"/>
+        </div>
+
+        <br style="clear: both;"/>
+    </div>
+</form>
+</div>

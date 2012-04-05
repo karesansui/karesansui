@@ -1,0 +1,66 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function validates_tag(){
+    var check = true;
+    ERROR_MSG = "";
+
+    check = check_string(
+                    $("#tag_name"),
+                    CHECK_EMPTY | CHECK_LENGTH | CHECK_ONLYSPACE,
+                    "${_('Name')}",
+                    null,
+                    TAG_MIN_LENGTH,
+                    TAG_MAX_LENGTH
+                ) && check;
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG);
+    }
+    
+    return check;
+};
+
+$(document).ready(function(){
+
+    ajax_post_event(
+        "#add_tag_button",
+        "${ctx.homepath}${ctx.path}",
+        "#tag_setting :input",
+        validates_tag
+    );
+
+    // help
+    helptip("#tag_name_help", 
+        "${_('Tag Name')}", 
+        "${_('Name of a new tag to add. Symbols including spaces can be used.')}");
+});
+//-->
+</script>
+<div id="tag_setting">
+    <form method="post" action="" id="input_tag_form" name="input_tag_form">
+        <div class="grayout-head">
+            <span class="grayout-title">
+                <a href="#" id="server" class="path-a"><img src="${ctx.homepath}/static/images/settings-title.gif" alt="">${_('Add Tags')}</a>
+            </span>
+            <br style="clear: both;"/>
+        </div>
+  
+        <div class="grayout-contents">
+            <div class="grayout-param">${_('Name')}<span id="tag_name_help"></span></div>
+            <div class="grayout-value grayout-form">
+	        <input type="text" name="name" value="${tag.name}" id="tag_name" /><span class="require-text">${_('Require')}</span>
+            </div>
+      
+            <div class="grayout-footer">
+                <input type="hidden" name="_method" id="_method" />
+                <a href="#" name="add_tag_button" id="add_tag_button" class="button">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Add')}</span>
+                </a>
+                <br style="clear: both;"/>
+            </div>
+        </div>
+        <br style="clear: both;"/>
+    </form>
+</div>

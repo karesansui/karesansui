@@ -1,0 +1,30 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<div id="tag_setting">
+    <table border="0">
+      <tr><td>${_('ID')}</td>
+        <td><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+        <td>${tag.id | h}</td></tr>
+      <tr><td>${_('Name')}</td>
+        <td><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+        <td>${tag.name | h}</td></tr>
+      <tr><td>${_('Machine Name')}</td>
+        <td><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+        <td>
+% if tag.machine:
+    % for machine in tag.machine:
+        ${machine.name | h}
+    % endfor
+% else:
+    ${_('Undefined')}
+% endif
+        </td>
+      <tr><td>${_('Created')}</td>
+        <td><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+        <td>${tag.created | h}</td></tr>
+      <tr><td>${_('Modified')}</td>
+        <td><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+        <td>${tag.modified | h}</td></tr>
+    </table>
+</div>

@@ -1,0 +1,22 @@
+include AUTHORS
+include COPYING
+include COPYING.LIB
+include INSTALL
+include INSTALL.ja
+include README
+include README.ja
+include MANIFEST.in
+include scripts/karesansui
+recursive-include doc *
+recursive-include bin *
+recursive-include tool *
+recursive-include installer *
+recursive-include karesansui/locale *
+recursive-include karesansui/templates *
+recursive-include karesansui/static *
+include karesansui.spec
+prune doc/specs/collectd/
+prune doc/specs/IPAexfont
+prune doc/specs/python-webpy
+prune doc/specs/rrdtool
+prune doc/specs/tightvnc-java

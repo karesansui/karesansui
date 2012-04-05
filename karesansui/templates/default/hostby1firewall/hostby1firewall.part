@@ -1,0 +1,326 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+<script type="text/javascript">
+<!--
+// lib
+function firewall_read_event(){
+    $("#init_firewall").one("click", function(){ 
+        ajax_put("${ctx.homepath}/host/${host_id}/firewall/status.part",
+            {"status" : FIREWALL_READ},
+            function(data, status){},
+            true,
+            "${ctx.homepath}${ctx.path}"
+        );
+    });
+}
+
+function firewall_start_event(){
+    $("#start_firewall").one("click", function(){ 
+        ajax_put("${ctx.homepath}/host/${host_id}/firewall/status.part",
+            {"status" : FIREWALL_START},
+            function(data, status){},
+            true,
+            "${ctx.homepath}${ctx.path}"
+        );
+    });
+}
+
+function firewall_stop_event(){
+    $("#stop_firewall").one("click", function(){ 
+        ajax_put("${ctx.homepath}/host/${host_id}/firewall/status.part",
+            {"status" : FIREWALL_STOP},
+            function(data, status){},
+            true,
+            "${ctx.homepath}${ctx.path}"
+        );
+    });
+}
+
+function firewall_restart_event(){
+    $("#esc_firewall").one("click", function(){ 
+        ajax_put("${ctx.homepath}/host/${host_id}/firewall/status.part",
+            {"status" : FIREWALL_RESTART},
+            function(data, status){},
+            true,
+            "${ctx.homepath}${ctx.path}"
+        );
+    });
+}
+
+function get_target_id(){
+    var target_id = null;
+    $("#firewall_tab td").each(function(){
+        if($(this).hasClass("firewall_active") == true){
+            target_id = $(this).attr("id");
+        }
+    });
+    return target_id;
+}
+
+function bind_add_event(){
+    $("#add_firewall").one("click.once", function() {
+        grayout_view("GET",
+            "${ctx.homepath}${ctx.path}?mode=input",
+            "${_('Add Rule')}",
+            "${ctx.homepath}${ctx.path}");
+    });
+}
+
+function bind_edit_event(){
+    $("#edit_firewall").one("click.once", function(){
+        var target_id = get_target_id();
+        var val = target_id.split("_");
+
+        var edit_url = null;
+        if(val[0] == "policy"){
+            edit_url = "${ctx.homepath}/host/${host_id}/firewall/policy.part?mode=input";
+        } else if(val[0] == "rule"){
+            target_id = selected_row("rule_row");
+            edit_url = "${ctx.homepath}/host/${host_id}/firewall/rule/" + target_id + ".part?mode=input";
+        } else {
+            show_alert_msg("${_('Please select a target.')}", "ERROR");
+        }
+
+        grayout_view("GET",
+            edit_url,
+            "${_('Firewall Settings')}",
+            "${ctx.homepath}/host/${host_id}/firewall.part");
+    });
+}
+function bind_delete_event(){
+    $("#delete_firewall").click(function(){
+        var target_id = get_target_id();
+        var val = target_id.split("_");
+        var delete_url = null;
+        if(val[0] == "rule"){
+            target_id = selected_row("rule_row");
+            delete_url = "${ctx.homepath}/host/${host_id}/firewall/rule/" + target_id + ".part";
+	    var param = null;
+            delete_dialog("#dialog", delete_url, param, "${ctx.homepath}${ctx.path}", "#delete_firewall", "");
+        } else {
+            show_alert_msg("${_('Please select a target.')}", "ERROR");
+        }
+    });
+}
+
+// binding event it only once on each rule page.
+function bind_rule_row_event(){
+    $("tr[id^='rule_row']").one("click.once", function(){
+        unbind_event();
+        bind_add_event();
+        tool_reset("#edit_firewall");
+        bind_edit_event();
+        tool_reset("#delete_firewall");
+        bind_delete_event();
+        $("tr[id^='rule_row']").unbind("click.once");
+    });
+}
+
+function unbind_event(){
+    $("#add_firewall").unbind("click.once");
+    $("#edit_firewall").unbind("click.once");
+    $("#delete_firewall").unbind("click");
+}
+
+$(document).ready(function(){
+    // init 
+    tool_invalid("#delete_firewall");
+    tool_invalid("#edit_firewall");
+    tool_invalid("#add_firewall");
+
+    $("#action>a").hover(
+        function(){tool_over(this);},
+        function(){tool_over(this);}
+    ).mousedown(function(){
+        var id = $(this).attr("id");
+        tool_active(this);
+    });
+
+    // event
+    $("#firewall_tab td").each(function(){
+        $(this).click(function(){
+            var target = $(this).attr("id");
+            var target_val = target.split("_");
+
+            $("#firewall_value").html('<div align="center" style="padding:10px; position:absolute; top:30%; left:45%;"><img src="${ctx.homepath}/static/images/now-loading.gif" alt="Now Loading" /></div>');
+            
+            unbind_event();
+            switch(target_val[0]){
+                case "policy":
+                    ajax_get("#firewall_value", 
+                        "${ctx.homepath}/host/${host_id}/firewall/policy.part",
+                        null);
+                    tool_reset("#edit_firewall");
+                    bind_edit_event();
+                    tool_invalid("#add_firewall");
+                    tool_invalid("#delete_firewall");
+                    break;
+                case "rule":
+                    ajax_get("#firewall_value", 
+                        "${ctx.homepath}/host/${host_id}/firewall/rule.part",
+                        null,
+                        false);
+                    tool_invalid("#edit_firewall");
+                    tool_invalid("#delete_firewall");
+                    tool_reset("#add_firewall");
+                    bind_add_event();
+                    bind_rule_row_event();
+                    $('#tablesorter_pager img[name="pager_button"]').click(function(){
+                        bind_rule_row_event();
+                    });
+                    break;
+                default:
+                    show_alert_msg("${_('Received an unexpected value.')}", "ERROR");
+            }
+            // icon active
+            $("#firewall_tab td").each(function(){
+                if($(this).attr("id") != target){
+                    $(this).removeClass("firewall_active");
+                } else {
+                    $(this).addClass("firewall_active");
+                }
+            });
+        });
+    });
+    // fire wall control
+    firewall_read_event();
+    firewall_start_event();
+    firewall_stop_event();
+    firewall_restart_event();
+
+    renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
+});
+-->
+</script>
+
+                    <div id="action">
+                        <div class="left"></div>
+% if have_config is True:
+
+% if iptables.is_running is not True:
+                        <a href="#" name="start_firewall" id="start_firewall" class="tool-link">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-start.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text" >${_('Start')}</div>
+                                </div>
+                            </div>
+                        </a>
+% else:
+                        <a href="#" name="stop_firewall" id="stop_firewall" class="tool-link">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-stop.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text" >${_('Stop')}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" name="esc_firewall" id="esc_firewall" class="tool-link">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-restart.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text" >${_('Restart')}</div>
+                                </div>
+                            </div>
+                        </a>
+% endif
+                        <a href="#" name="add_firewall" id="add_firewall" class="tool-link">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-add.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text" >${_('Add')}</div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="#" name="edit_firewall" id="edit_firewall" class="tool-link">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-edit.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text" >${_('Edit')}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" name="delete_firewall" id="delete_firewall" class="tool-link">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-trash.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text" >${_('Delete')}</div>
+                                </div>
+                            </div>
+                        </a>
+% else:
+                        <a href="#" name="init_firewall" id="init_firewall" class="tool-link">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-refresh.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text" >${_('Initialize')}</div>
+                                </div>
+                            </div>
+                        </a>
+% endif
+                        <div class="right">
+                            <a href="#" class="tool-link" >
+                                <div class="tool-mid">
+                                    <img src="${ctx.homepath}/static/images/reload.gif" alt="renew" id="tool_renew"/>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <br style="clear: both;"/>
+                    <div class="space"></div>
+                    <br style="clear: both;"/>
+                    <div class="alert"></div>
+                    <div id="view">
+                        <div id="result_message"></div>
+<table width="100%" height="100%" cellspacing="1" border="0" style="background-color:#bcbcbc;">
+    <tr>
+        <td style="background-color:#E4E4DD; padding:0px; text-align:left;" bgcolor="#FFFFFF" width="10%" valign="top">
+            <table id="firewall_tab" width="100%" cellspacing="0" border="0" style="background-color:#e4e4dd;">
+                <tr>
+                    <td id="policy_" style="font-size:10px;" align="center">
+                        <img src="${ctx.homepath}/static/images/firewall-policy.png" alt=""><br />
+                        <span class="status">-&nbsp;Policy&nbsp;-</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="rule_" style="font-size:10px;" align="center">
+                        <img src="${ctx.homepath}/static/images/firewall-rule.png" alt=""><br />
+                        <span class="status">-&nbsp;Rule&nbsp;-</span>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td bgcolor="#FFFFFF" valign="top" width="90%" height="100%" style="padding:10px;">
+            <div style="width:100%; height:100%; position:relative;">
+                <div id="firewall_value">
+                    ${_('Firewall Settings')}
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+                        </div>
+                    </div>
+                    <br style="clear: both;"/>

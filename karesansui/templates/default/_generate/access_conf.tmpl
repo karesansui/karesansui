@@ -1,0 +1,9 @@
+# ${access_type}
+
+% if access_type != "all":
+    % for ip in access_ip_list:
+$HTTP["remoteip"] != "${ip}" {
+  url.access-deny = ( "" )
+}
+    %endfor
+% endif

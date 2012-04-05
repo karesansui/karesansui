@@ -1,0 +1,7 @@
+X-Mailer: %{app_name}
+Subject: [Karesansui Notifier] current status is within normal range again. Disk (%{type_instance})
+
+Reported at: %{time}
+
+Disk (%{type_instance}) on %{host} is within normal range again.
+

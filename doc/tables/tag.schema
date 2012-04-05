@@ -1,0 +1,7 @@
+CREATE TABLE tag (
+        id INTEGER NOT NULL, 
+        name VARCHAR(24) NOT NULL, 
+        created TIMESTAMP, 
+        modified TIMESTAMP, 
+        PRIMARY KEY (id)
+);

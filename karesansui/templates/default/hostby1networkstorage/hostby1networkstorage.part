@@ -1,0 +1,314 @@
+<%doc>Copyright (C) 2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function get_activity(id) {
+    activity = false;
+    $(id).children().each(function() {
+        if ($(this).html() == "${_('Connecting')}") {
+            activity = true;
+        }
+    });
+    return activity;
+};
+
+$(document).ready(function(){
+    $("#network_storage_list").tablesorter({
+        widgets: ['zebra', 'select']
+    });
+
+    $("#add_network_storage").click(function() {
+        grayout_view("GET",
+            "${ctx.homepath}${ctx.path}?mode=input",
+            "${_('Network Storage Settings')}",
+            "${ctx.homepath}${ctx.path}");
+    });
+
+    // display detail in detail window
+    $("tr[id*='network_storage_row']").click(function(){
+        var id;
+        var uri;
+
+        id = $(this).attr("id").replace("network_storage_row", "");
+        uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+        var url = uri + "/" + "default" + '.part?iqn=' + id;
+        ajax_get(
+            "#detail_value",
+            url,
+            null,
+            true
+        );
+    });
+
+	$("tr[id*='network_storage_row']").click(function() {
+        // edit
+        $("#edit_network_storage").one('click', function() {
+                var uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+                var target_id = selected_row('network_storage_row');
+
+                if (target_id == undefined) {
+                    show_alert_msg("${_('Please select a target.')}", "ERROR");
+                    tool_reset("#edit_network_storage");
+                } else {
+                    var url = uri + "/" + "default" + ".part?mode=input&iqn=" + target_id;
+
+                    grayout_view("GET",
+                        url,
+                        "${_('Network Storage Settings')}",
+                        "${ctx.homepath}${ctx.path}");
+                }
+        });
+        tool_reset("#edit_network_storage");
+
+        // delete
+        if (get_activity(this) == false) {
+            $("#delete_network_storage").one('click', function() {
+                var uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+                var target_id = selected_row("network_storage_row");
+
+                if (target_id == undefined){
+                    show_alert_msg("${_('Please select a target.')}", "ERROR");
+                    tool_reset("#delete_network_storage");
+                } else {
+                    var host = $("tr[id$='" + target_id + "'] .network_storage_host").text();
+                    var port = $("tr[id$='" + target_id + "'] .network_storage_port").text();
+                    var url = uri + "/" + "default" + ".part?iqn=" + target_id + "&host=" + host + "&port=" + port;
+                    var param = null;
+
+                    delete_dialog("#dialog",
+                                  url,
+                                  param,
+                                  "${ctx.homepath}${ctx.path}",
+                                  "#delete_network_storage",
+                                  "${_('This will also remove the storage pool using this iSCSI disk, OK to proceed?')}");
+                }
+            });
+            tool_reset("#delete_network_storage");
+        } else {
+            tool_invalid("#delete_network_storage");
+            $("#delete_network_storage").unbind('click');
+        }
+        // start
+        if (get_activity(this) == false) {
+            $("#start_network_storage").one('click', function() {
+                var uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+                var target_id = selected_row("network_storage_row");
+
+                if (target_id == undefined){
+                    show_alert_msg("${_('Please select a target.')}", "ERROR");
+                    tool_reset("#start_network_storage");
+                } else {
+                    var url = uri + "/" + "default" + "/" + "status.part?iqn=" + target_id;
+                    var host = $("tr[id$='" + target_id + "'] .network_storage_host").text();
+                    var port = $("tr[id$='" + target_id + "'] .network_storage_port").text();
+
+                    ajax_put(url,
+                        {"status" : NETWORK_STORAGE_START,
+                         "host" : host,
+                         "port" : port},
+                        function(data, status){},
+                        true,
+                        "${ctx.homepath}${ctx.path}"
+                    );
+                }
+            });
+            tool_reset("#start_network_storage");
+        } else {
+            tool_invalid("#start_network_storage");
+            $("#start_network_storage").unbind('click');
+        }
+        // stop
+        if (get_activity(this) == true) {
+            $("#stop_network_storage").one('click', function() {
+                var uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+                var target_id = selected_row("network_storage_row");
+
+                if (target_id == undefined){
+                    show_alert_msg("${_('Please select a target.')}", "ERROR");
+                    tool_reset("#stop_network_storage");
+                } else {
+                    var url = uri + "/" + "default" + "/" + "status.part?iqn=" + target_id;
+                    var host = $("tr[id$='" + target_id + "'] .network_storage_host").text();
+                    var port = $("tr[id$='" + target_id + "'] .network_storage_port").text();
+
+                    ajax_put(url,
+                        {"status" : NETWORK_STORAGE_STOP,
+                         "host" : host,
+                         "port" : port},
+                        function(data, status){},
+                        true,
+                        "${ctx.homepath}${ctx.path}"
+                    );
+                }
+            });
+            tool_reset("#stop_network_storage");
+        } else {
+            tool_invalid("#stop_network_storage");
+            $("#stop_network_storage").unbind('click');
+        }
+    });
+
+	// init
+	$("#action>a").hover(
+	    function(){tool_over(this);},
+	    function(){tool_over(this);}
+	).mousedown(function(){
+	    var id = $(this).attr("id");
+	    tool_active(this);
+	});
+
+	tool_invalid("#edit_network_storage");
+	tool_invalid("#delete_network_storage");
+    tool_invalid("#start_network_storage");
+    tool_invalid("#stop_network_storage");
+    renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
+    show_detail_event();
+});
+-->
+</script>
+
+                    <div id="network_storage">
+                        <div id="action" >
+                            <div class="left"></div>
+                            <a href="#" name="add_network_storage" id="add_network_storage" class="tool-link">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-add.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text" >${_('Add')}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" name="edit_network_storage" id="edit_network_storage" class="tool-link">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-edit.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text" >${_('Edit')}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" name="delete_network_storage" id="delete_network_storage" class="tool-link">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-trash.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text" >${_('Delete')}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" name="start_network_storage" id="start_network_storage" class="tool-link">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-mount.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <!-- TRANSLATORS: 接続  -->
+                                        <div class="tool-text" >${_('Connect')}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" name="stop_network_storage" id="stop_network_storage" class="tool-link">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-unmount.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text" >${_('Disconnect')}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="right">
+                                <a href="#" class="tool-link" >
+                                    <div class="tool-mid">
+                                        <img src="${ctx.homepath}/static/images/reload.gif" alt="renew" id="tool_renew"/>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>
+
+                        <div class="space"></div>
+                        <div class="alert"></div>
+
+                        <div id="view">
+                            <div id="list-box">
+                                <div id="minner">
+                                    <table id="network_storage_list" class="tablesorter">
+                                        <thead>
+                                            <tr>
+                                              <!--
+                                                  TRANSLATORS:
+                                                  上から順に
+                                                  ・ネットワークストレージの種類
+                                                  　　現在はiSCSIのみ。他にはNFSなどを想定している。
+                                                  ・接続先のホスト名（iSCSIの場合は勝手にIPアドレスになる）
+                                                  ・iSCSIターゲットのIQN
+                                                  　　iSCSIターゲットを一意に識別するためのユニークキー
+                                                  　　一つのホストで複数のIQNを持っている場合があります
+                                                  ・現在の状態
+                                                  ・自動接続のONOFF
+                                                -->
+                                                <th width="10%">${_('Type')}</th>
+                                                <th width="30%">${_('Target Host Name')}</th>
+                                                <th width="40%">${_('Target IQN')}</th>
+                                                <th width="10%">${_('Status')}</th>
+                                                <th width="10%" style="white-space:nowrap">${_('Auto Connect')}</th>
+                                                <th width="0px" style="display:none;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+% for network_storage in network_storages:
+                                            <tr id="network_storage_row${network_storage['iqn']}">
+                                                <td>${network_storage['type'] |h}</td>
+                                                <td class="network_storage_host">${network_storage['hostname']|h}</td>
+                                                <td>${network_storage['iqn']|h}</td>
+    % if network_storage['activity'] == 1:
+                                                <td>${_('Connecting')}</td>
+    % else:
+                                                <td>${_('Disconnect')}</td>
+    % endif
+    % if network_storage['autostart'] == 1:
+                                                <td align="center"><img src="${ctx.homepath}/static/images/server-startup.png" alt="${_('ON')}" /></td>
+    % else:
+                                                <td align="center">-</td>
+    % endif
+                                                <td class="network_storage_port" style="display:none;">${network_storage['port'] |h}</td>
+                                            </tr>
+% endfor
+                                        </tbody>
+                                    </table>
+                                    <br style="clear: both;"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br style="clear: both;"/>
+                        <div class="space"></div>
+                        <div id="detail">
+                            <div class="panel">
+                                <div class="wrap">
+                                    <span class="title"> &nbsp;</span>
+                                    <p class="point"> </p>
+                                    <p>
+
+<img src="${ctx.homepath}/static/images/tree-open.gif" alt="" id="show_detail_switch" class="tree-toggle-button"/><span class="msg-title">${_('Details')}</span><br />
+<span id="detail_value">--</span>
+                                        </p>
+                                        <dl><dt>&nbsp;</dt></dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>
+                    </div>

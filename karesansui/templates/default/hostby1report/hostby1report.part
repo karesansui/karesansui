@@ -1,0 +1,215 @@
+<%doc>Copyright (C) 2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function validates_report_time(){
+    var check = true;
+    ERROR_MSG = "";
+
+    check = check_datetime_string(
+                $("#report_start_day"),
+                CHECK_VALID,
+               "${_('Start Date')}"
+            ) && check;
+    check = check_datetime_string(
+                $("#report_end_day"),
+                CHECK_VALID,
+                "${_('End Date')}"
+            ) && check;
+    check = check_time_string(
+                $("#report_start_time"),
+                CHECK_VALID,
+                "${_('Start Time')}"
+            ) && check;
+    check = check_time_string(
+                $("#report_end_time"),
+                CHECK_VALID,
+                "${_('End Time')}"
+            ) && check;
+
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG, "ERROR");
+    }
+    return check;
+}
+
+$(document).ready(function(){
+    $("#report_tab td").click(function(){
+        var target = $(this).attr("id");
+        var target_val = target.split("_");
+
+        if(validates_report_time()){
+            $("#report_value").html('<div align="center" style="padding:10px; position:absolute; top:40%; left:45%;"><img src="${ctx.homepath}/static/images/now-loading.gif" alt="Now Loading" /></div>');
+
+            $("#report_tab td.selected").removeClass("selected");
+            $(this).addClass("selected");
+
+            ajax_get("#report_value",
+                     "${ctx.homepath}/host/${host_id}/report/" + target_val[2] + ".part",
+                     null);
+            
+        }
+    });
+
+    $("#tool_renew").click(function(){
+        renew_msg(true);
+    });
+    renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
+
+    $("#report_view").click(function(){
+        $("#report_tab td.selected").click();
+    });
+    button_effect("#report_view");
+
+    $("#report_start_day").datepicker({altFormat: '${USER_DATE_FORMAT[2]}'});
+    $("#report_end_day").datepicker({altFormat: '${USER_DATE_FORMAT[2]}'});
+
+    $("#report_start_day").datepicker("setDate", "-1d");
+    $("#report_end_day").datepicker("setDate", "+0d");
+
+    $("#report_start_time").timeEntry({
+        show24Hours: true,
+        spinnerImage: ""
+    });
+    $("#report_end_time").timeEntry({
+        show24Hours: true,
+        spinnerImage: ""
+    });
+
+    $("#report_start_time").timeEntry("setTime", new Date());
+    $("#report_end_time").timeEntry("setTime", new Date());
+
+    $("#report_set_now").mousedown(function(){
+        $(this).attr("src", "${ctx.homepath}/static/images/time-onclick.png");
+    }).mouseup(function(){
+        $(this).attr("src", "${ctx.homepath}/static/images/time.png");
+    }).mouseout(function(){
+        $(this).attr("src", "${ctx.homepath}/static/images/time.png");
+    });
+
+    $("#report_set_now").click(function(){
+        $("#report_end_day").datepicker("setDate", "+0d");
+        $("#report_end_time").timeEntry("setTime", new Date());
+    });
+
+    $("#report_tab_cpu").click();
+});
+
+-->
+</script>
+                    <div id="report">
+                        <div id="action" >
+                            <div class="left"></div>
+                            <div class="right">
+                                <a href="#" class="tool-link" >
+                                    <div class="tool-mid">
+                                        <img src="${ctx.homepath}/static/images/reload.gif" alt="renew" id="tool_renew"/>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>
+                        <div class="space"/>
+                        <div class="alert"/>
+                        <div id="view">
+                            <table width="99.8%" height="100%" cellspacing="1" border="0" style="background-color:#bcbcbc;">
+                                <tr>
+                                    <td id="report_tab" class="report_tab" valign="top">
+                                        <table id="report_tab_list" class="report_tab_list" cellspacing="0" border="0">
+                                            <tr>
+                                                <td id="report_tab_cpu">
+                                                    <img src="${ctx.homepath}/static/images/device-cpu.png">
+                                                    <span>${_('CPU')}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td id="report_tab_memory">
+                                                    <img src="${ctx.homepath}/static/images/device-memory.png">
+                                                    <span>${_('Memory')}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td id="report_tab_df">
+                                                    <img src="${ctx.homepath}/static/images/device-disk.png">
+                                                    <span>${_('Disk Space')}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td id="report_tab_disk">
+                                                    <img src="${ctx.homepath}/static/images/device-disk.png">
+                                                    <span>${_('Disk Performance')}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td id="report_tab_interface">
+                                                    <img src="${ctx.homepath}/static/images/device-network.png">
+                                                    <span>${_('Network')}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td id="report_tab_load">
+                                                    <img src="${ctx.homepath}/static/images/load-ave.png">
+                                                    <span>${_('Load Average')}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td id="report_tab_uptime">
+                                                    <img src="${ctx.homepath}/static/images/boot-time.png">
+                                                    <span>${_('Uptime')}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td id="report_tab_users">
+                                                    <img src="${ctx.homepath}/static/images/users.png">
+                                                    <span>${_('Users')}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td id="report_tab_libvirt">
+                                                    <img src="${ctx.homepath}/static/images/vm.png">
+                                                    <span>${_('Virtual Machine')}</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td id="report_period" class="report_period" valign="top">
+                                        <table width="100%" height="100%" cellspacing="0" border="0" style="table-layout:fixed">
+                                            <tr>
+                                                <td>
+                                                    <div id="search">
+                                                        <div class="search_box">
+                                                            <span class="search_item">
+                                                                <!--
+                                                                    TRANSLATORS:
+                                                                      グラフで表示するデータの開始時刻～終了時刻のこと
+                                                                  -->
+                                                                <span>${_('Report Period')}:&nbsp;&nbsp;</span>
+                                                                <input type="text" id="report_start_day" name="report_start_day" size="14" maxlength="10" />
+                                                                <input type="text" id="report_start_time" name="report_start_time" size="6"/>
+                                                                &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
+                                                                <input type="text" id="report_end_day" name="report_end_day" size="14" maxlength="10" />
+                                                                <input type="text" id="report_end_time" name="report_end_time" size="6" />
+                                                                <img id="report_set_now" class="set_now" src="${ctx.homepath}/static/images/time.png" alt="" title="${_('Set now time')}" />
+                                                            </span>
+                                                            <!--  TRANSRATORS: 表示 -->
+                                                            <a href="#" name="report_view" id="report_view" class="button" style="float:right"><span class="button-left">&nbsp;</span><span class="button-right">${_('View')}</span></a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr width="100%" height="100%">
+                                                <td class="report_value" valign="top" align="center">
+                                                    <div style="width:100%; height:100%; position:relative;">
+                                                        <div id="report_value">
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br style="clear: both;"/>
+                    </div>

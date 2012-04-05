@@ -1,0 +1,42 @@
+/* msg job progress*/
+.progress {
+    display: block;
+    background: transparent url(../images/progress-bar.jpg) repeat-x 0 0;
+    overflow: hidden;
+    text-indent:-8000px;
+}
+
+.progress-cover {
+    display: block;
+    background: transparent url(../images/progress-cover.jpg) repeat-x 0 0;
+    overflow: hidden;
+    position: relative;
+}
+
+/* host & guest detail info */
+.status-left {
+    background: transparent url(../images/status-graph-left.gif) repeat scroll 0 0;
+    float: left;
+    width: 3px;
+    height: 12px;
+}
+
+.status-right {
+    background: transparent url(../images/status-graph-right.gif) repeat right;
+    float: right;
+}
+
+.status-bar-active {
+    display: block;
+    background: transparent url(../images/status-graph-active.gif) repeat-x 0 0;
+    overflow: hidden;
+    text-indent:-8000px;
+    width: 100px;
+}
+
+.status-bar-back {
+    display: block;
+    background: transparent url(../images/status-graph-back.gif) repeat-x 0 0;
+    overflow: hidden;
+    position: relative;
+}

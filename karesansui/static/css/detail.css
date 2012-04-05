@@ -1,0 +1,92 @@
+.detail-contents pre{
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+#detail_value {
+    display: block; /* for Safari */
+}
+
+#detail_value .detail-space {
+    background:transparent url(../images/kugiri-a.gif) repeat scroll 0 0;
+    height:4px;
+    margin-bottom:8px;
+    margin-top:8px;
+    width:100%;
+}
+
+#detail_value .detail-separator{ 
+    height:18px;
+    width:60px;
+}
+
+#detail_value table.detail-contents {
+    width: 100%;
+}
+
+#detail_value table.detail-sub-contents {
+    width: 100%;
+    table-layout: fixed;
+}
+
+#detail_value table.detail-contents>tbody>tr>th{ 
+    padding:0px 10px;
+    width:120px;
+    white-space: nowrap;
+} 
+#detail_value table.detail-contents>tbody>tr>td{ 
+} 
+#detail_value table.detail-sub-contents>tbody>tr>th{ 
+    padding:0px 10px;
+    width:120px;
+}
+#detail_value table.detail-sub-contents>tbody>tr>td{ 
+}
+#detail_value table.detail-sub-contents.detail-status-contents{
+    width: auto; 
+    table-layout: fixed;
+}
+
+#detail_value .info_desc {
+    padding-bottom: 2px;
+}
+
+#detail_value .info_desc * {
+    vertical-align: middle;
+}
+
+#detail_value .info_desc_name {
+    float: left;
+    margin-right: 25px;
+}
+
+#detail_value .info_detail {
+    overflow:auto;
+    border:1px groove #CECFCE;
+    max-height:350px;
+    width:100%;
+}
+                                
+#detail_value .info_detail table {
+    border:medium none;
+    border-collapse:separate;
+    border-spacing:1px;
+    width:100%;
+}
+
+#detail_value .info_detail table tbody td {
+    padding: 2px;
+    background-color:#FFFFFF;
+}
+
+#detail_value .info_detail table tbody td.info_detail_name {
+    white-space:nowrap;
+    vertical-align: top;
+}
+#detail_value .info_detail table tbody td.info_detail_value {
+}
+
+#detail_value .info_detail table tbody tr.odd td {
+	background-color: #f0f4ec;
+}
+

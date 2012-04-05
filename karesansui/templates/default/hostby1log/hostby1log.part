@@ -1,0 +1,304 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function get_form_value(form){
+    var ret;
+    if(form.jquery != undefined){
+        ret = form[0].value;
+    } else {
+        ret = form.value();
+    }
+    return ret;
+}
+
+function validates_log(){
+    var check = true;
+    ERROR_MSG = "";
+
+    check = check_datetime_string(
+                $("#log_start_day"),
+                CHECK_VALID,
+               "${_('Start Date')}"
+            ) && check;
+    check = check_datetime_string(
+                $("#log_end_day"),
+                CHECK_VALID,
+                "${_('End Date')}"
+            ) && check;
+    check = check_time_string(
+                $("#log_start_time"),
+                CHECK_VALID,
+                "${_('Start Time')}"
+            ) && check;
+    check = check_time_string(
+                $("#log_end_time"),
+                CHECK_VALID,
+                "${_('End Time')}"
+            ) && check;
+
+    if(check){
+        var start_day = get_form_value($("#log_start_day"));
+        var start_time = get_form_value($("#log_start_time"));
+        var end_day = get_form_value($("#log_end_day"));
+        var end_time = get_form_value($("#log_end_time"));
+
+        if (Date.parse(start_day + " " + start_time) > Date.parse(end_day + " " + end_time)){
+            ERROR_MSG += "${_('Error in specified time. Start time > end time.')}";
+            ERROR_MSG += "\n";
+            check = false;
+        }
+    }
+
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG, "ERROR");
+    }
+    return check;
+};
+
+function switch_tree() {
+    $(".log-tree-toggle-button").toggle(
+        function() {
+            var log_id = $(this).attr("id").replace("parent-", "").replace("-toggle", "");
+            $("#child-" + log_id).hide(500);
+            $(this).attr("src", "${ctx.homepath}/static/images/tree-close.gif");
+        },
+        function() {
+            var log_id = $(this).attr("id").replace("parent-", "").replace("-toggle", "");
+            $("#child-" + log_id).show(500);
+            $(this).attr("src", "${ctx.homepath}/static/images/tree-open.gif");
+        }
+    );
+}
+
+function reverse_log() {
+    if ($("#sort_bar img").attr("src") == "${ctx.homepath}/static/images/sort-down.gif") {
+        $("#sort_bar img").attr("src", "${ctx.homepath}/static/images/sort-up.gif");
+    }else{
+        $("#sort_bar img").attr("src", "${ctx.homepath}/static/images/sort-down.gif");
+    }
+    set_content(log_content.reverse());
+}
+
+function view_log(this_object) {
+        $("#sort_bar").show();
+
+        $(".log-highlight").removeClass("log-highlight");
+        $(this_object).addClass("log-highlight");
+
+        var id = $(this_object).attr("id");
+        if (! id) {
+            return;
+        }
+
+        if (!validates_log()){
+            return;
+        }
+
+        url = "${ctx.homepath}/host/${host_id}/log/";
+        if (id.indexOf("-child-") > -1) {
+            array = id.split("-child-");
+            url = url + array[0] + "/" + array[1];
+        }else{
+            array = id.split("parent-");
+            url = url + array[1] + "/";
+        }
+
+        param = "";
+        param += "?" + $("#log_start_day").serialize().replace("log_start_day", "s") + "&" + $("#log_end_day").serialize().replace("log_end_day", "e");
+        param += "&" + $("#log_start_time").serialize().replace("log_start_time", "st");
+        param += "&" + $("#log_end_time").serialize().replace("log_end_time", "et");
+        row_num = $("select[name=row-num]").children(":selected").val();
+        param += "&m=" + row_num;
+        search_keyword = $("input[name=keyword]").val();
+        if (search_keyword) {
+            param += "&k=" + search_keyword;
+        }
+
+        $("#log_value").html('<div align="center" style="padding:10px; position:absolute; top:40%; left:45%;"><img src="${ctx.homepath}/static/images/now-loading.gif" alt="Now Loading" /></div>');
+        ajax_get("#log_value",
+            url + param,
+            null,
+            true);
+}
+
+$(document).ready(function(){
+    toggle_button_event("#parent-log", "#child-log", 'open', 'black');
+% for app in apps:
+    toggle_button_event("#parent-${app['name']}", "#child-${app['name']}", 'open', 'black');
+% endfor
+
+    $("#tool_renew").click(function(){
+        renew_msg(true);
+    });
+    renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
+
+    button_effect("#log_search");
+    $("#log_search").click(function() {
+        view_log($(".log-highlight"));
+    });
+
+    $("div#log-tree div.child").click(function() {
+        view_log(this);
+    });
+
+    $("div#log-tree div.parent").click(function() {
+        view_log(this);
+    });
+    $("#sort_bar").click(function() {
+        reverse_log();
+    });
+
+    $("#sort_bar").hide();
+
+    $("#log_start_day").datepicker({altFormat: '${USER_DATE_FORMAT[2]}'});
+    $("#log_start_day").datepicker("setDate", "+0d");
+    $("#log_end_day").datepicker({altFormat: '${USER_DATE_FORMAT[2]}'});
+    $("#log_end_day").datepicker("setDate", "+0d");
+    $("#log_start_time").timeEntry({
+        show24Hours: true,
+        spinnerImage: ""
+    });
+    $("#log_end_time").timeEntry({
+        show24Hours: true,
+        spinnerImage: ""
+    });
+    st_time = new Date();
+    st_time.setTime(st_time.getTime() - 3600000);
+    $("#log_start_time").timeEntry("setTime", st_time);
+    $("#log_end_time").timeEntry("setTime", new Date());
+
+    $("#log_set_now").mousedown(function(){
+        $(this).attr("src", "${ctx.homepath}/static/images/time-onclick.png");
+    }).mouseup(function(){
+        $(this).attr("src", "${ctx.homepath}/static/images/time.png");
+    }).mouseout(function(){
+        $(this).attr("src", "${ctx.homepath}/static/images/time.png");
+    });
+    $("#log_set_now").click(function(){
+        $("#log_end_day").datepicker("setDate", "+0d");
+        $("#log_end_time").timeEntry("setTime", new Date());
+    });
+
+    // help
+    helptip("#lines_help",
+        "${_('Lines To Get')}",
+        "${_('Get last lines specified here.')}");
+});
+
+-->
+</script>
+
+<div id="logview">
+    <div class="alert"></div>
+    <div id="action" >
+        <div class="left"></div>
+        <div class="right">
+            <a href="#" class="tool-link" >
+                <div class="tool-mid">
+                    <img src="${ctx.homepath}/static/images/reload.gif" alt="renew" id="tool_renew"/>
+                </div>
+            </a>
+        </div>
+    </div>
+    <br style="clear: both;"/>
+    <div class="space"/>
+
+    <div id="view">
+        <div id="list-box">
+            <div id="minner">
+
+        <table width="100%" height="100%" cellspacing="1" border="0" style="background-color:#bcbcbc; table-layout:fixed">
+            <tr>
+                <td style="background-color:#E4E4DD; padding:0px; text-align:left;" bgcolor="#FFFFFF" width="150px" valign="top">
+
+                <!-- log tree begin -->
+                <div id="log-tree">
+                    <div id="parent-log">
+                        <span>Logs</span>
+                    </div>
+
+                    <div id="child-log">
+% for app in apps:
+                        <div class="parent" id="parent-${app['name']}">
+                            <span>${app['name']}</span>
+                        </div>
+
+                        <div id="child-${app['name']}">
+% for log in app['logs']:
+                            <div class="child" id="${app['name']}-child-${log['filename']}">
+                                <span class="child-text">${log['name']}</span>
+                            </div>
+% endfor
+                        </div>
+% endfor
+                    </div>
+
+                </div>
+                <!-- log tree end -->
+                </td>
+
+                <td valign="top" style="background-color: white;">
+                    <table width="100%" height="100%" cellspacing="0" border="0" style="table-layout:fixed">
+                        <tr>
+                            <td id="log_toolbar">
+                                <div id="search">
+                                    <div class="search_box">
+                                        <!--
+                                        TRANSLATORS:
+                                        日時
+                                        絞り込みを行う日時。
+                                        -->
+                                        <span class="search_item">
+                                            ${ _('Date')}&nbsp;:&nbsp;
+                                            <input type="text" id="log_start_day" name="log_start_day" size="14" maxlength="10" />
+                                            <input type="text" id="log_start_time" name="log_start_time" size="6"/>
+                                            -
+                                            <input type="text" id="log_end_day" name="log_end_day" size="14" maxlength="10" />
+                                            <input type="text" id="log_end_time" name="log_end_time" size="6"/>
+                                            <img id="log_set_now" class="set_now" src="${ctx.homepath}/static/images/time.png" alt="" title="${_('Set now time')}" />
+                                        </span>
+                                    </div>
+                                    <div class="search_box">
+                                        <span class="search_item">
+                                            ${ _('Lines')}<span id="lines_help"></span>&nbsp;:&nbsp;
+                                            <select name="row-num">
+                                                <option value="30">30</option>
+                                                <option value="50">50</option>
+                                                <option value="100" selected>100</option>
+                                                <option value="250">250</option>
+                                                <option value="500">500</option>
+                                            </select>
+                                            <input type="text" name="keyword" size="25">
+                                        </span>
+                                        <span class="search_button">
+                                            <a href="#" name="log_search" id="log_search" class="button"><span class="button-left">&nbsp;</span><span class="button-right">${_('Search')}</span></a>
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr width="100%" height="100%">
+                            <td>
+                                <div style="width:100%; height:100%; position:relative;">
+                                    <div id="sort_bar" style="background-image: url(${ctx.homepath}/static/images/msg-table-title.jpg); text-align: right;cursor: pointer;height: 16px;">
+                                        <img src="${ctx.homepath}/static/images/sort-down.gif" alt=""/>
+                                    </div>
+                                    
+                                    <div id="log_value">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+          </div>
+      </div>
+    </div>
+    <br style="clear: both;"/>
+</div>

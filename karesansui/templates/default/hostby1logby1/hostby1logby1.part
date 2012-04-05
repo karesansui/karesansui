@@ -1,0 +1,37 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+
+$(document).ready(function(){
+	log_content = ${log_json}
+
+	var content = "";
+    search_keyword = $("input[name=keyword]").val();
+    for(var i = 0;i < log_content.length;i++ ) {
+    	if(i % 2) {
+          	view_class = "log-content-even";
+	    }else{
+          	view_class = "log-content-odd";
+	    }
+
+        var add_content = "";
+        if (search_keyword) {
+          	add_content = log_content[i].split(search_keyword).join("<span class=\"match_keyword\">" + search_keyword + "</span>");
+        }else{
+	        add_content = log_content[i]
+        }
+        add_content = "<div class=\"" + view_class + "\">" + add_content + "</div>";
+        content = content + add_content;
+    }
+    if (log_content.length == 0) {
+    	content = "${_('Log content not found.')}";
+    }
+    $("#log-content").html(content);
+});
+-->
+</script>
+<div width="100%" style="overflow: auto; max-height: 500px">
+<table width="100%" height="100%" cellspacing="0" border="0"><tr><td id="log-content"></td></tr></table>
+</div>

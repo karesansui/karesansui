@@ -1,0 +1,173 @@
+<%doc>Copyright (C) 2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function validates_bonding(){
+    var check = true;
+    ERROR_MSG = "";
+
+    if ($("#bonding_target_dev_list input:checkbox:checked").length < 2){
+        // TRANSLATORS:
+        //  bonding対象のデバイス数が足りません
+        ERROR_MSG += "${_('Insufficient number of devices for bonding')}";
+        ERROR_MSG += "\n";
+        check = false;
+    }
+
+    if ($("#bonding_target_dev_list input:radio:enabled:checked").length != 1){
+        ERROR_MSG += "${_('No primary device selected.')}";
+        ERROR_MSG += "\n";
+        check = false;
+    }
+
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}" + "\n" + ERROR_MSG);
+    }
+    return check;
+}
+
+$(document).ready(function(){
+%if "XEN" in hypervisors:
+
+    $("#input_bonding_setting :input").attr("disabled", "disabled");
+    $(".grayout-footer span.button-right").html("${_('Close')}");
+    $(".grayout-footer a").attr("id", "grayout_close_button");
+    $("#grayout_close_button span").removeClass("onclick");
+    grayout_submit_effect("#grayout_close_button");
+    $("#grayout_close_button").one("click", function(){
+        $('#dialog_screen').dialog('close');
+    });
+
+    // TRANSLATORS:
+    //  ハイパーバイザ「XEN」上でのbonding作成には対応していません。
+    show_alert_msg("${_(r'Bondings on Xen hypervisor are not supported.')}", "ERROR");
+
+%else:
+    ajax_post_event(
+        "#add_bonding_setting_button",
+        "${ctx.homepath}/host/${host_id}/networksettings.part",
+        "#input_bonding_setting :input",
+        validates_bonding
+        );
+
+    // TRANSLATORS:
+    //  設定を行うと、ただちにネットワークの再起動を行います。
+    show_alert_msg("${_('This will reboot the network immediatly.')}", "CAUTION");
+
+%endif
+
+    $("tr[id^='bonding_target_dev_']").each(function(){
+        var id = $(this).attr("id");
+        if ($("#" + id + " td").children().is(".already_bonding")){
+            $(this).find("input").attr("disabled","disabled");
+        }
+    });
+
+    $("input[id^='bonding_target_dev_select_']").click(function(){
+        var radio_obj = $(this).parent().parent().find(":radio");
+        if ($(this).is(":checked")){
+            radio_obj.removeAttr("disabled");
+            if ($("#bonding_target_dev_list input:checkbox:checked").length == 1){
+                radio_obj.attr("checked","checked");
+            }
+        } else {
+            radio_obj.attr("disabled", "disabled");
+            if ($("#bonding_target_dev_list input:radio:enabled:checked").length == 0){
+                $("#bonding_target_dev_list input:checkbox:checked:first").parent().parent().find(":radio").attr("checked","checked");
+            }
+        }
+    });
+
+    // TRANSLATORS:
+    //  bonding作成時の名前です。自動で連番が振られるため、変更することは出来ません。
+    helptip("#bonding_name_help",
+            "${_('Bonding Device Name')}",
+            "${_('Automatically-chosen name of the bonding device to be created.')}");
+
+    // TRANSLATORS:
+    //  bondingするデバイスを選択してください。
+    //  IPアドレスなどは、プライマリで選択したデバイスの情報を引き継ぎます。
+    helptip("#bonding_target_device_help",
+            "${_('Target Device Name')}",
+            "${_('Target devices to be bonded. IP address settings will success that of the primary device.')}");
+
+    // TRANSLATORS:
+    //  bondingモードを選択してください。
+    helptip("#bonding_mode_help",
+            "${_('Bonding Mode')}",
+            "${_('Please select bonding mode')}");
+});
+// -->
+</script>
+<div id="input_bonding_setting">
+    <div class="caution-alt"></div>
+    <form method="post" action="" id="input_bonding_setting_form" name="input_bonding_setting_form">
+        <div class="grayout-head">
+            <span class="grayout-title">
+                <img src="${ctx.homepath}/static/images/settings-title.gif">${_('Add Bonding Device')}
+            </span>
+            <br style="clear: both;"/>
+        </div>
+        <div class="grayout-contents">
+            <div class="grayout-param">${_('Bonding Device Name')}<span id="bonding_name_help" /></div>
+            <div class="grayout-value grayout-form">
+                ${create_bond_name | h}
+            </div>
+            <div class="grayout-param">${_('Target Device Name')}<span id="bonding_target_device_help" /></div>
+            <div class="grayout-value grayout-form">
+                <table id="bonding_target_dev_list" class="simple_list">
+                    <thead>
+                        <tr>
+                            <th width="15%">${_('Name')}</th>
+                            <th width="15%">${_('Bond')}</th>
+                            <th width="15%">${_('Primary')}</th>
+                            <th width="55%">${_('Status')}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+% for key in sorted(bond_target_dev.keys()):
+                        <tr id="bonding_target_dev_${key}">
+                            <td>${key | h}</td>
+                            <td align="center">
+                                <input type="checkbox" id="bonding_target_dev_select_${key}" name="bonding_target_dev_select_${key}" value="true" />
+                            </td>
+                            <td align="center">
+                                <input type="radio" name="bonding_target_dev_primary" value="${key}" disabled/>
+                            </td>
+                            <td>
+%     if 'bond' in bond_target_dev[key]:
+                                <span class="already_bonding notice-text">${_('Used')}&nbsp;(${bond_target_dev[key]["bond"] | h})</span>
+%     else:
+                                <span>${_('Unused')}</span>
+%     endif
+                            </td>
+                        </tr>
+% endfor
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="grayout-param">${_('Bonding Mode')}<span id="bonding_mode_help" /></div>
+            <div class="grayout-value grayout-form">
+                <select id="bonding_mode" name="bonding_mode">
+                    <option value="0">0: ${_('balance-rr') | h}</option>
+                    <option value="1" selected>1: ${_('active-backup') | h}</option>
+                    <option value="2">2: ${_('balance-xor') | h}</option>
+                    <option value="3">3: ${_('broadcast') | h}</option>
+                    <option value="4">4: ${_('802.3ad') | h}</option>
+                    <option value="5">5: ${_('balance-tlb') | h}</option>
+                    <option value="6">6: ${_('balance-alb') | h}</option>
+                </select>
+            </div>
+
+            <div class="grayout-footer">
+                <a href="#" name="add_bonding_setting_button" id="add_bonding_setting_button" class="button">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Add')}</span>
+                </a>
+                <br style="clear: both;"/>
+            </div>
+            <br style="clear: both;"/>
+        </div>
+    </form>
+</div>

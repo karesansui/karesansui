@@ -1,0 +1,218 @@
+<%doc>Copyright (C) 2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+<%!
+from karesansui.lib.template import userid2realname, groupid2realname, view_autounit, view_megaunit, replace_empty
+from karesansui.lib.const import DEFAULT_DECIMAL_POINT
+%>
+
+<div id="storagepool_detail_display">
+    <table class="detail-contents">
+        <tr>
+            <th>${_('Pool Information')}</th>
+            <td class="detail-separator">
+                <img src="${ctx.homepath}/static/images/table-space.gif">
+            </td>
+            <td>
+                <table cellspacing="0" class="border detail-sub-contents">
+                    <tr>
+                        <th>${_('Storage Pool Type')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${pool_info['type'] | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('UUID')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${pool_info['uuid'] | h}</pre></td>
+                    </tr>
+                    <tr>
+                      <!--
+                          TRANSLATORS:
+                          ・Capacity
+                          　　ディスクなどの総容量
+                          ・Available
+                          　　利用可能な容量
+                          ・Allocation
+                          　　使用中の容量
+                        -->
+                        <th>${_('Capacity')}&nbsp;(MB)</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td>
+                            <span>${view_megaunit(pool_info['capacity'], 'B') | h}</span><span class="dark-text autounit">(${view_autounit(pool_info['capacity'], decimal_point=DEFAULT_DECIMAL_POINT, print_unit=True) | h})</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>${_('Available')}&nbsp;(MB)</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td>
+                            <span>${view_megaunit(pool_info['available'], 'B') | h}</span><span class="dark-text autounit">(${view_autounit(pool_info['available'], decimal_point=DEFAULT_DECIMAL_POINT, print_unit=True) | h})</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>${_('Allocation')}&nbsp;(MB)</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td>
+                            <span>${view_megaunit(pool_info['allocation'], 'B') | h}</span><span class="dark-text autounit">(${view_autounit(pool_info['allocation'], decimal_point=DEFAULT_DECIMAL_POINT, print_unit=True) | h})</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>${_('Permissions Owner')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td>
+% if pool_info['target']['p_owner'] == '-1':
+                            ${_('N/A')}
+% else:
+                            ${userid2realname(pool_info['target']['p_owner']) | h}
+% endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>${_('Permissions Group')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td>
+% if pool_info['target']['p_group'] == '-1':
+                            ${_('N/A')}
+% else:
+                            ${userid2realname(pool_info['target']['p_group']) | h}
+% endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>${_('Permissions Mode')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td>
+% if pool_info['target']['p_mode'] == '-1':
+                            ${_('N/A')}
+% else:
+                            ${userid2realname(pool_info['target']['p_mode']) | h}
+% endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>${_('Target Path')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${pool_info['target']['path'] | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Status')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+% if pool_info['is_active'] is True:
+                        <td><pre>${_('RUNNING')}</pre></td>
+% else:
+                        <td><pre>${_('STOP')}</pre></td>
+% endif
+                    </tr>
+                    <tr>
+                        <th>${_('Autostart')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+% if pool_info['is_autostart'] is True:
+                        <td><img src="${ctx.homepath}/static/images/server-startup.png" alt="${_('ON')}" /></td>
+% else:
+                        <td><pre>-</pre></td>
+% endif
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr><td colspan='3'><div class='detail-space'/></td></tr>
+
+% for info in vols_info:
+        <tr>
+            <th>${info['real']['name'] |h}</th>
+            <td class="detail-separator">
+                <img src="${ctx.homepath}/static/images/table-space.gif">
+            </td>
+            <td>
+                <table cellspacing="0" class="border detail-sub-contents">
+                    <tr>
+                        <th>${_('Name')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+    % if info['real']['extension'] == "":
+                        <td><pre>${info['real']['name'] | h}</pre></td>
+    % else:
+                        <td><pre>${"%s.%s" % (info['real']['name'], info['real']['extension']) | h}</pre></td>
+    % endif
+                    </tr>
+                    <tr>
+                        <th>${_('Path')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+    % if info['real']['extension'] == "":
+                        <td><pre>${"%s/%s" % (info['real']['dir'], info['real']['name']) | h}</pre></td>
+    % else:
+                        <td><pre>${"%s/%s.%s" % (info['real']['dir'], info['real']['name'], info['real']['extension']) | h}</pre></td>
+    % endif
+                    </tr>
+                    <tr>
+                        <th>${_('Key')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${info['name'] | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Format Type')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${info['target']['f_type'] | h}</pre></td>
+                    </tr>
+                    <tr>
+                      <!--
+                          TRANSLATORS:
+                          ・Capacity
+                          　　イメージファイルなどの総サイズ
+                          ・Allocation
+                          　　実体のファイルサイズ（使用中の容量）
+                          　　イメージファイルなどは実際のサイズと見た目上のサイズが違う場合がある。
+                        -->
+                        <th>${_('Capacity')}&nbsp;(MB)</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td>
+                            <span>${view_megaunit(info['capacity'], 'B') | h}</span><span class="dark-text autounit">(${view_autounit(info['capacity'], decimal_point=DEFAULT_DECIMAL_POINT, print_unit=True) | h})</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>${_('Allocation')}&nbsp;(MB)</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td>
+                            <span>${view_megaunit(info['allocation'], 'B') | h}</span><span class="dark-text autounit">(${view_autounit(info['allocation'], decimal_point=DEFAULT_DECIMAL_POINT, print_unit=True) | h})</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>${_('Permissions Owner')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td>
+% if info['target']['p_owner'] == '-1':
+                            ${_('N/A')}
+% else:
+                            ${userid2realname(info['target']['p_owner']) | h}
+% endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>${_('Permissions Group')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td>
+% if info['target']['p_group'] == '-1':
+                            ${_('N/A')}
+% else:
+                            ${userid2realname(info['target']['p_group']) | h}
+% endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>${_('Permissions Mode')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td>
+% if info['target']['p_mode'] == '-1':
+                            ${_('N/A')}
+% else:
+                            ${userid2realname(info['target']['p_mode']) | h}
+% endif
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr><td colspan='3'><div class='detail-space'/></td></tr>
+% endfor
+    </table>
+</div>
+

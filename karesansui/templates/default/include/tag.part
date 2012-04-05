@@ -1,0 +1,11 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+                    <div id="tag">
+                        <div id="tag-main">
+                            <div class="left"></div>
+                            <span class="value">
+                                <div class="text">${_('Now loading')}</div>
+                            </span>
+                            <div class="right"></div>
+                        </div>
+                    </div>
+                    <br style="clear: both;"/>

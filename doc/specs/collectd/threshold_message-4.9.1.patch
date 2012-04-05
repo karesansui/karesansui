@@ -1,0 +1,143 @@
+diff -uNr collectd-4.9.1.orig/src/plugin.h collectd-4.9.1/src/plugin.h
+--- collectd-4.9.1.orig/src/plugin.h	2010-01-14 23:20:15.000000000 +0900
++++ collectd-4.9.1/src/plugin.h	2010-04-19 18:27:11.000000000 +0900
+@@ -58,7 +58,7 @@
+ # define LOG_DEBUG 7
+ #endif
+ 
+-#define NOTIF_MAX_MSG_LEN 256
++#define NOTIF_MAX_MSG_LEN 512
+ 
+ #define NOTIF_FAILURE 1
+ #define NOTIF_WARNING 2
+diff -uNr collectd-4.9.1.orig/src/utils_threshold.c collectd-4.9.1/src/utils_threshold.c
+--- collectd-4.9.1.orig/src/utils_threshold.c	2010-01-14 23:20:15.000000000 +0900
++++ collectd-4.9.1/src/utils_threshold.c	2010-04-19 18:27:35.000000000 +0900
+@@ -30,6 +30,7 @@
+ #include "utils_avltree.h"
+ #include "utils_cache.h"
+ #include "utils_threshold.h"
++#include "utils_subst.h"
+ 
+ #include <assert.h>
+ #include <pthread.h>
+@@ -301,6 +302,34 @@
+   return (0);
+ } /* int ut_config_type_hysteresis */
+ 
++static int ut_config_type_message (threshold_t *th, oconfig_item_t *ci)
++{
++
++  if ((ci->values_num != 1)
++      || (ci->values[0].type != OCONFIG_TYPE_STRING))
++  {
++    WARNING ("threshold values: The `%s' option needs exactly one "
++      "string argument.", ci->key);
++    return (-1);
++  }
++
++  if (ci->values[0].value.string[0] == 0)
++  {
++    WARNING ("threshold values: The `%s' option does not accept empty strings.",
++        ci->key);
++    return (-1);
++  }
++
++  th->message = strdup (ci->values[0].value.string);
++  if (th->message == NULL)
++  { 
++    ERROR ("ut_config_type_message: sstrdup failed.");
++    return (-1);
++  } 
++
++  return (0);
++} /* int ut_config_type_message */
++
+ static int ut_config_type (const threshold_t *th_orig, oconfig_item_t *ci)
+ {
+   int i;
+@@ -330,6 +359,7 @@
+   th.failure_max = NAN;
+   th.hits = 0;
+   th.hysteresis = 0;
++  th.message = NULL;
+ 
+   for (i = 0; i < ci->children_num; i++)
+   {
+@@ -356,6 +386,8 @@
+       status = ut_config_type_hits (&th, option);
+     else if (strcasecmp ("Hysteresis", option->key) == 0)
+       status = ut_config_type_hysteresis (&th, option);
++    else if (strcasecmp ("Message", option->key) == 0)
++      status = ut_config_type_message (&th, option);
+     else
+     {
+       WARNING ("threshold values: Option `%s' not allowed inside a `Type' "
+@@ -741,6 +773,56 @@
+     bufsize -= status;
+   }
+ 
++  if (th->message != NULL)
++  {
++    char msg[NOTIF_MAX_MSG_LEN];
++    char temp[NOTIF_MAX_MSG_LEN];
++
++    sstrncpy (msg, th->message, sizeof (msg));
++
++#define REPLACE_FIELD(t,v) \
++    if (subst_string (temp, sizeof (temp), msg, t, v) != NULL) \
++      sstrncpy (msg, temp, sizeof (msg));
++
++    char ftoa_temp[NOTIF_MAX_MSG_LEN];
++#define FTOA(string,f) \
++    memset(string,0x00,sizeof(string)); \
++    snprintf(string, sizeof(string), "%f", f);
++
++    REPLACE_FIELD ("%{host}", n.host);
++    REPLACE_FIELD ("%{plugin}", n.plugin);
++    REPLACE_FIELD ("%{plugin_instance}", n.plugin_instance);
++    REPLACE_FIELD ("%{type}", n.type);
++    REPLACE_FIELD ("%{type_instance}", n.type_instance);
++
++    REPLACE_FIELD ("%{ds:name}", ds->ds[ds_index].name);
++
++    FTOA(ftoa_temp,values[ds_index])
++    REPLACE_FIELD ("%{ds:value}", ftoa_temp);
++
++    if ( !isnan(th->warning_min)) {
++        FTOA(ftoa_temp,th->warning_min)
++        REPLACE_FIELD ("%{warning_min}", ftoa_temp);
++    }
++    if ( !isnan(th->warning_max)) {
++        FTOA(ftoa_temp,th->warning_max)
++        REPLACE_FIELD ("%{warning_max}", ftoa_temp);
++    }
++    if ( !isnan(th->failure_min)) {
++        FTOA(ftoa_temp,th->failure_min)
++        REPLACE_FIELD ("%{failure_min}", ftoa_temp);
++    }
++    if ( !isnan(th->failure_max)) {
++        FTOA(ftoa_temp,th->failure_max)
++        REPLACE_FIELD ("%{failure_max}", ftoa_temp);
++    }
++
++    status = ssnprintf (buf, bufsize, " (msg %s)",
++	msg);
++    buf += status;
++    bufsize -= status;
++  }
++
+   plugin_dispatch_notification (&n);
+ 
+   plugin_notification_meta_free (n.meta);
+diff -uNr collectd-4.9.1.orig/src/utils_threshold.h collectd-4.9.1/src/utils_threshold.h
+--- collectd-4.9.1.orig/src/utils_threshold.h	2010-01-14 23:20:15.000000000 +0900
++++ collectd-4.9.1/src/utils_threshold.h	2010-04-19 18:27:44.000000000 +0900
+@@ -41,6 +41,7 @@
+   gauge_t hysteresis;
+   int flags;
+   int hits;
++  char *message;
+   struct threshold_s *next;
+ } threshold_t;
+ 

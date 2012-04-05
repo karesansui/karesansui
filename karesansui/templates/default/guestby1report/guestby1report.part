@@ -1,0 +1,43 @@
+<%doc>Copyright (C) 2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+
+});
+
+-->
+</script>
+                    <div id="report">
+                        <div class="alert"></div>
+
+                        <div id="action" >
+                            <div class="left"></div>
+                            <div class="right">
+                                <a href="#" class="tool-link" >
+                                    <div class="tool-mid">
+                                        <img src="${ctx.homepath}/static/images/reload.gif" alt="renew" id="tool_renew"/>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>
+                        <div class="space"/>
+
+                        <div id="view">
+                            <div id="list-box">
+                                <div id="minner">
+
+
+                                    <br style="clear: both;"/>
+
+
+                                    <br style="clear: both;"/>
+                                </div>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>
+                        <div class="space"></div>
+                        <br style="clear: both;"/>
+                    </div>

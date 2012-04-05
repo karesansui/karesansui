@@ -1,0 +1,30 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<div id="about" align="center" style="font-size:12px; margin-top: 20px;">
+<img id="hoge" src="${ctx.homepath}/static/images/frog.jpg" alt="" />
+<h2>Karesansui</h2>
+<pre>
+
+Version ${version}.${release}
+
+Copyright (C) 2009-2010 Karesansui Project
+
+
+
+Credit: 
+Kei FUNAGAYAMA
+Taizo ITO
+Kazuya Hayashi 
+Junichi Shinohara
+Kazuhiro Ogura
+Keisuke Fukawa
+Hiroki Takayasu
+Katsutoshi Nagaoka
+
+Designed by:
+Masayoshi Kagami
+
+More information available on the Karesansui <a href="http://karesansui-project.info/" target="_blank">Project</a> page, <a href="http://karesansui-project.info/projects/karesansui/boards" target="_blank">Support</a> page, <a href="http://karesansui-project.info/projects/karesansui/news" target="_blank">Release and news</a> page.
+</pre>
+</div>

@@ -1,0 +1,23 @@
+CREATE TABLE machine (
+        id INTEGER NOT NULL, 
+        parent_id INTEGER, 
+        notebook_id INTEGER, 
+        created_user_id INTEGER, 
+        modified_user_id INTEGER, 
+        uniq_key VARCHAR(36) NOT NULL, 
+        name VARCHAR(256) NOT NULL, 
+        attribute SMALLINT NOT NULL, 
+        hypervisor SMALLINT NOT NULL, 
+        hostname VARCHAR(256), 
+        icon VARCHAR(256), 
+        is_deleted BOOLEAN, 
+        created TIMESTAMP, 
+        modified TIMESTAMP, 
+        PRIMARY KEY (id), 
+         FOREIGN KEY(parent_id) REFERENCES machine (id), 
+         FOREIGN KEY(created_user_id) REFERENCES user (id), 
+         FOREIGN KEY(modified_user_id) REFERENCES user (id), 
+         UNIQUE (hostname), 
+         UNIQUE (uniq_key), 
+         FOREIGN KEY(notebook_id) REFERENCES notebook (id)
+);

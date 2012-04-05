@@ -1,0 +1,72 @@
+#guests {
+    cursor: pointer;                                                                 
+}
+
+#guests .active {
+    background:transparent url(../images/host-active-back.gif) no-repeat scroll 0 0;
+    color:#666666;
+    float:left;
+    font-size:12px;
+    height:190px;
+    margin-left:30px;
+    margin-top:30px;
+    padding-left:0;
+    padding-top:8px;
+    position:relative;
+    text-align:center;
+    width:141px;
+}
+
+#guests .active .status-b {
+    left:89px;
+    position:absolute;
+    top:90px;
+}
+#guests .active .status {
+    font-size:12px;
+}
+
+
+#guests .passive {
+    color:#444444;
+    float:left;
+    font-size:12px;
+    height:190px;
+    margin-left:30px;
+    margin-top:30px;
+    padding-left:0;
+    padding-top:8px;
+    position:relative;
+    text-align:center;
+    width:141px;
+}
+#guests .passive .status-b {
+    left:89px;
+    position:absolute;
+    top:90px;
+}
+#guests .passive .status {
+    font-size:12px;
+}
+
+#guests .passive .exported-f {
+    margin-left: 8px;
+    left:0px;
+    top:13px;
+    position:absolute;
+}
+
+#guests .active .exported-f {
+    margin-left: 8px;
+    left:0px;
+    top:13px;
+    position:absolute;
+}
+#guests .icon-shadow {
+    margin-left: 8px;
+    background-image: url('../images/icon_shadow.png');
+    width:124px;
+    height:124px;
+    padding-top:5px;
+    background-repeat:no-repeat;
+}

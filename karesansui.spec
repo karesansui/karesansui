@@ -1,0 +1,1 @@
+doc/specs/karesansui/karesansui.spec

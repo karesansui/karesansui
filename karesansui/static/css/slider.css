@@ -1,0 +1,67 @@
+.ui-slider {
+    position: relative;
+    z-index: 1;
+    border: 1px solid #A7A7A7;
+    background-color: #E2E2E2;
+    margin:10px 0px;
+    height:15px;
+    width:200px;
+}
+
+.ui-slider .ui-slider-handle {
+    position: absolute;
+    z-index: 2;
+    top: -4px;
+    background:transparent url(../images/slider-knob.png) no-repeat scroll 0 0;
+    height:24px;
+    margin-left:-5px;
+    width:14px;
+    border:none;
+    font-weight:normal;
+    outline:medium none;
+    cursor: pointer;
+}
+
+.slider-left {
+    height: 100%;
+    background-color: #99E000;
+    position: absolute;
+    width: 60%;
+}
+
+.slider-right {
+    height: 100%;
+    background-color: #EC0000;
+    position: absolute;
+    right: 0%;
+    width: auto;
+}
+
+#watch_setting .ui-slider {
+    background-color: #EC0000;
+    margin: 0px 0px 10px 0px;
+}
+
+#watch_setting .ui-slider-handle {
+}
+
+#watch_setting .ui-slider-range {
+    position: absolute;
+    height: 100%;
+    background-color: #FFA800;
+}
+
+.slider {
+    float: left;
+    margin: 10px 0px;
+}
+
+.slider_value {
+    float: left;
+    margin: 10px 0 10px 10px;
+}
+
+.slider_autounit {
+    margin-left: 5px;
+
+}

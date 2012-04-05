@@ -1,0 +1,238 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+<script type="text/javascript">
+<!--
+function get_target_id(){
+    return $("#device_tab td.device_active").attr("id");
+}
+
+function bind_edit_event() {
+    $("#edit_settings").one("click", function(){
+        var target_id = get_target_id();
+        var val = target_id.split("_");
+        var edit_url;
+
+        if(val[1] == "" || val[1] == undefined){
+            edit_url = "${ctx.homepath}/host/${host_id}/networksettings/" + val[0] + ".part?mode=input";
+        } else {
+            edit_url = "${ctx.homepath}/host/${host_id}/networksettings/" + val[0] + "/" + val[1] + ".part?mode=input";
+        }
+
+        grayout_view("GET",
+            edit_url,
+            "${_('Edit Settings')}",
+            "${ctx.homepath}/host/${host_id}/networksettings.part");
+    });
+}
+
+function unbind_edit_event() {
+    $("#edit_settings").unbind("click");
+}
+
+function bind_delete_event(){
+    $("#delete_settings").unbind("click");
+    $("#delete_settings").click(function(){
+        var target_id = get_target_id();
+        var val = target_id.split("_");
+        var delete_url = "${ctx.homepath}/host/${host_id}/networksettings/" + val[0] + "/" + val[1] + ".part";
+        var param = null;
+        delete_dialog("#dialog", delete_url, param, "${ctx.homepath}${ctx.path}", "#delete_settings", "${_('Deleting bonding devices will result in a immediate network reboot. Proceed?')}");
+    });
+}
+
+function unbind_delete_event(){
+    $("#delete_settings").unbind("click");
+}
+
+$(document).ready(function(){
+    $("#action>a").hover(
+        function(){tool_over(this);},
+        function(){tool_over(this);}
+    ).mousedown(function(){
+        var id = $(this).attr("id");
+        tool_active(this);
+   });
+
+    $("#add_settings").click(function() {
+        grayout_view("GET",
+            "${ctx.homepath}${ctx.path}?mode=input",
+            "${_('Network Settings')}",
+            "${ctx.homepath}${ctx.path}");
+    });
+
+    $("#device_tab td[id^='general'], #device_tab td[id^='nic']").each(function(){
+        var open_img = "${ctx.homepath}/static/images/tree-open.gif";
+        var close_img = "${ctx.homepath}/static/images/tree-close.gif";
+        var target = $(this).attr("id");
+        var target_val = target.split("_");
+
+        $(this).click(function(){
+            if ($(this).is(".device_active") == false) {
+                $("#settings_value").html('<div align="center" style="padding:10px; position:absolute; top:40%; left:45%;"><img src="${ctx.homepath}/static/images/now-loading.gif" alt="Now Loading" /></div>');
+            }
+            unbind_edit_event();
+            unbind_delete_event();
+
+            switch(target_val[0]){
+                case "general":
+                    ajax_get("#settings_value",
+                             "${ctx.homepath}/host/${host_id}/networksettings/general.part",
+                             null,
+                             true);
+                    tool_reset("#edit_settings");
+                    bind_edit_event();
+                    break;
+                case "nic":
+                    if ($(this).is(".device_active") == false){
+                        ajax_get("#settings_value",
+                                 "${ctx.homepath}/host/${host_id}/networksettings/nic/" + target_val[1] + ".part",
+                                 null,
+                                 true);
+                    }
+                    tool_reset("#edit_settings");
+                    if((target_val[1].substr(0,3) == "eth" || 
+                       target_val[1].substr(0,4) == "bond") &&
+                       $(this).is("[class^='slave_']") == false){
+                        bind_edit_event();
+                    } else {
+                        tool_invalid("#edit_settings");
+                    }
+                    tool_reset("#delete_settings");
+                    if ($(this).is(".bonding")){
+                        bind_delete_event();
+                    } else {
+                        tool_invalid("#delete_settings");
+                    }
+                    break;
+                default:
+                    show_alert_msg("${_('Received an unexpected value.')}", "ERROR");
+            }
+            if ($(this).is(".bonding")) {
+                if($(this).is(".device_highlight")){
+                    $(this).add("td.slave_" + target_val[1]).removeClass("device_highlight");
+                    $("td.slave_" + target_val[1]).add("#separator_" + target_val[1]).hide(500);
+                    $(this).children("img[id^='tree_img']").attr("src", close_img);
+                } else {
+                    $(this).add("td.slave_" + target_val[1]).addClass("device_highlight");
+                    $("td.slave_" + target_val[1]).add("#separator_" + target_val[1]).show(500);
+                    $(this).children("img[id^='tree_img']").attr("src", open_img);
+                }
+            }
+            $("#device_tab td.device_active").removeClass("device_active");
+            $(this).addClass("device_active");
+
+        });
+    });
+
+    $("td[class^='slave_']").add("td[id^='separator']").hide();
+    tool_invalid("#edit_settings");
+    tool_invalid("#delete_settings");
+    renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
+    //$("#general_tab").click();
+});
+// -->
+</script>
+                    <div id="action">
+                        <div class="left"></div>
+                        <a href="#" name="edit_settings" id="edit_settings" class="tool-link">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-edit.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text" >${_('Edit')}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" name="add_settings" id="add_settings" class="tool-link">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-addbond.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text" >${_('Add')}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" name="delete_settings" id="delete_settings" class="tool-link">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-trash.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text" >${_('Delete')}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="right">
+                            <a href="#" class="tool-link" >
+                                <div class="tool-mid">
+                                    <img src="${ctx.homepath}/static/images/reload.gif" alt="renew" id="tool_renew"/>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <br style="clear: both;"/>
+                    <div class="space"></div>
+                    <br style="clear: both;"/>
+                    <div class="alert"></div>
+                    <div id="view">
+                        <div id="device">
+                            <table width="99.8%" height="100%" cellspacing="1" border="0" style="background-color:#bcbcbc;">
+                                <tr>
+                                    <td style="background-color:#E4E4DD; padding:0px; text-align:left;" bgcolor="#FFFFFF" width="20%" valign="top">
+                                        <table id="device_tab" width="100%" cellspacing="0" border="0" style="background-color:#e4e4dd;">
+                                            <tr>
+                                                <td id="general" style="font-size:10px;">
+		                                            <img style="margin-left:7px;" src="${ctx.homepath}/static/images/device-console.png">
+                                                    <span class="status">${_('General Settings')}</span>
+                                                </td>
+                                            </tr>
+% for bond in sorted(bond_list.keys()):
+                                            <tr>
+                                                <td id="nic_${bond}" class="bonding" style="font-size:10px;" width="100">
+                                                    <img id="tree_img_${bond}" class="tree-toggle-button" alt="" src="/karesansui/v2/static/images/tree-close.gif">
+                                                    <img src="${ctx.homepath}/static/images/device-network-bonding.png">
+                                                    <span class="status">${_('Device')} ${bond}</span>
+                                                </td>
+                                            </tr>
+%     for slave in bond_list[bond]['slave']:
+                                            <tr>
+                                                <td id="nic_${slave}" class="slave_${bond}" style="font-size:10px;" width="80">
+                                                  <img style="margin-left:18px; margin-right:3px;" src="${ctx.homepath}/static/images/device-network-r0.png">
+                                                  <span class="status">${_('Device')} ${slave}</span>
+                                                </td>
+                                            </tr>
+%     endfor
+                                            <tr>
+                                                <td id="separator_${bond}" height="1" style="background-color:#bcbcbc;">
+                                                </td>
+                                            </tr>
+% endfor
+% for dev in sorted(current.keys()):
+%     if 'bond' not in current[dev]:
+                                            <tr>
+                                                <td id="nic_${dev}" style="font-size:10px;" width="100">
+                                                    <img style="margin-left:7px;" src="${ctx.homepath}/static/images/device-network.png">
+                                                    <span class="status">${_('Device')} ${dev}</span>
+                                                </td>
+                                            </tr>
+%     endif
+% endfor
+                                        </table>
+                                    </td>
+                                    <td bgcolor="#FFFFFF" valign="top" width="80%" height="100%" style="padding:30px;">
+                                        <div style="width:100%; height:100%; position:relative;">
+                                            <div id="settings_value">
+                                                ${_('Network Settings')}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <br style="clear: both;"/>

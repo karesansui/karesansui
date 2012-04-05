@@ -1,0 +1,258 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+
+
+// init
+tool_invalid("#edit_device");
+tool_invalid("#delete_device");
+
+$("#action>a").hover(
+    function(){tool_over(this);},
+    function(){tool_over(this);}
+).mousedown(function(){
+    var id = $(this).attr("id");
+    tool_active(this);
+});
+
+renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
+
+$("#device_tab td").each(function(){
+    $(this).click(function(){
+        var target = $(this).attr("id");
+
+        var target_val = target.split("_");
+
+        $("#device_value").html('<div align="center" style="padding:10px; position:absolute; top:40%; left:45%;"><img src="${ctx.homepath}/static/images/now-loading.gif" alt="Now Loading" /></div>');
+
+        unbind_event();
+        switch(target_val[0]){
+            case "cpu":
+                ajax_get("#device_value", 
+                    "${ctx.homepath}/host/${guest.info['model'].parent_id}/guest/${guest.info['model'].id}/cpu.part",
+                    null);
+                tool_reset("#edit_device");
+                bind_edit_event();
+                tool_invalid("#delete_device");
+                break;
+            case "memory":
+                ajax_get("#device_value", 
+                    "${ctx.homepath}/host/${guest.info['model'].parent_id}/guest/${guest.info['model'].id}/memory.part",
+                    null);
+                tool_reset("#edit_device");
+                bind_edit_event();
+                tool_invalid("#delete_device");
+                break;
+            case "disk":
+                ajax_get("#device_value", 
+                    "${ctx.homepath}/host/${guest.info['model'].parent_id}/guest/${guest.info['model'].id}/disk/" + target_val[1] + ".part",
+                    null);
+                tool_reset("#delete_device");
+                bind_delete_event();
+                tool_invalid("#edit_device");
+                if(target_val[1] == 0) {
+                    tool_invalid("#delete_device");
+                }
+                break;
+            case "nic":
+                ajax_get("#device_value",
+                    "${ctx.homepath}/host/${guest.info['model'].parent_id}/guest/${guest.info['model'].id}/nic/" + target_val[1] + ".part",
+                    null);
+                tool_reset("#delete_device");
+                bind_delete_event();
+                tool_reset("#edit_device");
+                bind_edit_event();
+                break;
+            case "display":
+                ajax_get("#device_value",
+                    "${ctx.homepath}/host/${guest.info['model'].parent_id}/guest/${guest.info['model'].id}/display/" + target_val[1] + ".part",
+                    null);
+                tool_reset("#edit_device");
+                bind_edit_event();
+                tool_invalid("#delete_device");
+                break;
+            default:
+                show_alert_msg("${_('Received an unexpected value.')}", "ERROR");
+        }
+        // icon active
+        $("#device_tab td").each(function(){
+            if($(this).attr("id") != target){
+                $(this).removeClass("device_active");
+            } else {
+                $(this).addClass("device_active");
+            }
+        });
+
+    });
+});
+$("#add_device").click(function() {
+    grayout_view("GET",
+        "${ctx.homepath}${ctx.path}?mode=input",
+        "${_('Add device')}",
+        "${ctx.homepath}${ctx.path}");
+});
+
+
+});
+// lib
+function get_target_id(){
+    var target_id = null;
+    $("#device_tab td").each(function(){
+        if($(this).hasClass("device_active") == true){
+            target_id = $(this).attr("id");
+        }
+    });
+    return target_id;
+}
+
+function bind_edit_event() {
+    $("#edit_device").one("click.edit", function(){
+        var target_id = get_target_id();
+        var val = target_id.split("_");
+        var edit_url;
+
+        if(val[1] == ""){
+            edit_url = "${ctx.homepath}/host/${guest.info['model'].parent_id}/guest/${guest.info['model'].id}/" + val[0] + ".part?mode=input";
+        } else {
+            edit_url = "${ctx.homepath}/host/${guest.info['model'].parent_id}/guest/${guest.info['model'].id}/" + val[0] + "/" + val[1] + ".part?mode=input";
+        }
+
+        grayout_view("GET",
+            edit_url,
+            "${_('Edit device')}",
+            "${ctx.homepath}/host/${guest.info['model'].parent_id}/guest/${guest.info['model'].id}/device.part");
+    });
+}
+
+function bind_delete_event() {
+    $("#delete_device").bind("click.delete", function(){
+        var target_id = get_target_id();
+        var val = target_id.split("_");
+        if(val[0] != "" && val[1] != ""){
+            var url = "${ctx.homepath}/host/${guest.info['model'].parent_id}/guest/${guest.info['model'].id}/" + val[0] + "/" + val[1] + "?mode=input";
+            delete_dialog("#dialog",
+                url,
+                null,
+                "${ctx.homepath}${ctx.path}",
+                "#delete_device",
+                "");
+        } else {
+            show_alert_msg("${_('Please select a target.')}", "ERROR");
+        }
+        
+    });
+}
+
+function unbind_event() {
+    $("#edit_device").unbind("click.edit");
+    $("#delete_device").unbind("click.delete");
+}
+
+-->
+</script>
+                    <div id="action">
+                        <div class="left"></div>
+                        <a href="#" name="add_device" id="add_device" class="tool-link">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-add.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text" >${_('Add')}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" name="edit_device" id="edit_device" class="tool-link">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-edit.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text" >${_('Edit')}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" name="delete_device" id="delete_device" class="tool-link">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-trash.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text" >${_('Delete')}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="right">
+                            <a href="#" class="tool-link" >
+                                <div class="tool-mid">
+                                    <img src="${ctx.homepath}/static/images/reload.gif" alt="renew" id="tool_renew"/>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <br style="clear: both;"/>
+                    <div class="space"></div>
+                    <br style="clear: both;"/>
+                    <div class="alert"></div>
+                    <div id="view">
+                        <div id="device">
+
+<table width="99.8%" cellspacing="1" border="0" style="background-color:#bcbcbc;">
+    <tr>
+        <td style="background-color:#E4E4DD; padding:0px; text-align:left;" bgcolor="#FFFFFF" width="20%" valign="top">
+            <table id="device_tab" width="100%" height="100%" cellspacing="0" border="0" style="background-color:#e4e4dd;">
+                <tr>
+                    <td id="cpu_" style="font-size:10px;">
+		                            <img src="${ctx.homepath}/static/images/device-cpu.png">
+                        <span class="status">-&nbsp;CPU&nbsp;-</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="display_" style="font-size:10px;">
+                        <img src="${ctx.homepath}/static/images/device-console.png">
+                        <span class="status">-&nbsp;Display&nbsp;-</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="memory_" style="font-size:10px;">
+                        <img src="${ctx.homepath}/static/images/device-memory.png">
+                        <span class="status">-&nbsp;Memory&nbsp;-</span>
+                    </td>
+                </tr>
+% for i in range(0, len(disk_info)):
+                <tr>
+                    <td id="disk_${i}" style="font-size:10px;">
+                        <img src="${ctx.homepath}/static/images/device-disk.png">
+                        <span class="status">-&nbsp;Disk&nbsp;${i}&nbsp;-</span>
+                    </td>
+                </tr>
+% endfor
+% for i in xrange(0,len(ifinfo)):
+                <tr>
+                    <td id="nic_${i}" style="font-size:10px;">
+                        <img src="${ctx.homepath}/static/images/device-network.png">
+                        <span class="status">-&nbsp;Network&nbsp;${i}&nbsp;-</span>
+                    </td>
+                </tr>
+% endfor
+            </table>
+        </td>
+        <td bgcolor="#FFFFFF" valign="top" width="80%" height="100%" style="padding:30px;">
+            <div style="width:100%; height:100%; position:relative;">
+                <div id="device_value">
+                    ${_("Device Settings")}
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+                        </div>
+                    </div>
+                    <br style="clear: both;"/>

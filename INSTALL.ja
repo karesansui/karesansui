@@ -1,0 +1,35 @@
+インストール
+------------
+CentOS/Red Hatの場合、Karesansuiをインストール
+する最も簡単な方法は、RPMベースのインストーラーを
+利用することです。
+
+より詳しい情報はこちら：
+http://karesansui-project.info/wiki/karesansui/Ja_tutorial
+
+ソースコードからのインストール
+------------------------------
+まず、下記のパッケージをインストールし、使えるようにする
+必要があります。
+
+ * libvirt
+ * libvirt python bindings
+ * lighttpd
+ * openssl098
+ * Mako
+ * SQLAlchemy
+ * python-flup
+ * python-pysqlite
+ * python-simplejson
+ * python-webpy
+ * pysilhouette
+ * tightvnc-java
+
+(これらを手動でインストールして、Karesansuiの設定をいじるわけですが、
+正直面倒です。別途ご用意しているRPMパッケージを使っていただくのが簡単
+だと思います)
+
+# tar xzvf karesansui-xxxx.tar.gz
+# cd karesansui
+# python setup.py build
+# python setup.py install

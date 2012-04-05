@@ -1,0 +1,187 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+<script type="text/javascript">
+<!--
+// lib
+function iptables_start_event(){
+    $("#start_iptables").one("click", function(){ 
+        ajax_put("${ctx.homepath}/host/${host_id}/iptables/status.part",
+            {"status" : FIREWALL_START},
+            function(data, status){},
+            false,
+            "${ctx.homepath}${ctx.path}"
+        );
+    });
+}
+
+function iptables_stop_event(){
+    $("#stop_iptables").one("click", function(){ 
+        ajax_put("${ctx.homepath}/host/${host_id}/iptables/status.part",
+            {"status" : FIREWALL_STOP},
+            function(data, status){},
+            false,
+            "${ctx.homepath}${ctx.path}"
+        );
+    });
+}
+
+function iptables_restart_event(){
+    $("#esc_iptables").one("click", function(){ 
+        ajax_put("${ctx.homepath}/host/${host_id}/iptables/status.part",
+            {"status" : FIREWALL_RESTART},
+            function(data, status){},
+            false,
+            "${ctx.homepath}${ctx.path}"
+        );
+    });
+}
+
+function bind_edit_event(){
+    $("#edit_iptables").one("click.once", function(){
+        var edit_url = null;
+        edit_url = "${ctx.homepath}${ctx.path}?mode=input";
+        grayout_view("GET",
+            edit_url,
+            "${_('iptables Settings')}",
+            "${ctx.homepath}${ctx.path}");
+    });
+}
+
+function unbind_event(){
+    $("#edit_iptables").unbind("click.once");
+}
+
+$(document).ready(function(){
+    // init 
+    //tool_invalid("#edit_iptables");
+
+    $("#action>a").hover(
+        function(){tool_over(this);},
+        function(){tool_over(this);}
+    ).mousedown(function(){
+        var id = $(this).attr("id");
+        tool_active(this);
+    });
+
+    // iptables control
+    iptables_start_event();
+    iptables_stop_event();
+    iptables_restart_event();
+
+    tool_reset("#edit_iptables");
+    bind_edit_event();
+
+    renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
+});
+-->
+</script>
+
+                    <div id="action">
+                        <div class="left"></div>
+% if len(status) == 0:
+                        <a href="#" name="start_iptables" id="start_iptables" class="tool-link">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-start.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text" >${_('Start')}</div>
+                                </div>
+                            </div>
+                        </a>
+% else:
+                        <a href="#" name="stop_iptables" id="stop_iptables" class="tool-link">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-stop.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text" >${_('Stop')}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" name="esc_iptables" id="esc_iptables" class="tool-link">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-restart.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text" >${_('Restart')}</div>
+                                </div>
+                            </div>
+                        </a>
+% endif
+                        <a href="#" name="edit_iptables" id="edit_iptables" class="tool-link">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-edit.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text" >${_('Edit')}</div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <div class="right">
+                            <a href="#" class="tool-link" >
+                                <div class="tool-mid">
+                                    <img src="${ctx.homepath}/static/images/reload.gif" alt="renew" id="tool_renew"/>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <br style="clear: both;"/>
+                    <div class="space"></div>
+                    <br style="clear: both;"/>
+                    <div class="alert"></div>
+                    <div id="view">
+                        <div id="result_message"></div>
+
+% if len(status) != 0:
+            <table cellspacing="0" border="0" style="background-color:#bcbcbc;">
+                <tr>
+                    <th style="padding:8px;" bgcolor="#FFFFFF">
+                      <span class="guest-info-title">${_('INPUT Chain')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                      <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+                      ${policies['filter']['INPUT']}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                      <span class="guest-info-title">${_('OUTPUT Chain')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                      <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+                      ${policies['filter']['OUTPUT']}
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                     <span class="guest-info-title">${_('FORWARD Chain')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                      <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+                      ${policies['filter']['FORWARD']}
+                    </td>
+                </tr>
+            </table>
+% else:
+${_('iptables is not running now.')}
+% endif
+
+
+                    </div>
+                    <br style="clear: both;"/>

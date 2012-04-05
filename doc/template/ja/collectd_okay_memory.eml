@@ -1,0 +1,7 @@
+X-Mailer: %{app_name}
+Subject: [Karesansui Notifier] 正常値に戻りました。メモリ (%{type_instance})
+
+レポート時刻: %{time}
+
+ホスト %{host} の メモリ (%{type_instance}) が正常値に戻りました。
+

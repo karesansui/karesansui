@@ -1,0 +1,809 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+<%!
+from karesansui.lib.template import view_autounit, view_megaunit
+from karesansui.lib.const import DEFAULT_DECIMAL_POINT
+%>
+
+<script type="text/javascript">
+<!--
+function validates_guest(){
+    var check = true;
+    ERROR_MSG = "";
+
+    check = check_string(
+                $("#m_name"),
+                CHECK_EMPTY | CHECK_LENGTH | CHECK_ONLYSPACE,
+                "${_('Guest Name')}",
+                null,
+                MACHINE_NAME_MIN_LENGTH,
+                MACHINE_NAME_MAX_LENGTH
+            ) && check;
+
+    check = check_string(
+                $("#note_title"),
+                CHECK_LENGTH | CHECK_ONLYSPACE,
+                "${_('Title')}",
+                null,
+                NOTE_TITLE_MIN_LENGTH,
+                NOTE_TITLE_MAX_LENGTH
+            ) && check;
+
+    check = check_string(
+                $("#note_value"),
+                CHECK_ONLYSPACE,
+                "${_('Note')}",
+                null,
+                null,
+                null
+            ) && check;
+
+    if($("#tags").val()){
+        var form_tmp = $("#tags").val();
+        var tags = $("#tags").val().split(",");
+        var tag_check = true;
+
+        for (var idx in tags){
+            $("#tags").val(tags[idx]);
+            tag_check = check_string(
+                        $("#tags"),
+                        CHECK_LENGTH | CHECK_ONLYSPACE,
+                        "${_('Tag')}",
+                        null,
+                        TAG_MIN_LENGTH,
+                        TAG_MAX_LENGTH
+                    ) && tag_check;
+            if(tag_check == false){
+                break;
+            }
+        }
+        $("#tags").val(form_tmp);
+        check = check && tag_check;
+    }
+
+    check = check_string(
+                $("#domain_name"),
+                CHECK_EMPTY | CHECK_LENGTH | CHECK_VALID | CHECK_ONLYSPACE,
+                "${_('Domain ID')}",
+                /[^-_.0-9a-zA-Z]+/,
+                DOMAIN_ID_MIN_LENGTH,
+                DOMAIN_ID_MAX_LENGTH
+            ) && check;
+    check = check_number(
+                $("#vm_mem_size"),
+                CHECK_VALID | CHECK_MIN | CHECK_EMPTY,
+                "${_('Memory Size (MB)')}",
+                MEMORY_MIN_SIZE
+            ) && check;
+
+    check = check_number(
+                $("#vm_disk_size"),
+                CHECK_VALID | CHECK_MIN | CHECK_EMPTY,
+                "${_('Disk Size (MB)')}",
+                DISK_MIN_SIZE
+            ) && check;
+
+   boot_image = $("input:radio[name='boot_image']:checked").val();
+   if(boot_image == "kernel") {
+        check = check_startfile(
+                $("#vm_kernel"),
+                CHECK_EMPTY | CHECK_VALID,
+                "${_('Kernel Image')}"
+            ) && check;
+        check = check_startfile(
+                $("#vm_initrd"),
+                CHECK_EMPTY | CHECK_VALID,
+                "${_('Initrd Image')}"
+            ) && check;
+    } else {
+        check = check_startfile(
+                $("#vm_iso"),
+                CHECK_EMPTY | CHECK_VALID,
+                "${_('ISO Image')}"
+            ) && check;
+    }
+
+    check = check_number(
+                $("#vm_vncport"),
+                CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                "${_('VNC Port Number')}",
+                VNC_PORT_MIN_NUMBER,
+                VNC_PORT_MAX_NUMBER
+            ) && check;
+
+    check = check_macaddr(
+                $("#vm_mac"),
+                CHECK_EMPTY | CHECK_VALID,
+                "${_('MAC Address')}"
+            ) && check;
+
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG);
+    }
+
+    return check;
+}
+
+function setDefaultValue() {
+   hypervisor = $("#m_hypervisor").children(":selected").val();
+   if(hypervisor == 2) { /* kvm */
+     $("#boot_image_iso_html").css("display","block")
+   } else {              /* not kvm as xen */
+     $("#boot_image_iso_html").css("display","none")
+   }
+% for x in hypervisors.keys():
+   if("${hypervisors[x]}" == hypervisor) {
+     $("#vm_mac").val("${mac_address[x]}");
+
+     keymap_html = '<select id="keymap" name="keymap">'
+     % for y in keymaps[x]:
+       % if y == DEFAULT_KEYMAP:
+         keymap_html += '<option value="${y | h}" selected="selected">${y | h}</option>'
+       % else:
+         keymap_html += '<option value="${y | h}">${y | h}</option>'
+       % endif
+     % endfor
+     keymap_html += '</select>';
+     $("#select_keymap_html").html(keymap_html);
+
+     phydev_html = '<select id="phydev" name="phydev">'
+     % for y in phydev[x]:
+       phydev_html += '<option value="${y | h}">${y | h}</option>'
+     % endfor
+     phydev_html += '</select>';
+     $("#select_phydev_html").html(phydev_html);
+
+     virnet_html = '<select id="virnet" name="virnet">'
+     % for y in virnet[x]:
+       virnet_html += '<option value="${y | h}">${y | h}</option>'
+     % endfor
+     virnet_html += '</select>'
+     $("#select_virnet_html").html(virnet_html)
+   }
+% endfor
+
+   boot_image = $("input:radio[name='boot_image']:checked").val();
+   if(boot_image == "kernel") {
+     $("#vm_kernel_require_str").css("display","");
+     $("#vm_initrd_require_str").css("display","");
+     $("#vm_iso_require_str").css("display","none");
+     $("#vm_kernel").attr("disabled", "");
+     $("#vm_initrd").attr("disabled", "");
+     $("#vm_iso").attr("disabled", "disabled");
+   } else {
+     $("#vm_kernel_require_str").css("display","none");
+     $("#vm_initrd_require_str").css("display","none");
+     $("#vm_iso_require_str").css("display","");
+     $("#vm_kernel").attr("disabled", "disabled");
+     $("#vm_initrd").attr("disabled", "disabled");
+     $("#vm_iso").attr("disabled", "");
+   }
+
+   nic_type = $("input:radio[name='nic_type']:checked").val();
+   if(nic_type == "phydev") {
+     $("#phydev").attr("disabled", "");
+     $("#virnet").attr("disabled", "disabled");
+   } else {
+     $("#phydev").attr("disabled", "disabled");
+     $("#virnet").attr("disabled", "");
+   }
+}
+
+// pool function
+function show_element(id,flag) {
+    if(flag) {
+        $(id).show();
+    } else {
+        $(id).hide();
+    }
+}
+
+function get_pools_info(){
+    var pools_info = new Array();
+% for pool_name in pools_info.keys():
+    var pool_info = new Array();
+    pool_info['available'] = "${pools_info[pool_name]['available']}";
+    pool_info['capacity'] = "${pools_info[pool_name]['capacity']}";
+    pool_info['type'] = "${pools_info[pool_name]['type']}";
+    pools_info["${pool_name}"] = pool_info
+% endfor
+
+    return pools_info;
+}
+
+function get_vols_info(){
+    var vols_info = new Array();
+% for pool_name in pools_iscsi_blocks.keys():
+%     for vol_info in pools_iscsi_blocks[pool_name]:
+    var vol_info = new Array();
+    vol_info['capacity'] = "${vol_info['capacity']}";
+    vol_info['path'] = "${vol_info['target']['path']}";
+    vol_info['realpath'] = "${vol_info['real']['dir']}/${vol_info['real']['name']}";
+    vols_info["${vol_info['name']}"] = vol_info;
+%     endfor
+% endfor
+
+    return vols_info;
+}
+
+function set_pool_name(name){
+
+    var default_start_disk_size = 8192;
+    var default_view_start_disk_size = view_autounit(default_start_disk_size, ['MB','GB','TB', 'PB', 'EB'], DEFAULT_DECIMAL_POINT, true);
+    var pools_info = get_pools_info();
+    var vols_info = get_vols_info();
+    var parts = name.split("/");
+    var pool_name = parts[0];
+    var disk_type = pools_info[pool_name]['type'];
+
+    if(disk_type == 'iscsi'){
+        var vol_name = null;
+        if(parts.length > 1){
+            vol_name = parts[1];
+        }
+        var disk_capacity = view_megaunit(vols_info[vol_name]['capacity'], 'B');
+        var view_disk_capacity = view_autounit(vols_info[vol_name]['capacity'], null, DEFAULT_DECIMAL_POINT, true);
+        $("#disk_size_box").hide();
+        $("#disk_type_value_box").html(disk_type);
+        $("#disk_available_capacity_box").hide();
+        $("#disk_capacity_box").show();
+        $("#disk_capacity_value_box").html('<span>' + disk_capacity + '</span><span class="dark-text slider_autounit">(' + view_disk_capacity + ')</span>');
+        $("#disk_format_box").hide();
+        $("#disk_path_value_box").html(vols_info[vol_name]['path']);
+        $("#disk_realpath_value_box").html(vols_info[vol_name]['realpath']);
+        $("#disk_path_box").show();
+        $("#disk_realpath_box").show();
+        $("#pool_type").val("block");
+    } else { // type is 'dir' or 'fs'
+        var disk_available = view_megaunit(pools_info[pool_name]['available'], 'B');
+        var disk_capacity = view_megaunit(pools_info[pool_name]['capacity'], 'B');
+        var view_disk_available = view_autounit(pools_info[pool_name]['available'], null, DEFAULT_DECIMAL_POINT, true);
+        var view_disk_capacity = view_autounit(pools_info[pool_name]['capacity'], null, DEFAULT_DECIMAL_POINT, true);
+
+        var start_disk_size = default_start_disk_size;
+        var view_start_disk_size = default_view_start_disk_size;
+        if(disk_available < default_start_disk_size){
+            start_disk_size = disk_available;
+            view_start_disk_size = view_autounit(start_disk_size, ['MB','GB','TB', 'PB', 'EB'], DEFAULT_DECIMAL_POINT, true);
+        }
+        $("#disk_size_box").show();
+        set_simple_slider(
+            "#disk_slider", 
+            "#vm_disk_size", 
+            0, 
+            disk_available,
+            disk_available,
+            start_disk_size
+        );
+        $("#vm_disk_size_autounit").text('(' + view_start_disk_size + ')');
+        $("#vm_disk_size").change(function(){
+            var value = $(this).attr('value');
+            var view_value = view_autounit(value, ['MB','GB','TB', 'PB', 'EB'], DEFAULT_DECIMAL_POINT, true);
+            $("#vm_disk_size_autounit").text('(' + view_value + ')');
+        });
+        $("#disk_type_value_box").html(disk_type);
+        $("#disk_available_capacity_box").show();
+        $("#disk_available_capacity_value_box").html('<span>' + disk_available + '</span><span class="dark-text slider_autounit">(' + view_disk_available + ')</span>&nbsp;/&nbsp;<span>' + disk_capacity + '</span><span class="dark-text slider_autounit">(' + view_disk_capacity + ')</span>');
+        $("#disk_capacity_box").hide();
+        $("#disk_format_box").show();
+        $("#disk_path_box").hide();
+        $("#disk_realpath_box").hide();
+        $("#pool_type").val(disk_type);
+    }
+}
+
+$(document).ready(function(){
+    var start_mem_size = 512;
+    var view_start_mem_size = view_autounit(start_mem_size, ['MB','GB','TB', 'PB', 'EB'], DEFAULT_DECIMAL_POINT, true);
+    if(${free_mem} < start_mem_size){
+        start_mem_size = ${free_mem};
+        view_start_mem_size = view_autounit(start_mem_size, ['MB','GB','TB', 'PB', 'EB'], DEFAULT_DECIMAL_POINT, true)
+    }
+
+    set_simple_slider(
+        "#mem_slider", 
+        "#vm_mem_size", 
+        0,
+        ${free_mem},
+        ${free_mem},
+        start_mem_size
+    );
+    $("#vm_mem_size_autounit").text('(' + view_start_mem_size + ')');
+    $("#vm_mem_size").change(function(){
+        var value = $(this).attr('value');
+        var view_value = view_autounit(value, ['MB','GB','TB', 'PB', 'EB'], DEFAULT_DECIMAL_POINT, true);
+        $("#vm_mem_size_autounit").text('(' + view_value + ')');
+    });
+
+    var pool_name = $('#pool_dir option:selected').val();
+    set_pool_name(pool_name);
+    $("#pool_dir").change(function(){
+        var pool_name = $('#pool_dir option:selected').val();
+        set_pool_name(pool_name);
+    });
+
+    $("#disk_path_box").hide();
+    $("#disk_realpath_box").hide();
+    setDefaultValue();
+
+    icon_post_event(
+        "#input_guest_icon_form",
+        "${ctx.homepath}/icon",
+        function(){return true;}
+    );
+
+    machine_post_event(
+        "#input_guest_submit",
+        "${ctx.homepath}${ctx.path}",
+        "#input_guest :input",
+        validates_guest
+    );
+
+    //help
+    helptip("#guest_name_help",
+        "${_('Guest Name')}",
+        "${_('Name of the guest. This will be used in Karesansui control panel. Any letters, including spaces and symbols are allowed.')}");
+
+    helptip("#guest_domain_name_help",
+        "${_('Domain Name')}",
+        "${_(r'VM domain name of the guest. This will be used to distinguish each guests in VM, so it should be unique between all guests  (This is NOT a DNS \"domain\"). Alphabets and some symbols are allowed.')}");
+
+    helptip("#guest_icon_help",
+        "${_('Guest Icon')}",
+        "${_('Icon image to be used in Karesansui control panel. Choose the file and click upload button.')}");
+
+    helptip("#guest_memory_help",
+        "${_('Memory Size')}",
+        "${_('The amount of RAM for the guest to use (in mega-bytes).')}");
+
+    // TRANSLATORS:
+    // ストレージとは　1系でいうディスクをさします。
+    //ストレージレイアウト
+    // 利用するストレージを設定します。\nストレージ追加\n新規にストレージを作成します。\n\niSCSIストレージ利用\nネットワークストレージを利用します。\n
+    helptip("#disk_layout_help",
+        "${_('Storage Type')}",
+        "${_(r'Create New Disk Image: Create a new storage image. <br />Use iSCSI: Use iSCSI networked storage.')}");
+
+    // TRANSLATORS:
+    //ストレージプール
+    // ストレージプールを選択してください。ストレージプールは、ストレージプール画面から操作することができます。
+    helptip("#guest_disk_storage_name_help",
+        "${_('Storage Pool To Use')}",
+        "${_(r'Select the storage pool to use. You can manupulate storage pools in \"Storage Pool\" tab.')}");
+
+    // TRANSLATORS:
+    //空き容量
+    // そのストレージプールの空き容量です。(MB)
+    helptip("#guest_disk_storage_available_help",
+        "${_('Available')}",
+        "${_('Available space in the storage pool.(MB)')}");
+    // TRANSLATORS:
+    //キャパシティ
+    // ストレージプールの総容量です。(MB)
+    helptip("#guest_disk_storage_capacity_help",
+        "${_('Capacity')}",
+        "${_('Total capacity of the storage pool. (MB)')}");
+
+    // TRANSLATORS:
+    //ディスクサイズ
+    // ゲストOSのストレージ容量を設定します。(MB)
+    helptip("#guest_disk_storage_help",
+        "${_('Disk Size (MB)')}",
+        "${_('Set the storage capacity of the guest OS. (MB)')}");
+
+    // TRANSLATORS:
+    // イメージタイプ
+    /**
+raw: もっともシンプルなイメージ形式です。(簡単に他のシステムで利用できる利点があります。)
+vmdk : VMwareのバージョン3と４に対応するイメージ形式です。
+cow: User Mode Linux利用されるイメージ形式です。
+qcow: 古いQemuでサポートされているイメージ形式です。(互換性の維持で残されています。)
+qcow2 : Qemuがサポートする最も一般的なイメージ形式です。
+
+raw: This is the simplest image format. (Benefits available in other file systems easily.)
+vmdk: VMware image format corresponding to the version 3 and 4.
+cow: User Mode Linux is used image format.
+qcow: Qemu is an older image formats are supported. (We have left in place to maintain compatibility.)
+qcow2: Qemu is the most common image formats supported.
+
+    **/
+    helptip("#guest_disk_os_image_type_help",
+        "${_('Image Type')}",
+        "${_(r'raw: The simplest image format. High interoperability with other systems.\nvmdk: Format which is used in VMWare 3 or 4.\ncow: Format used in User Mode Linux.\nqcow: Format used in old versions of Qemu. Left for compatibility.\nqcow2: The most common image format supported by Qemu.\n')}");
+
+    // TRANSLATORS:
+    // ストレージプール種別
+    // ストレージプールの種別です。ネットワークストレージ及びストレージプールの画面で設定を行うことができます。
+    helptip("#guest_iscsi_storage_pool_type_help",
+        "${_('Storage Pool Type')}",
+        "${_('The type of storage pool. You can set this in networked storage tab and storage pool tab.')}");
+
+    // TRANSLATORS:
+    // ストレージプール名
+    // ストレージプールの名前です。ストレージプールの設定はストレージプール画面から行うことができます。
+    helptip("#guest_iscsi_storage_pool_help",
+        "${_('Storage Pool Name')}",
+        "${_('The name of the storage. Storage pool settings are available in storage pool tab.')}");
+
+    // TRANSLATORS:
+    // ストレージボリューム
+    // ストレージプール内で実際に使われるボリューム名です。
+    helptip("#guest_iscsi_storage_volume_name_help",
+        "${_('Storage Volume Name')}",
+        "${_('Volume name actually used in the storage pool.')}");
+
+    // TRANSLATORS:
+    // デバイス制御種別
+    // デバイスの制御方法を設定します。準仮想化デバイスとして動作するvirtio(KVM)/xen(Xen)を推奨します。
+    helptip("#guest_bus_type_help",
+        "${_('Bus Type')}",
+        "${_('Set the device controlling method. We recommend virtio (KVM) / xen (Xen), which allows device to act as a para-virtualized device.')}");
+
+    // TRANSLATORS:
+    // VNCキーマップ
+    // VNCで利用するキーマップです。
+    helptip("#device_display_bootup_vnc_keymap_help",
+        "${_('VNC Keymap')}",
+        "${_('Keymap of the keyboard to use with VNC.')}");
+
+    helptip("#guest_disk_help",
+        "${_('Disk Size')}",
+        "${_('Size of the disk of the guest (MB)')}");
+
+    helptip("#guest_kernel_help",
+        "${_('Kernel Image')}",
+        "${_('Kernel image for the guest. Specify FTP/HTTP URL, or a valid absolute file path.')}");
+
+    helptip("#guest_initrd_help",
+        "${_('Initrd Image')}",
+        "${_('The initrd (bootup RAM disk) image for the guest. Specify FTP/HTTP URL, or a valid absolute file path.')}");
+
+    helptip("#guest_iso_help",
+        "${_('ISO Image')}",
+        "${_('The ISO 9660 CD-ROM/DVD-ROM image for the guest. Specify a valid absolute file path.')}");
+
+    helptip("#guest_vnc_port_help",
+        "${_('VNC Port Number')}",
+        "${_('(Auto-recommended value displayed below.) TCP port number to access the guest with VNC. Numbers greater than 5900 are allowed. Unique number between all guests are recommended.')}");
+
+    helptip("#guest_interface_type_help",
+        "${_('Interface Type')}",
+        "${_(r'Type of the virtual network interface connection. Choose \"Physical Device\" to connect directly to the physical network, or \"Virtual Network\" to connect guest to the virtual network (which are in \"Network\" tab of the host). ')}");
+
+    helptip("#guest_mac_address_help",
+        "${_('MAC Address')}",
+        "${_('(Auto-recommended value displayed below.) MAC address of the guest in xx:xx:xx:xx:xx:xx format. Specify an address not used in the network.')}");
+
+    helptip("#guest_option_help",
+        "${_('Extra Kernel Options')}",
+        "${_('Kernel parameters to pass to the guest kernel on guest installation.')}");
+
+    helptip("#guest_tag_help",
+        "${_('Tag')}",
+        "${_(r'Tag to add to the guest to be used in Karesansui control panel. Can be used to search guests using tags in the \"Guests\" panel. Separate tags with commas to specify two or more tags. Any letters, including spaces and symbols are allowed.')}");
+});
+// -->
+</script>
+
+<div id="input_guest">
+    <div class="grayout-head">
+        <span class="grayout-title">
+            <a href="#" id="server" class="path-a"><img src="${ctx.homepath}/static/images/settings-title.gif" alt="">${_('Create Guest')}</a>
+        </span>
+        <br style="clear: both;"/>
+    </div>
+
+    <div class="grayout-contents">
+        <div class="grayout-param">${_('Guest Name')}<span id="guest_name_help"/></div>
+        <div class="grayout-value grayout-form">
+            <input type="text" id="m_name" name="m_name" value="" size="40" maxlength="256" /><span class="require-text">${_('Require')}</span>
+        </div>
+        <div class="grayout-param">${_('Hypervisor')}</div>
+        <div class="grayout-value grayout-form">
+            <select id="m_hypervisor" name="m_hypervisor" onChange="javascript:setDefaultValue()">
+% for x in hypervisors.keys():
+                <option value="${hypervisors[x]}">${_(x)}</option>
+% endfor
+            </select>
+        </div>
+        <div class="grayout-param">${_('Domain Name')}<span id="guest_domain_name_help"/></div>
+        <div class="grayout-value grayout-form">
+            <input type="text" id="domain_name" name="domain_name" value="" size="40" /><span class="require-text">${_('Require')}</span>
+        </div>
+
+
+        <div class="grayout-param">${_('Guest Icon')}<span id="guest_icon_help"/></div>
+        <div class="grayout-value grayout-form">
+            <form action="#" method="post" id="input_guest_icon_form" name="input_guest_icon_form">
+                <input type="file" id="multi_icon" name="multi_icon" size="40" />
+                <input type="hidden" id="icon_filename" name="icon_filename" value="" />
+                <a href="#" name="icon_upload_submit" id="icon_upload_submit" class="button" style="display: inline">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Upload')}</span>
+                </a>
+                <a href="#" name="icon_cancel_submit" id="icon_cancel_submit" class="button" style="display: inline">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Cancel')}</span>
+                </a>
+            </form>
+        </div>
+
+        <div class="grayout-param">${_('Memory Size (MB)')}<span id="guest_memory_help"/></div>
+        <div class="grayout-value grayout-form">
+            <div style="display:table;">
+                <div id="mem_slider" class="slider"></div>
+                <div class="slider_value">
+                    <input type="text" id="vm_mem_size" name="vm_mem_size" size="16" /><span id="vm_mem_size_autounit" class="dark-text slider_autounit">(0B)</span><span class="require-text">${_('Require')}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grayout-param">${_('Storage Type')}<span id="disk_layout_help"/></div>
+        <div class="grayout-value grayout-form">
+            ${_("Storage Pool Name")}&nbsp;:&nbsp;
+            <select id="pool_dir" name="pool_dir">
+% for group_type in ['dir', 'fs', 'iscsi']:
+                <optgroup label="${group_type}">
+%     for name in sorted(pools_info.keys()):
+%         if group_type == 'dir' and pools_info[name]['type'] == 'dir':
+%             if pools_info[name]['name'] == 'default':
+                    <option value="${name}" selected>${name}</option>
+%             else:
+                    <option value="${name}">${name}</option>
+%             endif
+%         endif
+
+%         if group_type == 'fs' and pools_info[name]['type'] == 'fs':
+                    <option value="${name}">${name}</option>
+%         endif
+
+%         if group_type == 'iscsi' and pools_info[name]['type'] == 'iscsi':
+%             if name in pools_iscsi_blocks:
+%                 for vol_info in pools_iscsi_blocks[name]:
+                    <option value="${name}/${vol_info['name']}">${name} - ${vol_info['name']}</option>
+%                 endfor
+%             endif
+%         endif
+%     endfor
+                </optgroup>
+% endfor
+            </select>
+            <div class="grayout-detail">
+                <input type="hidden" id="pool_type" name="pool_type" value="dir" />
+                <table class="detail-contents">
+                    <tr id="disk_type_box">
+                        <th>${_('Storage Pool Type')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td id="disk_type_value_box">
+                            <span>${_('-')}</span>
+                        </td>
+                    </tr>
+                    <tr id="disk_size_box">
+                        <th>${_('Disk Size (MB)')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td id="disk_size_value_box">
+                            <div id="disk_slider" class="slider"></div>
+                            <div class="slider_value">
+                                <input type="text" id="vm_disk_size" name="vm_disk_size" value="0" size="16" /><span id="vm_disk_size_autounit" class="dark-text slider_autounit">(0B)</span><span class="require-text">${_('Require')}</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr id="disk_available_capacity_box">
+                        <th>
+                            <span>${_('Available (MB)')}</span><span>&nbsp;/&nbsp;</span><span>${_('Capacity (MB)')}</span>
+                        </th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td id="disk_available_capacity_value_box">
+                            <span>${_('-')}</span>
+                        </td>
+                    </tr>
+                    <tr id="disk_capacity_box" style="display:none;">
+                        <th>
+                            <span>${_('Capacity (MB)')}</span>
+                        </th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td id="disk_capacity_value_box">
+                            <span>${_('-')}</span>
+                        </td>
+                    </tr>
+                    <tr id="disk_format_box">
+                        <th>${_('OS Image Type')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td id="disk_format_value_box">
+                            <select id="select_disk_format" name="disk_format">
+% if "KVM" in hypervisors.keys():
+%   for x in DISK_QEMU_FORMAT.values():
+%       if x == "qcow2":
+                                <option value="${x}" selected>${x}</option>
+%       else:
+                                <option value="${x}">${x}</option>
+%       endif
+%   endfor
+% else:
+%   for x in DISK_NON_QEMU_FORMAT.values():
+                                <option value="${x}">${x}</option>
+%   endfor
+% endif
+                            </select>
+                        </td>
+                    </tr>
+                    <tr id="disk_path_box">
+                        <th>${_('Device Path')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td id="disk_path_value_box"></td>
+                    </tr>
+                    <tr id="disk_realpath_box">
+                        <th>${_('Device Real Path')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td id="disk_realpath_value_box"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="grayout-param">${_('Bus Type')}<span id="guest_bus_type_help"/></div>
+        <div class="grayout-value grayout-form">
+            <select name="bus_type">
+% if "KVM" in hypervisors.keys():
+%   for x in bus_types:
+%       if x == "virtio":
+                <option value="${x}" selected>${_(x)}</option>
+%       else:
+                <option value="${x}">${_(x)}</option>
+%       endif
+%   endfor
+% else:
+%   for x in bus_types:
+%       if x == "xen":
+                <option value="${x}" selected>${_(x)}</option>
+%       else:
+                <option value="${x}">${_(x)}</option>
+%       endif
+%   endfor
+% endif
+            </select>
+        </div>
+
+        <div class="grayout-param">${_('Boot Image')}<span id="guest_boot_image_help"/></div>
+        <div class="grayout-value grayout-form">
+            <div style="background-color: #FFFFFF">
+                <div id="boot_image_kernel_html">
+                    <table width="100%" style="background-color: #FFFFFF; padding: 10px">
+                        <tr>
+                            <td width="20px">
+                                <input type="radio" name="boot_image" id="boot_image_kernel" value="kernel" checked  onChange="javascript:setDefaultValue()"/>
+                            </td>
+                            <td>
+                                <table width="100%" style="background-color: #F5F5F5;">
+                                    <tr>
+                                        <td width="150px">
+                                            ${_('Kernel Image')}<span id="guest_kernel_help"/>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="vm_kernel" name="vm_kernel" value="" size="60" /><span class="require-text" id="vm_kernel_require_str">${_('Require')}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="150px">
+                                            ${_('Initrd Image')}<span id="guest_initrd_help"/>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="vm_initrd" name="vm_initrd" value="" size="60" /><span class="require-text" id="vm_initrd_require_str">${_('Require')}</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="boot_image_iso_html">
+                    <table width="100%" style="background-color: #FFFFFF; padding: 0px 10px 10px 10px">
+                        <tr>
+                            <td width="20px">
+                                <input type="radio" name="boot_image" id="boot_image_iso" value="iso"  onChange="javascript:setDefaultValue()"/>
+                            </td>
+                            <td>
+                                <table width="100%" style="background-color: #F5F5F5;">
+                                    <tr>
+                                        <td width="150px">
+                                            ${_('ISO Image')}<span id="guest_iso_help"/>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="vm_iso" name="vm_iso" value="" size="60" /><span class="require-text" id="vm_iso_require_str">${_('Require')}</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="grayout-param">${_('VNC Keymap')}<span id="device_display_bootup_vnc_keymap_help" /></div>
+        <div class="grayout-value grayout-form">
+            <div id="select_keymap_html"></div>
+        </div>
+
+        <div class="grayout-param">${_('VNC Port Number')}<span id="guest_vnc_port_help"/></div>
+        <div class="grayout-value grayout-form">
+            <input type="text" id="vm_vncport" name="vm_vncport" value="${vnc_port | h}" size="6" maxlength="5" /><span class="require-text">${_('Require')}</span>
+        </div>
+
+        <div class="grayout-param">${_('Interface Type')}<span id="guest_interface_type_help" /></div>
+        <div class="grayout-value grayout-form">
+            <div style="background-color: #FFFFFF">
+                <div id="nic_type_phy_html">
+                    <table width="100%" style="background-color: #FFFFFF; padding: 10px">
+                        <tr>
+                            <td width="20px">
+                                <input type="radio" name="nic_type" id="nic_type_phy" value="phydev" checked onChange="javascript:setDefaultValue()"/>
+                            </td>
+                            <td>
+                                <table width="100%" style="background-color: #F5F5F5;">
+                                    <tr>
+                                        <td width="150px">
+                                            ${_('Physical Device')}<span id="guest_iso_help"/>
+                                        </td>
+                                        <td>
+                                            <div id="select_phydev_html"></div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="nic_type_vir_html">
+                    <table width="100%" style="background-color: #FFFFFF; padding: 0px 10px 10px 10px">
+                        <tr>
+                            <td width="20px">
+                                <input type="radio" name="nic_type" id="nic_type_vir" value="virnet" onChange="javascript:setDefaultValue()"/>
+                            </td>
+                            <td>
+                                <table width="100%" style="background-color: #F5F5F5;">
+                                    <tr>
+                                        <td width="150px">
+                                            ${_('Virtual Network')}<span id="guest_iso_help"/>
+                                        </td>
+                                        <td>
+                                            <div id="select_virnet_html"></div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="grayout-param">${_('MAC Address')}<span id="guest_mac_address_help"/></div>
+        <div class="grayout-value grayout-form">
+            <input type="text" id="vm_mac" name="vm_mac" value="" size="20" maxlength="17" /><span class="require-text">${_('Require')}</span>
+        </div>
+        <div class="grayout-param">${_('Extra Kernel Options')}<span id="guest_option_help"/></div>
+        <div class="grayout-value grayout-form">
+            <input type="text" id="vm_extra" name="vm_extra" value="" size="40" />
+        </div>
+        <div class="grayout-param">${_('Notebook')}</div>
+        <div class="grayout-value grayout-form">
+            <p>${_('Title')}</p>
+                <input type="text" id="note_title" name="note_title" value="" size="40" maxlength="64" />
+            <p>${_('Note')}</p>
+                <textarea id="note_value" name="note_value" cols="50" rows="5"></textarea>
+        </div>
+        <div class="grayout-param">${_('Tag')}<span id="guest_tag_help"/></div>
+        <div class="grayout-value grayout-form">
+            <input type="text" id="tags" name="tags" value="" size="40" />
+        </div>
+
+        <div class="grayout-footer">
+            <a href="#" name="input_guest_submit" id="input_guest_submit" class="button">
+                <span class="button-left">&nbsp;</span><span class="button-right">${_('Create')}</span>
+            </a>
+            <br style="clear: both;"/>
+        </div>
+        <br style="clear: both;"/>
+    </div>
+</div>
+

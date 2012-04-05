@@ -1,0 +1,13 @@
+CREATE TABLE option (
+        id INTEGER NOT NULL, 
+        created_user_id INTEGER, 
+        modified_user_id INTEGER, 
+        "key" VARCHAR(12) NOT NULL, 
+        value TEXT, 
+        created TIMESTAMP, 
+        modified TIMESTAMP, 
+        PRIMARY KEY (id), 
+         FOREIGN KEY(created_user_id) REFERENCES user (id), 
+         FOREIGN KEY(modified_user_id) REFERENCES user (id), 
+         UNIQUE ("key")
+);

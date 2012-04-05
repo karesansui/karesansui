@@ -1,0 +1,276 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function action(id,status){
+    uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+    var url = uri + "/" + id + '/status.part';
+    status = parseInt(status);
+    ajax_put(url,
+        {"status" : status},
+        function(data, status){
+        },
+        true
+    );
+}
+
+$(document).ready(function(){
+    $("#network_list").tablesorter({
+        widgets: ['zebra', 'select']
+    });
+
+    $("#add_network").click(function() {
+        grayout_view("GET",
+            "${ctx.homepath}${ctx.path}?mode=input",
+            "${_('Network Settings')}",
+            "${ctx.homepath}${ctx.path}");
+    });
+
+    // display detail in detail window
+    $("tr[id*='network_row']").click(function(){
+        var id;
+        var uri;
+
+        id = $(this).attr("id").replace("network_row", "");
+        uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+        var url = uri + "/" + id + '.part';
+
+        ajax_get(
+            "#detail_value",
+            url,
+            null
+        );
+    });
+
+	$("tr[id*='network_row']").click(function() {
+        var target_id = selected_row("network_row");
+
+        // edit
+        $("#edit_network").one('click', function() {
+                var uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+                if (target_id == undefined) {
+                    show_alert_msg("${_('Please select a target.')}", "ERROR");
+                    tool_reset("#edit_network");
+                } else {
+                    var url = uri + "/" + target_id + ".part?mode=input";
+
+                    grayout_view("GET",
+                        url,
+                        "${_('Network Settings')}",
+                        "${ctx.homepath}${ctx.path}");
+                }
+        });
+
+        // delete
+        $("#delete_network").one('click', function() {
+            var uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+
+            if(target_id == undefined){
+                show_alert_msg("${_('Please select a target.')}", "ERROR");
+                tool_reset("#delete_network");
+            } else {
+                var url = uri + "/" + target_id + ".part";
+                var param = null;
+                delete_dialog("#dialog", url, param, "${ctx.homepath}${ctx.path}", "#delete_network", "");
+
+            }
+        });
+
+        // start
+        $("#start_network").one('click', function() {
+            var uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+
+            if(target_id == undefined){
+                show_alert_msg("${_('Please select a target.')}", "ERROR");
+                tool_reset("#start_network");
+            } else {
+                action(target_id,1);
+            }
+        });
+
+        // stop
+        $("#stop_network").one('click', function() {
+            var uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+
+            if(target_id == undefined){
+                show_alert_msg("${_('Please select a target.')}", "ERROR");
+                tool_reset("#stop_network");
+            } else {
+                action(target_id,0);
+            }
+        });
+
+% for network in networks:
+        if("${network['name']}" == target_id) {
+            if("${network['activity']}" == "Inactive") {
+                tool_reset("#edit_network");
+                if(target_id == "default"){
+                    tool_invalid("#delete_network");
+                    $("#delete_network").unbind('click');
+                } else {
+                    tool_reset("#delete_network");
+                }
+                tool_reset("#start_network");
+                tool_invalid("#stop_network");
+                $("#stop_network").unbind('click');
+            } else {
+                tool_reset("#edit_network");
+                if(target_id == "default"){
+                    tool_invalid("#delete_network");
+                    $("#delete_network").unbind('click');
+                } else {
+                    tool_reset("#delete_network");
+                }
+                tool_invalid("#start_network");
+                tool_reset("#stop_network");
+                $("#start_network").unbind('click');
+            }
+        }
+% endfor
+    });
+
+	// init
+	$("#action>a").hover(
+	    function(){tool_over(this);},
+	    function(){tool_over(this);}
+	).mousedown(function(){
+	    var id = $(this).attr("id");
+	    tool_active(this);
+	});
+
+	tool_invalid("#edit_network");
+	tool_invalid("#delete_network");
+	tool_invalid("#start_network");
+	tool_invalid("#stop_network");
+    renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
+    show_detail_event();
+});
+-->
+</script>
+
+                    <div id="network">
+                        <div id="action" >
+                            <div class="left"></div>
+                            <a href="#" name="add_network" id="add_network" class="tool-link">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-add.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text" >${_('Add')}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" name="edit_network" id="edit_network" class="tool-link">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-edit.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text" >${_('Edit')}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" name="delete_network" id="delete_network" class="tool-link">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-trash.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text" >${_('Delete')}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" name="start_network" id="start_network" class="tool-link">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-start.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text" >${_('Start')}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" name="stop_network" id="stop_network" class="tool-link">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-stop.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text" >${_('Stop')}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="right">
+                                <a href="#" class="tool-link" >
+                                    <div class="tool-mid">
+                                        <img src="${ctx.homepath}/static/images/reload.gif" alt="renew" id="tool_renew"/>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>
+
+                        <div class="space"></div>
+                        <div class="alert"></div>
+
+                        <div id="view">
+                            <div id="list-box">
+                                <div id="minner">
+                                    <table id="network_list" class="tablesorter">
+                                        <thead>
+                                            <tr>
+                                                <th>${_('Name')}</th>
+                                                <th>${_('IP Address')}</th>
+                                                <th>${_('Netmask')}</th>
+                                                <th>${_('Bridge')}</th>
+                                                <th>${_('Status')}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+% for network in networks:
+                                            <tr id="network_row${network['name']}">
+                                                <td>${network['name'] |h}</td>
+                                                <td>${network['ip']['address']|h}</td>
+                                                <td>${network['ip']['netmask']|h}</td>
+                                                <td>${network['bridge']['name']|h}</td>
+%if network['activity'] == "Inactive":
+                                                <td>${_('Inactive')}</td>
+%else:
+                                                <td>${_('Active')}</td>
+%endif
+                                            </tr>
+% endfor
+                                        </tbody>
+                                    </table>
+                                    <br style="clear: both;"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br style="clear: both;"/>
+                        <div class="space"></div>
+                        <div id="detail">
+                            <div class="panel">
+                                <div class="wrap">
+                                    <span class="title"> &nbsp;</span>
+                                    <p class="point"> </p>
+                                    <p>
+
+<img src="${ctx.homepath}/static/images/tree-open.gif" alt="" id="show_detail_switch" class="tree-toggle-button"/><span class="msg-title">${_('Details')}</span><br />
+<span id="detail_value">--</span>
+                                        </p>
+                                        <dl><dt>&nbsp;</dt></dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>
+                    </div>

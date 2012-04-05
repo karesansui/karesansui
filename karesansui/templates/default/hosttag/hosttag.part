@@ -1,0 +1,18 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<%!
+from karesansui.lib.template import clipping
+from karesansui.lib.const import TAG_CLIPPING_RANGE
+%>
+
+<div class="value">
+    <ul>
+% for tag in tags:
+        <li>
+            <span class="text"><a class="tag ${machine_ids[str(tag.id)]}" href="#" title="${tag.name}">${clipping(tag.name, TAG_CLIPPING_RANGE)}</a></span>
+            <img src="${ctx.homepath}/static/images/tag-space.gif" alt="" />
+        </li>
+% endfor
+    </ul>
+</div>

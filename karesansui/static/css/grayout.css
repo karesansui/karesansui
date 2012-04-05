@@ -1,0 +1,126 @@
+/** grayout **/
+#_screen_lock0 {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+}
+#_screen_lock1 {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-image: url(${ctx.homepath}/static/images/screen_bg.png); 
+}
+
+#_light_screen{
+    overflow:auto;
+    height:500px;
+    width:800px;
+    top:20px;
+    left:50%;    
+    position:absolute;
+    margin-top:0px;
+    margin-left: -400px;
+    background: #FFFFFF;
+    border: 1px double #BCBCBC;
+}
+
+#_light_screen_title{
+    text-align: right;
+    font-size:1.2em;
+    padding-left:11px;
+    background: #AAAAAA;
+    height:30px;
+}
+
+#_light_screen_value{
+    height:470px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+#grayout_loading_image{
+    position: relative;
+    left: 380px;
+    top: 215px;
+}
+.grayout-head{
+    width:95%;
+    background-color:#ecede8;
+    color:#FF0000;
+    font-size:12px;
+    margin-top:10px;
+    margin-left:20px;
+}
+
+.grayout-footer{
+    background-color:#FFFFFF;
+    text-align:center;
+    color:#FF0000;
+    font-size:12px;
+    margin-top:10px;
+    padding-top:3px;
+    height: 25px;
+}
+
+.grayout-contents{
+    width:95%;
+    background-color:#FFFFFF;
+    color:#000000;
+    font-size:12px;
+    padding-top:20px;
+    margin-left:20px;
+}
+
+.grayout-param{
+    background-color: #DEDEDE;
+    padding: 3px 5px 3px 5px;
+    width: 98.5%;
+}
+
+.grayout-title{
+    color:#417300;
+    font-size:12px;
+    padding: 5px;
+}
+.grayout-form{
+    padding: 10px;
+    background-color:#F5F5F5;
+    margin-bottom: 10px;
+}
+.grayout-contents table{
+    padding:5px; /** cellspacing **/
+    border: 1px;
+    background-color:#FFFFFF;
+}
+.grayout-contents th{
+    padding:5px;
+    background-color:#F0FFB7;
+    font-weight: normal;
+}
+
+.grayout-contents table.simple_list{
+    background-color: #AAAAAA;
+    border-collapse: separate;
+    border-spacing: 1px;
+    width: 100%;
+    padding: 0px;
+}
+
+.grayout-contents table.simple_list th{
+    background-color: #DEDFDE;
+    padding: 3px;
+}
+
+.grayout-contents table.simple_list td{
+    background-color: #FFFFFF;
+    padding: 3px;
+}
+
+.grayout-contents table.simple_list * {
+    vertical-align: middle;
+}

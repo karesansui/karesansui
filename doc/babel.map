@@ -1,0 +1,4 @@
+[python: karesansui/**.py]
+[python: bin/**.py]
+[mako: **/templates/**.*]
+input_encoding = utf-8

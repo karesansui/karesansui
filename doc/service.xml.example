@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<services>
+  <service>
+    <system>
+      <name>libvirtd</name>
+      <command>/usr/sbin/libvirtd</command>
+      <readonly>0</readonly>
+    </system>
+    <display>
+      <name>libvirtd</name>
+      <description>Library providing a simple API virtualization</description>
+    </display>
+  </service>
+  <service>
+    <system>
+      <name>collectd</name>
+      <command>/usr/sbin/collectd</command>
+      <readonly>0</readonly>
+    </system>
+    <display>
+      <name>collectd</name>
+      <description>Statistics collection daemon for filling RRD files</description>
+    </display>
+  </service>
+  <service>
+    <system>
+      <name>silhouetted</name>
+      <command>/usr/sbin/silhouette.py</command>
+      <readonly>1</readonly>
+    </system>
+    <display>
+      <name>pysilhouette</name>
+      <description>A python-based background job manager</description>
+    </display>
+  </service>
+  <service>
+    <system>
+      <name>rrdcached</name>
+      <command>/usr/sbin/rrdcached</command>
+      <readonly>0</readonly>
+    </system>
+    <display>
+      <name>rrdcached</name>
+      <description>Round Robin Database Tool to store and display time-series data</description>
+    </display>
+  </service>
+  <service>
+    <system>
+      <name>lighttpd</name>
+      <command>/usr/sbin/lighttpd</command>
+      <readonly>0</readonly>
+    </system>
+    <display>
+      <name>lighttpd</name>
+      <description>A fast webserver with minimal memory-footprint (lighttpd)</description>
+    </display>
+  </service>
+  <service>
+    <system>
+      <name>iscsid</name>
+      <command>/sbin/iscsid</command>
+      <readonly>0</readonly>
+    </system>
+    <display>
+      <name>iscsid</name>
+      <description>iSCSI daemon and utility programs</description>
+    </display>
+  </service>
+</services>

@@ -1,0 +1,145 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function validates_me(){
+    var check = true;
+    ERROR_MSG = "";
+
+    check = check_number(
+                $("#id"),
+                CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                "${_('ID')}",
+                ID_MIN_LENGTH,
+                ID_MAX_LENGTH
+            ) && check;
+    check = check_username(
+                $("#nickname"),
+                CHECK_EMPTY | CHECK_LENGTH | CHECK_ONLYSPACE,
+                "${_('User Name')}",
+                USER_MIN_LENGTH,
+                USER_MAX_LENGTH
+            ) && check;
+    check = check_mailaddress(
+                $("#email"),
+                CHECK_EMPTY | CHECK_VALID,
+                "${_('Mail Address')}",
+                null,
+                EMAIL_MIN_LENGTH,
+                EMAIL_MAX_LENGTH
+            ) && check;
+    if($("#password").val() != ""     ||
+       $("#new_password").val() != "" ||
+       $("#retype").val() != ""){
+      
+        check = check_password(
+                    $("#password"),
+                    $("#password"),
+                    CHECK_LENGTH | CHECK_VALID | CHECK_EMPTY,
+                    "${_('Current Password')}",
+                    PASSWORD_MIN_LENGTH,
+                    PASSWORD_MAX_LENGTH
+                ) && check;
+        check = check_password(
+                    $("#new_password"),
+                    $("#retype"),
+                    CHECK_LENGTH | CHECK_VALID | CHECK_EMPTY,
+                    "${_('Password')}",
+                    PASSWORD_MIN_LENGTH,
+                    PASSWORD_MAX_LENGTH
+                ) && check;
+    }
+
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG);
+    }
+
+    return check;
+};
+
+$(document).ready(function(){
+    ajax_put_event(
+        "#me_edit_button", 
+        "${ctx.homepath}/me.part",
+        "#me :input", 
+        validates_me);
+
+    // help 
+    helptip("#me_nickname_help", 
+        "${_('User Name')}", 
+        "${_('User name to be displayed in Karesansui user interface. Symbols including spaces can be used.')}");
+
+    helptip("#me_email_help", 
+        "${_('Mail Address')}",
+        "${_('Mail address and password are used to login to Karesansui. Should be unique between all users. Valid mail address format required.')}"); 
+
+    helptip("#me_password_help", 
+        "${_('Password')}", 
+        "${_('Password to login to Karesansui. Alphabets, numbers and symbols can be used.')}");
+
+    helptip("#me_languages_help", 
+        "${_('Language')}", 
+        "${_('User interface language to use.')}");
+    
+});
+
+//-->
+</script>
+<div id="me">
+    <form action="${ctx.homepath}${ctx.path}" method="post" name="me_input_form">
+          
+        <div class="grayout-head">
+            <span class="grayout-title">
+                <img src="${ctx.homepath}/static/images/settings-title.gif" alt="" >${_('Edit My Account')}
+            </span>
+            <br style="clear: both;"/>
+        </div>
+
+        <div class="grayout-contents">
+            <input type="hidden" name="id" value="${me.id}" id="id" />
+
+            <div class="grayout-param">${_('User Name')}<span id="me_nickname_help"/></div>
+            <div class="grayout-value grayout-form">
+                <input type="text" name="nickname" value="${me.nickname}" id="nickname" size="40" maxlength="16" />
+            </div>
+
+            <div class="grayout-param">${_('Mail Address')}<span id="me_email_help"/></div>
+            <div class="grayout-value grayout-form">
+                <input type="text" name="email" value="${me.email}" id="email" size="40" maxlength="256" />
+            </div>
+
+            <div class="grayout-param">${_('Change Password')}<span id="me_password_help"/></div>
+            <div class="grayout-value grayout-form">
+                <p>${_('Current Password')}</p>
+                    <input type="password" name="password" id="password" size="30" maxlength="40" />
+                <p>${_('New Password')}</p>
+                    <input type="password" name="new_password" id="new_password" size="30" maxlength="40" />
+                <p>${_('Retype')}</p>
+                    <input type="password" name="retype" id="retype" size="30" maxlength="40" />
+            </div>
+
+            <div class="grayout-param">${_('Language')}<span id="me_languages_help"/></div>
+            <div class="grayout-value grayout-form">
+                <select name="languages">
+% for locale in locales:
+    % if me.languages == locale:
+                        <option value="${locale}" selected="selected">${_(locale)}</option>
+    % else:
+                        <option value="${locale}">${_(locale)}</option>
+    % endif
+% endfor
+                </select>
+            </div>
+
+            <div class="grayout-footer">
+                <input type="hidden" name="_method" id="_method" />
+                <a href="#" name="me_edit_button" id="me_edit_button" class="button">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Edit')}</span> 
+                </a>
+                <br style="clear: both;"/>
+            </div>
+        </div>
+        <br style="clear: both;"/>    
+    </form>
+</div>

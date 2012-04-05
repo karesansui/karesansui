@@ -1,0 +1,280 @@
+<%doc>Copyright (C) 2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<%! from karesansui.lib.template import newline2br,locale_bool,replace_empty %>
+
+<script type="text/javascript">
+<!--
+
+$(document).ready(function(){
+    $(".info_detail table tbody tr:odd").addClass("odd");
+
+    toggle_button_event("#toggle_button_warning", "#toggle_value_warning", "close");
+    toggle_button_event("#toggle_button_failure", "#toggle_value_failure", "close");
+    toggle_button_event("#toggle_button_okay", "#toggle_value_okay", "close");
+});
+
+//-->
+</script>
+<div id="watch_detail_display">
+    <table class="detail-contents">
+        <tr>
+            <th>${_('General Information')}</th>
+            <td class="detail-separator">
+                <img src="${ctx.homepath}/static/images/table-space.gif"/>
+            </td>
+            <td>
+                <table cellspacing="0" class="border detail-sub-contents">
+                    <tr>
+                        <th>${_('ID')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${watch.id |h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Name')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${watch.name |h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Watch Machine')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${watch.machine.name |h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Watch Target')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${watch.plugin |h}</pre></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr><td colspan='3'><div class='detail-space'/></td></tr>
+
+        <tr>
+            <th>${_('Details')}</th>
+            <td class="detail-separator">
+                <img src="${ctx.homepath}/static/images/table-space.gif"/>
+            </td>
+            <td>
+                <table cellspacing="0" class="border detail-sub-contents">
+% if watch.plugin == plugins['cpu']:
+                    <tr>
+                        <th>${_('Logical CPU Number')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${plugin_selector['plugin_instance'] |h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('CPU Status')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${plugin_selector['type_instance'] |h}</pre></td>
+                    </tr>
+
+% elif watch.plugin == plugins['memory']:
+                    <tr>
+                        <th>${_('Memory Status')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${plugin_selector['type_instance'] |h}</pre></td>
+                    </tr>
+
+% elif watch.plugin == plugins['df']:
+                    <tr>
+                        <th>${_('Target Disk')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${plugin_selector['type_instance'] |h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Disk Status')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${plugin_selector['ds'] |h}</pre></td>
+                    </tr>
+
+% elif watch.plugin == plugins['interface']:
+                    <tr>
+                        <th>${_('Target Interface')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${plugin_selector['type_instance'] |h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Network Status')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${plugin_selector['type'] |h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Direction')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${plugin_selector['ds'] |h}</pre></td>
+                    </tr>
+
+% elif watch.plugin == plugins['libvirt']:
+                    <tr>
+                        <th>${_('Target Guest')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${plugin_selector['host'] |h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Watch Target of Virtual Machine')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${plugin_selector['type'] |h}</pre></td>
+                    </tr>
+
+    % if libvirt_type == "vcpu":
+                    <tr>
+                        <th>${_('Target Virtual CPU')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${plugin_selector['type_instance'] |h}</pre></td>
+                    </tr>
+
+    % elif libvirt_type == "cpu_total":
+
+    % elif libvirt_type == "disk":
+                    <tr>
+                        <th>${_('Target Disk')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${plugin_selector['type_instance'] |h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Read/Write')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${plugin_selector['ds'] |h}</pre></td>
+                    </tr>
+
+    % elif libvirt_type == "interface":
+                    <tr>
+                        <th>${_('Target Interface')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${plugin_selector['type_instance'] |h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Direction')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${plugin_selector['ds'] |h}</pre></td>
+                    </tr>
+    % endif
+
+% elif watch.plugin == plugins['load']:
+                    <tr>
+                        <th>${_('Term')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${plugin_selector['ds'] |h}</pre></td>
+                    </tr>
+
+% endif
+                    <tr>
+                        <th>${_('Alert Trigger Count')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${watch.continuation_count |h}</pre></td>
+                    </tr>
+                    <tr>
+                        <th>${_('Silent Period')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${watch.prohibition_period |h}</pre></td>
+                    </tr>
+                    <tr>
+                    	<!--
+                        TRANSLATORS:
+                        監視間隔(秒)
+                        -->
+                        <th>${_('Watch Interval (sec)')}</th>
+                        <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif" alt="" /></td>
+                        <td><pre>${watch_interval |h}</pre></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr><td colspan='3'><div class='detail-space'/></td></tr>
+
+        <tr>
+            <th>${_('Action')}</th>
+            <td class="detail-separator"><img src="${ctx.homepath}/static/images/table-space.gif"/></td>
+            <td>
+                <table cellspacing="0" class="border detail-sub-contents">
+                    <tr>
+                        <td>
+                            <div class="info_desc">
+                                <div id="toggle_button_failure" class="info_desc_name">
+                                    <span>${_('Failure')}</span><img alt="" src="${ctx.homepath}/static/images/red.png"/>
+                                </div>
+                                <div class="info_desc_value">
+                                    <span>${_('Threshold Value')}</span>&nbsp;:&nbsp;<span class="light-text">${watch.failure_value |h}</span><span><img alt="" src="${ctx.homepath}/static/images/tag-space.gif"/></span><span>${_('Run Script')}</span>&nbsp;:&nbsp;<span class="light-text">${locale_bool(watch.is_failure_script, _) |h}</span><span><img alt="" src="${ctx.homepath}/static/images/tag-space.gif"/></span><span>${_('Send Notification Mail')}</span>&nbsp;:&nbsp;<span class="light-text">${locale_bool(watch.is_failure_mail, _) |h}</span>
+                                </div>
+                            </div>
+                            <div style="clear:both"></div>
+                            <div id="toggle_value_failure" class="info_detail">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td class="info_detail_name">${_('Failure Script')}</td>
+                                            <td class="info_detail_value"><pre>${replace_empty(watch.failure_script, _('None')) |h}</pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="info_detail_name">${_('Notification Mail')}</td>
+                                            <td class="info_detail_value"><pre>${replace_empty(watch.failure_mail_body, _('None')) |h}</pre></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr><td><div class='detail-space'/></td></tr>
+                    <tr>
+                        <td>
+                            <div class="info_desc">
+                                <div id="toggle_button_warning" class="info_desc_name">
+                                    <span>${_('Warning')}</span><img alt="" src="${ctx.homepath}/static/images/orange.png"/>
+                                </div>
+                                <div class="info_desc_value">
+                                    <span>${_('Threshold Value')}</span>&nbsp;:&nbsp;<span class="light-text">${watch.warning_value |h}</span><span><img alt="" src="${ctx.homepath}/static/images/tag-space.gif"/></span><span>${_('Run Script')}</span>&nbsp;:&nbsp;<span class="light-text">${locale_bool(watch.is_warning_script, _) |h}</span><span><img alt="" src="${ctx.homepath}/static/images/tag-space.gif"/></span><span>${_('Send Notification Mail')}</span>&nbsp;:&nbsp;<span class="light-text">${locale_bool(watch.is_warning_mail, _) |h}</span>
+                                </div>
+                            </div>
+                            <div style="clear:both"></div>
+                            <div id="toggle_value_warning" class="info_detail">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td class="info_detail_name">${_('Warning Script')}</td>
+                                            <td class="info_detail_value"><pre>${replace_empty(watch.warning_script, _('None')) |h}</pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="info_detail_name">${_('Notification Mail')}</td>
+                                            <td class="info_detail_value"><pre>${replace_empty(watch.warning_mail_body, _('None')) |h}</pre></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr><td><div class='detail-space'/></td></tr>
+                    <tr>
+                        <td>
+                            <div class="info_desc">
+                                <div id="toggle_button_okay" class="info_desc_name">
+                                    <span>${_('Okay')}</span><img alt="" src="${ctx.homepath}/static/images/green.png"/>
+                                </div>
+                                <div class="info_desc_value">
+                                    <span>${_('Run Script')}</span>&nbsp;:&nbsp;<span class="light-text">${locale_bool(watch.is_okay_script, _) |h}</span><span><img alt="" src="${ctx.homepath}/static/images/tag-space.gif"/></span><span>${_('Send Notification Mail')}</span>&nbsp;:&nbsp;<span class="light-text">${locale_bool(watch.is_okay_mail, _) |h}</span>
+                                </div>
+                            </div>
+                            <div style="clear:both"></div>
+                            <div id="toggle_value_okay" class="info_detail">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td class="info_detail_name">${_('Okay Script')}</td>
+                                            <td class="info_detail_value"><pre>${replace_empty(watch.okay_script, _('None')) |h}</pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="info_detail_name">${_('Notification Mail')}</td>
+                                            <td class="info_detail_value"><pre>${replace_empty(watch.okay_mail_body, _('None')) |h}</pre></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>

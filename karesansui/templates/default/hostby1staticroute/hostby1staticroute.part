@@ -1,0 +1,172 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+    $("#route_list").tablesorter({
+        widgets: ['zebra', 'select'],
+        headers: {
+            5: {sorter:false},
+            6: {sorter:false}
+        }
+    });
+
+    $("#add_route").click(function() {
+        grayout_view("GET",
+            "${ctx.homepath}${ctx.path}?mode=input",
+            "${_('Static Route Settings')}",
+            "${ctx.homepath}${ctx.path}");
+    });
+
+    // display detail in detail window
+    $("tr[id*='route_row']").click(function(){
+        var id;
+        var uri;
+
+        id = $(this).attr("id").replace("route_row", "");
+        uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+        var url = uri + "/" + id + '.part';
+
+        ajax_get(
+            "#detail_value",
+            url,
+            null
+        );
+    });
+
+    $("tr[id*='route_row']").click(function(){
+            var target_id = selected_row("route_row");
+
+            // delete
+            $("#delete_route").click(function() {
+                var uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
+
+                if(target_id == undefined){
+                    show_alert_msg("${_('Please select a target.')}", "ERROR");
+                    tool_reset("#delete_route");
+                } else {
+                    var url = uri + "/" + target_id + ".part";
+                    var param = null;
+                    delete_dialog("#dialog", url, param, "${ctx.homepath}${ctx.path}", "#delete_route", "");
+
+                }
+            });
+
+	    tool_invalid("#delete_route");
+% for name,route in routes.iteritems():
+%   if route['removable'] is True:
+            if("${name}" == target_id) {
+                tool_reset("#delete_route");
+            }
+%   endif
+% endfor
+
+            $("tr[id*='route_row']").each(function(){
+                $(this).unbind("click.once");
+            });
+
+    });
+
+	// init
+	$("#action>a").hover(
+	    function(){tool_over(this);},
+	    function(){tool_over(this);}
+	).mousedown(function(){
+	    var id = $(this).attr("id");
+	    tool_active(this);
+	});
+
+	tool_invalid("#delete_route");
+    renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
+    show_detail_event();
+});
+-->
+</script>
+
+                    <div id="route">
+                        <div id="action" >
+                            <div class="left"></div>
+                            <a href="#" name="add_route" id="add_route" class="tool-link">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-add.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text" >${_('Add')}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" name="delete_route" id="delete_route" class="tool-link">
+                                <div class="tool-mid">
+                                    <div class="tool-left"></div>
+                                    <div class="tool-img">
+                                        <img src="${ctx.homepath}/static/images/tool-trash.png" alt="" />
+                                    </div>
+                                    <div class="tool-right">
+                                        <div class="tool-text" >${_('Delete')}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="right">
+                                <a href="#" class="tool-link" >
+                                    <div class="tool-mid">
+                                        <img src="${ctx.homepath}/static/images/reload.gif" alt="renew" id="tool_renew"/>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>
+
+                        <div class="space"></div>
+                        <div class="alert"></div>
+
+                        <div id="view">
+                            <div id="list-box">
+                                <div id="minner">
+                                    <table id="route_list" class="tablesorter">
+                                        <thead>
+                                            <tr>
+                                                <th>${_('Destination')}</th>
+                                                <th>${_('Netmask')}</th>
+                                                <th>${_('Gateway')}</th>
+                                                <th>${_('Device')}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+% for name,route in routes.iteritems():
+                                            <tr id="route_row${name}">
+                                                <td>${route['ipaddr'] |h}</td>
+                                                <td>${route['netmask']|h}</td>
+                                                <td>${route['gateway']|h}</td>
+                                                <td>${route['device']|h}</td>
+                                            </tr>
+% endfor
+                                        </tbody>
+                                    </table>
+                                    <br style="clear: both;"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br style="clear: both;"/>
+                        <div class="space"></div>
+                        <div id="detail">
+                            <div class="panel">
+                                <div class="wrap">
+                                    <span class="title"> &nbsp;</span>
+                                    <p class="point"> </p>
+                                    <p>
+
+<img src="${ctx.homepath}/static/images/tree-open.gif" alt="" id="show_detail_switch" class="tree-toggle-button"/><span class="msg-title">${_('Details')}</span><br />
+<span id="detail_value">--</span>
+                                        </p>
+                                        <dl><dt>&nbsp;</dt></dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br style="clear: both;"/>
+                    </div>

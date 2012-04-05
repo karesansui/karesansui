@@ -1,0 +1,32 @@
+Installation
+------------
+For CentOS/Red Hat, the easiest way to make
+Karesansui work is to download the RPM based
+installer and follow the steps.
+
+For further information:
+http://karesansui-project.info/wiki/karesansui/En_tutorial
+
+Installation from Source Code
+------------------------------
+First, you have to have the packages below installed and working.
+
+ * libvirt
+ * libvirt python bindings
+ * lighttpd
+ * openssl098
+ * Mako
+ * SQLAlchemy
+ * python-flup
+ * python-pysqlite
+ * python-simplejson
+ * python-webpy
+ * pysilhouette
+ * tightvnc-java
+
+(You can install these packages manually and edit Karesansui configurations to get them work, but it's a relatively hard work. We have RPM packages in the RPM installer for convenience)
+
+# tar xzvf karesansui-xxxx.tar.gz
+# cd karesansui
+# python setup.py build
+# python setup.py install

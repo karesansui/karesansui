@@ -1,0 +1,76 @@
+%if view(standalone, _) == "1":
+${self.header()}
+%endif
+<script type="text/javascript">
+$(document).ready(function(){
+    $("form").attr("onSubmit", "return false;");
+});
+</script>
+${next.body()}
+%if view(standalone, _) == "1":
+${self.footer()}
+%endif
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%!  from karesansui.lib.template import view %>
+<%def name="header()"><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Script-Type" content="text/javascript" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <title>${title}</title>
+    <link rel="shortcut icon" href="${ctx.homepath}/static/images/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="${ctx.homepath}/static/images/favicon.ico" type="image/x-icon" />
+    ${self.css()}
+    ${self.js()}
+</head>
+<body>
+</%def>
+<%def name="footer()">
+</doby>
+</html>
+</%def>
+<%def name="css()">
+<link rel="stylesheet" type="text/css" href="${ctx.homepath}/static/lib/jquery.ui/themes/ui.core.css" />
+<link rel="stylesheet" type="text/css" href="${ctx.homepath}/static/lib/jquery.ui/themes/ui.datepicker.css" />
+<link rel="stylesheet" type="text/css" href="${ctx.homepath}/static/lib/jquery.jcarousel.css" />
+<link rel="stylesheet" type="text/css" href="${ctx.homepath}/static/lib/jquery.autocomplete.css" />
+<link rel="stylesheet" type="text/css" href="${ctx.homepath}/static/lib/jquery.cluetip.css" />
+<link rel="stylesheet" type="text/css" href="${ctx.homepath}/static/lib/jquery.timeentry.css" />
+<link rel="stylesheet" type="text/css" href="${ctx.homepath}/static/css/style.css" />
+</%def>
+<%def name="js()">
+<script type="text/javascript" src="${ctx.homepath}/static/lib/jquery.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/static/lib/jquery.ui/jquery.ui.all.js" charset="utf-8"></script>
+% if not me is None:
+    % if me.languages[:2] != "en":
+<script type="text/javascript" src="${ctx.homepath}/static/lib/jquery.ui/i18n/ui.datepicker-${me.languages[:2]}.js" charset="utf-8"></script>
+    % endif
+% endif
+<script type="text/javascript" src="${ctx.homepath}/static/lib/jquery.tablesorter.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/static/lib/jquery.tablesorter.pager.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/static/lib/jquery.jcarousel.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/static/lib/jquery.form.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/static/lib/jquery.autocomplete.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/static/lib/jquery.cluetip.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/static/lib/jquery.corner.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/static/lib/jquery.timeentry.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/static/js/const.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/static/js/list.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/data/js/html.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/data/js/checker.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/data/js/ajax.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/static/js/machine.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/static/js/base.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/data/js/grayout.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/data/js/tab.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/data/js/alert.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/data/js/renew.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/data/js/tool.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/data/js/locale.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/data/js/tooltip.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/static/js/tag.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/data/js/slider.js" charset="utf-8"></script>
+</%def>

@@ -1,0 +1,106 @@
+<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<div id="snapshot_detail_display">
+    <table class="detail-contents">
+        <tr>
+            <th>${_('General Information')}</th>
+            <td class="detail-separator">
+                <img src="${ctx.homepath}/static/images/table-space.gif">
+            </td>
+            <td>
+                <table cellspacing="0" class="border detail-sub-contents">
+                    <tr>
+                        <td>${_('Name')}</td>
+                        <td class="detail-separator"><img alt="" src="${ctx.homepath}/static/images/table-space.gif"/></td>
+                        <td><pre>${snapshot[0] | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <td>${_('Guest Name')}</td>
+                        <td class="detail-separator"><img alt="" src="${ctx.homepath}/static/images/table-space.gif"/></td>
+                        <td><pre>${snapshot[3] | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <td>${_('Parent snapshot')}</td>
+                        <td class="detail-separator"><img alt="" src="${ctx.homepath}/static/images/table-space.gif"/></td>
+                        <td><pre>${snapshot[9] | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <td>${_('Child snapshot')}</td>
+                        <td class="detail-separator"><img alt="" src="${ctx.homepath}/static/images/table-space.gif"/></td>
+                        <td><pre>${snapshot[10] | h}</pre></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr><td colspan='3'><div class='detail-space'/></td></tr>
+
+        <tr>
+            <th>${_('Notebook')}</th>
+            <td class="detail-separator">
+                <img src="${ctx.homepath}/static/images/table-space.gif">
+            </td>
+            <td>
+                <table cellspacing="0" class="border detail-sub-contents">
+                    <tr>
+                        <td>${_('Title')}</td>
+                        <td class="detail-separator"><img alt="" src="${ctx.homepath}/static/images/table-space.gif"/></td>
+                        <td>
+%if snapshot[1] != "":
+                            ${snapshot[1] | h}
+%else:
+                            ${_('untitled')}
+%endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>${_('Note')}</td>
+                        <td class="detail-separator"><img alt="" src="${ctx.homepath}/static/images/table-space.gif"/></td>
+                        <td>
+%if snapshot[2] != "":
+                            <pre>${snapshot[2] | h}</pre>
+%else:
+                            ${_('N/A')}
+%endif
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr><td colspan='3'><div class='detail-space'/></td></tr>
+
+        <tr>
+            <th>${_('Detail')}</th>
+            <td class="detail-separator">
+                <img src="${ctx.homepath}/static/images/table-space.gif">
+            </td>
+            <td>
+                <table cellspacing="0" class="border detail-sub-contents">
+                    <tr>
+                        <td>${_('Created User')}</td>
+                        <td class="detail-separator"><img alt="" src="${ctx.homepath}/static/images/table-space.gif"/></td>
+                        <td><pre>${snapshot[4] | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <td>${_('Created')}</td>
+                        <td class="detail-separator"><img alt="" src="${ctx.homepath}/static/images/table-space.gif"/></td>
+                        <td><pre>${snapshot[5] | h}</pre></td>
+                    </tr>
+                    <tr>
+                        <td>${_('Modified User')}</pre></td>
+                        <td class="detail-separator"><img alt="" src="${ctx.homepath}/static/images/table-space.gif"/></td>
+                        <td><pre>${snapshot[6] | h}</td>
+                    </tr>
+                    <tr>
+                        <td>${_('Modified')}</td>
+                        <td class="detail-separator"><img alt="" src="${ctx.homepath}/static/images/table-space.gif"/></td>
+                        <td><pre>${snapshot[7] | h}</pre></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+    </table>
+</div>
