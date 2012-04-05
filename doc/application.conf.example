@@ -26,7 +26,3 @@ database.pool.size=1
 database.pool.max.overflow=10
 
 pysilhouette.conf.path=/etc/pysilhouette/silhouette.conf
-
-application.updater.yum.cachedir=/var/lib/karesansui/cache/yum
-application.updater.yum.target.repos=karesansui-base
-application.updater.yum.log.file=/var/log/karesansui/yum.log
