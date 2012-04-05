@@ -124,19 +124,6 @@ def chkconfig(config):
         print >>sys.stderr, 'Not set the appropriate permissions to that directory. - application.generate.dir=%s' % config["application.generate.dir"]
         check = False
 
-    # lighttpd.etc.dir
-    if check and config.has_key("lighttpd.etc.dir") is False:
-        print >>sys.stderr, 'Configuration information is missing. - lighttpd.etc.dir'
-        check = False
-
-    if check and os.path.isdir(config["lighttpd.etc.dir"]) is False:
-        print >>sys.stderr, 'There is a mistake in the configuration information. - lighttpd.etc.dir=%s' % config["lighttpd.etc.dir"]
-        check = False
-
-    if check and os.access(config["lighttpd.etc.dir"], os.R_OK) is False:
-        print >>sys.stderr, 'Not set the appropriate permissions to that directory. - lighttpd.etc.dir=%s' % config["lighttpd.etc.dir"]
-        check = False
-
     # pysilhouette.conf.path
     if check and config.has_key("pysilhouette.conf.path") is False:
         print >>sys.stderr, 'Configuration information is missing. - pysilhouette.conf.path'
