@@ -8,7 +8,7 @@ This document is also available online at [https://github.com/karesansui/karesan
 
 This document is based on CentOS 6.x (x86_64). However, following the similar steps of the document allows you to install Karesansui on any Linux distribution.
 
-  [install]: https://github.com/karesansui/karesansui/blob/master/INSTALL.md
+  [install]: http://github.com/karesansui/karesansui/blob/master/INSTALL.md
 
 
 ## Installing operating system ##
