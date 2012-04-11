@@ -8,7 +8,7 @@ Karesansuiのインストール
 
 このドキュメントは、CentOS 6.x (x86_64) にインストールすることを前提に記載していますが、他のLinuxディストリビューションでも同等の作業をすることでインストールが可能です。
 
-  [install]:https://github.com/karesansui/karesansui/blob/master/INSTALL.md
+  [install]:http://github.com/karesansui/karesansui/blob/master/INSTALL.ja.md
 
 
 ## OSのインストール ##
@@ -48,11 +48,11 @@ Linuxをインストールすると、そのネットワークインターフェ
 
 ####1. ネットワークインターフェースに紐付けるブリッジを定義するためのネットワークスクリプトを作成します。
 
-スクリプトファイルのパスは、_/etc/sysconfig/network-scripts/ifcfg-br0_ になります。この_br0_は、ブリッジ名です。
+スクリプトファイルのパスは、 _/etc/sysconfig/network-scripts/ifcfg-br0_ になります。この _br0_ は、ブリッジ名です。
 
     # cp /etc/sysconfig/network-scripts/ifcfg-{eth0,br0}
 
-####2. _br0_のスクリプトファイルを編集します。
+####2. _br0_ のスクリプトファイルを編集します。
 
 ネットワークカードが固定IPアドレスに設定されている場合は、以下のようになっているはずです。
 
@@ -73,9 +73,9 @@ Linuxをインストールすると、そのネットワークインターフェ
     NETMASK=255.255.255.0
     TYPE=Bridge
 
-####3. _eth0_のスクリプトファイルを編集します。
+####3. _eth0_ のスクリプトファイルを編集します。
 
-次に、_eth0_のスクリプトファイルを編集し、下記のように_BRIDGE=br0_を追記します。また、_IPADDR_や_NETMASK_等の行も削除します。
+次に、 _eth0_ のスクリプトファイルを編集し、下記のように _BRIDGE=br0_ を追記します。また、 _IPADDR_ や _NETMASK_ 等の行も削除します。
 
     DEVICE=eth0
     HWADDR=00:25:64:e4:bf:e2
