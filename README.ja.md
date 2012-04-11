@@ -25,12 +25,12 @@ Karesansuiの一部はLGPLで、一部はGPLです。コア部分のソースコ
 
 ### karesansui/static/js/lib以下のJavaScriptライブラリ ###
 
-[jquery](http://jquery.com/) - License MIT or GPL
-[jquery.form.js](http://malsup.com/jquery/form/) - License MIT or GPL
-[jquery-tablesort](http://tablesorter.com/docs/) - License  MIT or GPL
-[jquery-plugin-autocomplete](http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete/) - License  MIT or GPL
-[jCarousel](http://sorgalla.com/jcarousel/) - License  MIT or GPL
-[ajax-upload](http://valums.com/ajax-upload/) - License  MIT
+* [jquery](http://jquery.com/) - License MIT or GPL
+* [jquery.form.js](http://malsup.com/jquery/form/) - License MIT or GPL
+* [jquery-tablesort](http://tablesorter.com/docs/) - License  MIT or GPL
+* [jquery-plugin-autocomplete](http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete/) - License  MIT or GPL
+* [jCarousel](http://sorgalla.com/jcarousel/) - License  MIT or GPL
+* [ajax-upload](http://valums.com/ajax-upload/) - License  MIT
 
 謝辞
 ----

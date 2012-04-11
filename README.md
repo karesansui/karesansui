@@ -33,12 +33,12 @@ its own distribution rule. Please consult each license notice for these projects
 
 ### Javascript libraries under karesansui/static/js/lib ###
 
-[jquery](http://jquery.com/) - License MIT or GPL
-[jquery.form.js](http://malsup.com/jquery/form/) - License MIT or GPL
-[jquery-tablesort](http://tablesorter.com/docs/) - License  MIT or GPL
-[jquery-plugin-autocomplete](http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete/) - License  MIT or GPL
-[jCarousel](http://sorgalla.com/jcarousel/) - License  MIT or GPL
-[ajax-upload](http://valums.com/ajax-upload/) - License  MIT
+* [jquery](http://jquery.com/) - License MIT or GPL
+* [jquery.form.js](http://malsup.com/jquery/form/) - License MIT or GPL
+* [jquery-tablesort](http://tablesorter.com/docs/) - License  MIT or GPL
+* [jquery-plugin-autocomplete](http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete/) - License  MIT or GPL
+* [jCarousel](http://sorgalla.com/jcarousel/) - License  MIT or GPL
+* [ajax-upload](http://valums.com/ajax-upload/) - License  MIT
 
 Acknowledgements
 ----------------
