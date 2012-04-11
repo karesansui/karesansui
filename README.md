@@ -9,7 +9,7 @@ Karesansui is an open-source virtualization management application made in Japan
 
 Installation
 ------------
-See INSTALL.
+See [INSTALL](http://github.com/karesansui/karesansui/blob/master/INSTALL.md).
 
 License
 -------
