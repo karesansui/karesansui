@@ -1,0 +1,148 @@
+CREATE TABLE machine2jobgroup (
+	id INTEGER NOT NULL, 
+	machine_id INTEGER, 
+	jobgroup_id INTEGER NOT NULL, 
+	uniq_key VARCHAR(36) NOT NULL, 
+	created_user_id INTEGER, 
+	modified_user_id INTEGER, 
+	created TIMESTAMP, 
+	modified TIMESTAMP, 
+	PRIMARY KEY (id), 
+	 FOREIGN KEY(machine_id) REFERENCES machine (id), 
+	 FOREIGN KEY(modified_user_id) REFERENCES user (id), 
+	 FOREIGN KEY(created_user_id) REFERENCES user (id)
+);
+CREATE TABLE tag (
+	id INTEGER NOT NULL, 
+	name VARCHAR(24) NOT NULL, 
+	created TIMESTAMP, 
+	modified TIMESTAMP, 
+	PRIMARY KEY (id)
+);
+INSERT INTO "tag"(id,name) VALUES(1,'default');
+CREATE TABLE notebook (
+	id INTEGER NOT NULL, 
+	title VARCHAR(64) NOT NULL, 
+	value TEXT NOT NULL, 
+	created TIMESTAMP, 
+	modified TIMESTAMP, 
+	PRIMARY KEY (id)
+);
+INSERT INTO "notebook"(id,title,value) VALUES(1,'','');
+CREATE TABLE user (
+	id INTEGER NOT NULL, 
+	email VARCHAR(256) NOT NULL, 
+	password VARCHAR(40) NOT NULL, 
+	salt VARCHAR(16) NOT NULL, 
+	nickname VARCHAR(16) NOT NULL, 
+	languages VARCHAR(6), 
+	created TIMESTAMP, 
+	modified TIMESTAMP, 
+	PRIMARY KEY (id), 
+	 UNIQUE (email)
+);
+INSERT INTO "user"(id,email,password,salt,nickname,languages) VALUES(1,'foo@example.com','3a3de9523306554e3a716bf61cf2d18c0220542d','9Wdvb6wnZhpwDN5G','Administrator','en_US');
+CREATE TABLE option (
+	id INTEGER NOT NULL, 
+	created_user_id INTEGER, 
+	modified_user_id INTEGER, 
+	"key" VARCHAR(12) NOT NULL, 
+	value TEXT, 
+	created TIMESTAMP, 
+	modified TIMESTAMP, 
+	PRIMARY KEY (id), 
+	 FOREIGN KEY(created_user_id) REFERENCES user (id), 
+	 FOREIGN KEY(modified_user_id) REFERENCES user (id), 
+	 UNIQUE ("key")
+);
+CREATE TABLE machine (
+	id INTEGER NOT NULL, 
+	parent_id INTEGER, 
+	notebook_id INTEGER, 
+	created_user_id INTEGER, 
+	modified_user_id INTEGER, 
+	uniq_key VARCHAR(36) NOT NULL, 
+	name VARCHAR(256) NOT NULL, 
+	attribute SMALLINT NOT NULL, 
+	hypervisor SMALLINT NOT NULL, 
+	hostname VARCHAR(256), 
+	icon VARCHAR(256), 
+	is_deleted BOOLEAN, 
+	created TIMESTAMP, 
+	modified TIMESTAMP, 
+	PRIMARY KEY (id), 
+	 FOREIGN KEY(parent_id) REFERENCES machine (id), 
+	 FOREIGN KEY(modified_user_id) REFERENCES user (id), 
+	 UNIQUE (hostname), 
+	 UNIQUE (uniq_key), 
+	 FOREIGN KEY(notebook_id) REFERENCES notebook (id), 
+	 FOREIGN KEY(created_user_id) REFERENCES user (id)
+);
+INSERT INTO "machine"(id,parent_id,notebook_id,created_user_id,modified_user_id,uniq_key,name,attribute,hypervisor,hostname,icon,is_deleted) VALUES(1,NULL,1,1,1,'f0d6aeae-de45-52ab-ceb5-e443ac22be5e','localhost',0,0,'localhost','icon-guest1.png',0);
+CREATE TABLE snapshot (
+	id INTEGER NOT NULL, 
+	parent_id INTEGER, 
+	machine_id INTEGER, 
+	notebook_id INTEGER, 
+	created_user_id INTEGER, 
+	modified_user_id INTEGER, 
+	name VARCHAR(256), 
+	is_deleted BOOLEAN, 
+	created TIMESTAMP, 
+	modified TIMESTAMP, 
+	PRIMARY KEY (id), 
+	 FOREIGN KEY(notebook_id) REFERENCES notebook (id), 
+	 FOREIGN KEY(parent_id) REFERENCES snapshot (id), 
+	 FOREIGN KEY(created_user_id) REFERENCES user (id), 
+	 FOREIGN KEY(modified_user_id) REFERENCES user (id), 
+	 FOREIGN KEY(machine_id) REFERENCES machine (id)
+);
+CREATE TABLE machine2tag (
+	id INTEGER NOT NULL, 
+	tag_id INTEGER, 
+	machine_id INTEGER, 
+	created TIMESTAMP, 
+	modified TIMESTAMP, 
+	PRIMARY KEY (id), 
+	 FOREIGN KEY(tag_id) REFERENCES tag (id), 
+	 FOREIGN KEY(machine_id) REFERENCES machine (id)
+);
+INSERT INTO "machine2tag"(id,tag_id,machine_id) VALUES(1,1,1);
+CREATE TABLE watch (
+	id INTEGER NOT NULL, 
+	machine_id INTEGER NOT NULL, 
+	created_user_id INTEGER, 
+	modified_user_id INTEGER, 
+	name VARCHAR(256) NOT NULL, 
+	plugin VARCHAR(256) NOT NULL, 
+	plugin_selector TEXT NOT NULL, 
+	continuation_count INTEGER, 
+	prohibition_period INTEGER, 
+	warning_value TEXT, 
+	is_warning_percentage BOOLEAN, 
+	is_warning_script BOOLEAN, 
+	warning_script TEXT, 
+	is_warning_mail BOOLEAN, 
+	warning_mail_body TEXT, 
+	failure_value TEXT, 
+	is_failure_percentage BOOLEAN, 
+	is_failure_script BOOLEAN, 
+	failure_script TEXT, 
+	is_failure_mail BOOLEAN, 
+	failure_mail_body TEXT, 
+	is_okay_script BOOLEAN, 
+	okay_script TEXT, 
+	is_okay_mail BOOLEAN, 
+	okay_mail_body TEXT, 
+	notify_mail_to TEXT, 
+	notify_mail_from TEXT, 
+	karesansui_version VARCHAR(12) NOT NULL, 
+	collectd_version VARCHAR(12) NOT NULL, 
+	is_deleted BOOLEAN, 
+	created TIMESTAMP, 
+	modified TIMESTAMP, 
+	PRIMARY KEY (id), 
+	 FOREIGN KEY(machine_id) REFERENCES machine (id), 
+	 FOREIGN KEY(modified_user_id) REFERENCES user (id), 
+	 FOREIGN KEY(created_user_id) REFERENCES user (id)
+);
