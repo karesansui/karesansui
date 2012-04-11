@@ -4,7 +4,7 @@ Karesansuiのインストール
 ## このドキュメントについて ##
 
 このドキュメントは、インラインHTMLを含むMarkdown形式で記載されています。
-最新の情報は、[https://github.com/karesansui/karesansui/blob/master/INSTALL.md][install]から入手することができます。
+最新の情報は、[https://github.com/karesansui/karesansui/blob/master/INSTALL.ja.md][install]から入手することができます。
 
 このドキュメントは、CentOS 6.x (x86_64) にインストールすることを前提に記載していますが、他のLinuxディストリビューションでも同等の作業をすることでインストールが可能です。
 
@@ -37,7 +37,7 @@ OSインストール後にKVMを有効にする場合は、下記コマンドを
 
 ## ネットワークの設定 ##
 
-Linuxをインストールすると、そのネットワークインターフェースは通常_eth0_として認識され、KVMゲストから外向けの通信のみ許可されます。
+Linuxをインストールすると、そのネットワークインターフェースは通常 _eth0_ として認識され、KVMゲストから外向けの通信のみ許可されます。
 このインターフェースをゲストと共有して使用できるように、ブリッジモードの仮想インターフェースを作成します。
 
 ### ブリッジインターフェースを作成 ###
@@ -485,7 +485,7 @@ http://[インストールしたサーバー]:8080/karesansui/v2/
 
 ####1. パッケージのインストール
 
-[EPEL(Extra Packages for Enterprise Linux)](http://fedoraproject.org/wiki/EPEL)リポジトリから_lighttpd_パッケージをインストールします。
+[EPEL(Extra Packages for Enterprise Linux)](http://fedoraproject.org/wiki/EPEL)リポジトリから _lighttpd_ パッケージをインストールします。
 
     # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-5.noarch.rpm
     # rpm -Uvh epel-release-6-5.noarch.rpm 
@@ -493,7 +493,7 @@ http://[インストールしたサーバー]:8080/karesansui/v2/
 
 ####2. グループメンバーの調整
 
-_lighttpd_ユーザーを_kss_グループに、_kss_ユーザーを_lighttpd_グループに追加します。
+_lighttpd_ ユーザーを _kss_ グループに、 _kss_ ユーザーを _lighttpd_ グループに追加します。
 
     # gpasswd -a lighttpd kss
     # gpasswd -a kss lighttpd
@@ -557,7 +557,7 @@ https://[インストールしたサーバー]/karesansui/v2/
 
 ####1. パッケージのインストール
 
-[RepoForge](http://repoforge.org/)リポジトリから_mod_fastcgi_パッケージをインストールします。
+[RepoForge](http://repoforge.org/)リポジトリから _mod_fastcgi_ パッケージをインストールします。
 
     # wget http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
     # rpm -Uvh rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm 
@@ -565,7 +565,7 @@ https://[インストールしたサーバー]/karesansui/v2/
 
 ####2. グループメンバーの調整
 
-_apache_ユーザーを_kss_グループに、_kss_ユーザーを_apache_グループに追加します。
+_apache_ ユーザーを _kss_ グループに、 _kss_ ユーザーを _apache_ グループに追加します。
 
     # gpasswd -a apache kss
     # gpasswd -a kss apache
@@ -615,7 +615,7 @@ https://[インストールしたサーバー]/karesansui/v2/
 
 ####1. パッケージのインストール
 
-[EPEL(Extra Packages for Enterprise Linux)](http://fedoraproject.org/wiki/EPEL)リポジトリから_nginx_パッケージをインストールします。
+[EPEL(Extra Packages for Enterprise Linux)](http://fedoraproject.org/wiki/EPEL)リポジトリから _nginx_ パッケージをインストールします。
 
     # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-5.noarch.rpm
     # rpm -Uvh epel-release-6-5.noarch.rpm 
@@ -623,7 +623,7 @@ https://[インストールしたサーバー]/karesansui/v2/
 
 ####2. グループメンバーの調整
 
-_nginx_ユーザーを_kss_グループに、_kss_ユーザーを_nginx_グループに追加します。
+_nginx_ ユーザーを _kss_ グループに、 _kss_ ユーザーを _nginx_ グループに追加します。
 
     # gpasswd -a nginx kss
     # gpasswd -a kss nginx
