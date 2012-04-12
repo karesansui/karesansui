@@ -223,11 +223,11 @@ Karesansuiと同じく、Karesansui Project Teamによって開発されたソ�
     # mkdir /var/lib/pysilhouette
 
     #### Copy several programs, configuration files and SysV init script ####
-    # cp -f ~rpmbuild/pysilhouette/doc/rc.d/init.d/* /etc/rc.d/init.d/
-    # cp -f ~rpmbuild/pysilhouette/doc/sysconfig/silhouetted /etc/sysconfig/silhouetted
-    # cp -f ~rpmbuild/pysilhouette/doc/log.conf.example /etc/pysilhouette/log.conf
-    # cp -f ~rpmbuild/pysilhouette/doc/silhouette.conf.example /etc/pysilhouette/silhouette.conf
-    # cp -f ~rpmbuild/pysilhouette/doc/whitelist.conf.example /etc/pysilhouette/whitelist.conf
+    # cp -f ~rpmbuild/pysilhouette/sample/rc.d/init.d/* /etc/rc.d/init.d/
+    # cp -f ~rpmbuild/pysilhouette/sample/sysconfig/silhouetted /etc/sysconfig/silhouetted
+    # cp -f ~rpmbuild/pysilhouette/sample/log.conf.example /etc/pysilhouette/log.conf
+    # cp -f ~rpmbuild/pysilhouette/sample/silhouette.conf.example /etc/pysilhouette/silhouette.conf
+    # cp -f ~rpmbuild/pysilhouette/sample/whitelist.conf.example /etc/pysilhouette/whitelist.conf
     # ln -s `python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()"`/pysilhouette/silhouette.py /usr/bin
     # cp -f ~rpmbuild/pysilhouette/tool/psil-cleandb /usr/sbin
     # cp -f ~rpmbuild/pysilhouette/tool/psil-set /usr/sbin
