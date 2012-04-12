@@ -230,11 +230,11 @@ fi
 
 #%files -f INSTALLED_FILES
 #%defattr(-,root,root)
-#%doc doc tool sample
+#%doc doc tools sample
 
 %files
 %defattr(-,root,%{_group})
-%doc doc tool sample AUTHORS COPYING COPYING.LIB INSTALL INSTALL.ja README README.ja
+%doc doc tools sample AUTHORS COPYING COPYING.LIB INSTALL INSTALL.ja README README.ja
 %dir %{python_sitelib}/
 %dir %{python_sitelib}/karesansui/
 %dir %{python_sitelib}/karesansui/db/
