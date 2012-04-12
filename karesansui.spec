@@ -1,1 +1,1 @@
-doc/specs/karesansui/karesansui.spec
+sample/specs/karesansui/karesansui.spec
