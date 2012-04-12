@@ -1,7 +1,0 @@
-X-Mailer: %{app_name}
-Subject: [Karesansui Notifier] 正常値に戻りました。ロードアベレージ (%{ds})
-
-レポート時刻: %{time}
-
-ホスト %{host} の ロードアベレージ (%{ds}) が正常値に戻りました。
-
