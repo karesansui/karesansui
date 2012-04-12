@@ -1,7 +1,0 @@
-X-Mailer: %{app_name}
-Subject: [Karesansui Notifier] current status is within normal range again. CPU (ID:%{plugin_instance}) - %{type_instance}
-
-Reported at: %{time}
-
-%{type_instance} of CPU (ID:%{plugin_instance}) on %{host} is within normal range again.
-

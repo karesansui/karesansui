@@ -1,6 +1,6 @@
 application.search.path=/usr/lib/python2.6/site-packages
 application.log.config=/etc/karesansui/log.conf
-application.url.prefix=/karesansui/v2
+application.url.prefix=/karesansui/v3
 application.default.locale=ja_JP # settings : ja_JP or en_US
 application.template.theme=default
 application.tmp.dir=/tmp

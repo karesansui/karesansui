@@ -194,7 +194,7 @@ $(document).ready(function(){
 % for bond in sorted(bond_list.keys()):
                                             <tr>
                                                 <td id="nic_${bond}" class="bonding" style="font-size:10px;" width="100">
-                                                    <img id="tree_img_${bond}" class="tree-toggle-button" alt="" src="/karesansui/v2/static/images/tree-close.gif">
+                                                    <img id="tree_img_${bond}" class="tree-toggle-button" alt="" src="/karesansui/v3/static/images/tree-close.gif">
                                                     <img src="${ctx.homepath}/static/images/device-network-bonding.png">
                                                     <span class="status">${_('Device')} ${bond}</span>
                                                 </td>
