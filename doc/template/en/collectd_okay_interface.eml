@@ -1,7 +1,0 @@
-X-Mailer: %{app_name}
-Subject: [Karesansui Notifier] current status is within normal range again. Network (interface:%{type_instance}) - %{type}
-
-Reported at: %{time}
-
-%{type} of network (interface:%{type_instance}) on %{host} is within normal range again.
-

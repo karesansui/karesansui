@@ -163,15 +163,15 @@ RPMパッケージを作成する環境を構築します。パッケージ作�
     # su - rpmbuild
     $ cd ~/pkgs/SOURCES/
     $ wget http://webpy.org/static/web.py-0.36.tar.gz
-    $ rpmbuild -ba ~/karesansui/doc/specs/python-webpy/python-webpy.spec
+    $ rpmbuild -ba ~/karesansui/sample/specs/python-webpy/python-webpy.spec
 
 ######4. IPAexfontパッケージの作成
 
     # su - rpmbuild
     $ cd ~/pkgs/SOURCES/
     $ wget http://iij.dl.sourceforge.jp/ipafonts/49986/IPAexfont00103.zip
-    $ cp ~rpmbuild/karesansui/doc/specs/IPAexfont/09-ipaexfont.conf .
-    $ rpmbuild -ba ~/karesansui/doc/specs/IPAexfont/IPAexfont.spec 
+    $ cp ~rpmbuild/karesansui/sample/specs/IPAexfont/09-ipaexfont.conf .
+    $ rpmbuild -ba ~/karesansui/sample/specs/IPAexfont/IPAexfont.spec 
 
 ######5. tightvnc-javaパッケージの作成
 
@@ -179,7 +179,7 @@ RPMパッケージを作成する環境を構築します。パッケージ作�
     $ cd ~/pkgs/SOURCES/
     $ wget http://downloads.sourceforge.net/sourceforge/vnc-tight/tightvnc-1.3.10_javabin.tar.gz
     $ wget http://downloads.sourceforge.net/sourceforge/vnc-tight/tightvnc-1.3.10_javasrc.tar.gz
-    $ rpmbuild -ba ~/karesansui/doc/specs/tightvnc-java/tightvnc-java.spec 
+    $ rpmbuild -ba ~/karesansui/sample/specs/tightvnc-java/tightvnc-java.spec 
 
 ######6. ビルドしたパッケージのインストール
 
@@ -281,13 +281,13 @@ Karesansuiと同じく、Karesansui Project Teamによって開発されたソ�
     # find /usr/share/karesansui/ -type d -exec chmod g+rwx \{\} \;
 
     #### Copy several programs, configuration files and SysV init script ####
-    # cp -f  ~rpmbuild/karesansui/doc/application.conf.example /etc/karesansui/application.conf
-    # cp -f  ~rpmbuild/karesansui/doc/log.conf.example /etc/karesansui/log.conf
-    # cp -f  ~rpmbuild/karesansui/doc/service.xml.example /etc/karesansui/service.xml
-    # cp -f  ~rpmbuild/karesansui/doc/logview.xml.example /etc/karesansui/logview.xml
-    # cp -fr ~rpmbuild/karesansui/doc/template/ /etc/karesansui/template/
-    # cp -f  ~rpmbuild/karesansui/doc/cron_cleantmp.example /etc/cron.d/karesansui_cleantmp
-    # cp -f  ~rpmbuild/karesansui/doc/whitelist.conf.example /etc/pysilhouette/whitelist.conf
+    # cp -f  ~rpmbuild/karesansui/sample/application.conf.example /etc/karesansui/application.conf
+    # cp -f  ~rpmbuild/karesansui/sample/log.conf.example /etc/karesansui/log.conf
+    # cp -f  ~rpmbuild/karesansui/sample/service.xml.example /etc/karesansui/service.xml
+    # cp -f  ~rpmbuild/karesansui/sample/logview.xml.example /etc/karesansui/logview.xml
+    # cp -fr ~rpmbuild/karesansui/sample/template/ /etc/karesansui/template/
+    # cp -f  ~rpmbuild/karesansui/sample/cron_cleantmp.example /etc/cron.d/karesansui_cleantmp
+    # cp -f  ~rpmbuild/karesansui/sample/whitelist.conf.example /etc/pysilhouette/whitelist.conf
 
 
 ## pysilhouetteの設定 ##
@@ -512,7 +512,7 @@ _/etc/lighttpd/modules.conf_ で以下のモジュールを有効にします。
 
 ソースコードに付属する設定ファイルのサンプルをコピーし、必要であれば設定内容を変更します。
 
-    # cp ~rpmbuild/karesansui/doc/lighttpd/karesansui.conf /etc/lighttpd/conf.d/
+    # cp ~rpmbuild/karesansui/sample/lighttpd/karesansui.conf /etc/lighttpd/conf.d/
 
 
 ####4. lighttpdのSSLの設定
@@ -574,7 +574,7 @@ _apache_ ユーザーを _kss_ グループに、 _kss_ ユーザーを _apache_
 
 ソースコードに付属する設定ファイルのサンプルをコピーし、必要であれば設定内容を変更します。
 
-    # cp ~rpmbuild/karesansui/doc/apache/fastcgi.conf /etc/httpd/conf.d/
+    # cp ~rpmbuild/karesansui/sample/apache/fastcgi.conf /etc/httpd/conf.d/
 
 ####4. Webサーバーの起動
 
@@ -632,7 +632,7 @@ _nginx_ ユーザーを _kss_ グループに、 _kss_ ユーザーを _nginx_ �
 
 ソースコードに付属する設定ファイルのサンプルをコピーし、必要であれば設定内容を変更します。
 
-    # cp ~rpmbuild/karesansui/doc/nginx/karesansui.conf /etc/nginx/conf.d/
+    # cp ~rpmbuild/karesansui/sample/nginx/karesansui.conf /etc/nginx/conf.d/
 
 ####4. Webサーバーの起動
 

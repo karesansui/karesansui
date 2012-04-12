@@ -121,7 +121,7 @@ install -d -m 0770 $RPM_BUILD_ROOT/var/log/%{__app}
 install -d -m 0770 $RPM_BUILD_ROOT%{_sysconfdir}/cron.d/
 install -d -m 0770 $RPM_BUILD_ROOT%{_kss_sysconfdir}/virt/
 
-pushd doc
+pushd sample
 %{__cp} -f  application.conf.example $RPM_BUILD_ROOT%{_kss_sysconfdir}/application.conf.example
 %{__cp} -f  application.conf.example $RPM_BUILD_ROOT%{_kss_sysconfdir}/application.conf
 %{__cp} -f  log.conf.example         $RPM_BUILD_ROOT%{_kss_sysconfdir}/log.conf.example
@@ -230,11 +230,11 @@ fi
 
 #%files -f INSTALLED_FILES
 #%defattr(-,root,root)
-#%doc doc tool
+#%doc doc tool sample
 
 %files
 %defattr(-,root,%{_group})
-%doc doc tool AUTHORS COPYING COPYING.LIB INSTALL INSTALL.ja README README.ja
+%doc doc tool sample AUTHORS COPYING COPYING.LIB INSTALL INSTALL.ja README README.ja
 %dir %{python_sitelib}/
 %dir %{python_sitelib}/karesansui/
 %dir %{python_sitelib}/karesansui/db/
