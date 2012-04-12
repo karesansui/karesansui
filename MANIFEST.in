@@ -10,7 +10,7 @@ include scripts/karesansui
 recursive-include doc *
 recursive-include sample *
 recursive-include bin *
-recursive-include tool *
+recursive-include tools *
 recursive-include installer *
 recursive-include karesansui/locale *
 recursive-include karesansui/templates *
