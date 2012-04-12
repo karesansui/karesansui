@@ -8,15 +8,16 @@ include README.ja
 include MANIFEST.in
 include scripts/karesansui
 recursive-include doc *
+recursive-include sample *
 recursive-include bin *
-recursive-include tool *
+recursive-include tools *
 recursive-include installer *
 recursive-include karesansui/locale *
 recursive-include karesansui/templates *
 recursive-include karesansui/static *
 include karesansui.spec
-prune doc/specs/collectd/
-prune doc/specs/IPAexfont
-prune doc/specs/python-webpy
-prune doc/specs/rrdtool
-prune doc/specs/tightvnc-java
+prune sample/specs/collectd/
+prune sample/specs/IPAexfont
+prune sample/specs/python-webpy
+prune sample/specs/rrdtool
+prune sample/specs/tightvnc-java
