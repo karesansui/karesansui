@@ -480,7 +480,7 @@ Please access the following URL from your browser after starting the server.
 The username and password values for HTTP basic authentication must match the ones specified during database creation 'Creating database for karesansui'.
 
 <pre>
-http://[your-server-name]:8080/karesansui/v2/
+http://[your-server-name]:8080/karesansui/v3/
 </pre>
 
 If the console is displayed correctly, the installation will appear to complete successfully.
@@ -557,7 +557,7 @@ Please access the following URL from your browser after starting the server.
 The username and password values for HTTP basic authentication must match the ones specified during database creation 'Creating database for karesansui'.
 
 <pre>
-https://[your-server-name]/karesansui/v2/
+https://[your-server-name]/karesansui/v3/
 </pre>
 
 
@@ -616,7 +616,7 @@ Please access the following URL from your browser after starting the server.
 The username and password values for HTTP basic authentication must match the ones specified during database creation 'Creating database for karesansui'.
 
 <pre>
-https://[your-server-name]/karesansui/v2/
+https://[your-server-name]/karesansui/v3/
 </pre>
 
 
@@ -666,7 +666,7 @@ Please access the following URL from your browser after starting the server.
 The username and password values for HTTP basic authentication must match the ones specified during database creation 'Creating database for karesansui'.
 
 <pre>
-http://[your-server-name]/karesansui/v2/
+http://[your-server-name]/karesansui/v3/
 </pre>
 
 
