@@ -329,7 +329,7 @@ Karesansuiと同じく、Karesansui Project Teamによって開発されたソ�
  <tr><th>ファイル</th><th>説明</th></tr>
  <tr>
   <td nowrap>/etc/karesansui/application.conf</td>
-  <td>karesansuiの基本動作に関する設定ファイル(<b>*application.uniqkeyの設定が必要。設定値は _uuidgen_ コマンドで生成できます。</b>)</td>
+  <td>karesansuiの基本動作に関する設定ファイル(<b>*application.uniqkeyの設定が必要。設定値は uuidgen コマンドで生成できます。</b>)</td>
  </tr>
  <tr>
   <td nowrap>/etc/karesansui/log.conf</td>
