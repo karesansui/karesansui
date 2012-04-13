@@ -4,7 +4,7 @@ Karesansui
 Karesansui is an open-source virtualization management application made in Japan.
 
 * Simple, easy web-based interface.
-* Free for all. Distributed with GPL+LGPL license.
+* Free for all. Distributed with the MIT license.
 * Supports Kernel-based Virtual Machine(KVM) hypervisor. Other hypervisors/virtualization support on future plan.
 
 Installation
