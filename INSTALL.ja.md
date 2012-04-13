@@ -376,6 +376,11 @@ karesansuiのソースコードに付属するスクリプトを利用してデ�
     # chmod -R o-rwx /var/lib/pysilhouette/
 
 
+## pysilhouette サービスの起動 ##
+
+    # /etc/init.d/silhouetted start
+
+
 ## libvirtの設定 ##
 
 ####1. libvirtd 設定ファイルの編集

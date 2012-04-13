@@ -386,6 +386,11 @@ If you use a SQLite database, you must change the attributes of the database fil
     # chmod -R o-rwx /var/lib/pysilhouette/
 
 
+## Starting pysilhouette service ##
+
+    # /etc/init.d/silhouetted start
+
+
 ## Configuring libvirt ##
 
 ####1. Edit libvirt configuration file
