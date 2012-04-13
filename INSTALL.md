@@ -6,7 +6,7 @@ Installing Karesansui
 This document is written in the Markdown format and contains some inline HTML.
 This document is also available online at [https://github.com/karesansui/karesansui/blob/master/INSTALL.md][install].
 
-This document is based on CentOS 6.x (x86_64). However, following the similar steps of the document allows you to install Karesansui on any other Linux distribution.
+This document is based on CentOS 6.x (x86_64). However, following the similar steps described within the document allows you to install Karesansui on any other Linux distribution.
 
   [install]: https://github.com/karesansui/karesansui/blob/master/INSTALL.md
 
