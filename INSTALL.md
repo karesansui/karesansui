@@ -135,14 +135,14 @@ You can install most of them by using the software updater provided by each dist
 
 #####Fetching packages from CentOS-Base repository.
 
-    # yum install -y PyXML python-mako python-sqlalchemy python-simplejson rrdtool rrdtool-python
+    # yum install PyXML python-mako python-sqlalchemy python-simplejson rrdtool rrdtool-python
 
 #####Fetching packages from [EPEL(Extra Packages for Enterprise Linux)](http://fedoraproject.org/wiki/EPEL) repository.
 
     # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-5.noarch.rpm
     # rpm -Uvh epel-release-6-5.noarch.rpm 
-    # yum install -y python-flup python-sqlite2
-    # yum install -y collectd collectd-ping collectd-rrdtool collectd-virt
+    # yum install python-flup python-sqlite2
+    # yum install collectd collectd-ping collectd-rrdtool collectd-virt
 
 #####Building packages that are not provided by the offifial or the third party repositories on your machine.
 
@@ -150,7 +150,7 @@ You can install most of them by using the software updater provided by each dist
 
 Create a seperate account for building RPMs and set up the environment for it:
 
-    # yum install -y rpm-build
+    # yum install rpm-build
     # useradd rpmbuild
     # su - rpmbuild
     $ mkdir -p ~/pkgs/{BUILD,RPMS/{i{3,4,5,6}86,x86_64,noarch},SOURCES,SPECS,SRPMS}
@@ -158,7 +158,7 @@ Create a seperate account for building RPMs and set up the environment for it:
 
 ######Step 2. Fetching Karesansui source code from github repository.
 
-    # yum install -y git python-setuptools
+    # yum install git python-setuptools
     # su - rpmbuild
     $ git clone git://github.com/karesansui/karesansui.git
 
@@ -501,7 +501,7 @@ Install several packages from [EPEL(Extra Packages for Enterprise Linux)](http:/
 
     # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-5.noarch.rpm
     # rpm -Uvh epel-release-6-5.noarch.rpm 
-    # yum install -y lighttpd lighttpd-fastcgi spawn-fcgi
+    # yum install lighttpd lighttpd-fastcgi spawn-fcgi
 
 ####2. Configuring group members.
 
@@ -573,7 +573,7 @@ Install several packages from [RepoForge](http://repoforge.org/) repository.
 
     # wget http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
     # rpm -Uvh rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm 
-    # yum install -y httpd mod_fastcgi
+    # yum install httpd mod_fastcgi
 
 ####2. Configuring group members.
 
@@ -632,7 +632,7 @@ Install several packages from [EPEL(Extra Packages for Enterprise Linux)](http:/
 
     # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-5.noarch.rpm
     # rpm -Uvh epel-release-6-5.noarch.rpm 
-    # yum install -y nginx spawn-fcgi
+    # yum install nginx spawn-fcgi
 
 ####2. Configuring group members.
 

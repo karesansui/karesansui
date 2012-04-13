@@ -130,14 +130,14 @@ Karesansuiをセットアップするには、依存するソフトウェアを�
 
 #####CentOSの基本リポジトリからインストール
 
-    # yum install -y PyXML python-mako python-sqlalchemy python-simplejson rrdtool rrdtool-python
+    # yum install PyXML python-mako python-sqlalchemy python-simplejson rrdtool rrdtool-python
 
 #####[EPEL(Extra Packages for Enterprise Linux)](http://fedoraproject.org/wiki/EPEL)リポジトリからインストール
 
     # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-5.noarch.rpm
     # rpm -Uvh epel-release-6-5.noarch.rpm 
-    # yum install -y python-flup python-sqlite2
-    # yum install -y collectd collectd-ping collectd-rrdtool collectd-virt
+    # yum install python-flup python-sqlite2
+    # yum install collectd collectd-ping collectd-rrdtool collectd-virt
 
 #####ディストリビューションやEPEL等のサードパーティで提供していないソフトウェアは自ホストでビルドしインストール
 
@@ -147,7 +147,7 @@ Karesansuiをセットアップするには、依存するソフトウェアを�
 
 RPMパッケージを作成する環境を構築します。パッケージ作成ユーザーとしてrpmbuildアカウントを作成します。
 
-    # yum install -y rpm-build
+    # yum install rpm-build
     # useradd rpmbuild
     # su - rpmbuild
     $ mkdir -p ~/pkgs/{BUILD,RPMS/{i{3,4,5,6}86,x86_64,noarch},SOURCES,SPECS,SRPMS}
@@ -155,7 +155,7 @@ RPMパッケージを作成する環境を構築します。パッケージ作�
 
 ######2. Karesansuiのソースコードの取得
 
-    # yum install -y git python-setuptools
+    # yum install git python-setuptools
     # su - rpmbuild
     $ git clone git://github.com/karesansui/karesansui.git
 
@@ -490,7 +490,7 @@ http://[インストールしたサーバー]:8080/karesansui/v3/
 
     # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-5.noarch.rpm
     # rpm -Uvh epel-release-6-5.noarch.rpm 
-    # yum install -y lighttpd lighttpd-fastcgi spawn-fcgi
+    # yum install lighttpd lighttpd-fastcgi spawn-fcgi
 
 ####2. グループメンバーの調整
 
@@ -562,7 +562,7 @@ https://[インストールしたサーバー]/karesansui/v3/
 
     # wget http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
     # rpm -Uvh rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm 
-    # yum install -y httpd mod_fastcgi
+    # yum install httpd mod_fastcgi
 
 ####2. グループメンバーの調整
 
@@ -620,7 +620,7 @@ https://[インストールしたサーバー]/karesansui/v3/
 
     # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-5.noarch.rpm
     # rpm -Uvh epel-release-6-5.noarch.rpm 
-    # yum install -y nginx spawn-fcgi
+    # yum install nginx spawn-fcgi
 
 ####2. グループメンバーの調整
 
