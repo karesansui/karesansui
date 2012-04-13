@@ -132,7 +132,6 @@ pushd sample
 %{__cp} -f  whitelist.conf.example   $RPM_BUILD_ROOT%{_kss_sysconfdir}/
 %{__cp} -f  service.xml.example      $RPM_BUILD_ROOT%{_kss_sysconfdir}/service.xml
 %{__cp} -f  logview.xml.example      $RPM_BUILD_ROOT%{_kss_sysconfdir}/logview.xml
-%{__cp} -fr template/                $RPM_BUILD_ROOT%{_kss_sysconfdir}/template/
 %{__cp} -f  cron_cleantmp.example    $RPM_BUILD_ROOT/etc/cron.d/%{__app}_cleantmp
 popd
 
@@ -234,7 +233,7 @@ fi
 
 %files
 %defattr(-,root,%{_group})
-%doc doc tools sample AUTHORS COPYING COPYING.LIB INSTALL INSTALL.ja README README.ja
+%doc doc tools sample AUTHORS COPYING COPYING.LIB INSTALL.md INSTALL.ja.md README.md README.ja.md
 %dir %{python_sitelib}/
 %dir %{python_sitelib}/karesansui/
 %dir %{python_sitelib}/karesansui/db/
@@ -250,9 +249,7 @@ fi
 %config(noreplace) %{_kss_sysconfdir}/*.conf
 %config(noreplace) %{_kss_sysconfdir}/*.xml
 %dir %{_kss_sysconfdir}/
-%dir %{_kss_sysconfdir}/template/
 %dir %{_kss_sysconfdir}/virt/
-%{_kss_sysconfdir}/template/*
 %dir /var/log/%{__app}/
 %dir %{_kss_datadir}/
 %dir %{_tmpdir}/
