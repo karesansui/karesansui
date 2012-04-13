@@ -26,7 +26,7 @@ Summary(ja):    オープンソースの仮想ホスト管理アプリケーシ�
 Name:           %{name}
 Version:        %{version}
 Release:        %{release}
-License:        LGPLv2+
+License:        MIT/X11
 Group:          Applications/System
 URL:            http://karesansui-project.info/
 Vendor:         Karesansui Project
@@ -49,7 +49,7 @@ RESTful Web applications in architecture.
 %package lib
 Summary: libraries for Karesansui Core
 Group: Applications/System
-License: LGPL
+License: MIT/X11
 Requires: %{name} = %{version}
 
 %description lib
@@ -58,7 +58,7 @@ libraries for Karesansui Core
 %package data
 Summary: UI data for Karesansui Core
 Group: Applications/System
-License: GPLv2
+License: MIT/X11
 Requires: %{name} = %{version}
 
 %description data
@@ -67,7 +67,7 @@ UI data for Karesansui Core
 %package gadget
 Summary: Basic gadget collection for Karesansui Core
 Group: Applications/System
-License: GPLv2
+License: MIT/X11
 Requires: %{name} = %{version}
 
 %description gadget
@@ -76,7 +76,7 @@ Basic gadget collection for Karesansui Core
 %package bin
 Summary: Basic command collection for Karesansui Core
 Group: Applications/System
-License: GPLv2
+License: MIT/X11
 Requires: %{name} = %{version}
 
 %description bin
@@ -85,7 +85,7 @@ Basic command collection for Karesansui Core
 %package test
 Summary: Unit test environment for Karesansui Core
 Group: Applications/System
-License: LGPLv2+
+License: MIT/X11
 Requires: %{name} = %{version}
 Requires: python-paste
 
