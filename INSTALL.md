@@ -195,7 +195,7 @@ Now you can install the newly built packages.
 
 ## Installing pysilhouette ##
 
-### What is pysilhouette ? ###
+### What is pysilhouette? ###
 
 Pysilhouette is a python-based background job manager, intended to co-work with various python-based web applications such as Karesansui.
 It makes it available to get job status to programmers, which was difficult in http-based stateless/interactive session before.
@@ -680,6 +680,88 @@ The username and password values for HTTP basic authentication must match the on
 <pre>
 http://[your-server-name]/karesansui/v3/
 </pre>
+
+
+Other settings
+==============
+
+## Configuring collectd ##
+
+### What is collectd? ###
+
+[collectd](http://collectd.org/) is a daemon which collects system information periodically and provides means to store performance data.
+In Karesansui, It is used to display the statistics graphs.
+
+###Procedure for `CentOS 6`:
+
+You may need to change the settings for the collectd plugins.
+Please follow the steps described below.
+
+####1. Edit collectd configuration file. (/etc/collectd.conf)
+
+__Global settings__
+
+    Hostname    your.host.name
+    FQDNLookup   true
+    BaseDir     "/var/lib/collectd"
+    PIDFile     "/var/run/collectd.pid"
+    PluginDir   "/usr/lib64/collectd/"
+    TypesDB     "/usr/share/collectd/types.db"
+    Interval     10
+    Timeout      2
+    ReadThreads  5
+
+__LoadPlugin section__
+
+    LoadPlugin cpu
+    LoadPlugin df
+    LoadPlugin disk
+    LoadPlugin interface
+    LoadPlugin libvirt
+    LoadPlugin load
+    LoadPlugin memory
+    LoadPlugin network
+    LoadPlugin rrdtool
+    LoadPlugin uptime
+    LoadPlugin users
+
+__Plugin configuration__
+
+    <Plugin df>
+        ReportReserved     false
+        ReportByDevice     true
+        ReportInodes       false
+        IgnoreSelected     false
+    </Plugin>
+
+    <Plugin disk>
+        Disk "/^[hs]d[a-f][0-9]?$/"
+        IgnoreSelected false
+    </Plugin>
+
+    <Plugin interface>
+       IgnoreSelected false
+    </Plugin>
+
+    <Plugin libvirt>
+        HostnameFormat     name
+        Connection         "qemu+tcp://127.0.0.1:16509/system?no_verify=1"
+        IgnoreSelected     false
+        RefreshInterval    60
+    </Plugin>
+
+    <Plugin rrdtool>
+        DataDir "/var/lib/collectd"
+        CacheTimeout 120
+        CacheFlush   900
+    </Plugin>
+
+####2. Restart collectd service.
+
+In order for all the modifications to take effect, you need to restart collectd service.
+
+    # /sbin/chkconfig collectd on
+    # /etc/init.d/collectd restart
 
 
 Feedback & Suggestions

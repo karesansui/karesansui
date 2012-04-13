@@ -190,7 +190,7 @@ RPMパッケージを作成する環境を構築します。パッケージ作�
 
 ## pysilhouetteのインストール ##
 
-### pysilhouette とは ###
+### pysilhouette って何？ ###
 
 pysilhouetteは、pythonで記述されたバックグラウンドジョブマネージャーで、Karesansuiの管理画面でのゲスト作成など各タスクを実行するために利用されます。
 Karesansuiと同じく、Karesansui Project Teamによって開発されたソフトウェアです。
@@ -669,7 +669,89 @@ http://[インストールしたサーバー]/karesansui/v3/
 </pre>
 
 
+その他の設定
+============
+
+## collectdの設定 ##
+
+### collectd って何？ ###
+
+[collectd](http://collectd.org/) は、システムの各種情報を定期的に収集し、それらのデータを蓄積する手段を提供するデーモンプログラムです。
+Karesansuiでは、統計グラフを表示するためにcollectdを利用しています。
+
+###`CentOS 6` の場合:
+
+まず、collectdの各種プラグインの設定を変更する必要があります。
+下記に示す手順に従ってください。
+
+####1. collectdの設定ファイルを編集します。 (/etc/collectd.conf)
+
+__Global settings__
+
+    Hostname    your.host.name
+    FQDNLookup   true
+    BaseDir     "/var/lib/collectd"
+    PIDFile     "/var/run/collectd.pid"
+    PluginDir   "/usr/lib64/collectd/"
+    TypesDB     "/usr/share/collectd/types.db"
+    Interval     10
+    Timeout      2
+    ReadThreads  5
+
+__LoadPlugin section__
+
+    LoadPlugin cpu
+    LoadPlugin df
+    LoadPlugin disk
+    LoadPlugin interface
+    LoadPlugin libvirt
+    LoadPlugin load
+    LoadPlugin memory
+    LoadPlugin network
+    LoadPlugin rrdtool
+    LoadPlugin uptime
+    LoadPlugin users
+
+__Plugin configuration__
+
+    <Plugin df>
+        ReportReserved     false
+        ReportByDevice     true
+        ReportInodes       false
+        IgnoreSelected     false
+    </Plugin>
+
+    <Plugin disk>
+        Disk "/^[hs]d[a-f][0-9]?$/"
+        IgnoreSelected false
+    </Plugin>
+
+    <Plugin interface>
+       IgnoreSelected false
+    </Plugin>
+
+    <Plugin libvirt>
+        HostnameFormat     name
+        Connection         "qemu+tcp://127.0.0.1:16509/system?no_verify=1"
+        IgnoreSelected     false
+        RefreshInterval    60
+    </Plugin>
+
+    <Plugin rrdtool>
+        DataDir "/var/lib/collectd"
+        CacheTimeout 120
+        CacheFlush   900
+    </Plugin>
+
+####2. collectdサービスを再起動します。
+
+全ての変更を有効にするため、collectdを再起動します。
+
+    # /sbin/chkconfig collectd on
+    # /etc/init.d/collectd restart
+
+
 フィードバック
-=============
+==============
 このドキュメントに誤りや不明瞭な点、情報が古いなどありましたら、改善いたしますので連絡願います。ご協力に感謝いたします。
 
