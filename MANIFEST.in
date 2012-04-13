@@ -1,11 +1,11 @@
 include AUTHORS
 include COPYING
-include COPYING.LIB
 include INSTALL.md
 include INSTALL.ja.md
 include README.md
 include README.ja.md
 include MANIFEST.in
+include TRADEMARKS.TXT
 include scripts/karesansui
 recursive-include doc *
 recursive-include sample *

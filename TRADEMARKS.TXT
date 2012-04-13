@@ -1,0 +1,4 @@
+Copyright (c) 2012 HDE, Inc.
+Our trademarks Karesansui(R), Karesansui frog logo may be used:
+a) As-is by anyone, as part of Karesansui or software derived from Karesansui.
+b) As-is by anyone, to refer to the Karesansui Project, Karesansui or software derived from Karesansui.

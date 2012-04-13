@@ -233,7 +233,7 @@ fi
 
 %files
 %defattr(-,root,%{_group})
-%doc doc tools sample AUTHORS COPYING COPYING.LIB INSTALL.md INSTALL.ja.md README.md README.ja.md
+%doc doc tools sample AUTHORS COPYING TRADEMARKS.TXT INSTALL.md INSTALL.ja.md README.md README.ja.md
 %dir %{python_sitelib}/
 %dir %{python_sitelib}/karesansui/
 %dir %{python_sitelib}/karesansui/db/

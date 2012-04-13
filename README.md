@@ -13,22 +13,13 @@ See [INSTALL](http://github.com/karesansui/karesansui/blob/master/INSTALL.md).
 
 License
 -------
-Some parts of Karesansui are GPL, and some are LGPL, but the core architecture is LGPL,
-to reduce problems for re-using. All source code has license notice,
-so you should clearly know what license to follow.
+Karesansui is released under the MIT license to reduce problems for re-using. All source code has license notice, so you should clearly know what license to follow.
 
 For exception, some Karesansui files some don't have license notice for technical problems.
-The files under template/default/include coming with this source tree are LGPL.
-Other files under template/default are GPL.
-This DOES NOT mean that your original files you put in template/default should be GPL,
-or template/default/include should be LGPL.
-This DOES NOT mean that files somebody put in template/default or template/default/include
-without any notice will become GPL or LGPL. We can only mention about files we distribute,
-so consult the original author for such files.
+We can only mention about files we distribute, so consult the original author for such files.
+Please see TRADEMARKS.TXT included with this distibution for information about Karesansui's trademark and logo usage policy.
 
-
-This Karesansui source tree includes other open source projects work, which may come with
-its own distribution rule. Please consult each license notice for these projects.
+This Karesansui source tree includes other open source projects work, which may come with its own distribution rule. Please consult each license notice for these projects.
 
 
 ### Javascript libraries under karesansui/static/js/lib ###
