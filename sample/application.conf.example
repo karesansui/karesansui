@@ -1,12 +1,12 @@
 application.search.path=/usr/lib/python2.6/site-packages
 application.log.config=/etc/karesansui/log.conf
 application.url.prefix=/karesansui/v3
-application.default.locale=ja_JP # settings : ja_JP or en_US
+application.default.locale=en_US # settings : ja_JP or en_US
 application.template.theme=default
 application.tmp.dir=/tmp
 application.bin.dir=/usr/share/karesansui/bin
 application.generate.dir=/usr/lib/python2.6/site-packages/karesansui/templates/default/_generate
-application.uniqkey=
+application.uniqkey=e4addf9d-a3b4-42e8-8433-dfb7a29cf65a
 
 application.mail.email=
 application.mail.port=

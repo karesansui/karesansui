@@ -236,8 +236,8 @@ It is also developed by Karesansui Project Team.
     # cp -f ~rpmbuild/pysilhouette/sample/silhouette.conf.example /etc/pysilhouette/silhouette.conf
     # cp -f ~rpmbuild/pysilhouette/sample/whitelist.conf.example /etc/pysilhouette/whitelist.conf
     # ln -s `python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()"`/pysilhouette/silhouette.py /usr/bin
-    # cp -f ~rpmbuild/pysilhouette/tool/psil-cleandb /usr/sbin
-    # cp -f ~rpmbuild/pysilhouette/tool/psil-set /usr/sbin
+    # cp -f ~rpmbuild/pysilhouette/tools/psil-cleandb /usr/sbin
+    # cp -f ~rpmbuild/pysilhouette/tools/psil-set /usr/sbin
     # chmod 0744 /usr/sbin/psil-*
 
     #### Modify the following files if necessary. 
@@ -364,7 +364,7 @@ You may need to modify the following configuration files.
 
 With a script bundled with the source code, you can create a database for karesansui and insert information of the administrator into the database.
 
-    # python ~rpmbuild/karesansui/tool/initialize_database.py -m <Administrator's E-mail Address> -p <Administrator's Password> -l en_US
+    # python ~rpmbuild/karesansui/tools/initialize_database.py -m <Administrator's E-mail Address> -p <Administrator's Password> -l en_US
 
 If you use a SQLite database, you must change the attributes of the database file.
 
@@ -405,7 +405,7 @@ __/etc/sysconfig/libvirtd__
 
 ####2. Create directories for libvirt
 
-    # mkdir /var/lib/libvirt/{disk,domains,snapshot}
+    # mkdir -p /var/lib/libvirt/{disk,domains,snapshot}
     # chgrp -R kss  /var/lib/libvirt
     # chmod -R 0770 /var/lib/libvirt
 
@@ -453,6 +453,11 @@ Restart service and enable it for auto start at bootup.
 Please make sure that virsh client can connect to the QEMU monitor with libvirt.
 
     # virsh -c qemu+tcp://localhost:16509/system list
+
+If the connection atempt succeed, it will display message as below:
+
+    Id Name                 State
+    ----------------------------------
 
 ####6. Create the default storage pool for libvirt
 

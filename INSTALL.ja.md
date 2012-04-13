@@ -230,8 +230,8 @@ Karesansuiと同じく、Karesansui Project Teamによって開発されたソ�
     # cp -f ~rpmbuild/pysilhouette/sample/silhouette.conf.example /etc/pysilhouette/silhouette.conf
     # cp -f ~rpmbuild/pysilhouette/sample/whitelist.conf.example /etc/pysilhouette/whitelist.conf
     # ln -s `python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()"`/pysilhouette/silhouette.py /usr/bin
-    # cp -f ~rpmbuild/pysilhouette/tool/psil-cleandb /usr/sbin
-    # cp -f ~rpmbuild/pysilhouette/tool/psil-set /usr/sbin
+    # cp -f ~rpmbuild/pysilhouette/tools/psil-cleandb /usr/sbin
+    # cp -f ~rpmbuild/pysilhouette/tools/psil-set /usr/sbin
     # chmod 0744 /usr/sbin/psil-*
 
 
@@ -354,7 +354,7 @@ Karesansuiと同じく、Karesansui Project Teamによって開発されたソ�
 
 karesansuiのソースコードに付属するスクリプトを利用してデータベース作成とKaresansuiの管理者情報のデータベースへの挿入を行います。
 
-    # python ~rpmbuild/karesansui/tool/initialize_database.py -m <管理者メールアドレス> -p <管理者パスワード> -l ja_JP
+    # python ~rpmbuild/karesansui/tools/initialize_database.py -m <管理者メールアドレス> -p <管理者パスワード> -l ja_JP
 
 データベースにSQLiteを利用している場合は、以下のコマンドでデータベースファイルの属性変更を行ってください。
 
@@ -395,7 +395,7 @@ __/etc/sysconfig/libvirtd__
 
 ####2. libvirtが使用するディレクトリの作成
 
-    # mkdir /var/lib/libvirt/{disk,domains,snapshot}
+    # mkdir -p /var/lib/libvirt/{disk,domains,snapshot}
     # chgrp -R kss  /var/lib/libvirt
     # chmod -R 0770 /var/lib/libvirt
 
@@ -443,6 +443,11 @@ __/etc/sysconfig/libvirtd__
 libvirtのqemuモニターと接続が可能かどうか確認してください。
 
     # virsh -c qemu+tcp://localhost:16509/system list
+
+接続が成功した場合は、以下のように出力されます。
+
+    Id 名前               状態
+    ----------------------------------
 
 ####6. libvirtストレージプールの作成
 
