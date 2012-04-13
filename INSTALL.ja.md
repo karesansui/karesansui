@@ -8,7 +8,7 @@ Karesansuiのインストール
 
 このドキュメントは、CentOS 6.x (x86_64) にインストールすることを前提に記載していますが、他のLinuxディストリビューションでも同等の作業をすることでインストールが可能です。
 
-  [install]:http://github.com/karesansui/karesansui/blob/master/INSTALL.ja.md
+  [install]:https://github.com/karesansui/karesansui/blob/master/INSTALL.ja.md
 
 
 ## OSのインストール ##
@@ -23,12 +23,12 @@ OSインストール後にKVMを有効にする場合は、下記コマンドを
 ###`CentOS 6` の場合:
 
     # yum groupinstall "Virtualization" "Virtualization Client" "Virtualization Platform" "Virtualization Tools"
-    # modprobe -b kvm-intel (or modprobe -b kvm-amd)
-    # modprobe -b vhost_net
+    # /sbin/modprobe -b kvm-intel (or /sbin/modprobe -b kvm-amd)
+    # /sbin/modprobe -b vhost_net
 
 以下のコマンドで、KVM用カーネル・モジュールがロードされているか確認します。
 
-    # lsmod | grep kvm
+    # /sbin/lsmod | grep kvm
     kvm_intel              50380  0 
     kvm                   305081  1 kvm_intel
 
@@ -52,39 +52,40 @@ Linuxをインストールすると、そのネットワークインターフェ
 
     # cp /etc/sysconfig/network-scripts/ifcfg-{eth0,br0}
 
-####2. _br0_ のスクリプトファイルを編集します。
+####2. _br0_ のスクリプトファイルを編集します。 (/etc/sysconfig/network-scripts/ifcfg-br0)
 
 ネットワークカードが固定IPアドレスに設定されている場合は、以下のようになっているはずです。
 
     DEVICE=eth0
-    HWADDR=00:25:64:e4:bf:e2
+    HWADDR=<このデバイスのMACアドレス>
     ONBOOT=yes
-    IPADDR=172.23.233.1
+    IPADDR=<IPアドレス>
     BOOTPROTO=static
-    NETMASK=255.255.255.0
+    NETMASK=<ネットマスク>
     TYPE=Ethernet
 
   スクリプトファイルを以下の例のように編集します。
 
-    DEVICE=br0
+    DEVICE=br0    # <- 変更
+    #HWADDR=<このデバイスのMACアドレス>  # <- コメントまたは削除
     ONBOOT=yes
-    IPADDR=172.23.233.1
+    IPADDR=<IPアドレス>
     BOOTPROTO=static
-    NETMASK=255.255.255.0
-    TYPE=Bridge
+    NETMASK=<ネットマスク>
+    TYPE=Bridge   # <- 変更
 
-####3. _eth0_ のスクリプトファイルを編集します。
+####3. _eth0_ のスクリプトファイルを編集します。 (/etc/sysconfig/network-scripts/ifcfg-eth0)
 
 次に、 _eth0_ のスクリプトファイルを編集し、下記のように _BRIDGE=br0_ を追記します。また、 _IPADDR_ や _NETMASK_ 等の行も削除します。
 
     DEVICE=eth0
-    HWADDR=00:25:64:e4:bf:e2
+    HWADDR=<このデバイスのMACアドレス>
     ONBOOT=yes
-    #IPADDR=172.23.233.1
-    #BOOTPROTO=none
-    #NETMASK=255.255.255.0
+    #IPADDR=<IPアドレス>    # <- コメントまたは削除
+    #BOOTPROTO=none         # <- コメントまたは削除
+    #NETMASK=<ネットマスク> # <- コメントまたは削除
     TYPE=Ethernet
-    BRIDGE=br0
+    BRIDGE=br0              # <- 追加
 
 ####4. ネットワークを再起動します。
 
@@ -156,7 +157,7 @@ RPMパッケージを作成する環境を構築します。パッケージ作�
 
     # yum install -y git python-setuptools
     # su - rpmbuild
-    $ git clone https://github.com/karesansui/karesansui
+    $ git clone git://github.com/karesansui/karesansui.git
 
 ######3. python-webpyパッケージの作成
 
@@ -199,7 +200,7 @@ Karesansuiと同じく、Karesansui Project Teamによって開発されたソ�
 ####1. pysilhouetteのソースコードの取得
 
     # su - rpmbuild
-    $ git clone https://github.com/karesansui/pysilhouette
+    $ git clone git://github.com/karesansui/pysilhouette.git
 
 ####2a. (方法１) RPMパッケージを作成してインストール
 
@@ -241,7 +242,7 @@ Karesansuiと同じく、Karesansui Project Teamによって開発されたソ�
 ####1. karesansuiのソースコードの取得
 
     # su - rpmbuild
-    $ git clone https://github.com/karesansui/karesansui # 既にダウンロード済みの場合は、必要ありません。
+    $ git clone git://github.com/karesansui/karesansui.git # 既にダウンロード済みの場合は、必要ありません。
 
 ####2a. (方法１) RPMパッケージを作成してインストール
 
@@ -328,7 +329,7 @@ Karesansuiと同じく、Karesansui Project Teamによって開発されたソ�
  <tr><th>ファイル</th><th>説明</th></tr>
  <tr>
   <td nowrap>/etc/karesansui/application.conf</td>
-  <td>karesansuiの基本動作に関する設定ファイル(<b>*application.uniqkeyの設定が必要</b>)</td>
+  <td>karesansuiの基本動作に関する設定ファイル(<b>*application.uniqkeyの設定が必要。設定値は uuidgen コマンドで生成できます。</b>)</td>
  </tr>
  <tr>
   <td nowrap>/etc/karesansui/log.conf</td>

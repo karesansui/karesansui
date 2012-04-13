@@ -6,14 +6,14 @@ Installing Karesansui
 This document is written in the Markdown format and contains some inline HTML.
 This document is also available online at [https://github.com/karesansui/karesansui/blob/master/INSTALL.md][install].
 
-This document is based on CentOS 6.x (x86_64). However, following the similar steps of the document allows you to install Karesansui on any Linux distribution.
+This document is based on CentOS 6.x (x86_64). However, following the similar steps of the document allows you to install Karesansui on any other Linux distribution.
 
-  [install]: http://github.com/karesansui/karesansui/blob/master/INSTALL.md
+  [install]: https://github.com/karesansui/karesansui/blob/master/INSTALL.md
 
 
 ## Installing operating system ##
 
-Karesansui works on systems which the virtualization system is installed on.
+Karesansui only works on systems that have the virtualization system installed.
 So you need to enable KVM (Kernel-based Virtual Machine).
 
 Just do usual installation, but be careful of the points below:
@@ -22,17 +22,18 @@ Just do usual installation, but be careful of the points below:
 * (Required) On software group setup, check "_Virtualization_" - "_Virtualization_","_Virtualization Client_","_Virtualization Platform_" ,"_Virtualization Tools_"
 
 If you want to enable KVM after installing OS, you need to execute the following commands:
+
 A hash (#) prompt indicates you are logged-in as the root user; a dollar ($) prompt indicates you are logged-in as the specific general account.
 
 ###For `CentOS 6`:
 
     # yum groupinstall "Virtualization" "Virtualization Client" "Virtualization Platform" "Virtualization Tools"
-    # modprobe -b kvm-intel (or modprobe -b kvm-amd)
-    # modprobe -b vhost_net
+    # /sbin/modprobe -b kvm-intel (or /sbin/modprobe -b kvm-amd)
+    # /sbin/modprobe -b vhost_net
 
 Please make sure that the kernel modules for KVM are loaded.
 
-    # lsmod | grep kvm
+    # /sbin/lsmod | grep kvm
     kvm_intel              50380  0 
     kvm                   305081  1 kvm_intel
 
@@ -50,45 +51,46 @@ Note: If you are accessing the server via SSH or Telnet instead of console, you 
 
 ###Procedure for `CentOS 6`:
 
-####1. Create the network script for defining a Linux bridge associated with the network card by using the following command.
+####1. Create the network script for defining a Linux bridge associated with the network card.
 
 The script file path is _/etc/sysconfig/network-scripts/ifcfg-br0_, where _br0_ is the name of the bridge.
 
     # cp /etc/sysconfig/network-scripts/ifcfg-{eth0,br0}
 
-####2. Edit the script file for br0
+####2. Edit the script file for br0 (/etc/sysconfig/network-scripts/ifcfg-br0)
 
 If your network card is configured with a static IP address, your original network script file should look similar to the following example:
 
     DEVICE=eth0
-    HWADDR=00:25:64:e4:bf:e2
+    HWADDR=<the ethernet hardware address for this device>
     ONBOOT=yes
-    IPADDR=172.23.233.1
+    IPADDR=<the IP address>
     BOOTPROTO=static
-    NETMASK=255.255.255.0
+    NETMASK=<the netmask>
     TYPE=Ethernet
 
   You need to edit _ifcfg-br0_ as shown in the following example.
 
-    DEVICE=br0
+    DEVICE=br0                # <- Changed
+    #HWADDR=<the ethernet hardware address for this device>  # <- Commented out
     ONBOOT=yes
-    IPADDR=172.23.233.1
+    IPADDR=<the IP address>
     BOOTPROTO=static
-    NETMASK=255.255.255.0
-    TYPE=Bridge
+    NETMASK=<the netmask>
+    TYPE=Bridge               # <- Changed
 
-####3. Edit the script file for eth0
+####3. Edit the script file for eth0 (/etc/sysconfig/network-scripts/ifcfg-eth0)
 
 Now you need to configure your network script for eth0. You will already have a script for _eth0_, but you’ll need to modify it by adding one line as _BRIDGE=br0_ so that it looks similar to the following script.
 
     DEVICE=eth0
-    HWADDR=00:25:64:e4:bf:e2
+    HWADDR=<the ethernet hardware address for this device>
     ONBOOT=yes
-    #IPADDR=172.23.233.1
-    #BOOTPROTO=none
-    #NETMASK=255.255.255.0
+    #IPADDR=<the IP address>  # <- Commented out
+    #BOOTPROTO=none           # <- Commented out
+    #NETMASK=<the netmask>    # <- Commented out
     TYPE=Ethernet
-    BRIDGE=br0
+    BRIDGE=br0                # <- Added
 
 ####4. Restart network services
 
@@ -127,7 +129,7 @@ In order for all the network script modifications to take effect, you need to re
 ## Installing dependencies ##
 
 To install and set up Karesansui, you need to install its dependencies firstly.
-You can install most of them by using the software updator provided by each distribution, but some softwares need to be built on your machine.
+You can install most of them by using the software updater provided by each distribution, but some softwares need to be built on your machine.
 
 ###For `CentOS 6`:
 
@@ -142,7 +144,7 @@ You can install most of them by using the software updator provided by each dist
     # yum install -y python-flup python-sqlite2
     # yum install -y collectd collectd-ping collectd-rrdtool collectd-virt
 
-#####Building packages on your machine regarding to packages that are not provided by the offifial or the third party repository
+#####Building packages that are not provided by the offifial or the third party repositories on your machine.
 
 ######Step 1. Setting up RPM build environment.
 
@@ -158,7 +160,7 @@ Create a seperate account for building RPMs and set up the environment for it:
 
     # yum install -y git python-setuptools
     # su - rpmbuild
-    $ git clone https://github.com/karesansui/karesansui
+    $ git clone git://github.com/karesansui/karesansui.git
 
 ######Step 3. Building python-webpy package.
 
@@ -183,9 +185,9 @@ Create a seperate account for building RPMs and set up the environment for it:
     $ wget http://downloads.sourceforge.net/sourceforge/vnc-tight/tightvnc-1.3.10_javasrc.tar.gz
     $ rpmbuild -ba ~/karesansui/sample/specs/tightvnc-java/tightvnc-java.spec 
 
-######Step 6. Installing the built packages.
+######Step 6. Installing the newly built packages.
 
-Now you can install the built packages.
+Now you can install the newly built packages.
 
     $ cd ~/pkgs/RPMS/noarch
     # rpm -Uvh python-webpy-*.el6.noarch.rpm IPAexfont-*.el6.noarch.rpm tightvnc-java-*.el6.noarch.rpm 
@@ -204,7 +206,7 @@ It is also developed by Karesansui Project Team.
 ####1. Fetching pysilhouette source code from github repository.
 
     # su - rpmbuild
-    $ git clone https://github.com/karesansui/pysilhouette
+    $ git clone git://github.com/karesansui/pysilhouette.git
 
 ####2a. (Method 1) Building pysilhouette package and installing it.
 
@@ -250,7 +252,7 @@ It is also developed by Karesansui Project Team.
 ####1. Fetching karesansui source code from github repository.
 
     # su - rpmbuild
-    $ git clone https://github.com/karesansui/karesansui # No need if already downloaded.
+    $ git clone git://github.com/karesansui/karesansui.git # No need if already downloaded.
 
 ####2a. (Method 1) Building karesansui package and installing it.
 
@@ -323,7 +325,7 @@ You may need to modify the following configuration files.
  </tr>
 </table>
 
-Add pysilhouete as a service and enable it for auto start at bootup.
+Add pysilhouette as a service and enable it for auto start at bootup.
 
     # /sbin/chkconfig --add silhouetted
     # /sbin/chkconfig silhouetted on
@@ -337,7 +339,7 @@ You may need to modify the following configuration files.
  <tr><th>File name</th><th>Description</th></tr>
  <tr>
   <td nowrap>/etc/karesansui/application.conf</td>
-  <td>Configuration file for karesansui(<b>*You need to set 'application.uniqkey' parameter.</b>)</td>
+  <td>Configuration file for karesansui(<b>*You need to set 'application.uniqkey' parameter. Its value is supposed to be generated by the uuidgen program.</b>)</td>
  </tr>
  <tr>
   <td nowrap>/etc/karesansui/log.conf</td>
