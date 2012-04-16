@@ -268,6 +268,7 @@ $(document).ready(function(){
                                         </thead>
                                         <tbody>
 
+% if network_storages is not False:
 % for network_storage in network_storages:
                                             <tr id="network_storage_row${network_storage['iqn']}">
                                                 <td>${network_storage['type'] |h}</td>
@@ -286,6 +287,7 @@ $(document).ready(function(){
                                                 <td class="network_storage_port" style="display:none;">${network_storage['port'] |h}</td>
                                             </tr>
 % endfor
+% endif
                                         </tbody>
                                     </table>
                                     <br style="clear: both;"/>

@@ -206,7 +206,7 @@ class HostBy1NetworkStorage(Rest):
         network_storages = get_iscsi_cmd(self, host_id)
         if network_storages is False:
             self.logger.debug("Get iSCSI List command failed. Return to timeout")
-            return web.internalerror('Internal Server Error. (Timeout)')
+            #return web.internalerror('Internal Server Error. (Timeout)')
 
         self.view.network_storages = network_storages
         return True
