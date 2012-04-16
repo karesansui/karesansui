@@ -1,7 +1,0 @@
-% if ssl_status == "enable":
-$SERVER["socket"] == ":443" {
-  ssl.engine = "enable"
-  ssl.pemfile = "/etc/lighttpd/ssl/server.pem"
-  server.document-root = "/var/www/lighttpd"
-}
-% endif

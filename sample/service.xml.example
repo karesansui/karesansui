@@ -35,28 +35,6 @@
   </service>
   <service>
     <system>
-      <name>rrdcached</name>
-      <command>/usr/sbin/rrdcached</command>
-      <readonly>0</readonly>
-    </system>
-    <display>
-      <name>rrdcached</name>
-      <description>Round Robin Database Tool to store and display time-series data</description>
-    </display>
-  </service>
-  <service>
-    <system>
-      <name>lighttpd</name>
-      <command>/usr/sbin/lighttpd</command>
-      <readonly>0</readonly>
-    </system>
-    <display>
-      <name>lighttpd</name>
-      <description>A fast webserver with minimal memory-footprint (lighttpd)</description>
-    </display>
-  </service>
-  <service>
-    <system>
       <name>iscsid</name>
       <command>/sbin/iscsid</command>
       <readonly>0</readonly>
