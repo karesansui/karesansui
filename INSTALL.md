@@ -768,5 +768,5 @@ In order for all the modifications to take effect, you need to restart collectd 
 
 Feedback & Suggestions
 ======================
-Is there something wrong, unclear or outdated in this documentation? Please get in touch so we can make it better. If you can contribute, we would greatly appreciate it!
+Did you find something wrong, outdated or unclear in this documentation? Please let us know so we can make it better. If you can contribute anything, we would greatly appreciate it!
 
