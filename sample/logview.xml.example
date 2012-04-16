@@ -85,28 +85,18 @@
   </application>
 
   <application>
-    <name>collectd</name>
+    <name>system</name>
     <logs>
       <log>
-        <name>collectd.log</name>
-        <dir>collectd</dir>
-        <filename>collectd.log</filename>
-        <view_lotatelog>1</view_lotatelog>
-        <time_format>%Y-%m-%d %H:%M:%S</time_format>
-        <time_pattern>\[([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})\]</time_pattern>
-        <use_regex>0</use_regex>
-      </log>
-      <log>
-        <name>alert.log</name>
-        <dir>collectd</dir>
-        <filename>alert.log</filename>
-        <view_lotatelog>1</view_lotatelog>
-        <time_format>%Y-%m-%d %H:%M:%S</time_format>
-        <time_pattern>([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})</time_pattern>
+        <name>messages</name>
+        <dir></dir>
+        <filename>messages</filename>
+        <view_lotatelog>0</view_lotatelog>
+        <time_format>syslog</time_format>
         <use_regex>0</use_regex>
       </log>
     </logs>
   </application>
-    
+ 
 </applications>
 

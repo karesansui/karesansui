@@ -55,6 +55,7 @@ import sys
 import math
 import glob
 import fcntl
+import gzip
 
 import karesansui
 import karesansui.lib.locale
@@ -2984,6 +2985,55 @@ def get_filesystem_info():
             ret.append(line)
 
     return ret
+
+class ReverseFile(object):
+    def __init__(self, fp):
+        self.fp = fp
+        if isinstance(self.fp ,gzip.GzipFile):
+            self.fp.readlines()
+            self.end = self.fp.size
+            self.fp.seek(self.end)
+        else:
+            self.fp.seek(0, 2)
+            self.end = self.fp.tell()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exception_type, exception_value, exception_traceback):
+        self.fp.close()
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.end == 0:
+            raise StopIteration
+
+        start = self.end - 2
+        while start >= 0:
+            self.fp.seek(start)
+            if self.fp.read(1) == '\n':
+                end = self.end
+                self.end = start
+                return self.fp.read(end - start)
+            start -= 1
+
+        end = self.end + 1
+        self.end = 0
+        self.fp.seek(0)
+        return self.fp.read(end)
+
+    def readline(self):
+        return self.next()
+
+    def fileno(self):
+        return self.fp.fileno()
+
+    def close(self):
+        return self.fp.close()
+
+reverse_file = ReverseFile
 
 if __name__ == '__main__':
     pass

@@ -23,20 +23,25 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-
 """ 
 @author: Hiroki Takayasu <hiroki@karesansui-project.info>
 """
 import re
 import time
+import datetime
 import os
 import os.path
+import gzip
+import fcntl
+
 try:
   from hashlib import sha1 as sha
 except:
   import sha
   from sha import sha
-import gzip
+
+from karesansui.lib.const import DEFAULT_DATE_FORMAT, LOG_SYSLOG_REGEX, LOG_EPOCH_REGEX
+from karesansui.lib.utils import reverse_file
 
 def read_all_log(app_log_config, max_line, start_datetime="", end_datetime="", keyword=""):
     lines = []
@@ -109,6 +114,29 @@ def read_log(path, max_line, log_config, start_datetime="", end_datetime="", key
     if os.path.isfile(path) is False:
         return False
 
+    time_format = log_config["time_format"]
+    if start_datetime:
+        start_datetime = time.strptime(start_datetime, DEFAULT_DATE_FORMAT[3])
+        if time_format == "syslog":
+            start_datetime = datetime.datetime.fromtimestamp(time.mktime(start_datetime)).timetuple()
+    if end_datetime:
+        end_datetime = time.strptime(end_datetime, DEFAULT_DATE_FORMAT[3])
+
+        if time_format == "syslog":
+            end_datetime = datetime.datetime.fromtimestamp(time.mktime(end_datetime)).timetuple()
+
+    if log_config.get("time_pattern"):
+        pattern = re.compile(log_config["time_pattern"])
+    elif time_format == "epoch":
+        pattern = re.compile(LOG_EPOCH_REGEX)
+    elif time_format == "syslog":
+        pattern = re.compile(LOG_SYSLOG_REGEX)
+    elif time_format == "notime":
+        pattern = None
+    else:
+        raise Exception("invalid time_format.")
+
+
     try:
         fd = open(path, "r")
     except Exception,e:
@@ -117,52 +145,65 @@ def read_log(path, max_line, log_config, start_datetime="", end_datetime="", key
     if is_gzip(fd):
         fd.close()
         fd = gzip.open(path, "r")
-    
+
+    # ログの読み込み
     lines = []
+    max_line = int(max_line)
 
-    if start_datetime and end_datetime:
-        start_datetime = time.strptime(start_datetime, "%Y/%m/%d %H:%M")
-        end_datetime = time.strptime(end_datetime, "%Y/%m/%d %H:%M")
+    fd = file(path)
+    if is_gzip(fd):
+        fd = gzip.open(path, "r")
+    fd = reverse_file(fd)
+    fcntl.lockf(fd.fileno(), fcntl.LOCK_SH)
+    try:
+        count_line = 0
+        for line in fd:
+            if count_line >= max_line and max_line != 0:
+                break
 
-    line_flag = 0
-    while True:
-        time_format = log_config["time_format"]
-        pattern = re.compile(log_config["time_pattern"])
-
-        line = fd.readline()
-        if not line:
-            ## line is null. break while loop
-            break
-        if len(lines) >= int(max_line):
-            break
-
-        matched = pattern.findall(line)
-        now = ""
-        if len(matched):
-            now = time.strptime(matched[0], time_format)
-            line_flag = 1
-        else:
-            ## timestamp not found.
-            if not line_flag:
+            if keyword and line.find(keyword) == -1:
                 continue
-            before_line = ""
-            if len(lines):
-                before_line = lines.pop()
-            line = "%s%s" % (before_line, line)
-            try:
-                now = time.strptime(pattern.findall(line)[0], time_format)
-            except:
-                pass
 
-        if start_datetime and end_datetime:
-            if start_datetime >= now or end_datetime <= now:
-                line_flag = 0
-                continue
-            
-        if keyword:
-            if line.find(keyword) > 0:
+            if time_format == "notime":
                 lines.append(line)
-        else:
-            lines.append(line)
-    fd.close()
+                count_line += 1
+            else:
+                matched = pattern.findall(line)
+                if len(matched) > 0:
+                    if time_format == "epoch":
+                        log_datetime = time.localtime(float(matched[0]))
+                        _d = datetime.datetime(
+                                log_datetime.tm_year,
+                                log_datetime.tm_mon,
+                                log_datetime.tm_mday,
+                                log_datetime.tm_hour,
+                                log_datetime.tm_min,
+                                log_datetime.tm_sec)
+                        view_datetime = _d.strftime("%Y/%m/%d %H:%M")
+                        line = pattern.sub(view_datetime, line)
+                    elif time_format == "syslog":
+                        log_datetime = time.strptime("2000 %s" % matched[0], "%Y %b %d %H:%M:%S")
+                    elif time_format == "notime":
+                        log_datetime = 0.0
+                    else:
+                        log_datetime = time.strptime(matched[0], time_format)
+
+                    if start_datetime and start_datetime > log_datetime:
+                        break # check new logtime
+
+                    if end_datetime and end_datetime < log_datetime:
+                        continue
+
+                    if (start_datetime and start_datetime <= log_datetime) or not start_datetime:
+                        lines.append(line)
+                        count_line += 1
+                else:
+                    ## timestamp not found.
+                    lines.append(line)
+                    count_line += 1
+    finally:
+        fcntl.lockf(fd.fileno(), fcntl.LOCK_UN)
+        fd.close()
+    lines.reverse()
     return lines
+

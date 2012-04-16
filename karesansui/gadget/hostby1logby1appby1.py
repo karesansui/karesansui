@@ -146,12 +146,18 @@ class HostBy1LogBy1AppBy1(Rest):
             except Exception, e:
                 self.logger.warning("log file open error: %s" % e)
         else:
-            log_dir = "/var/log/%s" % log_config['dir']
+            if log_config['dir'] is None:
+                log_dir = "/var/log"
+            else:
+                if log_config['dir'][0] == "/":
+                    log_dir = log_config['dir']
+                else:
+                    log_dir = "/var/log/%s" % log_config['dir']
             try:
                 lines = read_log("%s/%s" % (log_dir, log_config['filename']),
                                  self.input.m,
                                  log_config,
-                                 param_value["statrt_datetime"],
+                                 param_value["start_datetime"],
                                  param_value["end_datetime"],
                                  param_value["k"])
                 if lines is False:

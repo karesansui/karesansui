@@ -31,14 +31,8 @@ import karesansui
 DEFAULT_LANGS = {"ja_JP": {'DATE_FORMAT' : ("%Y/%m/%d", "%Y/%m/%d %H:%M:%S", "yy-mm-dd")},
                  "en_US": {'DATE_FORMAT' : ("%m/%d/%Y", "%m/%d/%Y %H:%M:%S", "mm-dd-yy")},
                  }
-"""<comment-ja>
-DATE_FORMAT
- - [年月日, 年月日時分秒, jquery.ui.datepicker,]
-</comment-ja>
-<comment-en>
-TODO: English Comment
-</comment-en>
-"""
+
+DEFAULT_DATE_FORMAT = ("%m/%d/%Y", "%m/%d/%Y %H:%M:%S", "mm/dd/yy", "%Y/%m/%d %H:%M")
 
 # define karesansui paths & users
 KARESANSUI_USER  = "kss"
@@ -324,6 +318,10 @@ ISCSI_CMD_RES_NO_ACTIVE_SESSION = "No active sessions"
 
 DEFAULT_KVM_DISK_FORMAT = "qcow2"
 DEFAULT_XEN_DISK_FORMAT = "raw"
+
+# use for log
+LOG_EPOCH_REGEX = r"(^[0-9]+\.[0-9]+)"
+LOG_SYSLOG_REGEX = r"(^[a-zA-Z]{3} [ 0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})"
 
 # use for collectd
 COLLECTD_LOG_DIR  = "/var/log/collectd"
