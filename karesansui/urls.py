@@ -54,7 +54,6 @@ import karesansui.gadget.hostby1networkby1status
 import karesansui.gadget.hostby1setting
 import karesansui.gadget.hostby1settingby1mail
 import karesansui.gadget.hostby1settingby1proxy
-import karesansui.gadget.hostby1settingby1general
 import karesansui.gadget.hostby1networkstorage
 import karesansui.gadget.hostby1networkstorageby1
 import karesansui.gadget.hostby1networkstorageby1status
@@ -129,7 +128,6 @@ urls = karesansui.gadget.index.urls \
        + karesansui.gadget.hostby1setting.urls \
        + karesansui.gadget.hostby1settingby1mail.urls \
        + karesansui.gadget.hostby1settingby1proxy.urls \
-       + karesansui.gadget.hostby1settingby1general.urls \
        + karesansui.gadget.hostby1networkstorage.urls \
        + karesansui.gadget.hostby1networkstorageby1.urls \
        + karesansui.gadget.hostby1networkstorageby1status.urls \

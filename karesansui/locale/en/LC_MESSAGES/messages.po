@@ -1607,13 +1607,6 @@ msgstr ""
 #: /root/karesansui.git/karesansui/gadget/hostby1networkstorageby1status.py:65
 #: /root/karesansui.git/karesansui/gadget/hostby1networkstorageby1status.py:74
 #: /root/karesansui.git/karesansui/gadget/hostby1networkstorageby1status.py:85
-#: /root/karesansui.git/karesansui/gadget/hostby1settingby1general.py:53
-#: /root/karesansui.git/karesansui/gadget/hostby1settingby1general.py:63
-#: /root/karesansui.git/karesansui/gadget/hostby1settingby1general.py:75
-#: /root/karesansui.git/karesansui/gadget/hostby1settingby1general.py:83
-#: /root/karesansui.git/karesansui/gadget/hostby1settingby1general.py:94
-#: /root/karesansui.git/karesansui/gadget/hostby1settingby1general.py:100
-#: /root/karesansui.git/karesansui/gadget/hostby1settingby1general.py:113
 #: /root/karesansui.git/karesansui/gadget/hostby1settingby1mail.py:37
 #: /root/karesansui.git/karesansui/gadget/hostby1settingby1mail.py:51
 #: /root/karesansui.git/karesansui/gadget/hostby1settingby1proxy.py:42
@@ -1902,7 +1895,6 @@ msgstr ""
 #: /root/karesansui.git/karesansui/templates/default/data/js/checker.js:1443
 #: /root/karesansui.git/karesansui/templates/default/data/js/checker.js:1480
 #: /root/karesansui.git/karesansui/templates/default/data/js/checker.js:1579
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:78
 #, python-format
 msgid "%s is in invalid format."
 msgstr ""
@@ -2101,8 +2093,6 @@ msgstr ""
 
 #: /root/karesansui.git/karesansui/gadget/host.py:80
 #: /root/karesansui.git/karesansui/gadget/hostby1.py:83
-#: /root/karesansui.git/karesansui/gadget/hostby1settingby1general.py:63
-#: /root/karesansui.git/karesansui/gadget/hostby1settingby1general.py:66
 #: /root/karesansui.git/karesansui/gadget/hostby1settingby1mail.py:51
 #: /root/karesansui.git/karesansui/gadget/hostby1settingby1mail.py:53
 #: /root/karesansui.git/karesansui/gadget/hostby1settingby1proxy.py:61
@@ -2117,9 +2107,6 @@ msgstr ""
 #: /root/karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:79
 #: /root/karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:141
 #: /root/karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.part:79
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:51
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:129
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.part:36
 #: /root/karesansui.git/karesansui/templates/default/hostby1settingby1mail/hostby1settingby1mail.input:22
 #: /root/karesansui.git/karesansui/templates/default/hostby1settingby1mail/hostby1settingby1mail.input:47
 #: /root/karesansui.git/karesansui/templates/default/hostby1settingby1mail/hostby1settingby1mail.input:70
@@ -2136,14 +2123,9 @@ msgstr ""
 
 #: /root/karesansui.git/karesansui/gadget/host.py:92
 #: /root/karesansui.git/karesansui/gadget/host.py:95
-#: /root/karesansui.git/karesansui/gadget/hostby1settingby1general.py:53
-#: /root/karesansui.git/karesansui/gadget/hostby1settingby1general.py:56
 #: /root/karesansui.git/karesansui/templates/default/guest/guest.part:253
 #: /root/karesansui.git/karesansui/templates/default/host/host.input:122
 #: /root/karesansui.git/karesansui/templates/default/host/host.input:148
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:125
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:158
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.part:29
 #: /root/karesansui.git/karesansui/templates/default/job/job.html:6
 #: /root/karesansui.git/karesansui/templates/default/jobby1/jobby1.part:47
 msgid "Unique Key"
@@ -2497,7 +2479,6 @@ msgstr ""
 #: /root/karesansui.git/karesansui/gadget/hostby1networksettingsnicby1.py:45
 #: /root/karesansui.git/karesansui/gadget/hostby1networksettingsnicby1.py:51
 #: /root/karesansui.git/karesansui/gadget/hostby1networksettingsnicby1.py:64
-#: /root/karesansui.git/karesansui/gadget/hostby1settingby1general.py:100
 #: /root/karesansui.git/karesansui/templates/default/guest/guest.part:419
 #: /root/karesansui.git/karesansui/templates/default/guest/guest.part:431
 #: /root/karesansui.git/karesansui/templates/default/guestby1/guestby1.part:615
@@ -2576,42 +2557,6 @@ msgstr ""
 #: /root/karesansui.git/karesansui/gadget/hostby1networkstorageby1status.py:60
 #: /root/karesansui.git/karesansui/gadget/hostby1networkstorageby1status.py:65
 msgid "Action Status"
-msgstr ""
-
-#: /root/karesansui.git/karesansui/gadget/hostby1settingby1general.py:75
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:137
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:168
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.part:43
-msgid "Access Policy"
-msgstr ""
-
-#: /root/karesansui.git/karesansui/gadget/hostby1settingby1general.py:83
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:173
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.part:9
-msgid "Permit access from same network"
-msgstr ""
-
-#: /root/karesansui.git/karesansui/gadget/hostby1settingby1general.py:86
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:60
-msgid "Permit Access From Same Network"
-msgstr ""
-
-#: /root/karesansui.git/karesansui/gadget/hostby1settingby1general.py:94
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:67
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:78
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:175
-msgid "Permit access from specified IP address"
-msgstr ""
-
-#: /root/karesansui.git/karesansui/gadget/hostby1settingby1general.py:103
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.part:14
-msgid "Permit specified IP address"
-msgstr ""
-
-#: /root/karesansui.git/karesansui/gadget/hostby1settingby1general.py:113
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:141
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:180
-msgid "SSL Settings"
 msgstr ""
 
 #: /root/karesansui.git/karesansui/gadget/hostby1settingby1mail.py:37
@@ -3001,7 +2946,6 @@ msgstr ""
 #: /root/karesansui.git/karesansui/lib/checker.py:105
 #: /root/karesansui.git/karesansui/templates/default/data/js/checker.js:83
 #: /root/karesansui.git/karesansui/templates/default/hostby1networksettingsgeneral/hostby1networksettingsgeneral.input:29
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:67
 #, python-format
 msgid "%s is missing."
 msgstr ""
@@ -3371,11 +3315,6 @@ msgstr ""
 #: /root/karesansui.git/karesansui/lib/utils.py:878
 #, python-format
 msgid "ERROR: copying %s to %s: %s"
-msgstr ""
-
-#: /root/karesansui.git/karesansui/lib/file/utiles.py:44
-#, python-format
-msgid "Failed to read configuration file -%s"
 msgstr ""
 
 #: /root/karesansui.git/karesansui/lib/parser/process_all_module.py:31
@@ -4162,7 +4101,6 @@ msgstr ""
 #: /root/karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:45
 #: /root/karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:32
 #: /root/karesansui.git/karesansui/templates/default/hostby1reportby1/hostby1reportby1.part:55
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:86
 #: /root/karesansui.git/karesansui/templates/default/hostby1settingby1mail/hostby1settingby1mail.input:28
 #: /root/karesansui.git/karesansui/templates/default/hostby1settingby1proxy/hostby1settingby1proxy.input:53
 #: /root/karesansui.git/karesansui/templates/default/hostby1staticroute/hostby1staticroute.input:33
@@ -4443,10 +4381,6 @@ msgstr ""
 #: /root/karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:151
 #: /root/karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:163
 #: /root/karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:169
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:160
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:165
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:176
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:177
 #: /root/karesansui.git/karesansui/templates/default/hostby1settingby1mail/hostby1settingby1mail.input:68
 #: /root/karesansui.git/karesansui/templates/default/hostby1settingby1mail/hostby1settingby1mail.input:73
 #: /root/karesansui.git/karesansui/templates/default/hostby1staticroute/hostby1staticroute.input:70
@@ -4908,7 +4842,6 @@ msgstr ""
 #: /root/karesansui.git/karesansui/templates/default/hostby1networksettings/hostby1networksettings.part:144
 #: /root/karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.part:192
 #: /root/karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:187
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:188
 #: /root/karesansui.git/karesansui/templates/default/hostby1settingby1mail/hostby1settingby1mail.input:81
 #: /root/karesansui.git/karesansui/templates/default/hostby1settingby1proxy/hostby1settingby1proxy.input:146
 #: /root/karesansui.git/karesansui/templates/default/hostby1staticrouteby1/hostby1staticrouteby1.input:115
@@ -5493,7 +5426,6 @@ msgid "User"
 msgstr ""
 
 #: /root/karesansui.git/karesansui/templates/default/host/host.input:51
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:45
 msgid "Karesansui Unique Key"
 msgstr ""
 
@@ -5533,7 +5465,6 @@ msgid ""
 msgstr ""
 
 #: /root/karesansui.git/karesansui/templates/default/host/host.input:123
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:126
 msgid ""
 "A unique ID to distinguish each host when using Karesansui in multi-host "
 "configuration. Should be a unique value between all hosts and guests. "
@@ -6401,39 +6332,6 @@ msgstr ""
 msgid "Mail Settings"
 msgstr ""
 
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:134
-msgid "A listen port number for Karesansui web control panel."
-msgstr ""
-
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:138
-msgid ""
-"Access policy for Karesansui control panel. You may allow access from "
-"specified IP address or network. To \\\"Permit access from same "
-"network\\\", specify a network address in CIDR format "
-"(ex.192.168.0.0/24). To \\\"Permit access from specified IP address\\\", "
-"specify IP address separated by newlines. After changing settings, "
-"restart lighttpd via .\\\"Management\\\" - \\\"Service\\\" panel."
-msgstr ""
-
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:142
-msgid "Settings to enable/disable SSL for Karesansui control panel."
-msgstr ""
-
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:152
-msgid "Edit Server Settings"
-msgstr ""
-
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:163
-msgid "Karesansui Port Number"
-msgstr ""
-
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:171
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.part:16
-msgid "Permit access from all"
-msgstr ""
-
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:182
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.part:19
 #: /root/karesansui.git/karesansui/templates/default/hostby1settingby1proxy/hostby1settingby1proxy.input:7
 #: /root/karesansui.git/karesansui/templates/default/hostby1settingby1proxy/hostby1settingby1proxy.input:115
 #: /root/karesansui.git/karesansui/templates/default/hostby1settingby1proxy/hostby1settingby1proxy.part:7
@@ -6442,23 +6340,13 @@ msgstr ""
 msgid "Use"
 msgstr ""
 
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.input:183
 #: /root/karesansui.git/karesansui/templates/default/hostby1settingby1proxy/hostby1settingby1proxy.input:117
 msgid "Not use"
 msgstr ""
 
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.part:21
 #: /root/karesansui.git/karesansui/templates/default/hostby1settingby1proxy/hostby1settingby1proxy.input:9
 #: /root/karesansui.git/karesansui/templates/default/hostby1settingby1proxy/hostby1settingby1proxy.part:9
 msgid "Do not use"
-msgstr ""
-
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.part:50
-msgid "Access List"
-msgstr ""
-
-#: /root/karesansui.git/karesansui/templates/default/hostby1settingby1general/hostby1settingby1general.part:57
-msgid "SSL Status"
 msgstr ""
 
 #: /root/karesansui.git/karesansui/templates/default/hostby1settingby1mail/hostby1settingby1mail.input:44

@@ -59,13 +59,7 @@ class Tree(Rest):
 
         self.view.application_uniqkey = config['application.uniqkey']
 
-        from karesansui.lib.file.configfile import LighttpdPortConf
-        from karesansui.lib.const import LIGHTTPD_PORT_CONFIG
-        try:
-            conf_file = config['lighttpd.etc.dir'] + '/' + LIGHTTPD_PORT_CONFIG
-            port_number = int(LighttpdPortConf(conf_file).read())
-        except:
-            port_number = 443
+        port_number = 443
 
         try:
             hosts = []
