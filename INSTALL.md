@@ -37,7 +37,7 @@ Please make sure that the kernel modules for KVM are loaded.
     kvm_intel              50380  0 
     kvm                   305081  1 kvm_intel
 
- *In case of the AMD processor _kvm_amd_ must be loaded instead of _kvm_intel_.
+ *If you use an AMD processor, _kvm_amd_ must be loaded instead of _kvm_intel_.
 
 
 ## Configuring the network ##
@@ -47,11 +47,11 @@ To share the interface with KVM guests and enable full network access, including
 
 ### Setting up a network bridge ###
 
-Note: If you are accessing the server via SSH or Telnet instead of console, you MAY be disconnected when you restarting the network service after modifying network settings. You should configure the settings via the local console. 
+Note: If you are accessing the server via SSH or Telnet instead of console, you MAY be disconnected when you restart the network service after modifying network settings. You should configure the settings via the local console. 
 
 ###Procedure for `CentOS 6`:
 
-####1. Create the network script for defining a Linux bridge associated with the network card.
+####1. Create the network script defining a Linux bridge associated with the network card.
 
 The script file path is _/etc/sysconfig/network-scripts/ifcfg-br0_, where _br0_ is the name of the bridge.
 
@@ -98,7 +98,7 @@ In order for all the network script modifications to take effect, you need to re
 
     # /etc/init.d/network restart
 
-####5. Check the status of the current interfaces
+####5. Check the status of current interfaces
 
     # /sbin/ifconfig -a
 
@@ -126,10 +126,10 @@ In order for all the network script modifications to take effect, you need to re
     # route add default gw 172.23.233.254
 
 
-## Installing dependencies ##
+## Installing dependent software/libs ##
 
-To install and set up Karesansui, you need to install its dependencies firstly.
-You can install most of them by using the software updater provided by each distribution, but some softwares need to be built on your machine.
+To install and set up Karesansui, you need to install it's dependent software/libs first.
+You can install most of them by using the software updater provided by each distribution, but some software need to be built on your machine.
 
 ###For `CentOS 6`:
 
@@ -144,7 +144,7 @@ You can install most of them by using the software updater provided by each dist
     # yum install python-flup python-sqlite2
     # yum install collectd collectd-ping collectd-rrdtool collectd-virt
 
-#####Building packages that are not provided by the offifial or the third party repositories on your machine.
+#####Building packages that are not provided by the offifial or third party repositories.
 
 ######Step 1. Setting up RPM build environment.
 
@@ -161,6 +161,8 @@ Create a seperate account for building RPMs and set up the environment for it:
     # yum install git python-setuptools
     # su - rpmbuild
     $ git clone git://github.com/karesansui/karesansui.git
+
+Now you have karesansui source code under ~rpmbuild/karesansui with our sample spec files to build RPM packages.
 
 ######Step 3. Building python-webpy package.
 
@@ -495,7 +497,7 @@ The username and password values for HTTP basic authentication must match the on
 http://[your-server-name]:8080/karesansui/v3/
 </pre>
 
-If the console is displayed correctly, the installation will appear to complete successfully.
+If the console is displayed correctly, the installation appears to be completed successfully.
 
 
 Using other HTTP server
