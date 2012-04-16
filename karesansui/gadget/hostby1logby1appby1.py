@@ -34,7 +34,7 @@ from karesansui.lib.rest import Rest, auth
 from karesansui.lib.log.config import LogViewConfigParam
 from karesansui.lib.const import LOG_VIEW_XML_FILE, DEFAULT_LANGS
 from karesansui.lib.utils import json_dumps, is_param, str2datetime, create_epochsec
-from karesansui.lib.log.viewer import read_log, read_log_with_lotate
+from karesansui.lib.log.viewer import read_log, read_log_with_rotate
 
 from karesansui.lib.checker import Checker, CHECK_EMPTY, CHECK_VALID
 
@@ -133,9 +133,9 @@ class HostBy1LogBy1AppBy1(Rest):
         param_value["start_datetime"] = "%s %s" % (start_day.strftime("%Y/%m/%d"), self.input.st)
         param_value["end_datetime"] = "%s %s" % (end_day.strftime("%Y/%m/%d"), self.input.et)
 
-        if log_config['view_lotatelog']:
+        if log_config['view_rotatelog']:
             try:
-                lines = read_log_with_lotate(filename,
+                lines = read_log_with_rotate(filename,
                                              self.input.m,
                                              log_config,
                                              param_value["start_datetime"],

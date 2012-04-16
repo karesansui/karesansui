@@ -171,7 +171,8 @@ if [ $? -ne 0 ]; then
     fi
     __uid=`expr ${__uid} + 1`
   done
-  /usr/sbin/useradd -c "%{_user_doc}" -u ${_uid} -g %{_group} -s /bin/false -r %{_user} 2> /dev/null || :
+  /usr/sbin/useradd -c "%{_user_doc}" -u ${_uid} -g %{_group} -s /bin/false -r -m -d %{_kss_datadir} %{_user} 2> /dev/null || :
+  %{__chmod} g+rwx %{_kss_datadir} >/dev/null 2>&1
 fi
 
 %post
@@ -251,7 +252,6 @@ fi
 %dir %{_kss_sysconfdir}/
 %dir %{_kss_sysconfdir}/virt/
 %dir /var/log/%{__app}/
-%dir %{_kss_datadir}/
 %dir %{_tmpdir}/
 %defattr(0770,root,%{_group})
 %dir %{_cachedir}/

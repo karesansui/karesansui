@@ -258,7 +258,7 @@ Karesansuiと同じく、Karesansui Project Teamによって開発されたソ�
     # python setup.py install --record=INSTALLED_FILES --install-scripts=/usr/share/karesansui/bin
 
     #### Create kss account ####
-    # /usr/sbin/useradd -c "Karesansui Project" -s /bin/false -r kss
+    # /usr/sbin/useradd -c "Karesansui Project" -s /bin/false -r -m -d /var/lib/karesansui kss
     # gpasswd -a qemu kss
 
     #### Create the application's system directories ####

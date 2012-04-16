@@ -7,7 +7,7 @@
         <name>Application Log</name>
         <dir>karesansui</dir>
         <filename>application.log</filename>
-        <view_lotatelog>1</view_lotatelog>
+        <view_rotatelog>1</view_rotatelog>
         <time_format>%d/%b/%Y:%H:%M:%S</time_format>
         <time_pattern>[([0-9]{2}/[a-zA-Z]{3}/[0-9]{4}:[0-9]{2}:[0-9]{2}:[0-9]{2}</time_pattern>
         <use_regex>0</use_regex>
@@ -16,7 +16,7 @@
         <name>Error Log</name>
         <dir>karesansui</dir>
         <filename>error.log</filename>
-        <view_lotatelog>1</view_lotatelog>
+        <view_rotatelog>1</view_rotatelog>
         <time_format>%d/%b/%Y:%H:%M:%S</time_format>
         <time_pattern>[([0-9]{2}/[a-zA-Z]{3}/[0-9]{4}:[0-9]{2}:[0-9]{2}:[0-9]{2}</time_pattern>
         <use_regex>0</use_regex>
@@ -25,7 +25,7 @@
         <name>SQL Log</name>
         <dir>karesansui</dir>
         <filename>sql.log</filename>
-        <view_lotatelog>1</view_lotatelog>
+        <view_rotatelog>1</view_rotatelog>
         <time_format>%d/%b/%Y:%H:%M:%S</time_format>
         <time_pattern>[([0-9]{2}/[a-zA-Z]{3}/[0-9]{4}:[0-9]{2}:[0-9]{2}:[0-9]{2}</time_pattern>
         <use_regex>0</use_regex>
@@ -40,7 +40,7 @@
         <name>Application Log</name>
         <dir>pysilhouette</dir>
         <filename>application.log</filename>
-        <view_lotatelog>1</view_lotatelog>
+        <view_rotatelog>1</view_rotatelog>
         <time_format>%d/%b/%Y:%H:%M:%S</time_format>
         <time_pattern>[([0-9]{2}/[a-zA-Z]{3}/[0-9]{4}:[0-9]{2}:[0-9]{2}:[0-9]{2}</time_pattern>
         <use_regex>0</use_regex>
@@ -49,7 +49,7 @@
         <name>Error Log</name>
         <dir>pysilhouette</dir>
         <filename>error.log</filename>
-        <view_lotatelog>1</view_lotatelog>
+        <view_rotatelog>1</view_rotatelog>
         <time_format>%d/%b/%Y:%H:%M:%S</time_format>
         <time_pattern>[([0-9]{2}/[a-zA-Z]{3}/[0-9]{4}:[0-9]{2}:[0-9]{2}:[0-9]{2}</time_pattern>
         <use_regex>0</use_regex>
@@ -58,7 +58,7 @@
         <name>sql.log</name>
         <dir>pysilhouette</dir>
         <filename>sql.log</filename>
-        <view_lotatelog>1</view_lotatelog>
+        <view_rotatelog>1</view_rotatelog>
         <time_format>%d/%b/%Y:%H:%M:%S</time_format>
         <time_pattern>[([0-9]{2}/[a-zA-Z]{3}/[0-9]{4}:[0-9]{2}:[0-9]{2}:[0-9]{2}</time_pattern>
         <use_regex>0</use_regex>
@@ -67,7 +67,7 @@
         <name>stderr.log</name>
         <dir>pysilhouette</dir>
         <filename>stderr.log</filename>
-        <view_lotatelog>1</view_lotatelog>
+        <view_rotatelog>1</view_rotatelog>
         <time_format>%d/%b/%Y:%H:%M:%S</time_format>
         <time_pattern>[([0-9]{2}/[a-zA-Z]{3}/[0-9]{4}:[0-9]{2}:[0-9]{2}:[0-9]{2}</time_pattern>
         <use_regex>0</use_regex>
@@ -76,7 +76,7 @@
         <name>Standard Out Log</name>
         <dir>pysilhouette</dir>
         <filename>stdout.log</filename>
-        <view_lotatelog>1</view_lotatelog>
+        <view_rotatelog>1</view_rotatelog>
         <time_format>%d/%b/%Y:%H:%M:%S</time_format>
         <time_pattern>[([0-9]{2}/[a-zA-Z]{3}/[0-9]{4}:[0-9]{2}:[0-9]{2}:[0-9]{2}</time_pattern>
         <use_regex>0</use_regex>
@@ -91,7 +91,7 @@
         <name>messages</name>
         <dir></dir>
         <filename>messages</filename>
-        <view_lotatelog>0</view_lotatelog>
+        <view_rotatelog>0</view_rotatelog>
         <time_format>syslog</time_format>
         <use_regex>0</use_regex>
       </log>

@@ -101,7 +101,7 @@ class LogViewConfigParam:
                                     (n, i))
                 log_filedir = XMLXpath(document, '/applications/application[%i]/logs/log[%i]/dir/text()' %
                                     (n, i))
-                view_lotatelog = XMLXpath(document, '/applications/application[%i]/logs/log[%i]/view_lotatelog/text()' %
+                view_rotatelog = XMLXpath(document, '/applications/application[%i]/logs/log[%i]/view_rotatelog/text()' %
                                     (n, i))
                 time_format = XMLXpath(document, '/applications/application[%i]/logs/log[%i]/time_format/text()' %
                                        (n, i))
@@ -117,7 +117,7 @@ class LogViewConfigParam:
                             logs.append({"name": logfile,
                                          "dir": log_filedir,
                                          "filename": logfile,
-                                         "view_lotatelog":int(view_lotatelog),
+                                         "view_rotatelog":int(view_rotatelog),
                                          "time_format": str(time_format),
                                          "time_pattern": str(time_pattern),
                                          })
@@ -125,7 +125,7 @@ class LogViewConfigParam:
                     logs.append({"name": log_name,
                                  "dir": log_filedir,
                                  "filename": log_filename,
-                                 "view_lotatelog":int(view_lotatelog),
+                                 "view_rotatelog":int(view_rotatelog),
                                  "time_format": str(time_format),
                                  "time_pattern": str(time_pattern),
                                  })

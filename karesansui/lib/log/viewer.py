@@ -43,36 +43,38 @@ except:
 from karesansui.lib.const import DEFAULT_DATE_FORMAT, LOG_SYSLOG_REGEX, LOG_EPOCH_REGEX
 from karesansui.lib.utils import reverse_file
 
-def read_all_log(app_log_config, max_line, start_datetime="", end_datetime="", keyword=""):
+def read_all_log(log_configs, max_line, start_datetime="", end_datetime="", keyword=""):
     lines = []
-    logs = {}
-    log_times = {}
-    
-    for log in app_log_config['logs']:
-        log_path = "/var/log/%s/%s" % (log["dir"], log["filename"])
-        if os.path.isfile(log_path) is False:
-            return False
-        lines = read_log(log_path, max_line, log, start_datetime, end_datetime, keyword)
-        if lines is False:
-            return False
-        for line in lines:
-            key = sha(line).hexdigest()
-            logs.update({key: line})
-            pattern = re.compile(log["time_pattern"])
-            time_format = log["time_format"]
-            now = time.strptime(pattern.findall(line)[0], time_format)
-            log_times.update({key:int(time.mktime(now))})
+    max_line = int(max_line)
 
-    array = log_times.items()
-    array.sort(key=lambda a:int(a[1]))
-    lines = []
-    for sorted_log in array[:max_line]:
-        key = sorted_log[0]
-        lines.append(logs.get(key))
+    for log_config in log_configs["logs"]:
 
-    return lines
+        try:
+            log_config['filepath']
+        except:
+            if log_config['dir'] is None:
+                log_dir = "/var/log"
+            else:
+                if log_config['dir'][0] == "/":
+                    log_dir = log_config['dir']
+                else:
+                    log_dir = "/var/log/%s" % log_config['dir']
+            log_config['filepath'] = "%s/%s" % (log_dir, log_config["filename"])
 
-def read_log_with_lotate(filename, max_line, log_config, start_datetime="", end_datetime="", keyword=""):
+        filepath = time.strftime(log_config['filepath'])
+
+        if os.path.isfile(filepath) is False:
+            continue
+
+        one_file_lines = read_log(filepath, max_line, log_config, start_datetime, end_datetime, keyword)
+        lines = one_file_lines + lines
+
+        if len(lines) >= max_line and max_line != 0:
+            break
+
+    return lines[-max_line:]
+
+def read_log_with_rotate(filename, max_line, log_config, start_datetime="", end_datetime="", keyword=""):
     if not filename: return False
     if not log_config: return False
 
