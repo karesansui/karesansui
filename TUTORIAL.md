@@ -251,20 +251,3 @@ Under CentOS, Red Hat Enterprise Linux or Fedora Linux, _acpid_ package should b
     # /sbin/service haldaemon start
 
 
-<!---
-End of document
-//-->
-<style type="text/css">
-<!--
-.item_table {
-width: 100%;
-border-collapse: collapse;
-border: 1px #000000 solid;
-background-color: #ffffff;
-}
-.item_table th,td {
-border: 1px #000000 solid;
-}
--->
-</style>
-

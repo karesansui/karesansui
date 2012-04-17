@@ -248,20 +248,3 @@ CentOS や Red Hat Enterprise Linux の場合は、_acpid_ パッケージをイ
     # /sbin/service haldaemon start
 
 
-<!---
-End of document
-//-->
-<style type="text/css">
-<!--
-.item_table {
-width: 100%;
-border-collapse: collapse;
-border: 1px #000000 solid;
-background-color: #ffffff;
-}
-.item_table th,td {
-border: 1px #000000 solid;
-}
--->
-</style>
-
