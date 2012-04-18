@@ -1,0 +1,47 @@
+# Japanese translations for PACKAGE package.
+# Copyright (C) 2012, taizo
+# This file is distributed under the same license as the karesansui package.
+# root <root@taizo-kss.prd.local.hde.co.jp>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: karesansui 3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-04-18 12:34\n"
+"PO-Revision-Date: 2012-04-18 12:35+0900\n"
+"Last-Translator: root <root@taizo-kss.prd.local.hde.co.jp>\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+# 8edc35ec212943b99ae7646e7f3e8064
+#: ../../index.rst:7
+msgid "Welcome to Karesansui's documentation!"
+msgstr "Karesansuiドキュメンテーションにようこそ！"
+
+# aae1709594db4c96b9b23720ad7c3b12
+#: ../../index.rst:9
+msgid "Contents:"
+msgstr "コンテンツ"
+
+# 7a5a890464e645e189721cafe32e4dbd
+#: ../../index.rst:19
+msgid "Indices and tables"
+msgstr "索引"
+
+# c35585ca81954c17b887fea5c4b1ab54
+#: ../../index.rst:21
+msgid ":ref:`genindex`"
+msgstr ""
+
+# 869ec07442744f4bbf00177a6a382ea8
+#: ../../index.rst:22
+msgid ":ref:`modindex`"
+msgstr ""
+
+# 042b34a8dbe44f57bb7642bbfd6d629d
+#: ../../index.rst:23
+msgid ":ref:`search`"
+msgstr ""
