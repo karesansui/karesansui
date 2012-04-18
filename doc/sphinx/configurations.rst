@@ -5,163 +5,254 @@ Configurations
 Overview
 ========
 
-ここでは各種設定ファイルに関して説明します。
+This section describes configuration parameters for Karesansui and other services related to Karesansui.
 
-Karesansuiの設定(application.conf)の説明
-========================================
+Configuring Karesansui
+======================
+
+Here are the files used to configure Karesansui.
+
+Main Configuration Files - /etc/karesansui/application.conf
+-----------------------------------------------------------
 
 application.search.path
+^^^^^^^^^^^^^^^^^^^^^^^
+Search path for Python modules.
 
-    Pythonの追加サーチパスを設定します。
-    ※複数指定する場合はカンマ(,)で区切ります
+Multiple values are comma-separated.
 
-例) application.search.path=/usr/lib/python,/usr/lib/python2.6,/usr/lib/python2.6/site-packages
+ex.
+
+.. code-block:: bash
+
+   application.search.path=/usr/lib/python,/usr/lib/python2.6,/usr/lib/python2.6/site-packages
 
 
 application.log.config
+^^^^^^^^^^^^^^^^^^^^^^
+Log file path.
 
-    ログ出力設定ファイルパスを設定します。
-    ログ出力設定ファイルついてはこちらを参照してください。
+ex.
 
-例) application.log.config=/etc/karesansui/log.conf
+.. code-block:: bash
+
+    application.log.config=/etc/karesansui/log.conf
 
 application.url.prefix
+^^^^^^^^^^^^^^^^^^^^^^
+Prefix of the URL for Karesansui management console.
 
-    URIのプレフィックスを設定します。
-    以下の{}内を設定します。
-    http://example.com{/karesansui/v3}/
-    ※v1はKaresansuiのメジャーバージョンを指定しておくことを推奨します。
-    ※Karesansui 2.0.0で"karesansui/v3/"に変更になりました。(Since 3.0.0)
+ex.
 
-例) application.url.prefix=/karesansui/v3
+.. code-block:: bash
+
+    application.url.prefix=/karesansui/v3
 
 application.default.locale
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+Default locale.
 
-    Karesansuiが使用するデフォルトのロケールを設定します。
-    ※現在、ja_JPとen_USに対応しています。
-    ※ログインしている場合は、ログインユーザのロケールが優先されます。
+.. note::
+    As of this writing, only ja_JP or en_US can be specified.
 
-例) application.default.locale=ja_JP
+ex.
+
+.. code-block:: bash
+
+    application.default.locale=ja_JP
 
 application.template.theme
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+Default theme for Karesansui management console.
 
-    Karesansuiのテーマを設定します。
-    ※初期インストール時はdefaultに設定されています。
+ex.
 
-例) application.template.theme=default
+.. code-block:: bash
+
+    application.template.theme=default
 
 application.tmp.dir
+^^^^^^^^^^^^^^^^^^^
+Directory where Karesansui should store its cache and temporary files. 
 
-    Karesansuiが一時的に作成するファイル等々をおくディレクトリパスを設定します。
+ex.
 
-例) application.tmp.dir=/tmp
+.. code-block:: bash
+
+    application.tmp.dir=/tmp
 
 application.bin.dir
+^^^^^^^^^^^^^^^^^^^
+Directory where job commands executed by Karesansui are located. 
 
-    Karesansuiが使用するジョブコマンドのディレクトリパスを設定します。
-    ※Karesansuiの実行ユーザ権限で書き込みができる必要があります。
+The directory need to be writable for Karesansui owner.
 
-例) application.bin.dir=/usr/share/karesansui/bin
+ex.
 
-application.generate.dir
+.. code-block:: bash
 
-    各種設定ファイルのテンプレートディレクトリを設定します。
-
-例) application.generate.dir=/usr/lib/python2.6/site-packages/karesansui/templates/default/_generate
+    application.bin.dir=/usr/share/karesansui/bin
 
 application.mail.email
+^^^^^^^^^^^^^^^^^^^^^^
+E-mail address of Karesansui Administrator.
 
-    Karesansuiで利用するメールアドレスを設定します。
+ex.
 
-例) application.mail.email=karesansui@example.com
+.. code-block:: bash
+
+    application.mail.email=karesansui@example.com
 
 application.mail.port
+^^^^^^^^^^^^^^^^^^^^^
+Port number of an SMTP server which Karesansui connects.
 
-    Karesansuiで利用するメールサーバのポート番号を設定します。
+ex.
 
-例) application.mail.port=25
+.. code-block:: bash
+
+    application.mail.port=25
 
 application.mail.server
+^^^^^^^^^^^^^^^^^^^^^^^
+FQDN or IP address of an SMTP server which Karesansui connects.
 
-    Karesansuiで利用するメールサーバ名を設定します。
+ex.
 
-例) application.mail.server=localhost
+.. code-block:: bash
+
+    application.mail.server=localhost
 
 application.proxy.status
+^^^^^^^^^^^^^^^^^^^^^^^^
+Either 1 or 0.
+This tells Karesansui whether or not it need to connect the Internet via proxy.
 
-    Karesansuiでプロキシサーバを利用するかを設定します。
-    1=有効
-    0=無効
+ex.
 
-例)application.proxy.status=0
+.. code-block:: bash
+
+    application.proxy.status=0
 
 application.proxy.server
+^^^^^^^^^^^^^^^^^^^^^^^^
+FQDN or IP address of a proxy server which Karesansui uses.
 
-    Karesansuiで利用するプロキシサーバ名を設定します。
+ex.
 
-例) application.proxy.server=localhost
+.. code-block:: bash
+
+    application.proxy.server=localhost
 
 application.proxy.port
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+Port number of a proxy server which Karesansui uses.
 
-    Karesansuiで利用するプロキシサーバのポート番号を設定します。
+ex.
 
-例) application.proxy.port=9080
+.. code-block:: bash
+
+    application.proxy.port=9080
 
 application.proxy.user
+^^^^^^^^^^^^^^^^^^^^^^
+Username for authentication on a proxy server which Karesansui uses.
 
-    Karesansuiで利用するプロキシサーバにログインするユーザ名を設定します。
+ex.
 
-例) application.proxy.user=bar
+.. code-block:: bash
+
+    application.proxy.user=bar
 
 application.proxy.password
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+Password for authentication on a proxy server which Karesansui uses.
 
-    Karesansuiで利用するプロキシサーバにログインするパスワードを設定します。
+ex.
 
-例)application.proxy.password=foo
+.. code-block:: bash
+
+    application.proxy.password=foo
 
 database.bind
+^^^^^^^^^^^^^
+The database URI that should be used for the connection.
 
-    Karesansuiで利用するデータベースのバインドを設定します。
-    RFC-1738で定義されているスタイルで設定してください。
-    さらに詳しい設定についてはSQLAlchemyのサポートデータベース を参照してください。
+.. note::
 
-MySQL
-mysql://localhost/<データベース名>
-mysql://<ユーザ名>:<パスワード>@<ホスト名>/<データベース名>
-mysql://<ユーザ名>:<パスワード>@<ホスト名>:<ポート番号>/<データベース名>
-PostgreSQL
-postgres://<ユーザ名>:<パスワード>@<ホスト名>:<ポート番号>/<データベース名>
-SQLite※Karesansuiの実行権限で読み取り・書き込み可能である必要があります。
-sqlite:////<絶対パス>/<ファイル名>-絶対パスで定義
-sqlite:///<相対パス>/<ファイル名>-相対パスで定義
-例) database.bind=sqlite:////var/opt/karesansui/karesansui.db
+    This value must be specified in RFC-1738 style URL.
+    See 'SQLAlchemy - Engine Configuration <http://docs.sqlalchemy.org/en/latest/core/engines.html>'_ for further information.
+
+* MySQL
+
+.. code-block:: none
+
+    mysql://localhost/<database name>
+    mysql://<user>:<password>@<hostname>/<database name>
+    mysql://<user>:<password>@<hostname>:<port>/<database name>
+
+* PostgreSQL
+
+.. code-block:: none
+
+    postgres://<user>:<password>@<hostname>:<port>/<database name>
+
+* SQLite
+
+The database must be writable for Karesansui owner.
+
+.. code-block:: none
+
+    sqlite:////path/to/database
+
+ex.
+
+.. code-block:: bash
+
+    database.bind=sqlite:////var/opt/karesansui/karesansui.db
 
 database.pool.status
+^^^^^^^^^^^^^^^^^^^^
+Either 1 or 0.
+This tells Karesansui whether or not it uses connection pools.
 
-    コネクションプールの利用可否を設定します。
-    0=利用しない
-    1=利用する
+ex.
 
-例)database.pool.status=0
+.. code-block:: bash
+
+    database.pool.status=0
 
 database.pool.size
+^^^^^^^^^^^^^^^^^^
+The number of connection pools.
 
-    通常時のコネクションプール数を設定します。
-    ※SQLiteでは利用できません。設定は無視されます。
+If you use SQLite database, this will be ignored.
 
-例)database.pool.size=1
+ex.
+
+.. code-block:: bash
+
+    database.pool.size=1
 
 database.pool.max.overflow
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+The maximum number of connection pools.
 
-    コネクションプールの最大数を設定します。
+ex.
 
-例)database.pool.max.overflow=10
+.. code-block:: bash
+
+    database.pool.max.overflow=10
 
 pysilhouette.conf.path
+^^^^^^^^^^^^^^^^^^^^^^
+Pysilhouette configuration file.
 
-    Karesansuiで使用するPysilhouetteソフトウェアの設定ファイルパスを設定します。
-    ※Karesansuiの実行ユーザ権限で読み取り可能である必要があります。(書き込み・実行権限は必要ありません。)
+The configuration file must be readable for Karesansui owner.
 
-例)pysilhouette.conf.path=/etc/pysilhouette/silhouette.conf
+ex.
 
-Configurations allow you to create multiple variations of a part or assembly model within a single document.
+.. code-block:: bash
+
+    pysilhouette.conf.path=/etc/pysilhouette/silhouette.conf
+

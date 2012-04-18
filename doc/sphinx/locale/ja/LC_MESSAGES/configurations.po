@@ -1,0 +1,339 @@
+# Japanese translations for PACKAGE package.
+# Copyright (C) 2012, taizo
+# This file is distributed under the same license as the karesansui package.
+# root <root@taizo-kss.prd.local.hde.co.jp>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: karesansui 3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-04-18 16:28\n"
+"PO-Revision-Date: 2012-04-18 16:28+0900\n"
+"Last-Translator: root <root@taizo-kss.prd.local.hde.co.jp>\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+# 2f235c51f0c04dba80c3deb4b1e67c2f
+#: ../../configurations.rst:3
+msgid "Configurations"
+msgstr "設定"
+
+# 84ed56a81c0746e4887dcbaa8b97d03c
+#: ../../configurations.rst:6
+msgid "Overview"
+msgstr "概要"
+
+# b5f6bae1f15e48c28ea706ea888cba49
+#: ../../configurations.rst:8
+msgid ""
+"This section describes configuration parameters for Karesansui and other "
+"services related to Karesansui."
+msgstr "ここではKaresansuiとその関連サービスに関する各種設定ファイルに関して説明します。"
+
+# e984c2cc325f4537b9eaf8e0f6f83664
+#: ../../configurations.rst:11
+msgid "Configuring Karesansui"
+msgstr "Karesansuiの設定"
+
+# 2f310f724ed34ee6b45cf266fcca65c1
+#: ../../configurations.rst:13
+msgid "Here are the files used to configure Karesansui."
+msgstr "Karesansuiを設定するために使用されるファイルを説明します。"
+
+# d12fe04eb49a4f04996a4454fa673c92
+#: ../../configurations.rst:16
+msgid "Main Configuration Files - /etc/karesansui/application.conf"
+msgstr "主要な設定ファイル - /etc/karesansui/application.conf"
+
+# 6e771d7ba9c04e279b1a23e3c4196e5e
+#: ../../configurations.rst:19
+msgid "application.search.path"
+msgstr ""
+
+# cbf795389aab413592703ecc8de612be
+#: ../../configurations.rst:20
+msgid "Search path for Python modules."
+msgstr "Pythonモジュールの検索パス"
+
+# 1dbe3b424ef4444ea62280df66fca5bd
+#: ../../configurations.rst:22
+msgid "Multiple values are comma-separated."
+msgstr "複数指定する場合はカンマで区切ってください。"
+
+# e55c89e0424b483380795e0c603730a0
+# 8a421ef725914312802c43908e99f2b5
+# 98127f1a8e374391a7d2d2de8bac0c87
+# 39a5c6450ec84950aabde5d0f4575c9d
+# 5aec8d1d1c1f4047ab61d5e97e5d05f6
+# 329fc17973384a4c907c26c802a8efe8
+# a094041c0b8640b68aa133cf511ff53d
+# 769f924330e942f1ae00b8df5c159e28
+# 2d206c0e5f494f67a9e5ab87acdb9e06
+# ac7af120decb4123a2d47beb02e41e32
+# 7443b98142aa4b5f90b168ec6a342d04
+# eb16c2cf7e9b4fbfa582c5b24029f674
+# d1164cb856a042b68f253bddfd6a3cce
+# 7643116b772841e1a7befbb6fd9a8cc0
+# c19d748d7d9740079eb64458fdc408fd
+# f47509dbe20040a9abc641831b1ac6dc
+# db85164afac54edebe9bee7b16aaf326
+# eda540cf2d104c11843a11e08ad2398f
+# 90430ba555a44102abc6e73a20b6ef77
+# ad20ecfecbf2417ea4679ccabfd443c1
+#: ../../configurations.rst:24 ../../configurations.rst:35
+#: ../../configurations.rst:45 ../../configurations.rst:58
+#: ../../configurations.rst:68 ../../configurations.rst:78
+#: ../../configurations.rst:90 ../../configurations.rst:100
+#: ../../configurations.rst:110 ../../configurations.rst:120
+#: ../../configurations.rst:131 ../../configurations.rst:141
+#: ../../configurations.rst:151 ../../configurations.rst:161
+#: ../../configurations.rst:171 ../../configurations.rst:208
+#: ../../configurations.rst:219 ../../configurations.rst:231
+#: ../../configurations.rst:241 ../../configurations.rst:253
+msgid "ex."
+msgstr "例:"
+
+# 98cd327459b440d6b7cbc84a0dcdc7d1
+#: ../../configurations.rst:32
+msgid "application.log.config"
+msgstr ""
+
+# 035351356e2f49b58a616e8cab437458
+#: ../../configurations.rst:33
+msgid "Log file path."
+msgstr "ログファイルのパス"
+
+# 16708109fafd4f42a620b644f0934472
+#: ../../configurations.rst:42
+msgid "application.url.prefix"
+msgstr ""
+
+# 4742ea26bc1c42ca9ddac774d6f06e9a
+#: ../../configurations.rst:43
+msgid "Prefix of the URL for Karesansui management console."
+msgstr "Karesansui管理コンソールのURLのプレフィックス"
+
+# 20ee56d7fd5f4d30b62cfab31b192b46
+#: ../../configurations.rst:52
+msgid "application.default.locale"
+msgstr ""
+
+# 20ee56d7fd5f4d30b62cfab31b192b46
+#: ../../configurations.rst:53
+msgid "Default locale."
+msgstr "デフォルトロケール"
+
+# f7b2a509d1f04fa9917184cca739395c
+#: ../../configurations.rst:56
+msgid "As of this writing, only ja_JP or en_US can be specified."
+msgstr "執筆時点では、ja_JPとen_USのみ指定可能です。"
+
+# 09d4614248be4b66b5d46434fe01e242
+#: ../../configurations.rst:65
+msgid "application.template.theme"
+msgstr ""
+
+# 8aa5151fc0fc4a6ea84c86663594814e
+#: ../../configurations.rst:66
+msgid "Default theme for Karesansui management console."
+msgstr "デフォルトテーマ"
+
+# 27534e79f9004c38a2e3cadf786899fc
+#: ../../configurations.rst:75
+msgid "application.tmp.dir"
+msgstr ""
+
+# ee4323670e3a452fbea31eec98030b03
+#: ../../configurations.rst:76
+msgid "Directory where Karesansui should store its cache and temporary files."
+msgstr "Karesansuiが一時的に作成するファイル等々をおくディレクトリ"
+
+# 7e3b462a00ec434fbd9df73bd38270fc
+#: ../../configurations.rst:85
+msgid "application.bin.dir"
+msgstr ""
+
+# 694bc59bbddb466b8b1b23447088aeda
+#: ../../configurations.rst:86
+msgid "Directory where job commands executed by Karesansui are located."
+msgstr "Karesansuiが使用するジョブコマンドがおかれるディレクトリ"
+
+# 948f02fbf28b457c88e35ded399430af
+#: ../../configurations.rst:88
+msgid "The directory need to be writable for Karesansui owner."
+msgstr "Karesansuiの実行ユーザ権限で書き込みができる必要があります。"
+
+# 44b964116be44e2fbee48cdad5428780
+#: ../../configurations.rst:97
+msgid "application.mail.email"
+msgstr ""
+
+# d35a6f7e78be441babc01a91f930fb22
+#: ../../configurations.rst:98
+msgid "E-mail address of Karesansui Administrator."
+msgstr "Karesansuiで利用するメールアドレス"
+
+# 602daeb712424e7f8f595782527978ba
+#: ../../configurations.rst:107
+msgid "application.mail.port"
+msgstr ""
+
+# b577d48f9509486ab5b52705ad9a20a8
+#: ../../configurations.rst:108
+msgid "Port number of an SMTP server which Karesansui connects."
+msgstr "Karesansuiで利用するメールサーバのポート番号"
+
+# 8745b52f420543519efc21d55b2199f6
+#: ../../configurations.rst:117
+msgid "application.mail.server"
+msgstr ""
+
+# 0cd4d9a31de249ed80ac37e2bb24deea
+#: ../../configurations.rst:118
+msgid "FQDN or IP address of an SMTP server which Karesansui connects."
+msgstr "Karesansuiで利用するメールサーバ名"
+
+# 8f557a2381a54f8d88b8b44ec28bbcc3
+#: ../../configurations.rst:127
+msgid "application.proxy.status"
+msgstr ""
+
+# d9fce206775e4064a7accce6857efe04
+#: ../../configurations.rst:128
+msgid ""
+"Either 1 or 0. This tells Karesansui whether or not it need to connect the "
+"Internet via proxy."
+msgstr "Karesansuiでプロキシサーバを利用するか. 有効:1 無効:0"
+
+# 5dda0d322bd541549e6b67070dd0c703
+#: ../../configurations.rst:138
+msgid "application.proxy.server"
+msgstr ""
+
+# dbb87d3eef2547ad9ad372c115da3bfa
+#: ../../configurations.rst:139
+msgid "FQDN or IP address of a proxy server which Karesansui uses."
+msgstr "Karesansuiで利用するプロキシサーバ名"
+
+# 8e65f6a58fc9487a8573f37f3cdfcdcc
+#: ../../configurations.rst:148
+msgid "application.proxy.port"
+msgstr ""
+
+# d96114d233634249bb9a2eab96b20cbc
+#: ../../configurations.rst:149
+msgid "Port number of a proxy server which Karesansui uses."
+msgstr "Karesansuiで利用するプロキシサーバのポート番号"
+
+# 999594e8e388477dafca2314a59d5a7e
+#: ../../configurations.rst:158
+msgid "application.proxy.user"
+msgstr ""
+
+# e00d7a899d7040d8be1573934aca16b6
+#: ../../configurations.rst:159
+msgid "Username for authentication on a proxy server which Karesansui uses."
+msgstr "Karesansuiで利用するプロキシサーバにログインするユーザ名"
+
+# 5a8e99d62dbf4597b7ed95fd90320131
+#: ../../configurations.rst:168
+msgid "application.proxy.password"
+msgstr ""
+
+# 31daf46b52024760be1d7d2e4eeb6402
+#: ../../configurations.rst:169
+msgid "Password for authentication on a proxy server which Karesansui uses."
+msgstr "Karesansuiで利用するプロキシサーバにログインするパスワード"
+
+# e0e04d431e384239878ede13d8d091d6
+#: ../../configurations.rst:178
+msgid "database.bind"
+msgstr ""
+
+# 15ca75e5c20b4d82b59c7b1c758f06d2
+#: ../../configurations.rst:179
+msgid "The database URI that should be used for the connection."
+msgstr "Karesansuiで利用するデータベースのバインドURL"
+
+# eea3b1b466f249faa098021aaa2305a3
+#: ../../configurations.rst:183
+msgid ""
+"This value must be specified in RFC-1738 style URL. See 'SQLAlchemy - Engine "
+"Configuration <http://docs.sqlalchemy.org/en/latest/core/engines.html>'_ for "
+"further information."
+msgstr "FC-1738で定義されているスタイルで設定してください。さらに詳しい設定については 'SQLAlchemy - Engine "
+"Configuration <http://docs.sqlalchemy.org/en/latest/core/engines.html>'_ のサポートデータベース を参照してください。"
+
+# 7298e0d50f2242da98e1a74e5024744a
+#: ../../configurations.rst:186
+msgid "MySQL"
+msgstr ""
+
+# c582829b29a34d72bc14f487f65a153a
+#: ../../configurations.rst:194
+msgid "PostgreSQL"
+msgstr ""
+
+# 6f6d229ac7b644fd9495905a387593a5
+#: ../../configurations.rst:200
+msgid "SQLite"
+msgstr ""
+
+# 9ff9e19808fb410d8c51458c0c36d1ad
+#: ../../configurations.rst:202
+msgid "The database must be writable for Karesansui owner."
+msgstr "Karesansuiの実行権限で読み取り・書き込み可能である必要があります。"
+
+# 393b9697de174686abb95ea2522b9004
+#: ../../configurations.rst:215
+msgid "database.pool.status"
+msgstr ""
+
+# 466a728421db40cf91655dd3deedf5bd
+#: ../../configurations.rst:216
+msgid ""
+"Either 1 or 0. This tells Karesansui whether or not it uses connection pools."
+msgstr "コネクションプールの利用可否. 有効:1 無効:0"
+
+# 03b50ec14f864e97bc4550cea3d561d1
+#: ../../configurations.rst:226
+msgid "database.pool.size"
+msgstr ""
+
+# 5c56764002454a7e867f689891ba3cb0
+#: ../../configurations.rst:227
+msgid "The number of connection pools."
+msgstr "通常時のコネクションプール数"
+
+# 9a6ad218599f40968c84c6e5e868c225
+#: ../../configurations.rst:229
+msgid "If you use SQLite database, this will be ignored."
+msgstr "SQLiteでは利用できません。設定は無視されます。"
+
+# ef2dc12990da4786a1f0b24dc489aeb7
+#: ../../configurations.rst:238
+msgid "database.pool.max.overflow"
+msgstr ""
+
+# 7ab9fbddcda6463db40a5b7ae0e487dc
+#: ../../configurations.rst:239
+msgid "The maximum number of connection pools."
+msgstr "コネクションプールの最大数"
+
+# d043588a8b5448c0991eb4bff8460302
+#: ../../configurations.rst:248
+msgid "pysilhouette.conf.path"
+msgstr ""
+
+# 0432ff96b6204c01bf1734c5ff021b6e
+#: ../../configurations.rst:249
+msgid "Pysilhouette configuration file."
+msgstr "Pysilhouetteの設定ファイル"
+
+# ecbedce98e53498fb39a2273fcb6e1a1
+#: ../../configurations.rst:251
+msgid "The configuration file must be readable for Karesansui owner."
+msgstr "Karesansuiの実行ユーザ権限で読み取り可能である必要があります。"

@@ -242,4 +242,4 @@ texinfo_documents = [
 #texinfo_show_urls = 'footnote'
 
 locale_dirs = ["locale"]
-language = "ja"
+language = "en"
