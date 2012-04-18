@@ -124,19 +124,6 @@ def chkconfig(config):
         print >>sys.stderr, 'Not set the appropriate permissions to that directory. - application.bin.dir=%s' % config["application.bin.dir"]
         check = False
 
-    # application.generate.dir
-    if check and config.has_key("application.generate.dir") is False:
-        print >>sys.stderr, 'Configuration information is missing. - application.generate.dir'
-        check = False
-   
-    if check and os.path.isdir(config["application.generate.dir"]) is False:
-        print >>sys.stderr, 'There is a mistake in the configuration information. - application.generate.dir=%s' % config["application.generate.dir"]
-        check = False
-
-    if check and os.access(config["application.generate.dir"], os.R_OK) is False:
-        print >>sys.stderr, 'Not set the appropriate permissions to that directory. - application.generate.dir=%s' % config["application.generate.dir"]
-        check = False
-
     # pysilhouette.conf.path
     if check and config.has_key("pysilhouette.conf.path") is False:
         print >>sys.stderr, 'Configuration information is missing. - pysilhouette.conf.path'

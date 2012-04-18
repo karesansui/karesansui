@@ -5,7 +5,6 @@ application.default.locale=en_US # settings : ja_JP or en_US
 application.template.theme=default
 application.tmp.dir=/tmp
 application.bin.dir=/usr/share/karesansui/bin
-application.generate.dir=/usr/lib/python2.6/site-packages/karesansui/templates/default/_generate
 application.uniqkey=e4addf9d-a3b4-42e8-8433-dfb7a29cf65a
 
 application.mail.email=
