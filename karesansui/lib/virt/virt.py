@@ -866,7 +866,7 @@ class KaresansuiVirtConnection:
             self._conn.defineXML(cfgxml)
 
         try:
-            self.search_storage_pools(storage_pool)[0].refresh(True)
+            self.search_storage_pools(storage_pool)[0].refresh(0)
         except:
             pass
 
@@ -989,12 +989,12 @@ class KaresansuiVirtConnection:
 
         if tmp_pool:
             try:
-                self.search_storage_pools(tmp_pool[0])[0].refresh(True)
+                self.search_storage_pools(tmp_pool[0])[0].refresh(0)
             except:
                 pass
         else:
             try:
-                self.search_storage_pools(pool)[0].refresh(True)
+                self.search_storage_pools(pool)[0].refresh(0)
             except:
                 pass
 
@@ -1088,8 +1088,8 @@ class KaresansuiVirtConnection:
 
         # Storage Pool refresh
         try:
-            self.search_storage_pools(orig_pool)[0].refresh(True)
-            self.search_storage_pools(dest_pool)[0].refresh(True)
+            self.search_storage_pools(orig_pool)[0].refresh(0)
+            self.search_storage_pools(dest_pool)[0].refresh(0)
         except:
             pass
 
@@ -1276,7 +1276,7 @@ class KaresansuiVirtConnection:
         # Storage Pool refresh
         for p in [src_pool, pool]:
             try:
-                self.search_storage_pools(p)[0].refresh(True)
+                self.search_storage_pools(p)[0].refresh(0)
             except:
                 pass
 
@@ -1483,7 +1483,7 @@ class KaresansuiVirtConnection:
 
             if pool_name is not None:
                 try:
-                    self.search_storage_pools(pool_name)[0].refresh(True)
+                    self.search_storage_pools(pool_name)[0].refresh(0)
                 except:
                     pass
 
@@ -1650,9 +1650,9 @@ class KaresansuiVirtConnection:
 
             # Storage Pool refresh
             try:
-                self.search_storage_pools(param.get_pool())[0].refresh(True)
+                self.search_storage_pools(param.get_pool())[0].refresh(0)
                 for disk in param.get_disks():
-                    self.search_storage_pools(disk["name"])[0].refresh(True)
+                    self.search_storage_pools(disk["name"])[0].refresh(0)
             except:
                 pass
 
@@ -1962,7 +1962,7 @@ class KaresansuiVirtConnection:
             try:
                 pool =  self.search_kvn_storage_pools(pool_name)
                 path = pool[0].get_info()["target"]["path"]
-                self.search_storage_pools(pool_name)[0].refresh(True)
+                self.search_storage_pools(pool_name)[0].refresh(0)
             except:
                 pass
     
@@ -2452,7 +2452,7 @@ class KaresansuiVirtConnection:
 
         # Storage Pool refresh
         try:
-            self.search_storage_pools(pool_name)[0].refresh(True)
+            self.search_storage_pools(pool_name)[0].refresh(0)
         except:
             pass
 
