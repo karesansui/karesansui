@@ -44,11 +44,11 @@ def delete(session, mailtemplate):
 
 @dbsave
 def save(session, option):
-    session.save(option)
+    session.add(option)
 
 @dbupdate
 def update(session, option):
-    session.update(option)
+    session.add(option)
     
 # new instance
 new = Option

@@ -104,11 +104,11 @@ def findbyand(session, query):
 
 @dbsave
 def save(session, user):
-    session.save(user)
+    session.add(user)
 
 @dbupdate
 def update(session, user):
-    session.update(user)
+    session.add(user)
     
 @dbdelete
 def delete(session, user):

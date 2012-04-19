@@ -135,15 +135,15 @@ def logical_delete(session, machine):
         machine.hostname = None
 
     machine.is_deleted = True
-    return session.update(machine)
+    return session.add(machine)
 
 @dbsave
 def save(session, machine):
-    session.save(machine)
+    session.add(machine)
 
 @dbupdate
 def update(session, machine):
-    session.update(machine)
+    session.add(machine)
     
 @dbdelete
 def delete(session, machine):

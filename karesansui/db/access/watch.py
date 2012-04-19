@@ -82,15 +82,15 @@ def is_uniq_duplication(session, machine, plugin, plugin_selector, is_deleted=Fa
 @dbupdate
 def logical_delete(session, watch):
     watch.is_deleted = True
-    return session.update(watch)
+    return session.add(watch)
 
 @dbsave
 def save(session, watch):
-    session.save(watch)
+    session.add(watch)
 
 @dbupdate
 def update(session, watch):
-    session.update(watch)
+    session.add(watch)
     
 # new instance
 new = Watch

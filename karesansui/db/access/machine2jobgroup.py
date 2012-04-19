@@ -58,11 +58,11 @@ def deleteby1machine(session, machine_id):
 
 @dbsave
 def save(session, machine2jobgroup):
-    session.save(machine2jobgroup)
+    session.add(machine2jobgroup)
     
 @dbupdate
 def update(session, machine2jobgroup):
-    session.update(machine2jobgroup)
+    session.add(machine2jobgroup)
     
 @dbdelete
 def delete(session, machine2jobgroup):

@@ -115,11 +115,11 @@ def samecount(session, tag_name):
 
 @dbsave
 def save(session, tag):
-    session.save(tag)
+    session.add(tag)
 
 @dbupdate
 def update(session, tag):
-    session.update(tag)
+    session.add(tag)
     
 @dbdelete
 def delete(session, tag):

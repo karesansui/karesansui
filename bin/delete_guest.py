@@ -174,7 +174,7 @@ class DeleteGuest(KssCommand):
 
                 # rollback - machine
                 self.up_progress(5)
-                deleteby1uniquekey(self.kss_session, uuid)
+                deleteby1uniquekey(self.kss_session, u"%s" % uuid)
                 self.up_progress(5)
             except KssCommandException, e:
                 print >>sys.stderr, '[Warn] Failed to delete the guest OS database. - dom=%s - detail : %s' \

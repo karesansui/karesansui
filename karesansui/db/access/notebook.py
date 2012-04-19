@@ -39,11 +39,11 @@ def findby1(session, notebook_id):
 
 @dbsave
 def save(session, notebook):
-    session.save(notebook)
+    session.add(notebook)
 
 @dbupdate
 def update(session, notebook):
-    session.update(notebook)
+    session.add(notebook)
     
 @dbdelete
 def delete(session, notebook):

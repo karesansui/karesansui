@@ -163,7 +163,7 @@ if __name__ == '__main__':
     (password, salt) = sha1encrypt(u'password')
     from karesansui.lib.utils import uni_force
     _m_u = User(u'hoge@localhost', uni_force(password), unicode(salt, 'utf-8'), u'ja', u'ja_JP')
-    session.save(_m_u)
+    session.add(_m_u)
     session.commit()
     # SELECT One
     u = session.query(User).filter(User.email == u'hoge@localhost').one()
@@ -171,7 +171,7 @@ if __name__ == '__main__':
     print _m_u.__repr__()
     # UPDATE
     _m_u.email = u'foo@localhost'
-    session.update(_m_u)
+    session.add(_m_u)
     session.commit()
     # DELETE
     _m_u = session.query(User).filter(User.email == u'foo@localhost').one()

@@ -61,11 +61,11 @@ def logical_delete(session, snapshot):
 
 @dbsave
 def save(session, snapshot):
-    session.save(snapshot)
+    session.add(snapshot)
 
 @dbupdate
 def update(session, snapshot):
-    session.update(snapshot)
+    session.add(snapshot)
     
 @dbdelete
 def delete(session, snapshot):
