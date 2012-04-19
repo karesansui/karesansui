@@ -382,7 +382,7 @@ class SysVInit_RH:
         retval = False
 
         if flag is not None and flag is not True and flag is not False:
-            raise "Invalid argument."
+            raise Exception("Invalid argument.")
 
         if os.path.exists(self.service_script) and is_executable(self.service_script):
             script_name = os.path.basename(self.service_script)

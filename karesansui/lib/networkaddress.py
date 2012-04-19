@@ -210,7 +210,6 @@ class NetworkAddress:
 
                 if not m:
                     return False
-                    raise "error"
                 else:
                     type    = "ip"
                     ipaddr  = m.group("ipaddr")
@@ -225,17 +224,14 @@ class NetworkAddress:
         if ipaddr:
             if not self.valid_addr(ipaddr):
                 return False
-                raise ""
 
         if netlen:
             if not self.valid_netlen(netlen):
                 return False
-                raise ""
 
         if netmask:
             if not self.valid_netmask(netmask):
                 return False
-                raise ""
 
         return {
                 "type":type,

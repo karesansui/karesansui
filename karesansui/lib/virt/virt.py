@@ -177,7 +177,7 @@ class KaresansuiVirtConnection:
                 try:
                     uri = uris["XEN"]
                 except:
-                    raise 'error: you must specify connect uri'
+                    raise KaresansuiVirtException("Error: You must specify connect uri.")
 
         if uri.lower()[0:3] == "xen":
             self.disk_prefix = XEN_VIRTUAL_DISK_PREFIX
@@ -185,7 +185,7 @@ class KaresansuiVirtConnection:
             self.bus_types   = XEN_BUS_TYPES
 
             if not os.access("/proc/xen", os.R_OK):
-                raise 'System is not running a Xen kernel'
+                raise KaresansuiVirtException("Error: The system is not running under Xen kernel.")
 
         if uri.lower()[0:4] == "qemu":
             self.disk_prefix = KVM_VIRTUAL_DISK_PREFIX
@@ -193,7 +193,7 @@ class KaresansuiVirtConnection:
             self.bus_types   = KVM_BUS_TYPES
 
             if False == True:
-                raise 'System is not running a kvm module'
+                raise KaresansuiVirtException("Error: The system is not running under KVM hypervisor.")
 
         if uri != None:
             self.uri = uri
@@ -835,7 +835,7 @@ class KaresansuiVirtConnection:
         try:
             self._conn.lookupByID(dom.ID())
         except libvirt.libvirtError:
-            raise "create_guest() error. name:%s" % (name)
+            raise KaresansuiVirtException("create_guest() error. name:%s" % (name))
 
         if initrd is not None:
             os.unlink(param.get_initrd())

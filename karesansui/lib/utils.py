@@ -533,7 +533,7 @@ def execute_command(command_args,user=None,env=None):
     try:
         pp = subprocess.Popen(command_args, **subproc_args)
     except OSError, e:
-        #raise "Failed to execute command: %s" % command_args[0]
+        #raise KaresansuiLibException("Failed to execute command: %s" % command_args[0])
         return [ret,res]
 
     (stdouterr, stdin) = (pp.stdout, pp.stdin)
@@ -604,14 +604,14 @@ def create_file(file, value) :
     </comment-en>
     """
     if os.path.exists(file):
-        raise "Error: %s already exists" % file
+        raise KaresansuiLibException("Error: %s already exists" % file)
 
     fd = open(file, 'w')
     try:
         try:
             fd.write(value)
         except IOError, err:
-            raise "IOError: %s" % str(err)
+            raise KaresansuiLibException("IOError: %s" % str(err))
     finally:
         fd.close()
 
@@ -631,12 +631,12 @@ def remove_file(file) :
     </comment-en>
     """
     if not os.path.exists(file):
-        raise "Error: %s not exists" % file
+        raise KaresansuiLibException("Error: %s not exists" % file)
 
     try:
         os.remove(file)
     except OSError, err:
-        raise "OSError: %s" % str(err)
+        raise KaresansuiLibException("OSError: %s" % str(err))
 
 def create_raw_disk_img(file,size,is_sparse=True) :
     """
@@ -680,14 +680,14 @@ def create_raw_disk_img(file,size,is_sparse=True) :
     return rc
 
 #    if os.path.exists(file):
-#        raise "Error: %s already exists" % file
+#        raise KaresansuiLibException("Error: %s already exists" % file)
 #
 #    try:
 #        fd = open(file, 'w')
 #        try:
 #            fd.truncate(1024L * 1024L * size)
 #        except IOError, err:
-#            raise "IOError: %s" % str(err)
+#            raise KaresansuiLibException("IOError: %s" % str(err))
 #    finally:
 #        fd.close()
 

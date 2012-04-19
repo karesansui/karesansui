@@ -244,7 +244,7 @@ class KaresansuiIpTables(IptablesXMLGenerator):
             self.write_firewall_xml()
             ConfigFile(self.iptables_conf_file).write("\n".join(self.make_save_lines()) + "\n")
         except:
-            raise ""
+            raise KaresansuiIpTablesException("Error: Cannot write iptables configuration file.")
 
     def _make_rule_arr(self,rules):
         arr = []
