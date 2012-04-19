@@ -423,7 +423,7 @@ __/etc/sysconfig/libvirtd__
     $ certtool --generate-privkey > serverkey.pem
     $ vi server.info
     organization = Name of your organization
-    cn = example
+    cn = Your FQDN
     tls_www_server
     encryption_key
     signing_key

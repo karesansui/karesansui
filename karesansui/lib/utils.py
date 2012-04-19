@@ -2089,6 +2089,7 @@ def available_virt_uris():
 
     uris = {}
     for _mech in available_virt_mechs():
+        hostname = "127.0.0.1"
         if _mech == "XEN":
             uris[_mech] = XEN_VIRT_URI_RW
         if _mech == "KVM":
@@ -2097,20 +2098,10 @@ def available_virt_uris():
                 uri_prefix = "qemu"
                 uri_suffix = ""
                 uri_args = ""
-                try:
-                    if opts["listen_tls"] == "1":
-                        uri_prefix += "+tls"
-                        try:
-                            opts["tls_port"]
-                            port_number = opts["tls_port"]
-                        except:
-                            port_number = "16514"
-                        uri_args += "?no_verify=1"
-                except:
-                    pass
+
                 try:
                     if opts["listen_tcp"] == "1":
-                        uri_prefix += "+tcp"
+                        uri_prefix = "qemu+tcp"
                         try:
                             opts["tcp_port"]
                             port_number = opts["tcp_port"]
@@ -2120,13 +2111,26 @@ def available_virt_uris():
                     pass
 
                 try:
+                    if opts["listen_tls"] == "1":
+                        uri_prefix = "qemu+tls"
+                        try:
+                            opts["tls_port"]
+                            port_number = opts["tls_port"]
+                        except:
+                            port_number = "16514"
+                        uri_args += "?no_verify=1"
+                        hostname = os.uname()[1]
+                except:
+                    pass
+
+                try:
                     port_number
                     uri_suffix += ":%s/system%s" % (port_number, uri_args,)
                 except:
                     uri_suffix += "/system%s" % (uri_args,)
 
-                #uris[_mech] = "%s://%s%s" % (uri_prefix,os.uname()[1],uri_suffix,)
-                uris[_mech] = "%s://127.0.0.1%s" % (uri_prefix,uri_suffix,)
+                #print "%s://%s%s" % (uri_prefix,hostname,uri_suffix,)
+                uris[_mech] = "%s://%s%s" % (uri_prefix,hostname,uri_suffix,)
             else:
                 uris[_mech] = KVM_VIRT_URI_RW
 
