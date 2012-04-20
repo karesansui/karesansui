@@ -7,6 +7,32 @@ Karesansui is an open-source virtualization management application made in Japan
 * Free for all. Distributed with the MIT license.
 * Supports Kernel-based Virtual Machine(KVM) hypervisor. Other hypervisors/virtualization support on future plan.
 
+Requirements
+------------
+
+Karesansui requires (or is dependent on) other software.
+
+To install Karesansui, you will need:
+
+* [Python](http://www.python.org/) 2.6 (2.4 might work?)
+* [RRDtool](http://oss.oetiker.ch/rrdtool/) 1.3 (or better)
+* [Mako](http://www.makotemplates.org/) 0.3.2 (or better)
+* [SQLAlchemy](http://www.sqlalchemy.org/) 0.5 (or better)
+* [PyXML](http://sourceforge.net/projects/pyxml/) 0.8 (or better)
+* [PySqlite](http://trac.edgewall.org/wiki/PySqlite) 2.3.5 (or better)
+* [flup](http://trac.saddi.com/flup) 1.0.2 (or better)
+* [collectd](http://collectd.org/) 4.10.3 (or better)
+* [TightVNC Java Viewer](http://www.tightvnc.com/) 1.3.10 (or better)
+* [IPAexfont](http://ossipedia.ipa.go.jp/ipafont/) 1.03 (or better)
+* [web.py](http://webpy.org/) 0.36 (or better)
+
+The [INSTALL](http://github.com/karesansui/karesansui/blob/master/INSTALL.ja.md) document also describes a whole series of additional installation steps, including an easier way to install the required software listed above.
+
+If you want to hack the source, you will also probably need:
+
+* [Git](http://git-scm.com/)
+* [setuptools](http://pypi.python.org/pypi/setuptools)
+
 Installation
 ------------
 See [INSTALL](http://github.com/karesansui/karesansui/blob/master/INSTALL.md).
