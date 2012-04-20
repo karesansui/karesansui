@@ -115,7 +115,7 @@ class GuestBy1Memory(Rest):
         _cmd = dict2command("%s/%s" % (karesansui.config['application.bin.dir'],
                                        VIRT_COMMAND_SET_MEMORY),
                             options)
-        cmdname = 'Set memory'
+        cmdname = "Set Memory"
         _jobgroup = JobGroup(cmdname, karesansui.sheconf['env.uniqkey'])
         _jobgroup.jobs.append(Job('%s command' % cmdname, 0, _cmd))
         _machine2jobgroup = m2j_new(machine=model,

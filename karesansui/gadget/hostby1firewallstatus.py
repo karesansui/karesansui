@@ -60,14 +60,13 @@ def firewall_restore(obj, model, action='',options={}):
         options['action'] = action
 
     if action == "restart":
-        action_msg = "Restart firewall"
+        action_msg = "Restart Firewall"
     elif action == "start":
-        action_msg = "Start firewall"
-        msg = "Start firewall"
+        action_msg = "Start Firewall"
     elif action == "stop":
-        action_msg = "Stop firewall"
+        action_msg = "Stop Firewall"
     else:
-        action_msg = "Restore firewall"
+        action_msg = "Restore Firewall"
 
     _cmd = dict2command(
         "%s/%s" % (karesansui.config['application.bin.dir'], FIREWALL_COMMAND_RESTORE_FIREWALL), options)
@@ -95,7 +94,7 @@ def firewall_save(obj, model, options={}):
     _cmd = dict2command(
         "%s/%s" % (karesansui.config['application.bin.dir'], FIREWALL_COMMAND_SAVE_FIREWALL), options)
 
-    cmdname = u"Initialize firewall"
+    cmdname = u"Initialize Firewall"
     _jobgroup = JobGroup(cmdname, karesansui.sheconf['env.uniqkey'])
     _jobgroup.jobs.append(Job("%s command" % cmdname, 0, _cmd))
     

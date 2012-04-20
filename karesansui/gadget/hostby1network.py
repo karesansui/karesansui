@@ -253,11 +253,9 @@ class HostBy1Network(Rest):
         _cmd = dict2command(
             "%s/%s" % (karesansui.config['application.bin.dir'], VIRT_COMMAND_CREATE_NETWORK), options)
 
-        #_jobgroup = JobGroup('Create network', karesansui.sheconf['env.uniqkey'])
-        #_jobgroup.jobs.append(Job('Create network', 0, _cmd))
         # Job Registration
-        _jobgroup = JobGroup('Create network: %s' % name, karesansui.sheconf['env.uniqkey'])
-        _jobgroup.jobs.append(Job('Create network', 0, _cmd))
+        _jobgroup = JobGroup('Create Network: %s' % name, karesansui.sheconf['env.uniqkey'])
+        _jobgroup.jobs.append(Job('Create Network', 0, _cmd))
         _machine2jobgroup = m2j_new(machine=host,
                                     jobgroup_id=-1,
                                     uniq_key=karesansui.sheconf['env.uniqkey'],

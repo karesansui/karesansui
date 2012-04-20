@@ -202,7 +202,7 @@ class GuestBy1Display(Rest):
                                        VIRT_COMMAND_SET_VNC),
                             options)
 
-        cmdname = 'Set vnc'
+        cmdname = "Set VNC"
         _jobgroup = JobGroup(cmdname, karesansui.sheconf['env.uniqkey'])
         _jobgroup.jobs.append(Job('%s command' % cmdname, 0, _cmd))
         

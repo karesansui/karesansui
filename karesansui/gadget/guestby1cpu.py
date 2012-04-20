@@ -162,7 +162,7 @@ class GuestBy1Cpu(Rest):
                                        VIRT_COMMAND_SET_VCPUS),
                             options)
         
-        cmdname = 'Set cpu'
+        cmdname = "Set CPU"
         _jobgroup = JobGroup(cmdname, karesansui.sheconf['env.uniqkey'])
         _jobgroup.jobs.append(Job('%s command' % cmdname, 0, _cmd))
         

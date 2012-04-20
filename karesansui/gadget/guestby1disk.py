@@ -121,7 +121,7 @@ def create_disk_job(obj, guest, domain_name, pool, volume,
     TODO: To include comments in English
     </comment-en>
     """
-    cmdname = u"Add disk"
+    cmdname = u"Add Disk"
     cmd = VIRT_COMMAND_ADD_DISK
 
     options = {}
@@ -154,7 +154,7 @@ def exec_disk_job(obj,
     TODO: To include comments in English
     </comment-en>
     """
-    cmdname = u"Add disk"
+    cmdname = u"Add Disk"
     _jobgroup = JobGroup(cmdname, karesansui.sheconf['env.uniqkey'])
     if volume_job is not None:
         _jobgroup.jobs.append(volume_job)

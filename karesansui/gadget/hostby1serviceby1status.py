@@ -138,12 +138,12 @@ def service_job(obj, host, name, status):
         _cmd = dict2command(
             "%s/%s" % (karesansui.config['application.bin.dir'], SERVICE_COMMAND_AUTOSTART),
             {"name" : name, "enable": None})
-        cmdname = "Autostart Service Enable"
+        cmdname = "Enable Autostart Service"
     elif status == 'disable':
         _cmd = dict2command(
             "%s/%s" % (karesansui.config['application.bin.dir'], SERVICE_COMMAND_AUTOSTART),
             {"name" : name, "disable": None})
-        cmdname = "Autostart Service Disable"
+        cmdname = "Disable Autostart Service"
     else:
         raise
 

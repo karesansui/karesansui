@@ -266,7 +266,7 @@ class GuestBy1SnapshotBy1(Rest):
                        VIRT_COMMAND_DELETE_SNAPSHOT),
             {"name" : domname, "id" : snapshot_id})
 
-        cmdname = 'Delete Snapshot'
+        cmdname = "Delete Snapshot"
         _jobgroup = JobGroup(cmdname, karesansui.sheconf['env.uniqkey'])
         _job = Job('%s command' % cmdname, 0, action_cmd)
         _jobgroup.jobs.append(_job)
