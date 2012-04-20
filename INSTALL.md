@@ -171,15 +171,7 @@ Now you have karesansui source code under ~rpmbuild/karesansui with our sample s
     $ wget http://webpy.org/static/web.py-0.36.tar.gz
     $ rpmbuild -ba ~/karesansui/sample/specs/python-webpy/python-webpy.spec
 
-######Step 4. Building IPAexfont package.
-
-    # su - rpmbuild
-    $ cd ~/pkgs/SOURCES/
-    $ wget http://iij.dl.sourceforge.jp/ipafonts/49986/IPAexfont00103.zip
-    $ cp ~rpmbuild/karesansui/sample/specs/IPAexfont/09-ipaexfont.conf .
-    $ rpmbuild -ba ~/karesansui/sample/specs/IPAexfont/IPAexfont.spec 
-
-######Step 5. Building tightvnc-java package.
+######Step 4. Building tightvnc-java package.
 
     # su - rpmbuild
     $ cd ~/pkgs/SOURCES/
@@ -187,12 +179,12 @@ Now you have karesansui source code under ~rpmbuild/karesansui with our sample s
     $ wget http://downloads.sourceforge.net/sourceforge/vnc-tight/tightvnc-1.3.10_javasrc.tar.gz
     $ rpmbuild -ba ~/karesansui/sample/specs/tightvnc-java/tightvnc-java.spec 
 
-######Step 6. Installing the newly built packages.
+######Step 5. Installing the newly built packages.
 
 Now you can install the newly built packages.
 
     $ cd ~/pkgs/RPMS/noarch
-    # rpm -Uvh python-webpy-*.el6.noarch.rpm IPAexfont-*.el6.noarch.rpm tightvnc-java-*.el6.noarch.rpm 
+    # rpm -Uvh python-webpy-*.el6.noarch.rpm tightvnc-java-*.el6.noarch.rpm 
 
 
 ## Installing pysilhouette ##

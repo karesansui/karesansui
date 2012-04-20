@@ -166,21 +166,21 @@ RPMパッケージを作成する環境を構築します。パッケージ作�
     $ wget http://webpy.org/static/web.py-0.36.tar.gz
     $ rpmbuild -ba ~/karesansui/sample/specs/python-webpy/python-webpy.spec
 
-######4. IPAexfontパッケージの作成
-
-    # su - rpmbuild
-    $ cd ~/pkgs/SOURCES/
-    $ wget http://iij.dl.sourceforge.jp/ipafonts/49986/IPAexfont00103.zip
-    $ cp ~rpmbuild/karesansui/sample/specs/IPAexfont/09-ipaexfont.conf .
-    $ rpmbuild -ba ~/karesansui/sample/specs/IPAexfont/IPAexfont.spec 
-
-######5. tightvnc-javaパッケージの作成
+######4. tightvnc-javaパッケージの作成
 
     # su - rpmbuild
     $ cd ~/pkgs/SOURCES/
     $ wget http://downloads.sourceforge.net/sourceforge/vnc-tight/tightvnc-1.3.10_javabin.tar.gz
     $ wget http://downloads.sourceforge.net/sourceforge/vnc-tight/tightvnc-1.3.10_javasrc.tar.gz
     $ rpmbuild -ba ~/karesansui/sample/specs/tightvnc-java/tightvnc-java.spec 
+
+######5. IPAexfontパッケージの作成
+
+    # su - rpmbuild
+    $ cd ~/pkgs/SOURCES/
+    $ wget http://iij.dl.sourceforge.jp/ipafonts/49986/IPAexfont00103.zip
+    $ cp ~rpmbuild/karesansui/sample/specs/IPAexfont/09-ipaexfont.conf .
+    $ rpmbuild -ba ~/karesansui/sample/specs/IPAexfont/IPAexfont.spec 
 
 ######6. ビルドしたパッケージのインストール
 
