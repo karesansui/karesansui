@@ -10,7 +10,7 @@ ${next.body()}
 %if view(standalone, _) == "1":
 ${self.footer()}
 %endif
-<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%doc>Copyright (C) 2009-2012 HDE, Inc.</%doc>
 <%!  from karesansui.lib.template import view %>
 <%def name="header()"><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja">

@@ -1,4 +1,4 @@
-<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%doc>Copyright (C) 2009-2012 HDE, Inc.</%doc>
 <%inherit file="../include/common.part" />
 
 <div id="about" align="center" style="font-size:12px; margin-top: 20px;">
@@ -8,13 +8,12 @@
 
 Version ${version}.${release}
 
-Copyright (C) 2009-2010 Karesansui Project
-
+Copyright (C) 2009-2012 Karesansui Project
 
 
 Credit: 
-Kei FUNAGAYAMA
-Taizo ITO
+Kei Funagayama
+Taizo Ito
 Kazuya Hayashi 
 Junichi Shinohara
 Kazuhiro Ogura

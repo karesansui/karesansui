@@ -1,4 +1,4 @@
-<%doc>Copyright (C) 2009-2010 HDE, Inc.</%doc>
+<%doc>Copyright (C) 2009-2012 HDE, Inc.</%doc>
 <%inherit file="../include/common.part" />
 <%!
 from karesansui.lib.template import clipping
