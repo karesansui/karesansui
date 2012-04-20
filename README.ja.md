@@ -27,7 +27,7 @@ Karesansuiは、他のソフトウェアを必要とします。
 * [IPAexfont](http://ossipedia.ipa.go.jp/ipafont/) 1.03 (or better)
 * [web.py](http://webpy.org/) 0.36 (or better)
 
-上記の依存ソフトウェアのインストール方法を含めた一連のインストール方法は、[INSTALL](http://github.com/karesansui/karesansui/blob/master/INSTALL.md)にも記載されています。
+上記の依存ソフトウェアのインストール方法を含めた一連のインストール方法は、[INSTALL](http://github.com/karesansui/karesansui/blob/master/INSTALL.ja.md)にも記載されています。
 
 ソースコードをハックしたい場合は以下が必要です。
 

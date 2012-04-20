@@ -26,7 +26,7 @@ To install Karesansui, you will need:
 * [IPAexfont](http://ossipedia.ipa.go.jp/ipafont/) 1.03 (or better)
 * [web.py](http://webpy.org/) 0.36 (or better)
 
-The [INSTALL](http://github.com/karesansui/karesansui/blob/master/INSTALL.ja.md) document also describes a whole series of additional installation steps, including an easier way to install the required software listed above.
+The [INSTALL](http://github.com/karesansui/karesansui/blob/master/INSTALL.md) document also describes a whole series of additional installation steps, including an easier way to install the required software listed above.
 
 If you want to hack the source, you will also probably need:
 
