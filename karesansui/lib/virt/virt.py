@@ -3472,7 +3472,7 @@ class KaresansuiVirtGuest:
             raise
     """
 
-    def append_disk(self, path, target, bus=None, disk_type=None, driver_name=None, driver_type=None):
+    def append_disk(self, path, target, bus=None, disk_type=None, driver_name=None, driver_type=None, disk_device='disk'):
 
         from karesansui.lib.virt.config import ConfigParam
         param = ConfigParam(self.get_domain_name())
@@ -3498,7 +3498,7 @@ class KaresansuiVirtGuest:
 
         param.add_disk(path,
                        target,
-                       "disk",
+                       disk_device,
                        bus,
                        disk_type=disk_type,
                        driver_name=driver_name,

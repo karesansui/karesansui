@@ -155,16 +155,19 @@ class ConfigParam:
 
     def set_domain_type(self, domain_type):
         self.domain_type = domain_type
+
     def get_domain_type(self):
         return self.domain_type
 
     def set_os_root(self, os_root):
         self.os_root = os_root
+
     def get_os_root(self):
         return self.os_root
 
     def set_uuid(self, uuid):
         self.uuid = uuid
+
     def get_uuid(self):
         return self.uuid
 
@@ -172,31 +175,37 @@ class ConfigParam:
         if snapshot is not None:
             snapshot = str(snapshot)
         self.current_snapshot = snapshot
+
     def get_current_snapshot(self):
         return self.current_snapshot
 
     def set_behavior(self, param, value):
         self.behavior[param] = value
+
     def get_behavior(self, param):
         return self.behavior.get(param)
 
     def set_bootloader(self, bootloader):
         self.bootloader = bootloader
+
     def get_bootloader(self):
         return self.bootloader
 
     def set_kernel(self, kernel):
         self.kernel = kernel
+
     def get_kernel(self):
         return self.kernel
 
     def set_initrd(self, initrd):
         self.initrd = initrd
+
     def get_initrd(self):
         return self.initrd
 
     def set_boot_dev(self, boot_dev):
         self.boot_dev = boot_dev
+
     def get_boot_dev(self):
         return self.boot_dev
 
@@ -205,26 +214,31 @@ class ConfigParam:
             self.cmdline.append(opt)
         for k,v in kwargs.iteritems():
             self.cmdline.append("%s=%s" % (k,v))
+
     def get_commandline(self):
         return " ".join(self.cmdline)
 
     def set_graphic_type(self, type):
         self.graphic_type = type
+
     def get_graphic_type(self):
         return self.graphic_type
 
     def set_vnc_port(self, port):
         self.vnc_port = port
+
     def get_vnc_port(self):
         return self.vnc_port
 
     def set_vnc_autoport(self, autoport):
         self.vnc_autoport = autoport
+
     def get_vnc_autoport(self):
         return self.vnc_autoport
 
     def set_vnc_listen(self, listen):
         self.vnc_listen = listen
+
     def get_vnc_listen(self):
         if self.vnc_listen == None:
             self.set_vnc_listen("0.0.0.0")
@@ -232,6 +246,7 @@ class ConfigParam:
 
     def set_vnc_keymap(self, keymap):
         self.vnc_keymap = keymap
+
     def get_vnc_keymap(self):
         #if self.vnc_keymap == None:
         #    self.set_vnc_keymap(DEFAULT_KEYMAP)
@@ -249,31 +264,37 @@ class ConfigParam:
 
     def set_max_vcpus(self, max_vcpus):
         self.max_vcpus = max_vcpus
+
     def get_max_vcpus(self):
         return self.max_vcpus
 
     def set_vcpus_limit(self, vcpus_limit):
         self.vcpus_limit = vcpus_limit
+
     def get_vcpus_limit(self):
         return self.vcpus_limit
 
     def set_max_vcpus_limit(self, max_vcpus_limit):
         self.max_vcpus_limit = max_vcpus_limit
+
     def get_max_vcpus_limit(self):
         return self.max_vcpus_limit
 
     def set_features_pae(self, pae):
         self.features_pae = pae
+
     def get_features_pae(self):
         return self.features_pae
 
     def set_features_acpi(self, acpi):
         self.features_acpi = acpi
+
     def get_features_acpi(self):
         return self.features_acpi
 
     def set_features_apic(self, apic):
         self.features_apic = apic
+
     def get_features_apic(self):
         return self.features_apic
 
@@ -300,8 +321,10 @@ class ConfigParam:
         for arr in self.disks:
             if arr["target"] == target:
                 self.disks.remove(arr)
+
     def get_disk(self):
         return self.disks
+
     def get_disk_path(self,target):
         for arr in self.disks:
             if arr["target"] == target:
@@ -315,6 +338,7 @@ class ConfigParam:
         for arr in self.interfaces:
             if arr["mac"] == mac:
                 self.interfaces.remove(arr)
+
     def get_interface(self):
         return self.interfaces
 

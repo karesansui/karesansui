@@ -48,9 +48,15 @@ usage = '%prog [options]'
 
 def getopts():
     optp = OptionParser(usage=usage, version=__version__)
-    optp.add_option('-n', '--name', dest='name', help=_('Domain name'))
-    optp.add_option('-d', '--disk', dest='disk', help=_('Disk image file'))
-    optp.add_option('-t', '--target', dest='target', help=_('Device target'), default=None)
+    optp.add_option('-n', '--name', dest='name', help=_('Domain Name'))
+    optp.add_option('-d', '--disk', dest='disk', help=_('Disk Image File'))
+    optp.add_option('-t', '--target', dest='target', help=_('Device Target'), default=None)
+
+    optp.add_option('-b', '--bus', dest='bus', help=_('Target Bus'), default=None)
+    optp.add_option('-D', '--disk-type', dest='disk_type', help=_('Disk Type'), default=None)
+    optp.add_option('-N', '--driver-name', dest='driver_name', help=_('Driver Name'), default=None)
+    optp.add_option('-T', '--driver-type', dest='driver_type', help=_('Driver Type'), default=None)
+    optp.add_option('-W', '--disk-device', dest='disk_device', help=_('Disk Device'), default="disk")
     return optp.parse_args()
 
 def chkopts(opts):
@@ -74,7 +80,7 @@ class AppendDisk(KssCommand):
             if not opts.target:
                 opts.target = conn.guest.next_disk_target()
 
-            conn.guest.append_disk(opts.disk,opts.target)
+            conn.guest.append_disk(opts.disk, opts.target, bus=opts.bus, disk_type=opts.disk_type, driver_name=opts.driver_name, driver_type=opts.driver_type, disk_device=opts.disk_device)
             self.up_progress(50)
         finally:
             conn.close()
