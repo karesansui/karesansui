@@ -181,16 +181,20 @@ class GuestBy1DiskBy1(Rest):
                 pool_type = 'iscsi'
                 volume_rpath = disk_info['source']['dev']
 
-            pool_name = kvc.get_storage_pool_name_byimage(volume_rpath)
-            if not pool_name:
-                return web.badrequest(_("Storage pool not found."))
-            else:
-                pool_name = pool_name[0]
-            pool_type = kvc.get_storage_pool_type(pool_name)
+            disk_type = disk_info['type']
+            disk_device = disk_info['device']
+
+            if disk_device != "cdrom":
+                pool_name = kvc.get_storage_pool_name_byimage(volume_rpath)
+                if not pool_name:
+                    return web.badrequest(_("Storage pool not found."))
+                else:
+                    pool_name = pool_name[0]
+                pool_type = kvc.get_storage_pool_type(pool_name)
 
             order = 0
             volume_job = None
-            if pool_type != 'iscsi':
+            if pool_type != 'iscsi' and disk_type != "block":
                 disk_volumes = kvc.get_storage_volume_bydomain(domname, 'disk', 'key')
                 volume = None
 
