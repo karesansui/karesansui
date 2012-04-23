@@ -3229,7 +3229,7 @@ class KaresansuiVirtGuest:
                 r_chgrp(xml_file,KARESANSUI_GROUP)
         param.load_xml_config(xml_file)
 
-        type     = param.get_graphic_type()
+        type     = param.get_graphics_type()
         port     = param.get_graphics_port()
         autoport = param.get_graphics_autoport()
         listen   = param.get_graphics_listen()
@@ -3251,12 +3251,14 @@ class KaresansuiVirtGuest:
             if os.getuid() == 0 and os.path.exists(xml_file):
                 r_chgrp(xml_file,KARESANSUI_GROUP)
         param.load_xml_config(xml_file)
+        type     = param.get_graphics_type()
         port     = param.get_graphics_port()
         autoport = param.get_graphics_autoport()
         listen   = param.get_graphics_listen()
         keymap   = param.get_graphics_keymap()
         passwd   = param.get_graphics_passwd()
         current_setting = {
+                       "type"    :type,
                        "port"    :port,
                        "autoport":autoport,
                        "listen"  :listen,
@@ -3820,7 +3822,7 @@ class KaresansuiVirtGuest:
 
         sync_config_generator(param, self.get_domain_name())
 
-    def set_graphics(self,port=None,listen=None,passwd=None,keymap=None):
+    def set_graphics(self,port=None,listen=None,passwd=None,keymap=None,type='vnc'):
 
         from karesansui.lib.virt.config import ConfigParam
         param = ConfigParam(self.get_domain_name())
@@ -3844,6 +3846,9 @@ class KaresansuiVirtGuest:
 
         if keymap is not None:
             param.set_graphics_keymap(keymap)
+
+        if type is not None:
+            param.set_graphics_type(type)
 
         xml_generator = XMLConfigGenerator()
         cfgxml = xml_generator.generate(param)

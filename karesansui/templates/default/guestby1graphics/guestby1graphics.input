@@ -27,6 +27,10 @@ $(document).ready(function() {
         "#display_setting :input",
         validates_display);
 
+    helptip("#device_display_graphics_type_help",
+            "${_('Graphics Service Type')}",
+            "${_('Graphics type to use graphical interaction with the guest OS.')}");
+
     helptip("#device_display_graphics_port_help",
             "${_('Graphics Port Number')}",
             "${_('Current Graphics port number of this interface.')}");
@@ -62,6 +66,14 @@ $(document).ready(function() {
         </div>
 
         <div class="grayout-contents">
+
+            <div class="grayout-param">${_('Graphics Service Type')}<span id="device_display_graphics_type_help" /></div>
+            <div class="grayout-value grayout-form">
+% for _type in graphics_type:
+                <input type="radio" name="graphics_type" value="${_type}" id="graphics_type_${_type}" ${checked_graphics_type[_type]} />${_type.upper()}
+                &nbsp;
+% endfor
+            </div>
 
             <div class="grayout-param">${_('Graphics Port Number')}<span id="device_display_graphics_port_help" /></div>
             <div class="grayout-value grayout-form">

@@ -57,6 +57,7 @@ def getopts():
     optp.add_option('-p', '--port', dest='port', help=_('Graphics Port Number'), default=None)
     optp.add_option('-l', '--listen', dest='listen', help=_('Graphics Listen Address'), default='0.0.0.0')
     optp.add_option('-k', '--keymap', dest='keymap', help=_('Graphics Keyboard Map'), default=DEFAULT_KEYMAP)
+    optp.add_option('-t', '--type', dest='type', help=_('Graphics Service Type'), default='vnc')
     return optp.parse_args()
 
 def chkopts(opts):
@@ -118,15 +119,16 @@ class SetGraphics(KssCommand):
                     conn.guest.set_graphics(port=opts.port,
                                        listen=opts.listen,
                                        passwd=passwd,
-                                       keymap=opts.keymap)
+                                       keymap=opts.keymap,
+                                       type=opts.type)
                     self.up_progress(20)
                     info = conn.guest.get_graphics_info()
                     self.up_progress(10)
 
-                    self.logger.info('Set graphics. - dom=%s port=%s listen=%s passwd=%s keymap=%s' \
-                                     % (opts.name, info['setting']['port'], info['setting']['listen'],"xxxxxx", info['setting']['keymap']))
-                    print >>sys.stdout, _('Set graphics. - dom=%s port=%s listen=%s passwd=%s keymap=%s') \
-                          % (opts.name, info['setting']['port'], info['setting']['listen'],"xxxxxx", info['setting']['keymap'])
+                    self.logger.info('Set graphics. - dom=%s type=%s port=%s listen=%s passwd=%s keymap=%s' \
+                                     % (opts.name, info['setting']['type'], info['setting']['port'], info['setting']['listen'],"xxxxxx", info['setting']['keymap']))
+                    print >>sys.stdout, _('Set graphics. - dom=%s type=%s port=%s listen=%s passwd=%s keymap=%s') \
+                          % (opts.name, info['setting']['type'], info['setting']['port'], info['setting']['listen'],"xxxxxx", info['setting']['keymap'])
 
                 except Exception, e:
                     self.logger.error('Failed to set graphics. - dom=%s' % (opts.name))

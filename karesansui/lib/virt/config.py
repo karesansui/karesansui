@@ -110,7 +110,7 @@ class ConfigParam:
         self.max_vcpus = None
         self.vcpus_limit = None
         self.max_vcpus_limit = None
-        self.graphic_type = "vnc"
+        self.graphics_type = "vnc"
         self.graphics_port = None
         self.graphics_autoport = "no"
         self.graphics_listen = None
@@ -218,11 +218,11 @@ class ConfigParam:
     def get_commandline(self):
         return " ".join(self.cmdline)
 
-    def set_graphic_type(self, type):
-        self.graphic_type = type
+    def set_graphics_type(self, type):
+        self.graphics_type = type
 
-    def get_graphic_type(self):
-        return self.graphic_type
+    def get_graphics_type(self):
+        return self.graphics_type
 
     def set_graphics_port(self, port):
         self.graphics_port = port
@@ -254,11 +254,13 @@ class ConfigParam:
 
     def set_graphics_passwd(self, passwd):
         self.graphics_passwd = passwd
+
     def get_graphics_passwd(self):
         return self.graphics_passwd
 
     def set_vcpus(self, vcpus):
         self.vcpus = vcpus
+
     def get_vcpus(self):
         return self.vcpus
 
@@ -441,8 +443,8 @@ class ConfigParam:
         max_vcpu = XMLXpath(document,'/domain/vcpu/text()')
         self.set_max_vcpus(int(max_vcpu))
 
-        graphic_type = XMLXpath(document,'/domain/devices/graphics/@type')
-        self.set_graphic_type(str(graphic_type))
+        graphics_type = XMLXpath(document,'/domain/devices/graphics/@type')
+        self.set_graphics_type(str(graphics_type))
 
         graphics_port = XMLXpath(document,'/domain/devices/graphics/@port')
         self.set_graphics_port(int(graphics_port))
@@ -700,11 +702,11 @@ class ConfigGenerator:
     def print_graphics_section(self):
         print >>self.out, "# Graphics configuration"
         if self.config.get_graphics_port():
-            if self.config.get_graphic_type() == "sdl":
+            if self.config.get_graphics_type() == "sdl":
                 self._print_param("sdl", 1)
                 self._print_param("vnc", 0)
                 self._print_param("spice", 0)
-            elif self.config.get_graphic_type() == "spice":
+            elif self.config.get_graphics_type() == "spice":
                 self._print_param("sdl", 0)
                 self._print_param("vnc", 0)
                 self._print_param("spice", 1)
@@ -901,12 +903,22 @@ class XMLInterfaceConfigGenerator(XMLGenerator):
 class XMLGraphicsConfigGenerator(XMLGenerator):
 
     def __init__(self):
+        self.type = None
         self.port = None
         self.listen = None
         self.keymap = None
 
+    def set_type(self, type):
+        self.type = type
+
+    def get_type(self):
+        if self.type == None:
+          self.set_type("vnc")
+        return self.type
+
     def set_port(self, port):
         self.port = port
+
     def get_port(self):
         if self.port == None:
           self.set_port(5901)
@@ -914,6 +926,7 @@ class XMLGraphicsConfigGenerator(XMLGenerator):
 
     def set_listen(self, listen):
         self.listen = listen
+
     def get_listen(self):
         if self.listen is None:
           self.set_listen("0.0.0.0")
@@ -921,6 +934,7 @@ class XMLGraphicsConfigGenerator(XMLGenerator):
 
     def set_keymap(self, keymap):
         self.keymap = keymap
+
     def get_keymap(self):
         #if self.keymap is None:
         #  self.set_keymap(DEFAULT_KEYMAP)
@@ -939,7 +953,7 @@ class XMLGraphicsConfigGenerator(XMLGenerator):
         self.document = implementation.createDocument(None,None,None)
         self.graphics = self.document.createElement("graphics")
 
-        self.graphics.setAttribute("type", "vnc")
+        self.graphics.setAttribute("type", self.get_type())
         self.graphics.setAttribute("port", str(self.get_port()))
         self.graphics.setAttribute("listen", self.get_listen())
         if self.get_keymap() is not None:
@@ -1046,9 +1060,9 @@ class XMLConfigGenerator(XMLGenerator):
         # graphics
         if self.config.get_graphics_port():
             graphics_n = doc.createElement("graphics")
-            if self.config.get_graphic_type() == "sdl":
+            if self.config.get_graphics_type() == "sdl":
                 graphics_n.setAttribute("type", "sdl")
-            elif self.config.get_graphic_type() == "spice":
+            elif self.config.get_graphics_type() == "spice":
                 graphics_n.setAttribute("type", "spice")
             else:
                 graphics_n.setAttribute("type", "vnc")

@@ -29,7 +29,7 @@ import karesansui
 from karesansui.lib.rest import Rest, auth
 
 from karesansui.lib.const import VIRT_COMMAND_SET_GRAPHICS, \
-     GRAPHICS_PORT_MIN_NUMBER, GRAPHICS_PORT_MAX_NUMBER
+     GRAPHICS_PORT_MIN_NUMBER, GRAPHICS_PORT_MAX_NUMBER, ENABLE_GRAPHICS_TYPE
 from karesansui.lib.const import XEN_KEYMAP_DIR, KVM_KEYMAP_DIR
 
 from karesansui.lib.virt.virt import KaresansuiVirtException, \
@@ -148,6 +148,13 @@ class GuestBy1Graphics(Rest):
             self.view.info = info
             self.view.guest = model
 
+            self.view.checked_graphics_type = {}
+            self.view.graphics_type = ENABLE_GRAPHICS_TYPE
+            for _type in self.view.graphics_type:
+               self.view.checked_graphics_type[_type] = ''
+               if info["info"]["type"] == _type:
+                   self.view.checked_graphics_type[_type] = 'checked'
+
         finally:
             kvc.close()
             
@@ -194,6 +201,7 @@ class GuestBy1Graphics(Rest):
         options["port"] = self.input.port
         options["listen"] = self.input.listen
         options["keymap"] = self.input.keymap
+        options["type"] = self.input.graphics_type
 
         if int(self.input.port) != origin_port and int(self.input.port) in used_ports:
             return web.badrequest("Graphics port number has been already used by other service. - port=%s" % (self.input.port,))
