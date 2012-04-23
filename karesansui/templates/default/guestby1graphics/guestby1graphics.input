@@ -10,9 +10,9 @@ function validates_display(){
     check = check_number(
             $("#port"),
             CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
-            "${_('VNC Port Number')}",
-            VNC_PORT_MIN_NUMBER,
-            VNC_PORT_MAX_NUMBER
+            "${_('Graphics Port Number')}",
+            GRAPHICS_PORT_MIN_NUMBER,
+            GRAPHICS_PORT_MAX_NUMBER
         ) && check;
 
     if(!check){
@@ -27,26 +27,26 @@ $(document).ready(function() {
         "#display_setting :input",
         validates_display);
 
-    helptip("#device_display_vnc_port_help",
-            "${_('VNC Port Number')}",
-            "${_('Current VNC port number of this interface.')}");
+    helptip("#device_display_graphics_port_help",
+            "${_('Graphics Port Number')}",
+            "${_('Current Graphics port number of this interface.')}");
 
     /* TODO 「いいえ」にするとどうなる？ */
-    helptip("#device_display_vnc_listen_help",
+    helptip("#device_display_graphics_listen_help",
             "${_('Listen on All Network Interfaces')}",
-            "${_(r'Select \"Yes\" to allow to connect to VNC via all network interfaces.')}");
+            "${_(r'Select \"Yes\" to allow to connect to graphics server via all network interfaces.')}");
 
-    helptip("#device_display_bootup_vnc_port_help",
-            "${_('VNC Port Number')}",
-            "${_('TCP port number to access the guest with VNC. Numbers greater than 5900 are allowed. Unique number between all guests are recommended. Will be valid on next guest bootup.')}");
+    helptip("#device_display_bootup_graphics_port_help",
+            "${_('Graphics Port Number')}",
+            "${_('TCP port number to access the guest with graphics. Numbers greater than 5900 are allowed. Unique number between all guests are recommended. Will be valid on next guest bootup.')}");
 
-    helptip("#device_display_bootup_vnc_listen_help",
+    helptip("#device_display_bootup_graphics_listen_help",
             "${_('Listen on All Network Interfaces')}(${_('This will be enabled on next guest bootup')})",
-            "${_('Settings whether the guest allows VNC connection via all network interfaces. Will be enabled on next guest bootup.')}");
+            "${_('Settings whether the guest allows graphics connection via all network interfaces. Will be enabled on next guest bootup.')}");
 
-    helptip("#device_display_bootup_vnc_password_help",
-            "${_('VNC Password')}",
-            "${_(r"VNC password for this guest. When choosing 'Set random phrase', the new password can be checked out on the 'Device' - 'Display' panel. Will be valid on next guest bootup.")}");
+    helptip("#device_display_bootup_graphics_password_help",
+            "${_('Graphics Password')}",
+            "${_(r"Graphics password for this guest. When choosing 'Set random phrase', the new password can be checked out on the 'Device' - 'Graphics' panel. Will be valid on next guest bootup.")}");
 });
 -->
 </script>
@@ -56,18 +56,18 @@ $(document).ready(function() {
     
         <div class="grayout-head">
             <span class="grayout-title">
-                <img src="${ctx.homepath}/static/images/settings-title.gif">${_('Display Information')}
+                <img src="${ctx.homepath}/static/images/settings-title.gif">${_('Graphics Information')}
             </span>
             <br style="clear: both;"/>
         </div>
 
         <div class="grayout-contents">
 
-            <div class="grayout-param">${_('VNC Port Number')}<span id="device_display_vnc_port_help" /></div>
+            <div class="grayout-param">${_('Graphics Port Number')}<span id="device_display_graphics_port_help" /></div>
             <div class="grayout-value grayout-form">
                 ${info["info"]["port"]}
             </div>
-            <div class="grayout-param">${_('Listen on All Network Interfaces')}<span id="device_display_vnc_listen_help" /></div>
+            <div class="grayout-param">${_('Listen on All Network Interfaces')}<span id="device_display_graphics_listen_help" /></div>
             <div class="grayout-value grayout-form">
 % if info['info']['listen'] == '0.0.0.0':
                     ${_('Yes')}
@@ -76,18 +76,18 @@ $(document).ready(function() {
 % endif
             </div>
 
-            <div class="grayout-param">${_('VNC Port Number')}(${_('This will be enabled on next guest bootup')})<span id="device_display_bootup_vnc_port_help" /></div>
+            <div class="grayout-param">${_('Graphics Port Number')}(${_('This will be enabled on next guest bootup')})<span id="device_display_bootup_graphics_port_help" /></div>
             <div class="grayout-value grayout-form">
                 <input type="text" id="port" name="port" value="${info["setting"]["port"]}" size="6" maxlength="5"/><span class="require-text">${_('Require')}</span>
             </div>
-            <div class="grayout-param">${_('Listen on All Network Interfaces')}(${_('This will be enabled on next guest bootup')})<span id="device_display_bootup_vnc_listen_help" /></div>
+            <div class="grayout-param">${_('Listen on All Network Interfaces')}(${_('This will be enabled on next guest bootup')})<span id="device_display_bootup_graphics_listen_help" /></div>
             <div class="grayout-value grayout-form">
                 <input type="radio" name="listen" value="0.0.0.0" id="listen_all" ${checked_listen_all}/>${_("Yes")}
                 &nbsp;
                 <input type="radio" name="listen" value="127.0.0.1" id="listen_lo" ${checked_listen_lo}/>${_("No")}
             </div>
 
-            <div class="grayout-param">${_('VNC Password')}(${_('This will be enabled on next guest bootup')})<span id="device_display_bootup_vnc_password_help" /></div>
+            <div class="grayout-param">${_('Graphics Password')}(${_('This will be enabled on next guest bootup')})<span id="device_display_bootup_graphics_password_help" /></div>
             <div class="grayout-value grayout-form">
                 <input type="radio" name="change_passwd" value="keep" id="change_passwd_keep" checked="checked" />${_("Keep current setting")}
 % if info['setting']['passwd'] is None:
@@ -103,7 +103,7 @@ $(document).ready(function() {
 
             <input type="hidden" name="VMType" value="${VMType}">
 
-            <div class="grayout-param">${_('VNC Keymap')}(${_('Keymap of the keyboard to use with VNC.')})<span id="device_display_bootup_vnc_keymap_help" /></div>
+            <div class="grayout-param">${_('Graphics Keymap')}(${_('Keymap of the keyboard to use with graphics.')})<span id="device_display_bootup_graphics_keymap_help" /></div>
             <div class="grayout-value grayout-form">
 	        <select id="keymap" name="keymap">
 % for keymap in keymaps:

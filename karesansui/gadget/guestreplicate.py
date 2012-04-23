@@ -35,7 +35,7 @@ from karesansui.gadget.guestby1disk import create_disk_job
 from karesansui.lib.rest import Rest, auth
 from karesansui.lib.const import \
     VIRT_COMMAND_REPLICATE_GUEST, \
-    VNC_PORT_MIN_NUMBER, PORT_MAX_NUMBER, \
+    GRAPHICS_PORT_MIN_NUMBER, PORT_MAX_NUMBER, \
     ID_MIN_LENGTH, ID_MAX_LENGTH, MACHINE_ATTRIBUTE
 
 from karesansui.lib.utils import comma_split, generate_uuid, \
@@ -54,7 +54,7 @@ from karesansui.lib.const import \
     NOTE_TITLE_MIN_LENGTH, NOTE_TITLE_MAX_LENGTH, \
     MACHINE_NAME_MIN_LENGTH, MACHINE_NAME_MAX_LENGTH, \
     TAG_MIN_LENGTH, TAG_MAX_LENGTH, \
-    VNC_PORT_MIN_NUMBER, VNC_PORT_MAX_NUMBER, \
+    GRAPHICS_PORT_MIN_NUMBER, GRAPHICS_PORT_MAX_NUMBER, \
     DOMAIN_NAME_MIN_LENGTH, DOMAIN_NAME_MAX_LENGTH, \
     VIRT_COMMAND_DELETE_GUEST, VIRT_COMMAND_REPLICATE_STORAGE_VOLUME, \
     DISK_USES, VIRT_COMMAND_DELETE_STORAGE_VOLUME
@@ -136,16 +136,16 @@ def validates_guest_replicate(obj):
                 DOMAIN_NAME_MAX_LENGTH,
             ) and check
 
-    if not is_param(obj.input, 'vm_vncport'):
+    if not is_param(obj.input, 'vm_graphics_port'):
         check = False
-        checker.add_error(_('Parameter vm_vncport does not exist.'))
+        checker.add_error(_('Parameter vm_graphics_port does not exist.'))
     else:
         check = checker.check_number(
-                _('VNC Port Number'),
-                obj.input.vm_vncport,
+                _('Graphics Port Number'),
+                obj.input.vm_graphics_port,
                 CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
-                VNC_PORT_MIN_NUMBER,
-                VNC_PORT_MAX_NUMBER,
+                GRAPHICS_PORT_MIN_NUMBER,
+                GRAPHICS_PORT_MAX_NUMBER,
             ) and check
 
     if not is_param(obj.input, 'vm_mac'):
@@ -389,8 +389,8 @@ class GuestReplicate(Rest):
                 return web.badrequest(self.view.alert)
 
             self.view.domain_src_name = virt.get_domain_name()
-            used_ports = kvc.list_used_vnc_port()
-            self.view.vnc_port = next_number(VNC_PORT_MIN_NUMBER,PORT_MAX_NUMBER,used_ports)
+            used_ports = kvc.list_used_graphics_port()
+            self.view.graphics_port = next_number(GRAPHICS_PORT_MIN_NUMBER,PORT_MAX_NUMBER,used_ports)
         finally:
             kvc.close()
 
@@ -466,8 +466,8 @@ class GuestReplicate(Rest):
                 options["pool"] = self.input.dest_pool
             if is_param(self.input, "domain_dest_name"):
                 options["dest-name"] = self.input.domain_dest_name
-            if is_param(self.input, "vm_vncport"):
-                options["vnc-port"] = self.input.vm_vncport
+            if is_param(self.input, "vm_graphics_port"):
+                options["graphics-port"] = self.input.vm_graphics_port
             if is_param(self.input, "vm_mac"):
                 options["mac"] = self.input.vm_mac
 
@@ -506,7 +506,7 @@ class GuestReplicate(Rest):
 
             active_guests = kvc.list_active_guest()
             inactive_guests = kvc.list_inactive_guest()
-            used_vnc_ports = kvc.list_used_vnc_port()
+            used_graphics_ports = kvc.list_used_graphics_port()
             used_mac_addrs = kvc.list_used_mac_addr()
 
             conflict_location = "%s/host/%d/guest/%d.json" \
@@ -519,10 +519,10 @@ class GuestReplicate(Rest):
             # destination guestos
             if (options["dest-name"] in active_guests or options["dest-name"] in inactive_guests):
                 return web.conflict(conflict_location, "Destination guest %s is already there." % options["dest-name"])
-            # VNC port number
-            if(int(self.input.vm_vncport) in used_vnc_ports):
-                return web.conflict(conflict_location, "VNC port %s is already used." % self.input.vm_vncport)
-            # MAC address
+            # Graphics Port Number
+            if(int(self.input.vm_graphics_port) in used_graphics_ports):
+                return web.conflict(conflict_location, "Graphics port %s is already used." % self.input.vm_graphics_port)
+            # MAC Address
             if(self.input.vm_mac in used_mac_addrs):
                 return web.conflict(conflict_location, "MAC address %s is already used." % self.input.vm_mac)
 

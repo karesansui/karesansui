@@ -92,7 +92,7 @@ import karesansui.gadget.guestby1diskby1
 import karesansui.gadget.guestby1nicby1
 import karesansui.gadget.guestby1cpu
 import karesansui.gadget.guestby1memory
-import karesansui.gadget.guestby1display
+import karesansui.gadget.guestby1graphics
 import karesansui.gadget.guestby1snapshot
 import karesansui.gadget.guestby1snapshotby1
 import karesansui.gadget.guestby1currentsnapshot
@@ -166,7 +166,7 @@ urls = karesansui.gadget.index.urls \
        + karesansui.gadget.guestby1nicby1.urls \
        + karesansui.gadget.guestby1cpu.urls \
        + karesansui.gadget.guestby1memory.urls \
-       + karesansui.gadget.guestby1display.urls \
+       + karesansui.gadget.guestby1graphics.urls \
        + karesansui.gadget.guestby1snapshot.urls \
        + karesansui.gadget.guestby1snapshotby1.urls \
        + karesansui.gadget.guestby1currentsnapshot.urls \

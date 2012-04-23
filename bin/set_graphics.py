@@ -51,12 +51,12 @@ usage = '%prog [options]'
 def getopts():
     optp = OptionParser(usage=usage, version=__version__)
     optp.add_option('-n', '--name', dest='name', help=_('Domain Name'))
-    optp.add_option('-P', '--passwd', dest='passwd', help=_('VNC password'), default=None)
-    optp.add_option('-w', '--passwd-file', dest='passwd_file', help=_('VNC password file'), default=None)
-    optp.add_option('-W', '--random-passwd', dest='random_passwd', action="store_true", help=_('Set random VNC password'))
-    optp.add_option('-p', '--port', dest='port', help=_('VNC port number'), default=None)
-    optp.add_option('-l', '--listen', dest='listen', help=_('VNC listen address'), default='0.0.0.0')
-    optp.add_option('-k', '--keymap', dest='keymap', help=_('VNC keyboard map'), default=DEFAULT_KEYMAP)
+    optp.add_option('-P', '--passwd', dest='passwd', help=_('Graphics Password'), default=None)
+    optp.add_option('-w', '--passwd-file', dest='passwd_file', help=_('Graphics Password File'), default=None)
+    optp.add_option('-W', '--random-passwd', dest='random_passwd', action="store_true", help=_('Set random Graphics password'))
+    optp.add_option('-p', '--port', dest='port', help=_('Graphics Port Number'), default=None)
+    optp.add_option('-l', '--listen', dest='listen', help=_('Graphics Listen Address'), default='0.0.0.0')
+    optp.add_option('-k', '--keymap', dest='keymap', help=_('Graphics Keyboard Map'), default=DEFAULT_KEYMAP)
     return optp.parse_args()
 
 def chkopts(opts):
@@ -67,7 +67,7 @@ def chkopts(opts):
     if opts.passwd != None and opts.passwd_file != None and opts.random_passwd != None:
         raise KssCommandOptException('ERROR: %s options are conflicted.' % '--passwd, --passwd-file and --random-passwd')
 
-class SetVnc(KssCommand):
+class SetGraphics(KssCommand):
 
     def process(self):
         (opts, args) = getopts()
@@ -115,7 +115,7 @@ class SetVnc(KssCommand):
 
                 try:
                     self.up_progress(10)
-                    conn.guest.set_vnc(port=opts.port,
+                    conn.guest.set_graphics(port=opts.port,
                                        listen=opts.listen,
                                        passwd=passwd,
                                        keymap=opts.keymap)
@@ -123,14 +123,14 @@ class SetVnc(KssCommand):
                     info = conn.guest.get_graphics_info()
                     self.up_progress(10)
 
-                    self.logger.info('Set vnc. - dom=%s port=%s listen=%s passwd=%s keymap=%s' \
+                    self.logger.info('Set graphics. - dom=%s port=%s listen=%s passwd=%s keymap=%s' \
                                      % (opts.name, info['setting']['port'], info['setting']['listen'],"xxxxxx", info['setting']['keymap']))
-                    print >>sys.stdout, _('Set vnc. - dom=%s port=%s listen=%s passwd=%s keymap=%s') \
+                    print >>sys.stdout, _('Set graphics. - dom=%s port=%s listen=%s passwd=%s keymap=%s') \
                           % (opts.name, info['setting']['port'], info['setting']['listen'],"xxxxxx", info['setting']['keymap'])
 
                 except Exception, e:
-                    self.logger.error('Failed to set vnc. - dom=%s' % (opts.name))
-                    print >>sys.stderr, _('Failed to set vnc. - dom=%s') % (opts.name)
+                    self.logger.error('Failed to set graphics. - dom=%s' % (opts.name))
+                    print >>sys.stderr, _('Failed to set graphics. - dom=%s') % (opts.name)
                     raise e
 
             else:
@@ -141,5 +141,5 @@ class SetVnc(KssCommand):
             conn.close()
 
 if __name__ == "__main__":
-    target = SetVnc()
+    target = SetGraphics()
     sys.exit(target.run())

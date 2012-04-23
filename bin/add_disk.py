@@ -51,7 +51,7 @@ usage = '%prog [options]'
 
 def getopts():
     optp = OptionParser(usage=usage, version=__version__)
-    optp.add_option('-n', '--name',   dest='name',   help=_('Domain name'),    default=None)
+    optp.add_option('-n', '--name',   dest='name',   help=_('Domain Name'),    default=None)
     #optp.add_option('-d', '--disk',   dest='disk',   help=_('Disk image file'), default=None)
     #optp.add_option('-s', '--size',   dest='size',   help=_('Disk size (MB)'), default=None)
     #optp.add_option('-p', '--sparse', dest='sparse', help=_('Sparse file'),    action="store_true")

@@ -50,7 +50,7 @@
 /usr/share/karesansui/bin/set_mac_address.py
 /usr/share/karesansui/bin/set_memory.py
 /usr/share/karesansui/bin/set_vcpus.py
-/usr/share/karesansui/bin/set_vnc.py
+/usr/share/karesansui/bin/set_graphics.py
 /usr/share/karesansui/bin/shutdown_guest.py
 /usr/share/karesansui/bin/start_guest.py
 /usr/share/karesansui/bin/start_iscsi.py

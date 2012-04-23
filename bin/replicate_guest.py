@@ -63,9 +63,9 @@ def getopts():
     optp = OptionParser(usage=usage, version=__version__)
     optp.add_option('-s', '--src-name', dest='src_name', help=_('Source domain name'))
     optp.add_option('-d', '--dest-name', dest='name', help=_('Destination domain name'))
-    optp.add_option('-v', '--vnc-port', dest='vnc_port', help=_('VNC port number'), default=None)
+    optp.add_option('-v', '--graphics-port', dest='graphics_port', help=_('Graphics Port Number'), default=None)
     optp.add_option('-u', '--uuid', dest='uuid', help=_('UUID'), default=None)
-    optp.add_option('-a', '--mac', dest='mac', help=_('MAC address'), default=None)
+    optp.add_option('-a', '--mac', dest='mac', help=_('MAC Address'), default=None)
     optp.add_option('-p', '--pool', dest='pool', help=_('Destination storage pool'))
     return optp.parse_args()
 
@@ -90,12 +90,12 @@ def chkopts(opts):
     else:
         raise KssCommandOptException('ERROR: %s option is required.' % '-p or --pool')
 
-    if opts.vnc_port:
+    if opts.graphics_port:
         reg = re.compile("^[0-9]{1,5}$")
-        if not reg.match(opts.vnc_port):
-            raise KssCommandOptException('ERROR: Illigal option value. option=%s value=%s' % ('-v or --vnc-port', opts.vnc_port))
-        if int(opts.vnc_port) < PORT_MIN_NUMBER or PORT_MAX_NUMBER < int(opts.vnc_port):
-            raise KssCommandOptException('ERROR: Illigal port number. port=%s' % (opts.vnc_port))
+        if not reg.match(opts.graphics_port):
+            raise KssCommandOptException('ERROR: Illigal option value. option=%s value=%s' % ('-v or --graphics-port', opts.graphics_port))
+        if int(opts.graphics_port) < PORT_MIN_NUMBER or PORT_MAX_NUMBER < int(opts.graphics_port):
+            raise KssCommandOptException('ERROR: Illigal port number. port=%s' % (opts.graphics_port))
 
     if opts.mac:
         reg = re.compile("^([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}$")
@@ -172,7 +172,7 @@ class ReplicateGuest(KssCommand):
                                      opts.pool,
                                      opts.mac,
                                      opts.uuid,
-                                     opts.vnc_port)
+                                     opts.graphics_port)
                 self.up_progress(40)
             except:
                 self.logger.error('Failed to replicate guest. - src=%s dom=%s' % (opts.src_name,opts.name))

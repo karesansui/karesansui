@@ -385,7 +385,7 @@ $(document).ready(function(){
                                                 <tr><td colspan="3"><div class="summary-space" /></td></tr>
                                                 <tr>
                                                     <th>
-                                                        <span class="summary-info-title">${_('VNC Info')}</span>
+                                                        <span class="summary-info-title">${_('Graphics Info')}</span>
                                                     </th>
                                                     <td class="summary-info-space">
                                                         <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
@@ -394,24 +394,24 @@ $(document).ready(function(){
                                                         <table cellspacing="0" class="border summary-sub-info">
                                                             <tr>
                                                                 <th>
-                                                                    <span class="summary-info-title">${_('VNC Listen')}</span>
+                                                                    <span class="summary-info-title">${_('Graphics Listen')}</span>
                                                                 </th>
                                                                 <td class="summary-info-space">
                                                                     <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
                                                                 </td>
                                                                 <td>
-                                                                    <span class="summary-info-data">${vnc_info['info']['listen']}</span>
+                                                                    <span class="summary-info-data">${graphics_info['info']['listen']}</span>
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <th>
-                                                                    <span class="summary-info-title">${_('VNC Port')}</span>
+                                                                    <span class="summary-info-title">${_('Graphics Port')}</span>
                                                                 </th>
                                                                 <td class="summary-info-space">
                                                                     <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
                                                                 </td>
                                                                 <td>
-                                                                    <span class="summary-info-data">${vnc_info['info']['port']}</span>
+                                                                    <span class="summary-info-data">${graphics_info['info']['port']}</span>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -422,7 +422,7 @@ $(document).ready(function(){
                                                                     <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
                                                                 </td>
                                                                 <td>
-                                                                    <span class="summary-info-data">${vnc_info['info']['keymap']}</span>
+                                                                    <span class="summary-info-data">${graphics_info['info']['keymap']}</span>
                                                                 </td>
                                                             </tr>
                                                         </table>

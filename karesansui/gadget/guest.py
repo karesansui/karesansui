@@ -36,7 +36,7 @@ from karesansui.lib.rest import Rest, auth
 from karesansui.lib.const import ICON_DIR_TPL, \
      VIRT_COMMAND_CREATE_GUEST, VIRT_COMMAND_REPLICATE_GUEST, \
      VIRT_COMMAND_DELETE_GUEST, \
-     VNC_PORT_MIN_NUMBER, PORT_MAX_NUMBER, \
+     GRAPHICS_PORT_MIN_NUMBER, PORT_MAX_NUMBER, \
      MEMORY_MIN_SIZE, DISK_MIN_SIZE, \
      VIRT_DOMAINS_DIR, DEFAULT_KEYMAP
 
@@ -63,7 +63,7 @@ from karesansui.lib.const import \
     NOTE_TITLE_MIN_LENGTH, NOTE_TITLE_MAX_LENGTH, \
     MACHINE_NAME_MIN_LENGTH, MACHINE_NAME_MAX_LENGTH, \
     TAG_MIN_LENGTH, TAG_MAX_LENGTH, \
-    VNC_PORT_MIN_NUMBER, VNC_PORT_MAX_NUMBER, \
+    GRAPHICS_PORT_MIN_NUMBER, GRAPHICS_PORT_MAX_NUMBER, \
     HYPERVISOR_MIN_SIZE, HYPERVISOR_MAX_SIZE, \
     MEMORY_MIN_SIZE, DISK_MIN_SIZE, \
     DOMAIN_NAME_MIN_LENGTH, DOMAIN_NAME_MAX_LENGTH, \
@@ -235,7 +235,7 @@ def validates_guest_add(obj):
 
     if not is_param(obj.input, 'keymap'):
         check = False
-        checker.add_error(_('"%s" is required.') % _('VNC Keymap'))
+        checker.add_error(_('"%s" is required.') % _('Graphics Keymap'))
     else:
         hypervisor = "KVM"
         if int(obj.input.m_hypervisor) == MACHINE_HYPERVISOR['XEN']:
@@ -243,22 +243,22 @@ def validates_guest_add(obj):
         elif int(obj.input.m_hypervisor) == MACHINE_HYPERVISOR['KVM']:
             hypervisor = "KVM"
         check = checker.check_keymap(
-                _('VNC Keymap'),
+                _('Graphics Keymap'),
                 obj.input.keymap,
                 CHECK_EMPTY | CHECK_EXIST,
                 hypervisor
                 ) and check
 
-    if not is_param(obj.input, 'vm_vncport'):
+    if not is_param(obj.input, 'vm_graphics_port'):
         check = False
-        checker.add_error(_('Parameter vm_vncport does not exist.'))
+        checker.add_error(_('Parameter vm_graphics_port does not exist.'))
     else:
         check = checker.check_number(
-                _('VNC Port Number'),
-                obj.input.vm_vncport,
+                _('Graphics Port Number'),
+                obj.input.vm_graphics_port,
                 CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
-                VNC_PORT_MIN_NUMBER,
-                VNC_PORT_MAX_NUMBER,
+                GRAPHICS_PORT_MIN_NUMBER,
+                GRAPHICS_PORT_MAX_NUMBER,
             ) and check
 
     if not is_param(obj.input, 'vm_mac'):
@@ -506,7 +506,7 @@ class Guest(Rest):
                         uri = uris[k]
                         mem_info = self.kvc.get_mem_info()
                         active_networks = self.kvc.list_active_network()
-                        used_vnc_ports = self.kvc.list_used_vnc_port()
+                        used_graphics_ports = self.kvc.list_used_graphics_port()
                         bus_types = self.kvc.bus_types
                         self.view.bus_types = bus_types
                         self.view.max_mem = mem_info['host_max_mem']
@@ -532,7 +532,7 @@ class Guest(Rest):
 
                         # Virtual device
                         self.view.virnet[k] = sorted(active_networks)
-                        used_ports[k] = used_vnc_ports
+                        used_ports[k] = used_graphics_ports
 
 
                 exclude_ports = []
@@ -540,7 +540,7 @@ class Guest(Rest):
                     exclude_ports = exclude_ports + _used_port
                     exclude_ports = sorted(exclude_ports)
                     exclude_ports = [p for p, q in zip(exclude_ports, exclude_ports[1:] + [None]) if p != q]
-                self.view.vnc_port = next_number(VNC_PORT_MIN_NUMBER,
+                self.view.graphics_port = next_number(GRAPHICS_PORT_MIN_NUMBER,
                                                  PORT_MAX_NUMBER,
                                                  exclude_ports)
 
@@ -647,7 +647,7 @@ class Guest(Rest):
                 self.kvc = KaresansuiVirtConnection(uri)
                 active_guests = self.kvc.list_active_guest()
                 inactive_guests = self.kvc.list_inactive_guest()
-                used_vnc_ports = self.kvc.list_used_vnc_port()
+                used_graphics_ports = self.kvc.list_used_graphics_port()
                 used_mac_addrs = self.kvc.list_used_mac_addr()
                 mem_info = self.kvc.get_mem_info()
 
@@ -673,10 +673,10 @@ class Guest(Rest):
         if (self.input.domain_name in active_guests) \
                or (self.input.domain_name in inactive_guests):
             return web.conflict(web.ctx.path, "Guest OS is already there.")
-        # VNC port number
-        if(int(self.input.vm_vncport) in used_vnc_ports):
-            return web.conflict(web.ctx.path, "VNC Port is already there.")
-        # MAC addr
+        # Graphics Port Number
+        if(int(self.input.vm_graphics_port) in used_graphics_ports):
+            return web.conflict(web.ctx.path, "Graphics Port is already there.")
+        # MAC Address
         if(self.input.vm_mac in used_mac_addrs):
             return web.conflict(web.ctx.path, "MAC Address is already there.")
 
@@ -719,8 +719,8 @@ class Guest(Rest):
         else:
             return web.badrequest()
 
-        if is_param(self.input, "vm_vncport"):
-            options['vnc-port'] = self.input.vm_vncport
+        if is_param(self.input, "vm_graphics_port"):
+            options['graphics-port'] = self.input.vm_graphics_port
         if is_param(self.input, "vm_mac"):
             options['mac'] = self.input.vm_mac
         if is_param(self.input, "vm_extra"):

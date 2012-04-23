@@ -69,7 +69,7 @@ import karesansui.lib.locale
 from karesansui.lib.const import VIRT_LIBVIRT_DATA_DIR, VIRT_DOMAINS_DIR, \
      VIRT_XML_CONFIG_DIR, VIRT_NETWORK_CONFIG_DIR, VIRT_SNAPSHOT_DIR, \
      VIRT_XENDOMAINS_AUTO_DIR, VIRT_AUTOSTART_CONFIG_DIR, \
-     KARESANSUI_GROUP, VNC_PORT_MIN_NUMBER, PORT_MAX_NUMBER, \
+     KARESANSUI_GROUP, GRAPHICS_PORT_MIN_NUMBER, PORT_MAX_NUMBER, \
      DEFAULT_KEYMAP, VIRT_STORAGE_CONFIG_DIR, \
      DEFAULT_KVM_DISK_FORMAT, DEFAULT_XEN_DISK_FORMAT, \
      DISK_USES, GUEST_EXPORT_FILE, KVM_BUS_TYPES, XEN_BUS_TYPES, \
@@ -532,10 +532,10 @@ class KaresansuiVirtConnection:
 
         return guests
 
-    def list_used_vnc_port(self):
+    def list_used_graphics_port(self):
         """
         <comment-ja>
-        すでにシステムで利用しているVNCポート番号を取得します。
+        すでにシステムで利用しているグラフィックスのポート番号を取得します。
         </comment-ja>
         <comment-en>
         TODO:
@@ -553,9 +553,9 @@ class KaresansuiVirtConnection:
                     r_chgrp(xml_file,KARESANSUI_GROUP)
             param.load_xml_config(xml_file)
 
-            vnc_port = param.vnc_port
-            if vnc_port and int(vnc_port) > 0:
-                ports.append(int(vnc_port))
+            graphics_port = param.graphics_port
+            if graphics_port and int(graphics_port) > 0:
+                ports.append(int(graphics_port))
 
         return UniqSort(ports)
 
@@ -645,7 +645,7 @@ class KaresansuiVirtConnection:
         return domain_dir
 
     def create_guest(self, name=None, type="xen", ram=256, disk=None, disksize=1024*16, 
-                     mac=None, uuid=None, kernel=None, initrd=None, iso=None, vnc=None,
+                     mac=None, uuid=None, kernel=None, initrd=None, iso=None, graphics=None,
                      vcpus=None, extra=None, keymap=DEFAULT_KEYMAP,
                      bus=None, disk_format=None,
                      storage_pool=None, storage_volume=None):
@@ -733,9 +733,9 @@ class KaresansuiVirtConnection:
         if vcpus is None:
             vcpus = 1
 
-        if vnc is None:
-            used_ports = self.list_used_vnc_port()
-            vnc = NextNumber(VNC_PORT_MIN_NUMBER,PORT_MAX_NUMBER,used_ports)
+        if graphics is None:
+            used_ports = self.list_used_graphics_port()
+            graphics = NextNumber(GRAPHICS_PORT_MIN_NUMBER,PORT_MAX_NUMBER,used_ports)
 
 #        if os.path.exists(disk):
 #            os.unlink(disk)
@@ -761,7 +761,7 @@ class KaresansuiVirtConnection:
 
         param.set_max_vcpus(vcpus)
         param.set_memory(str(ram) + 'm')
-        param.set_vnc_keymap(keymap)
+        param.set_graphics_keymap(keymap)
 
         # definition for a network interface
         if type == "kvm":
@@ -781,7 +781,7 @@ class KaresansuiVirtConnection:
                 param.add_interface(mac.lower(),"bridge",_format['name'],script,model=model)
                 mac = None
 
-        param.set_vnc_port(vnc)
+        param.set_graphics_port(graphics)
         if extra != None:
             param.append_commandline(extra)
         param.set_behavior("on_shutoff","destroy")
@@ -1095,7 +1095,7 @@ class KaresansuiVirtConnection:
 
         return True
 
-    def replicate_guest(self, name, source_name, pool, mac=None, uuid=None, vnc=None):
+    def replicate_guest(self, name, source_name, pool, mac=None, uuid=None, graphics=None):
         """<comment-ja>
         ゲストOSのコピーを行います。
         すべてのディスクがfile形式のみ実行可能です。
@@ -1151,9 +1151,9 @@ class KaresansuiVirtConnection:
         if uuid is None:
             uuid = StrFromUUID(GenUUID())
 
-        if vnc is None:
-            used_ports = self.list_used_vnc_port()
-            vnc = NextNumber(VNC_PORT_MIN_NUMBER,PORT_MAX_NUMBER,used_ports)
+        if graphics is None:
+            used_ports = self.list_used_graphics_port()
+            graphics = NextNumber(GRAPHICS_PORT_MIN_NUMBER,PORT_MAX_NUMBER,used_ports)
 
         old_disks = param.disks
 
@@ -1179,7 +1179,7 @@ class KaresansuiVirtConnection:
 
         param.disks = []
         param.set_uuid(uuid)
-        param.set_vnc_port(vnc)
+        param.set_graphics_port(graphics)
         param.add_disk(disk,
                        self.disk_prefix + "a",
                        bus=bus,
@@ -3230,10 +3230,10 @@ class KaresansuiVirtGuest:
         param.load_xml_config(xml_file)
 
         type     = param.get_graphic_type()
-        port     = param.get_vnc_port()
-        autoport = param.get_vnc_autoport()
-        listen   = param.get_vnc_listen()
-        keymap   = param.get_vnc_keymap()
+        port     = param.get_graphics_port()
+        autoport = param.get_graphics_autoport()
+        listen   = param.get_graphics_listen()
+        keymap   = param.get_graphics_keymap()
         current_info = {
                        "type"    :type,
                        "port"    :port,
@@ -3251,11 +3251,11 @@ class KaresansuiVirtGuest:
             if os.getuid() == 0 and os.path.exists(xml_file):
                 r_chgrp(xml_file,KARESANSUI_GROUP)
         param.load_xml_config(xml_file)
-        port     = param.get_vnc_port()
-        autoport = param.get_vnc_autoport()
-        listen   = param.get_vnc_listen()
-        keymap   = param.get_vnc_keymap()
-        passwd   = param.get_vnc_passwd()
+        port     = param.get_graphics_port()
+        autoport = param.get_graphics_autoport()
+        listen   = param.get_graphics_listen()
+        keymap   = param.get_graphics_keymap()
+        passwd   = param.get_graphics_passwd()
         current_setting = {
                        "port"    :port,
                        "autoport":autoport,
@@ -3820,7 +3820,7 @@ class KaresansuiVirtGuest:
 
         sync_config_generator(param, self.get_domain_name())
 
-    def set_vnc(self,port=None,listen=None,passwd=None,keymap=None):
+    def set_graphics(self,port=None,listen=None,passwd=None,keymap=None):
 
         from karesansui.lib.virt.config import ConfigParam
         param = ConfigParam(self.get_domain_name())
@@ -3834,16 +3834,16 @@ class KaresansuiVirtGuest:
         param.load_xml_config(xml_file)
 
         if port is not None:
-            param.set_vnc_port(port)
+            param.set_graphics_port(port)
 
         if listen is not None:
-            param.set_vnc_listen(listen)
+            param.set_graphics_listen(listen)
 
         if passwd is not None:
-            param.set_vnc_passwd(passwd)
+            param.set_graphics_passwd(passwd)
 
         if keymap is not None:
-            param.set_vnc_keymap(keymap)
+            param.set_graphics_keymap(keymap)
 
         xml_generator = XMLConfigGenerator()
         cfgxml = xml_generator.generate(param)
@@ -4365,7 +4365,7 @@ if __name__ == '__main__':
         #print conn.get_storage_volume_bydomain("centos55",image_type="os", attr="name")
         print conn.get_storage_volume_bydomain("centos55",image_type="disk", attr="name")
         #print conn.get_storage_pool_name_byimage("/var/lib/libvirt/domains/guest1/images/guest1.img")
-        #print conn.list_used_vnc_port()
+        #print conn.list_used_graphics_port()
         #print conn.list_used_mac_addr()
 
         #kvg = conn.search_kvg_guests("centos55")[0]

@@ -67,7 +67,7 @@ class Console(Rest):
 
             document = XMLParse(dom.XMLDesc(1))
 
-            self.view.vnc_port = XMLXpath(document,
+            self.view.graphics_port = XMLXpath(document,
                                           '/domain/devices/graphics/@port')
             self.view.xenname = XMLXpath(document,
                                          '/domain/name/text()')

@@ -52,7 +52,7 @@ usage = '%prog [options]'
 
 def getopts():
     optp = OptionParser(usage=usage, version=__version__)
-    optp.add_option('-n', '--name', dest='name', help=_('Domain name'))
+    optp.add_option('-n', '--name', dest='name', help=_('Domain Name'))
     optp.add_option('-i', '--id', dest='id', help=_('Snapshot serial ID'))
     return optp.parse_args()
 

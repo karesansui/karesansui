@@ -56,7 +56,7 @@ usage = '%prog [options]'
 
 def getopts():
     optp = OptionParser(usage=usage, version=__version__)
-    optp.add_option('-n', '--name', dest='name', help=_('Domain name'))
+    optp.add_option('-n', '--name', dest='name', help=_('Domain Name'))
     optp.add_option('-p', '--pool', dest='pool', help=_('Storage pool name'))
     #optp.add_option('-d', '--dir',  dest='dir',  help=_('Directory name'))
     optp.add_option('-t', '--title',dest='title',default='', help=_('Export title'))

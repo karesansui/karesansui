@@ -48,7 +48,7 @@ usage = '%prog [options]'
 
 def getopts():
     optp = OptionParser(usage=usage, version=__version__)
-    optp.add_option('-n', '--name', dest='name', help=_('Domain name'))
+    optp.add_option('-n', '--name', dest='name', help=_('Domain Name'))
     optp.add_option('-c', '--vcpus', dest='vcpus', help=_('Number of virtual CPUs'), default=None)
     optp.add_option('-m', '--max-vcpus', dest='max_vcpus', help=_('Maximum number of virtual CPUs'), default=None)
     return optp.parse_args()

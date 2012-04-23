@@ -39,7 +39,7 @@ try:
     from karesansui import __version__
     from karesansui.lib.virt.virt import KaresansuiVirtConnection
     from karesansui.lib.utils import load_locale, is_uuid, is_iso9660_filesystem_format
-    from karesansui.lib.const import DEFAULT_KEYMAP, VNC_PORT_MIN_NUMBER, VNC_PORT_MAX_NUMBER
+    from karesansui.lib.const import DEFAULT_KEYMAP, GRAPHICS_PORT_MIN_NUMBER, GRAPHICS_PORT_MAX_NUMBER
 
 except ImportError:
     print >>sys.stderr, "[Error] karesansui package was not found."
@@ -52,16 +52,16 @@ usage = '%prog [options]'
 def getopts():
     optp = OptionParser(usage=usage, version=__version__)
     # basic
-    optp.add_option('-n', '--name', dest='name', help=_('Domain name'))
+    optp.add_option('-n', '--name', dest='name', help=_('Domain Name'))
     optp.add_option('-t', '--type', dest='type', help=_('VM Type'), default="xen")
-    optp.add_option('-m', '--mem-size', dest='mem_size', help=_('Memory size (MB)'), default=256)
+    optp.add_option('-m', '--mem-size', dest='mem_size', help=_('Memory Size (MB)'), default=256)
     optp.add_option('-d', '--disk', dest='disk', help=_('Disk image file'), default=None)
-    optp.add_option('-v', '--vnc-port', dest='vnc_port', help=_('VNC port number'), default=None)
+    optp.add_option('-v', '--graphics-port', dest='graphics_port', help=_('Graphics Port Number'), default=None)
     optp.add_option('-u', '--uuid', dest='uuid', help=_('UUID'), default=None)
-    optp.add_option('-a', '--mac', dest='mac', help=_('MAC address'), default=None)
+    optp.add_option('-a', '--mac', dest='mac', help=_('MAC Address'), default=None)
     optp.add_option('-c', '--vcpus', dest='vcpus', help=_('Number of virtual CPUs to allocate'), default=1)
     optp.add_option('-f', '--interface-format', dest='interface_format', help=_('Interface format'), default='b:xenbr0')
-    optp.add_option('-b', '--keymap', dest='keymap', help=_('VNC Keyboard Map'), default=DEFAULT_KEYMAP)
+    optp.add_option('-b', '--keymap', dest='keymap', help=_('Graphics Keyboard Map'), default=DEFAULT_KEYMAP)
     optp.add_option('-e', '--extra', dest='extra', help=_('Extra kernel options'), default=None)
     # Storage pool only
     optp.add_option('-P', '--storage-pool', dest='storage_pool', help=_('Storage pool name'), default=None)
@@ -113,11 +113,11 @@ def chkopts(opts):
         if reg.search(str(opts.mem_size)):
             raise KssCommandOptException('ERROR: Illigal option value. option=%s value=%s' % ('-m or --mem-size', opts.mem_size))
 
-    if opts.vnc_port:
-        if reg.search(str(opts.vnc_port)):
-            raise KssCommandOptException('ERROR: Illigal option value. option=%s value=%s' % ('-v or --vnc-port', opts.vnc_port))
-        elif int(opts.vnc_port) < VNC_PORT_MIN_NUMBER or VNC_PORT_MAX_NUMBER < int(opts.vnc_port):
-            raise KssCommandOptException('ERROR: Illigal port number. option=%s value=%s' % ('-v or --vnc-port', opts.vnc_port))
+    if opts.graphics_port:
+        if reg.search(str(opts.graphics_port)):
+            raise KssCommandOptException('ERROR: Illigal option value. option=%s value=%s' % ('-v or --graphics-port', opts.graphics_port))
+        elif int(opts.graphics_port) < GRAPHICS_PORT_MIN_NUMBER or GRAPHICS_PORT_MAX_NUMBER < int(opts.graphics_port):
+            raise KssCommandOptException('ERROR: Illigal port number. option=%s value=%s' % ('-v or --graphics-port', opts.graphics_port))
 
     if opts.vcpus:
         if reg.search(str(opts.vcpus)):
@@ -199,7 +199,7 @@ class CreateGuest(KssCommand):
                                          kernel=opts.kernel,
                                          initrd=opts.initrd,
                                          iso=opts.iso,
-                                         vnc=opts.vnc_port,
+                                         graphics=opts.graphics_port,
                                          vcpus=opts.vcpus,
                                          extra=opts.extra,
                                          keymap=opts.keymap,

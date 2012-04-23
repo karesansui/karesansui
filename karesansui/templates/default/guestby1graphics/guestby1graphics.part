@@ -3,7 +3,18 @@
             <table cellspacing="0" border="0" style="background-color:#bcbcbc;">
                 <tr>
                     <th style="padding:8px;" bgcolor="#ffffff">
-                        <span class="guest-info-title">${_('VNC Port Number')}</span>
+                        <span class="guest-info-title">${_('Graphics Service Type')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+                        ${info["info"]["type"].upper() | h}
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding:8px;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('Graphics Port Number')}</span>
                     </th>
                     <td width="1" bgcolor="#FFFFFF">
                         <img src="${ctx.homepath}/static/images/table-space.gif">
@@ -31,7 +42,7 @@
 
                 <tr>
                     <th style="padding:8px;" bgcolor="#ffffff">
-                        <span class="guest-info-title">${_('VNC Port Number')}(${_('This will be enabled on next guest bootup')})</span>
+                        <span class="guest-info-title">${_('Graphics Port Number')}(${_('This will be enabled on next guest bootup')})</span>
                     </th>
                     <td width="1" bgcolor="#FFFFFF">
                         <img src="${ctx.homepath}/static/images/table-space.gif">
@@ -58,7 +69,7 @@
 
                 <tr>
                     <th style="padding:8px;" bgcolor="#ffffff">
-                        <span class="guest-info-title">${_('VNC Password')}(${_('This will be enabled on next guest bootup')})</span>
+                        <span class="guest-info-title">${_('Graphics Password')}(${_('This will be enabled on next guest bootup')})</span>
                     </th>
                     <td width="1" bgcolor="#FFFFFF">
                         <img src="${ctx.homepath}/static/images/table-space.gif">
@@ -73,7 +84,7 @@
                 </tr>
                 <tr>
                     <th style="padding:8px;" bgcolor="#ffffff">
-                        <span class="guest-info-title">${_('VNC Keymap')}(${_('Keymap of the keyboard to use with VNC.')})</span>
+                        <span class="guest-info-title">${_('Graphics Keymap')}(${_('Keymap of the keyboard to use with graphics.')})</span>
                     </th>
                     <td width="1" bgcolor="#FFFFFF">
                         <img src="${ctx.homepath}/static/images/table-space.gif">

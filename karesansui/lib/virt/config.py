@@ -111,11 +111,11 @@ class ConfigParam:
         self.vcpus_limit = None
         self.max_vcpus_limit = None
         self.graphic_type = "vnc"
-        self.vnc_port = None
-        self.vnc_autoport = "no"
-        self.vnc_listen = None
-        self.vnc_keymap = None
-        self.vnc_passwd = None
+        self.graphics_port = None
+        self.graphics_autoport = "no"
+        self.graphics_listen = None
+        self.graphics_keymap = None
+        self.graphics_passwd = None
         self.features_pae = None
         self.features_acpi = None
         self.features_apic = None
@@ -224,38 +224,38 @@ class ConfigParam:
     def get_graphic_type(self):
         return self.graphic_type
 
-    def set_vnc_port(self, port):
-        self.vnc_port = port
+    def set_graphics_port(self, port):
+        self.graphics_port = port
 
-    def get_vnc_port(self):
-        return self.vnc_port
+    def get_graphics_port(self):
+        return self.graphics_port
 
-    def set_vnc_autoport(self, autoport):
-        self.vnc_autoport = autoport
+    def set_graphics_autoport(self, autoport):
+        self.graphics_autoport = autoport
 
-    def get_vnc_autoport(self):
-        return self.vnc_autoport
+    def get_graphics_autoport(self):
+        return self.graphics_autoport
 
-    def set_vnc_listen(self, listen):
-        self.vnc_listen = listen
+    def set_graphics_listen(self, listen):
+        self.graphics_listen = listen
 
-    def get_vnc_listen(self):
-        if self.vnc_listen == None:
-            self.set_vnc_listen("0.0.0.0")
-        return self.vnc_listen
+    def get_graphics_listen(self):
+        if self.graphics_listen == None:
+            self.set_graphics_listen("0.0.0.0")
+        return self.graphics_listen
 
-    def set_vnc_keymap(self, keymap):
-        self.vnc_keymap = keymap
+    def set_graphics_keymap(self, keymap):
+        self.graphics_keymap = keymap
 
-    def get_vnc_keymap(self):
-        #if self.vnc_keymap == None:
-        #    self.set_vnc_keymap(DEFAULT_KEYMAP)
-        return self.vnc_keymap
+    def get_graphics_keymap(self):
+        #if self.graphics_keymap == None:
+        #    self.set_graphics_keymap(DEFAULT_KEYMAP)
+        return self.graphics_keymap
 
-    def set_vnc_passwd(self, passwd):
-        self.vnc_passwd = passwd
-    def get_vnc_passwd(self):
-        return self.vnc_passwd
+    def set_graphics_passwd(self, passwd):
+        self.graphics_passwd = passwd
+    def get_graphics_passwd(self):
+        return self.graphics_passwd
 
     def set_vcpus(self, vcpus):
         self.vcpus = vcpus
@@ -444,27 +444,27 @@ class ConfigParam:
         graphic_type = XMLXpath(document,'/domain/devices/graphics/@type')
         self.set_graphic_type(str(graphic_type))
 
-        vnc_port = XMLXpath(document,'/domain/devices/graphics/@port')
-        self.set_vnc_port(int(vnc_port))
+        graphics_port = XMLXpath(document,'/domain/devices/graphics/@port')
+        self.set_graphics_port(int(graphics_port))
 
-        vnc_autoport = XMLXpath(document,'/domain/devices/graphics/@autoport')
-        self.set_vnc_autoport(str(vnc_autoport))
+        graphics_autoport = XMLXpath(document,'/domain/devices/graphics/@autoport')
+        self.set_graphics_autoport(str(graphics_autoport))
 
-        vnc_listen = XMLXpath(document,'/domain/devices/graphics/@listen')
-        if vnc_listen:
-            self.set_vnc_listen(str(vnc_listen))
+        graphics_listen = XMLXpath(document,'/domain/devices/graphics/@listen')
+        if graphics_listen:
+            self.set_graphics_listen(str(graphics_listen))
 
-        vnc_keymap = XMLXpath(document,'/domain/devices/graphics/@keymap')
-        if vnc_keymap:
-            self.set_vnc_keymap(str(vnc_keymap))
+        graphics_keymap = XMLXpath(document,'/domain/devices/graphics/@keymap')
+        if graphics_keymap:
+            self.set_graphics_keymap(str(graphics_keymap))
 
-        vnc_passwd = XMLXpath(document,'/domain/devices/graphics/@passwd')
-        if vnc_passwd:
-            self.set_vnc_passwd(str(vnc_passwd))
+        graphics_passwd = XMLXpath(document,'/domain/devices/graphics/@passwd')
+        if graphics_passwd:
+            self.set_graphics_passwd(str(graphics_passwd))
         else:
-            vnc_passwd = self.__get_value('vncpasswd')
-            if vnc_passwd != "":
-                self.set_vnc_passwd(vnc_passwd)
+            graphics_passwd = self.__get_value('graphics_passwd')
+            if graphics_passwd != "":
+                self.set_graphics_passwd(graphics_passwd)
 
         self.interfaces = []
         interface_num = XMLXpathNum(document,'/domain/devices/interface')
@@ -553,8 +553,8 @@ class ConfigParam:
 
         if not self.uuid:
             raise KaresansuiConfigParamException("ConfigParam: uuid is None")
-        if self.vnc_port < 5900:
-            raise KaresansuiConfigParamException("ConfigParam: vnc port < 5900: %d" % self.vnc_port)
+        if self.graphics_port < 5900:
+            raise KaresansuiConfigParamException("ConfigParam: graphics port < 5900: %d" % self.graphics_port)
         if self.vcpus < 1:
             raise KaresansuiConfigParamException("ConfigParam: vcpus < 1: %d" % self.vcpus)
         if self.vcpus_limit and self.vcpus_limit < self.vcpus:
@@ -616,7 +616,7 @@ class ConfigGenerator:
         self.print_disks_section()
         self.print_memory_section()
         self.print_vcpu_section()
-        self.print_vnc_section()
+        self.print_graphics_section()
         self.print_network_section()
         self.print_behavior_section()
         return self.out.getvalue()
@@ -697,22 +697,29 @@ class ConfigGenerator:
         self._print_param("vif", vif)
         print >>self.out
 
-    def print_vnc_section(self):
+    def print_graphics_section(self):
         print >>self.out, "# Graphics configuration"
-        if self.config.get_vnc_port():
+        if self.config.get_graphics_port():
             if self.config.get_graphic_type() == "sdl":
                 self._print_param("sdl", 1)
                 self._print_param("vnc", 0)
+                self._print_param("spice", 0)
+            elif self.config.get_graphic_type() == "spice":
+                self._print_param("sdl", 0)
+                self._print_param("vnc", 0)
+                self._print_param("spice", 1)
             else:
                 self._print_param("sdl", 0)
                 self._print_param("vnc", 1)
+                self._print_param("spice", 1)
             self._print_param("vncunused", 0)
-            self._print_param("vncdisplay", int(self.config.get_vnc_port())-5900)
-            self._print_param("vnclisten", self.config.get_vnc_listen())
-            if self.config.get_vnc_keymap() is not None:
-                self._print_param("keymap", self.config.get_vnc_keymap())
-            if self.config.get_vnc_passwd() is not None and self.config.get_vnc_passwd() != "":
-                self._print_param("vncpasswd", self.config.get_vnc_passwd())
+            self._print_param("vncdisplay", int(self.config.get_graphics_port())-5900)
+            self._print_param("vnclisten", self.config.get_graphics_listen())
+
+            if self.config.get_graphics_keymap() is not None:
+                self._print_param("keymap", self.config.get_graphics_keymap())
+            if self.config.get_graphics_passwd() is not None and self.config.get_graphics_passwd() != "":
+                self._print_param("vncpasswd", self.config.get_graphics_passwd())
         print >>self.out
 
     def print_behavior_section(self):
@@ -1037,19 +1044,21 @@ class XMLConfigGenerator(XMLGenerator):
         devs_elem = doc.createElement("devices")
 
         # graphics
-        if self.config.get_vnc_port():
+        if self.config.get_graphics_port():
             graphics_n = doc.createElement("graphics")
             if self.config.get_graphic_type() == "sdl":
                 graphics_n.setAttribute("type", "sdl")
+            elif self.config.get_graphic_type() == "spice":
+                graphics_n.setAttribute("type", "spice")
             else:
                 graphics_n.setAttribute("type", "vnc")
-            graphics_n.setAttribute("port", str(self.config.get_vnc_port()))
-            graphics_n.setAttribute("autoport", str(self.config.get_vnc_autoport()))
-            graphics_n.setAttribute("listen", str(self.config.get_vnc_listen()))
-            if self.config.get_vnc_keymap() is not None:
-                graphics_n.setAttribute("keymap", str(self.config.get_vnc_keymap()))
-            if self.config.get_vnc_passwd() is not None:
-                graphics_n.setAttribute("passwd", str(self.config.get_vnc_passwd()))
+            graphics_n.setAttribute("port", str(self.config.get_graphics_port()))
+            graphics_n.setAttribute("autoport", str(self.config.get_graphics_autoport()))
+            graphics_n.setAttribute("listen", str(self.config.get_graphics_listen()))
+            if self.config.get_graphics_keymap() is not None:
+                graphics_n.setAttribute("keymap", str(self.config.get_graphics_keymap()))
+            if self.config.get_graphics_passwd() is not None:
+                graphics_n.setAttribute("passwd", str(self.config.get_graphics_passwd()))
             devs_elem.appendChild(graphics_n)
 
         # disks

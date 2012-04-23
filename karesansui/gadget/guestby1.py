@@ -174,7 +174,7 @@ class GuestBy1(Rest):
                 disk_info = guest.info["virt"].get_disk_info()
                 interface_info = guest.info["virt"].get_interface_info()
                 net_info = guest.info["virt"].get_netinfo()
-                vnc_info = guest.info["virt"].get_graphics_info()
+                graphics_info = guest.info["virt"].get_graphics_info()
                 vcpu_info = guest.info["virt"].get_vcpus_info()
 
                 pool_info = []
@@ -209,7 +209,7 @@ class GuestBy1(Rest):
                             "interface_info": interface_info,
                             "pool_info": pool_info,
                             "pool_vols_info": pool_vols_info,
-                            "vnc_info": vnc_info,
+                            "graphics_info": graphics_info,
                             "vcpu_info": vcpu_info,
                         }
                     )
@@ -223,7 +223,7 @@ class GuestBy1(Rest):
                     self.view.interface_info = interface_info
                     self.view.pool_info = pool_info
                     self.view.pool_vols_info = pool_vols_info
-                    self.view.vnc_info = vnc_info
+                    self.view.graphics_info = graphics_info
                     self.view.vcpu_info = vcpu_info
             except:
                 self.kvc.close()

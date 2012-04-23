@@ -48,9 +48,9 @@ usage = '%prog [options]'
 
 def getopts():
     optp = OptionParser(usage=usage, version=__version__)
-    optp.add_option('-n', '--name', dest='name', help=_('Domain name'))
-    optp.add_option('-s', '--memory', dest='memory', help=_('Memory size (MB)'), default=None)
-    optp.add_option('-m', '--maxmem', dest='maxmem', help=_('Max memory size (MB)'), default=None)
+    optp.add_option('-n', '--name', dest='name', help=_('Domain Name'))
+    optp.add_option('-s', '--memory', dest='memory', help=_('Memory Size (MB)'), default=None)
+    optp.add_option('-m', '--maxmem', dest='maxmem', help=_('Maximum Memory Size (MB)'), default=None)
     return optp.parse_args()
 
 def chkopts(opts):

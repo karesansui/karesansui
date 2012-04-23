@@ -48,7 +48,7 @@ usage = '%prog [options]'
 
 def getopts():
     optp = OptionParser(usage=usage, version=__version__)
-    optp.add_option('-n', '--name', dest='name', help=_('Domain name'))
+    optp.add_option('-n', '--name', dest='name', help=_('Domain Name'))
     optp.add_option('-t', '--target', dest='target', help=_('Device target'))
     return optp.parse_args()
 

@@ -28,8 +28,8 @@ import web
 import karesansui
 from karesansui.lib.rest import Rest, auth
 
-from karesansui.lib.const import VIRT_COMMAND_SET_VNC, \
-     VNC_PORT_MIN_NUMBER, VNC_PORT_MAX_NUMBER
+from karesansui.lib.const import VIRT_COMMAND_SET_GRAPHICS, \
+     GRAPHICS_PORT_MIN_NUMBER, GRAPHICS_PORT_MAX_NUMBER
 from karesansui.lib.const import XEN_KEYMAP_DIR, KVM_KEYMAP_DIR
 
 from karesansui.lib.virt.virt import KaresansuiVirtException, \
@@ -46,7 +46,7 @@ from karesansui.db.model._2pysilhouette import Job, JobGroup
 from pysilhouette.command import dict2command
 
 
-def validates_display(obj):
+def validates_graphics(obj):
     checker = Checker()
     check = True
 
@@ -55,44 +55,44 @@ def validates_display(obj):
 
     if not is_param(obj.input, 'port'):
         check = False
-        checker.add_error(_('"%s" is required.') % _('VNC Port Number'))
+        checker.add_error(_('"%s" is required.') % _('Graphics Port Number'))
     else:
         check = checker.check_number(
-                _('VNC Port Number'),
+                _('Graphics Port Number'),
                 obj.input.port,
                 CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
-                min = VNC_PORT_MIN_NUMBER,
-                max = VNC_PORT_MAX_NUMBER,
+                min = GRAPHICS_PORT_MIN_NUMBER,
+                max = GRAPHICS_PORT_MAX_NUMBER,
             ) and check
 
     if not is_param(obj.input, 'listen'):
         check = False
-        checker.add_error(_('"%s" is required.') % _('VNC listen address'))
+        checker.add_error(_('"%s" is required.') % _('Graphics Listen Address'))
     else:
         check = checker.check_empty(
-                _('VNC listen address'), 
+                _('Graphics Listen Address'), 
                 obj.input.listen
             ) and check
 
         if check is True:
             if not obj.input.listen in ["0.0.0.0", "127.0.0.1"]:
-                checker.add_error(_('%s is in invalid format.') % (_('VNC listen address')))
+                checker.add_error(_('%s is in invalid format.') % (_('Graphics Listen Address')))
                 check = False
             else:
                 check = True
 
     if not is_param(obj.input, 'change_passwd'):
         check = False
-        checker.add_error(_('"%s" is required.') % _('VNC Password'))
+        checker.add_error(_('"%s" is required.') % _('Graphics Password'))
     else:
         check = checker.check_empty(
-                _('VNC Password'), 
+                _('Graphics Password'), 
                 obj.input.change_passwd
             ) and check
 
         if check is True:
             if not obj.input.change_passwd in ["random", "empty", "keep"]:
-                checker.add_error(_('%s is in invalid format.') % (_('VNC Password')))
+                checker.add_error(_('%s is in invalid format.') % (_('Graphics Password')))
                 check = False
             else:
                 check = True
@@ -105,10 +105,10 @@ def validates_display(obj):
 
     if not is_param(obj.input, 'keymap'):
         check = False
-        checker.add_error(_('"%s" is required.') % _('VNC Keymap'))
+        checker.add_error(_('"%s" is required.') % _('Graphics Keymap'))
     else:
         check = checker.check_keymap(
-                _('VNC Keymap'),
+                _('Graphics Keymap'),
                 obj.input.keymap,
                 CHECK_EMPTY | CHECK_EXIST,
                 hypervisor) and check
@@ -117,7 +117,7 @@ def validates_display(obj):
     return check
     
 
-class GuestBy1Display(Rest):
+class GuestBy1Graphics(Rest):
 
     @auth
     def _GET(self, *param, **params):
@@ -166,7 +166,7 @@ class GuestBy1Display(Rest):
         (host_id, guest_id) = self.chk_guestby1(param)
         if guest_id is None: return web.notfound()
 
-        if not validates_display(self):
+        if not validates_graphics(self):
             return web.badrequest(self.view.alert)
 
         model = findbyguest1(self.orm, guest_id)
@@ -179,7 +179,7 @@ class GuestBy1Display(Rest):
             virt = kvc.search_kvg_guests(domname)[0]
             info = virt.get_graphics_info()["setting"]
 
-            used_ports = kvc.list_used_vnc_port()
+            used_ports = kvc.list_used_graphics_port()
             origin_port = info["port"]
 
         finally:
@@ -196,13 +196,13 @@ class GuestBy1Display(Rest):
         options["keymap"] = self.input.keymap
 
         if int(self.input.port) != origin_port and int(self.input.port) in used_ports:
-            return web.badrequest("VNC port number has been already used by other service. - port=%s" % (self.input.port,))
+            return web.badrequest("Graphics port number has been already used by other service. - port=%s" % (self.input.port,))
 
         _cmd = dict2command("%s/%s" % (karesansui.config['application.bin.dir'],
-                                       VIRT_COMMAND_SET_VNC),
+                                       VIRT_COMMAND_SET_GRAPHICS),
                             options)
 
-        cmdname = "Set VNC"
+        cmdname = "Set Graphics"
         _jobgroup = JobGroup(cmdname, karesansui.sheconf['env.uniqkey'])
         _jobgroup.jobs.append(Job('%s command' % cmdname, 0, _cmd))
         
@@ -220,4 +220,4 @@ class GuestBy1Display(Rest):
         return web.created(None)
             
 
-urls = ('/host/(\d+)/guest/(\d+)/display/?(\.part)$', GuestBy1Display,)
+urls = ('/host/(\d+)/guest/(\d+)/graphics/?(\.part)$', GuestBy1Graphics,)

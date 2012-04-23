@@ -48,8 +48,8 @@ usage = '%prog [options]'
 
 def getopts():
     optp = OptionParser(usage=usage, version=__version__)
-    optp.add_option('-n', '--name', dest='name', help=_('Domain name'))
-    optp.add_option('-m', '--mac', dest='mac', help=_('MAC address'), default=None)
+    optp.add_option('-n', '--name', dest='name', help=_('Domain Name'))
+    optp.add_option('-m', '--mac', dest='mac', help=_('MAC Address'), default=None)
     optp.add_option('-b', '--bridge', dest='bridge', help=_('Bridge'), default=None)
     optp.add_option('-w', '--network', dest='network', help=_('Network'), default=None)
     return optp.parse_args()

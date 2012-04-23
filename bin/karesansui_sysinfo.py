@@ -232,7 +232,7 @@ class SysInfo(KssCommand):
                     print "%-20s %s"    % (_("Core(s) per socket:"),nodeInfo[6])
                     print "%-20s %s"    % (_("Thread(s) per core:"),nodeInfo[7])
                     print "%-20s %s"    % (_("NUMA cell(s):")      ,nodeInfo[4])
-                    print "%-20s %lu kB"% (_("Memory size:")  ,(float)(nodeInfo[1])*1024)
+                    print "%-20s %lu kB"% (_("Memory Size:")  ,(float)(nodeInfo[1])*1024)
 
                 if opts.all is True or opts.list is True:
                     """ Show dom list """

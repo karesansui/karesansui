@@ -6,7 +6,7 @@
         <param name="Show controls" value="Yes">
         <param name="Scaling factor" value="95">
         <param name="Offer relogin" value="No">
-        <param name="PORT" value='${vnc_port}'>
+        <param name="PORT" value='${graphics_port}'>
         <param name="HOST" value='${host_ipaddr}'>
     </applet>
 </div>

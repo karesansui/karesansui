@@ -99,14 +99,14 @@ if [ $? -eq 1 ]; then
   exit 1
 fi
 
-__babel_map="${home_dir}/doc/babel.map"
+__babel_map="${home_dir}/tools/babel.map"
 echo -n "Please input path to the extraction mapping file(default:${__babel_map}): "
 read map
 if [ "x${map}" = "x" ]; then
   map=${__babel_map}
 fi
 
-__messages_pot="${home_dir}/doc/messages.pot"
+__messages_pot="${home_dir}/tools/messages.pot"
 echo -n "Please input path to the extraction mapping file(default:${__messages_pot}): "
 read pot
 if [ "x${pot}" = "x" ]; then

@@ -95,7 +95,7 @@ class TestRestAPI(unittest.TestCase):
         params['xen_kernel'] = '/var/ftp/images/xen/vmlinuz'
         params['xen_mac'] = '00:16:3e:4e:4d:e2'
         params['xen_mem_size'] = '256'
-        params['xen_vncport'] = '5910'
+        params['xen_graphics_port'] = '5910'
         upload_files=None
 
         r = self.app.post("%s/host/1/guest.part" % self.prefix,params=params,headers=self.headers,upload_files=upload_files)

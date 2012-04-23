@@ -120,17 +120,17 @@ function make_export_detail(data, status) {
     _s += make_tr("${_('CPU Info')}", _c, true);
     _s += make_space();
 
-    // VNC
+    // Graphics
     var _v = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
 
-    _v += make_tr("${_('VNC Listen')}", data.xml.vnc_listen);
-    _v += make_tr("${_('VNC Port')}", data.xml.vnc_port);
+    _v += make_tr("${_('Graphics Listen')}", data.xml.graphics_listen);
+    _v += make_tr("${_('Graphics Port')}", data.xml.graphics_port);
     _v += make_tr("${_('Keymap')}", data.xml.keymap);
-    //_v += make_tr("${_('VNC AutoStart')}", data.xml.vnc_autoport);
-    //_v += make_tr("${_('VNC Password')}", data.xml.vnc_passwd);
+    //_v += make_tr("${_('Graphics AutoStart')}", data.xml.graphics_autoport);
+    //_v += make_tr("${_('Graphics Password')}", data.xml.graphics_passwd);
 
     _v += "</table>";
-    _s += make_tr("${_('VNC Info')}", _v, true);
+    _s += make_tr("${_('Graphics Info')}", _v, true);
     _s += make_space();
 
     // Memory
@@ -306,15 +306,15 @@ function make_guest_detail(data, status) {
     _s += make_tr("${_('CPU Info')}", _c, true);
     _s += make_space();
 
-    // VNC
+    // Graphics
     var _v = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
 
-    _v += make_tr("${_('VNC Listen')}", data.vnc_info.info["listen"]);
-    _v += make_tr("${_('VNC Port')}", data.vnc_info.info["port"]);
-    _v += make_tr("${_('Keymap')}", data.vnc_info.info["keymap"]);
+    _v += make_tr("${_('Graphics Listen')}", data.graphics_info.info["listen"]);
+    _v += make_tr("${_('Graphics Port')}", data.graphics_info.info["port"]);
+    _v += make_tr("${_('Keymap')}", data.graphics_info.info["keymap"]);
 
     _v += "</table>";
-    _s += make_tr("${_('VNC Info')}", _v, true);
+    _s += make_tr("${_('Graphics Info')}", _v, true);
     _s += make_space();
 
 

@@ -58,7 +58,7 @@ If all above are OK, then try to connect the guest from the client, using standa
 
 Q. Guest console keymap is garbled.
 
-Select 'Display' from guest device tab, and set 'VNC Keymap'. Choose appropriate keymap.
+Select 'Graphics' from guest device tab, and set 'Graphics Keymap'. Choose appropriate keymap.
 
 Q. I can't shutdown/stop guests.
 

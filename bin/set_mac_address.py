@@ -49,8 +49,8 @@ usage = '%prog [options]'
 def getopts():
     optp = OptionParser(usage=usage, version=__version__)
     optp.add_option('-n', '--name', dest='name', help=_('Domain Name'))
-    optp.add_option('-f', '--from', dest='old', help=_('Original MAC address'))
-    optp.add_option('-t', '--to', dest='new', help=_('New MAC address'))
+    optp.add_option('-f', '--from', dest='old', help=_('Original MAC Address'))
+    optp.add_option('-t', '--to', dest='new', help=_('New MAC Address'))
     return optp.parse_args()
 
 def chkopts(opts):

@@ -65,9 +65,9 @@ $("#device_tab td").each(function(){
                 tool_reset("#edit_device");
                 bind_edit_event();
                 break;
-            case "display":
+            case "graphics":
                 ajax_get("#device_value",
-                    "${ctx.homepath}/host/${guest.info['model'].parent_id}/guest/${guest.info['model'].id}/display/" + target_val[1] + ".part",
+                    "${ctx.homepath}/host/${guest.info['model'].parent_id}/guest/${guest.info['model'].id}/graphics/" + target_val[1] + ".part",
                     null);
                 tool_reset("#edit_device");
                 bind_edit_event();
@@ -213,9 +213,9 @@ function unbind_event() {
                     </td>
                 </tr>
                 <tr>
-                    <td id="display_" style="font-size:10px;">
+                    <td id="graphics_" style="font-size:10px;">
                         <img src="${ctx.homepath}/static/images/device-console.png">
-                        <span class="status">-&nbsp;Display&nbsp;-</span>
+                        <span class="status">-&nbsp;Graphics&nbsp;-</span>
                     </td>
                 </tr>
                 <tr>
