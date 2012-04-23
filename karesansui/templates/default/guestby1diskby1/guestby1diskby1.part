@@ -20,6 +20,23 @@ from karesansui.lib.const import DEFAULT_DECIMAL_POINT
                 </tr>
                 <tr>
                     <th style="padding:8px;; white-space:nowrap;" bgcolor="#ffffff">
+                        <span class="guest-info-title">${_('Device')}</span>
+                    </th>
+                    <td width="1" bgcolor="#FFFFFF">
+                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                    </td>
+                    <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
+% if disk_info['device'] == 'cdrom':
+                        ${"CD/DVD-ROM Drive"}
+% elif disk_info['device'] == 'disk':
+                        ${"Hard Disk Drive"}
+% else:
+                        ${disk_info['device'] | h}
+% endif
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding:8px;; white-space:nowrap;" bgcolor="#ffffff">
                         <span class="guest-info-title">${_('Capacity (MB)')}</span>
                     </th>
                     <td width="1" bgcolor="#FFFFFF">
@@ -89,7 +106,7 @@ from karesansui.lib.const import DEFAULT_DECIMAL_POINT
                         <img src="${ctx.homepath}/static/images/table-space.gif">
                     </td>
                     <td style="font-size:10px; padding:8px;" bgcolor="#FFFFFF">
-% if disk_info['type'] == 'block':
+% if disk_info['driver']['name'] is None:
                         ${"N/A"}
 % else:
                         ${disk_info['driver']['name'] | h}
