@@ -2,6 +2,7 @@ Karesansuiのインストール
 =======================
 
 ## このドキュメントについて ##
+<a name='about_document'/>
 
 このドキュメントは、インラインHTMLを含むMarkdown形式で記載されています。
 最新の情報は、[https://github.com/karesansui/karesansui/blob/master/INSTALL.ja.md][install]から入手することができます。
@@ -12,6 +13,7 @@ Karesansuiのインストール
 
 
 ## OSのインストール ##
+<a name='intalling_operating_system'/>
 
 Karesansuiは、仮想化システムがインストールされた環境でのみ動作します。
 
@@ -36,6 +38,7 @@ OSインストール後にKVMを有効にする場合は、下記コマンドを
 
 
 ## ネットワークの設定 ##
+<a name='configuring_the_network'/>
 
 Linuxをインストールすると、そのネットワークインターフェースは通常 _eth0_ として認識され、KVMゲストから外向けの通信のみ許可されます。
 このインターフェースをゲストと共有して使用できるように、ブリッジモードの仮想インターフェースを作成します。
@@ -122,6 +125,7 @@ Linuxをインストールすると、そのネットワークインターフェ
 
 
 ## 必要なソフトウェアのインストール ##
+<a name='installing_dependent_software_libs'/>
 
 Karesansuiをセットアップするには、依存するソフトウェアをインストールしておく必要があります。
 各ディストリビューションの提供するアップデートプログラム等を利用し、依存パッケージの大半はインストールできますが、一部のソフトウェアはビルドが必要です。
@@ -189,6 +193,7 @@ RPMパッケージを作成する環境を構築します。パッケージ作�
 
 
 ## pysilhouetteのインストール ##
+<a name='installing_pysilhouette'/>
 
 ### pysilhouette って何？ ###
 
@@ -236,6 +241,7 @@ Karesansuiと同じく、Karesansui Project Teamによって開発されたソ�
 
 
 ## karesansuiのインストール ##
+<a name='installing_karesansui'/>
 
 ###`CentOS 6` の場合:
 
@@ -292,6 +298,7 @@ Karesansuiと同じく、Karesansui Project Teamによって開発されたソ�
 
 
 ## pysilhouetteの設定 ##
+<a name='configuring_pysilhouette'/>
 
 必要に応じて下記ファイルの内容を変更してください。
 
@@ -322,6 +329,7 @@ Karesansuiと同じく、Karesansui Project Teamによって開発されたソ�
 
 
 ## karesansuiの設定 ##
+<a name='configuring_karesansui'/>
 
 必要に応じて下記ファイルの内容を変更してください。
 
@@ -351,6 +359,7 @@ Karesansuiと同じく、Karesansui Project Teamによって開発されたソ�
 
 
 ## karesansui用データベースの作成 ##
+<a name='creating_database_for_karesansui'/>
 
 karesansuiのソースコードに付属するスクリプトを利用してデータベース作成とKaresansuiの管理者情報のデータベースへの挿入を行います。
 
@@ -364,6 +373,7 @@ karesansuiのソースコードに付属するスクリプトを利用してデ�
 
 
 ## pysilhouette用データベースの作成 ##
+<a name='creating_database_for_pysilhouette'/>
 
 以下のコマンドを実行してデータベースを作成します。
 
@@ -377,11 +387,13 @@ karesansuiのソースコードに付属するスクリプトを利用してデ�
 
 
 ## pysilhouette サービスの起動 ##
+<a name='starting_pysilhouette_service'/>
 
     # /etc/init.d/silhouetted start
 
 
 ## libvirtの設定 ##
+<a name='configuring_libvirt'/>
 
 ####1. libvirtd 設定ファイルの編集
 
@@ -463,6 +475,7 @@ libvirtのqemuモニターと接続が可能かどうか確認してください
 
 
 ## Karesansuiの管理コンソールへの接続確認
+<a name='checking_for_connectivity_to_karesansui_management_console'/>
 
 以上で、Karesansui自身の構築は完了です。
 
@@ -491,6 +504,7 @@ http://[インストールしたサーバー]:8080/karesansui/v3/
 ========================
 
 ## Lighttpdとの連携 ##
+<a name='with_lighttpd'/>
 
 ###`CentOS 6` の場合:
 
@@ -563,6 +577,7 @@ https://[インストールしたサーバー]/karesansui/v3/
 
 
 ## Apacheとの連携 ##
+<a name='with_apache'/>
 
 ###`CentOS 6` の場合:
 
@@ -621,6 +636,7 @@ https://[インストールしたサーバー]/karesansui/v3/
 
 
 ## Nginxとの連携 ##
+<a name='with_nginx'/>
 
 ###`CentOS 6` の場合:
 
@@ -673,6 +689,7 @@ http://[インストールしたサーバー]/karesansui/v3/
 ============
 
 ## collectdの設定 ##
+<a name='configuring_collectd'/>
 
 ### collectd って何？ ###
 

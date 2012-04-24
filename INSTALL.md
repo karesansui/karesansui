@@ -2,6 +2,7 @@ Installing Karesansui
 =====================
 
 ## About this document ##
+<a name='about_document'/>
 
 This document is written in the Markdown format and contains some inline HTML.
 This document is also available online at [https://github.com/karesansui/karesansui/blob/master/INSTALL.md][install].
@@ -12,6 +13,7 @@ This document is based on CentOS 6.x (x86_64). However, following the similar st
 
 
 ## Installing operating system ##
+<a name='intalling_operating_system'/>
 
 Karesansui only works on systems that have the virtualization system installed.
 So you need to enable KVM (Kernel-based Virtual Machine).
@@ -41,6 +43,7 @@ Please make sure that the kernel modules for KVM are loaded.
 
 
 ## Configuring the network ##
+<a name='configuring_the_network'/>
 
 After installing Linux, the first Ethernet interface is typically identified as _eth0_ and allows only outbound communication from the KVM guests.
 To share the interface with KVM guests and enable full network access, including communication to and from an external host, you need to set up a Linux bridge in Linux system.
@@ -127,6 +130,7 @@ In order for all the network script modifications to take effect, you need to re
 
 
 ## Installing dependent software/libs ##
+<a name='installing_dependent_software_libs'/>
 
 To install and set up Karesansui, you need to install it's dependent software/libs first.
 You can install most of them by using the software updater provided by each distribution, but some software need to be built on your machine.
@@ -188,6 +192,7 @@ Now you can install the newly built packages.
 
 
 ## Installing pysilhouette ##
+<a name='installing_pysilhouette'/>
 
 ### What is pysilhouette? ###
 
@@ -240,6 +245,7 @@ It is also developed by Karesansui Project Team.
 
 
 ## Installing karesansui ##
+<a name='installing_karesansui'/>
 
 ###Procedure for `CentOS 6`:
 
@@ -296,6 +302,7 @@ It is also developed by Karesansui Project Team.
 
 
 ## Configuring pysilhouette ##
+<a name='configuring_pysilhouette'/>
 
 You may need to modify the following configuration files.
 
@@ -326,6 +333,7 @@ Add pysilhouette as a service and enable it for auto start at bootup.
 
 
 ## Configuring karesansui ##
+<a name='configuring_karesansui'/>
 
 You may need to modify the following configuration files.
 
@@ -355,6 +363,7 @@ You may need to modify the following configuration files.
 
 
 ## Creating database for karesansui ##
+<a name='creating_database_for_karesansui'/>
 
 With a script bundled with the source code, you can create a database for karesansui and insert information of the administrator into the database.
 
@@ -368,6 +377,7 @@ If you use a SQLite database, you must change the attributes of the database fil
 
 
 ## Creating database for pysilhouette ##
+<a name='creating_database_for_pysilhouette'/>
 
 You can create a database for pysilhouette by executing the following command:
 
@@ -381,11 +391,13 @@ If you use a SQLite database, you must change the attributes of the database fil
 
 
 ## Starting pysilhouette service ##
+<a name='starting_pysilhouette_service'/>
 
     # /etc/init.d/silhouetted start
 
 
 ## Configuring libvirt ##
+<a name='configuring_libvirt'/>
 
 ####1. Edit libvirt configuration file
 
@@ -467,6 +479,7 @@ If the connection atempt succeed, it will display message as below:
 
 
 ## Checking for connectivity to Karesansui management console
+<a name='checking_for_connectivity_to_karesansui_management_console'/>
 
 You have now finished setting up Karesansui itself.
 
@@ -496,6 +509,7 @@ Using other HTTP server
 =======================
 
 ## With Lighttpd ##
+<a name='with_lighttpd'/>
 
 ###Procedure for `CentOS 6`:
 
@@ -568,6 +582,7 @@ https://[your-server-name]/karesansui/v3/
 
 
 ## With Apache ##
+<a name='with_apache'/>
 
 ###Procedure for `CentOS 6`:
 
@@ -627,6 +642,7 @@ https://[your-server-name]/karesansui/v3/
 
 
 ## With Nginx ##
+<a name='with_nginx'/>
 
 ###Procedure for `CentOS 6`:
 
@@ -680,6 +696,7 @@ Other settings
 ==============
 
 ## Configuring collectd ##
+<a name='configuring_collectd'/>
 
 ### What is collectd? ###
 
