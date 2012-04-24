@@ -29,11 +29,11 @@ If you want to update exising po file, you can merge files by using the followin
 
 Open po file, translate messages.
 
-    # vi locale/ja/LC_MESSAGES/index.po 
+    # vi locale/[lang]/LC_MESSAGES/index.po 
 
 ######3. Generate mo file.
 
-    # msgfmt locale/ja/LC_MESSAGES/index.po -o locale/ja/LC_MESSAGES/index.mo
+    # msgfmt locale/[lang]/LC_MESSAGES/index.po -o locale/[lang]/LC_MESSAGES/index.mo
 
 * Generating HTML Document
 
