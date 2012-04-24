@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: karesansui 3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-24 12:41\n"
+"POT-Creation-Date: 2012-04-24 15:21\n"
 "PO-Revision-Date: 2012-04-24 12:01+0900\n"
 "Last-Translator: root <root@taizo-kss.prd.local.hde.co.jp>\n"
 "Language-Team: Japanese\n"
@@ -396,3 +396,42 @@ msgstr ""
 #: ../../frequently_asked_questions.rst:184
 msgid "SQL committed by Karesansui: /var/log/karesansui/sql.log"
 msgstr "Karesansuiが発行したSQL関連のログ : /var/log/karesansui/sql.log"
+
+# a717b148e2734196bab68e8a0e5a6469
+#: ../../frequently_asked_questions.rst:187
+msgid "Open Sources"
+msgstr "オープンソース"
+
+# a7d2de7f31fd47aa81387017e7ae9698
+#: ../../frequently_asked_questions.rst:190
+msgid "Does Karesansui support any other database system other than SQLite?"
+msgstr "SQLite以外のデータベースを利用したいのですが。"
+
+# 9601dc3c2de24c6eb6702a0be39e3e4b
+#: ../../frequently_asked_questions.rst:192
+msgid ""
+"Yes. It supports MySQL, PostgreSQL, or any database that SQLAlchemy can work "
+"with."
+msgstr "MySQL、PostgreSQL または SQLAlchemyがサポートするデータベースなら利用できます。ただし、別途Python用のデータベースドライバをインストールする必要があります。"
+
+# 6ae54ae161cf466fa39dac8b1c08ce1d
+#: ../../frequently_asked_questions.rst:194
+msgid ""
+"You need to change 'database.bind' parameter in karesansui's configuration "
+"file(/etc/karesansui/application.conf). Please see `Configurations - "
+"database.bind <configurations.html#database-bind>`_ for details."
+msgstr "karesansuiの設定ファイル(/etc/karesansui/application.conf)の'database.bind'パラメータの値を変更する必要があります。詳細は、`設定 - database.bind <configurations.html#database-bind>`_ をご覧ください。"
+
+# f2a7b0f1250449b5b16483f5310daa94
+#: ../../frequently_asked_questions.rst:197
+msgid ""
+"After modifying the setting, please refer to the URL below and initialize "
+"database."
+msgstr "設定変更後、下記のURLを参照してデータベースの初期化を行ってください。"
+
+# 885e7756a0104c85a77bc2b4bf064d75
+#: ../../frequently_asked_questions.rst:199
+msgid ""
+"http://github.com/karesansui/karesansui/blob/master/INSTALL."
+"md#creating_database_for_karesansui"
+msgstr ""

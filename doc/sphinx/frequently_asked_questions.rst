@@ -183,3 +183,17 @@ Karesansui writes log in several files.
  - Program trace for errors: /var/log/karesansui/error.log
  - SQL committed by Karesansui: /var/log/karesansui/sql.log
 
+Open Sources
+------------
+
+Does Karesansui support any other database system other than SQLite?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Yes. It supports MySQL, PostgreSQL, or any database that SQLAlchemy can work with.
+
+You need to change 'database.bind' parameter in karesansui's configuration file(/etc/karesansui/application.conf).
+Please see `Configurations - database.bind <configurations.html#database-bind>`_ for details.
+
+After modifying the setting, please refer to the URL below and initialize database.
+
+http://github.com/karesansui/karesansui/blob/master/INSTALL.md#creating_database_for_karesansui

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: karesansui 3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-24 12:41\n"
+"POT-Creation-Date: 2012-04-24 16:56\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,17 +16,169 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../tips.rst:3
+#: ../../tips.rst:2
 # 36d9ac96f0b546188689cf3d7a6564c9
 msgid "Tips"
 msgstr ""
 
-#: ../../tips.rst:6
-# 9195ba70b5f94226a549d116b9a4bb69
-msgid "Summary"
+#: ../../tips.rst:5
+# df8f302abd7e4bcab5fa04f1fa7531e9
+msgid "Graphical Desktop Sharing System"
 msgstr ""
 
 #: ../../tips.rst:8
+# c4fa55113ae5486bbf2960679b54e6a6
+msgid "How to connect to SPICE service with SPICE client"
+msgstr ""
+
+#: ../../tips.rst:10
+# 8bb1b72c0bee47299d8c497c1716cbe7
+msgid "Installing SPICE client."
+msgstr ""
+
+#: ../../tips.rst:12
+# e7f656e05aa74f49a12eab27705a393e
+msgid "# yum install spice-client"
+msgstr ""
+
+#: ../../tips.rst:14
+# d6beaf5fb78b414a8469129bc31b8f3e
+msgid "Connecting with SPICE client."
+msgstr ""
+
+#: ../../tips.rst:16
+# 0f7a934c27dc41548897092a818b13c4
+msgid "$ spicec -h <host> -p <port_number> -w <password>"
+msgstr ""
+
+#: ../../tips.rst:20
+# 2c5cad4ca4e94ecd9d4503f3d4ee8140
+msgid "How to connect to VNC service with VNC client"
+msgstr ""
+
+#: ../../tips.rst:22
+# b62ea775dfe64408a9d136eb63acacf7
+msgid "Installing VNC client."
+msgstr ""
+
+#: ../../tips.rst:24
+# 596dfdb530d74cebbf577b54c212061b
+msgid "# yum install vnc"
+msgstr ""
+
+#: ../../tips.rst:26
+# 5dc507fecb40473a839aa134d5e17cad
+msgid "Connecting with VNC client."
+msgstr ""
+
+#: ../../tips.rst:28
+# 5c5668a4e0c04dffb63bf1cb9795e13a
+msgid "$ vncviewer <host>:<port_number> or $ java -jar /opt/oc4j/j2ee/home/applications/OVS/webapp1/Class/VncViewer.jar HOST <host> PORT <port_number>"
+msgstr ""
+
+#: ../../tips.rst:33
+# b6799240c6104e84b59865916eff51ac
+msgid "Network"
+msgstr ""
+
+#: ../../tips.rst:36
+# 751d9d1f495049c6bf6f74af881426b0
+msgid "Device eth1 is present rather than eth0 after copying a KVM guest"
+msgstr ""
+
+#: ../../tips.rst:38
+# dbb874fd7e474fb693a23e0f2f042dfb
+msgid "When you cloned a KVM guest, you may find the lack of an eth0 device. That occurs due to a new twist of CentOS 6/Red Hat Enterprise Linux 6 – dynamic device management."
+msgstr ""
+
+#: ../../tips.rst:42
+# 33e72ba623324c559bd5a9dd97f03fd6
+msgid "Log in the KVM guest and modify udev configuration file."
+msgstr ""
+
+#: ../../tips.rst:44
+# d3f954e94e9749eebd6525e9a67506e9
+msgid "# vi /etc/udev/rules.d/70-persistent-net.rules"
+msgstr ""
+
+#: ../../tips.rst:46
+# 6196d6a47717414e874138dc7e03399c
+msgid "#SUBSYSTEM==\"net\", ACTION==\"add\", DRIVERS==\"?*\", ATTR{address}==\"52:54:00:01:a8:a0\", ATTR{type}==\"1\", KERNEL==\"eth*\", NAME=\"eth0\"     # <- comment out"
+msgstr ""
+
+#: ../../tips.rst:48
+# 9512015352124fb4881e8ac464ef875e
+msgid "SUBSYSTEM==\"net\", ACTION==\"add\", DRIVERS==\"?*\", ATTR{address}==\"00:16:36:1e:e8:00\", ATTR{dev_id}==\"0x0\", ATTR{type}==\"1\", KERNEL==\"eth*\", NAME=\"eth0\" # <- change to 'eth0'"
+msgstr ""
+
+#: ../../tips.rst:50
+# bb341acc989243148925ec71bf2743c9
+msgid "Restart the KVM guest."
+msgstr ""
+
+#: ../../tips.rst:54
+# 8826574e9d4b4c4fb499ce7d1fc45589
+msgid "CD/DVD-ROM Drive"
+msgstr ""
+
+#: ../../tips.rst:57
+# 5ecbfe0655fb469782b9114bc4f3b450
+msgid "How to attach CD/DVD-ROM device to guests."
+msgstr ""
+
+#: ../../tips.rst:59
+# 272d9497c635438caf86b3c71030213e
+msgid "You can attach CD/DVD-ROM device by executing the following Karesansui's job command."
+msgstr ""
+
+#: ../../tips.rst:61
+# 3ea88b8b281b425298cbc901e7f22c34
+msgid "Using physical CD/DVD-ROM on host."
+msgstr ""
+
+#: ../../tips.rst:63
+# e77c92e7a9cc4a9c88dafe3c8399033c
+msgid "# /usr/share/karesansui/bin/append_disk.py -n <guest_name> -d /dev/sr0 -t vdc -b virtio -D block -N qemu -T raw -W cdrom"
+msgstr ""
+
+#: ../../tips.rst:65
+#: ../../tips.rst:76
+# e521fe1f6d3c4aeab653cde4f23da530
+# 5fc114b3bd5a4f23ba127e45e1e37c5b
+msgid "Or"
+msgstr ""
+
+#: ../../tips.rst:67
+# 3270951ffddc4f11b460e18e711ae343
+msgid "# /usr/share/karesansui/bin/append_disk.py -n <guest_name> -d /dev/sr0 -t hdc -b ide -D block -N qemu -T raw -W cdrom"
+msgstr ""
+
+#: ../../tips.rst:70
+# 4c45e11408c24688a9a41b8beb5d6888
+msgid "You need to manually mount the cdrom before restarting the guest."
+msgstr ""
+
+#: ../../tips.rst:72
+# e97bcf7c50144362a06572c1b24c8fb5
+msgid "Using ISO9660 image file on host."
+msgstr ""
+
+#: ../../tips.rst:74
+# acd518d422644b07976e1e1668927125
+msgid "# /usr/share/karesansui/bin/append_disk.py -n <guest_name> -d /path/to/iso_file -t vdc -b virtio -D file -N qemu -T raw -W cdrom"
+msgstr ""
+
+#: ../../tips.rst:78
+# 3a0f4700da634f97895126ab8c47d858
+msgid "# /usr/share/karesansui/bin/append_disk.py -n <guest_name> -d /path/to/iso_file -t hdc -b ide -D file -N qemu -T raw -W cdrom"
+msgstr ""
+
+#: ../../tips.rst:80
+# c39265efb9204f4ab1a47228226e19e8
+msgid "Then, restart the guest."
+msgstr ""
+
+#: ../../tips.rst:85
 # ed080829d4d54d1fb64a10110756fd82
 msgid "More information are coming soon..."
 msgstr ""
