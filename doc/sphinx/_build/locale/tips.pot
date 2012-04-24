@@ -1,0 +1,33 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2012, taizo
+# This file is distributed under the same license as the karesansui package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: karesansui 3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-04-24 12:41\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../tips.rst:3
+# 36d9ac96f0b546188689cf3d7a6564c9
+msgid "Tips"
+msgstr ""
+
+#: ../../tips.rst:6
+# 9195ba70b5f94226a549d116b9a4bb69
+msgid "Summary"
+msgstr ""
+
+#: ../../tips.rst:8
+# ed080829d4d54d1fb64a10110756fd82
+msgid "More information are coming soon..."
+msgstr ""
+

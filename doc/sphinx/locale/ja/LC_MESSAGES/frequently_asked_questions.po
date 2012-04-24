@@ -1,0 +1,398 @@
+# Japanese translations for PACKAGE package.
+# Copyright (C) 2012, taizo
+# This file is distributed under the same license as the karesansui package.
+# root <root@taizo-kss.prd.local.hde.co.jp>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: karesansui 3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-04-24 12:41\n"
+"PO-Revision-Date: 2012-04-24 12:01+0900\n"
+"Last-Translator: root <root@taizo-kss.prd.local.hde.co.jp>\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+# 6b26ed55abeb4cb0ac8fa5d820428d71
+#: ../../frequently_asked_questions.rst:2
+msgid "Frequently Asked Questions"
+msgstr "よくある質問(FAQ)"
+
+# 064134001b944a4eb52a9c09ca38b00e
+#: ../../frequently_asked_questions.rst:7
+msgid "General"
+msgstr "一般"
+
+# 9ed5b985896c4cdf8c6d68bcb5502be7
+#: ../../frequently_asked_questions.rst:10
+msgid "Is it free?"
+msgstr "無料で利用できるの？"
+
+# 93d76d3c4d0d4c849bab8621484dbce7
+#: ../../frequently_asked_questions.rst:12
+msgid ""
+"Yes, it is. You may use Karesansui for business or personal use for free."
+msgstr "Karesansuiは商用、非商用を問わずだれでも無料で利用することができます。"
+
+# 5b59c1e0cce4402a87ed8a759f4916af
+#: ../../frequently_asked_questions.rst:15
+msgid "What kind of the license is Karesansui under?"
+msgstr "Karesansuiはどんなライセンスなの？"
+
+# 591229eb3f2d47b9abeadf830be41330
+#: ../../frequently_asked_questions.rst:17
+msgid ""
+"Karesansui is mainly under MIT License. See `README <http://github.com/"
+"karesansui/karesansui/blob/master/README.md>`_ for details."
+msgstr ""
+"主にMITライセンスになっています。詳細は`README <http://github.com/karesansui/"
+"karesansui/blob/master/README.ja.md>`_を参照してください。"
+
+# e15e3c13e64d4b50b6e340be43e63175
+#: ../../frequently_asked_questions.rst:20
+msgid "Does Karesansui support full-virtualization?"
+msgstr "完全仮想化に対応してる？"
+
+# a7d2de7f31fd47aa81387017e7ae9698
+#: ../../frequently_asked_questions.rst:22
+msgid "Yes. Karesansui supports full-virtualization with KVM hypervisor."
+msgstr "KVMハイパーバイザーによる完全仮想化に対応しています。"
+
+# b20dfed8b27248e2ad5e3a2aa4f3bb06
+#: ../../frequently_asked_questions.rst:25
+msgid "I'm not used to Linux. Is the installation easy?"
+msgstr "Linuxに詳しくないんだけどインストールって簡単？"
+
+# b4a4fe2b7bc54cce95dfb2e6d71bfcb0
+#: ../../frequently_asked_questions.rst:27
+msgid ""
+"We have prepared detailed installation guide allowing you easily to install. "
+"Please follow `INSTALL <http://github.com/karesansui/karesansui/blob/master/"
+"INSTALL.md>`_."
+msgstr ""
+"できる限り簡単にインストールできるように、詳しいインストールガイドを用意して"
+"います。インストールの際は、`INSTALL <http://github.com/karesansui/"
+"karesansui/blob/master/INSTALL.ja.md>`_ を参照してください。"
+
+# 4d0a5b8ab7a44c1ca4f9565d5caecf51
+#: ../../frequently_asked_questions.rst:31
+msgid ""
+"There are already many virtualization management consoles around there. What "
+"are the pros of Karesansui?"
+msgstr ""
+"他にもいろんな仮想化ソフトがあるけどKaresansuiだとなにかメリットがあるの？"
+
+# 9333b43ef2e14d44abeace28f8216611
+#: ../../frequently_asked_questions.rst:33
+msgid ""
+"We are working hard. Please take a look at our Karesansui's full ajax web "
+"control panel."
+msgstr ""
+"Karesansuiを使えば複雑な操作から解放されるはずです。Karesansuiは誰でも簡単に"
+"仮想化ができるアプリケーションを目指して日々開発しています。"
+
+# 7cbd90a487974a2dbb7f59041e6fdb3c
+#: ../../frequently_asked_questions.rst:36
+msgid "I'd like to introduce Karesansui to others."
+msgstr "Karesansuiをいろんなところで紹介したいんだけど。"
+
+# f75b170752f242308688a8ca256e8f1d
+#: ../../frequently_asked_questions.rst:38
+msgid ""
+"Yes! Thank you! Take the `Get Karesansui Badge <http://karesansui-project."
+"info/karesansui_pages/badges>`_ if you like it."
+msgstr ""
+"是非、是非じゃんじゃんご紹介ください。`バナー <http://karesansui-project."
+"info/karesansui_pages/badges>`_ も提供中 です！"
+
+# ced3eb4959a3486283afd9ef38129d9c
+#: ../../frequently_asked_questions.rst:41
+msgid ""
+"I'd like to use Karesansui in our company's network. Is there any license "
+"problems?"
+msgstr "会社で利用したんだけど、ライセンスで問題とかある？"
+
+# 09a80361bcd845f8a0928bdcae86471d
+#: ../../frequently_asked_questions.rst:43
+msgid "No. Nothing. It's MIT License so there's no problem."
+msgstr ""
+"まったく問題ありません。KaresansuiはMITライセンスで配布されていますので、利用"
+"することによる制限はありません。"
+
+# 3d3b7fde90854cda8c7b30739f018fa7
+#: ../../frequently_asked_questions.rst:46
+msgid "Application"
+msgstr "アプリケーション"
+
+# 43be9adf2921436a9070400e15c87169
+#: ../../frequently_asked_questions.rst:49
+msgid ""
+"What happens when the database, which Karesansui refers, stops? Does the "
+"guest stop?"
+msgstr "Karesansuiが参照するデータベースが異常停止したらゲストは停止する？"
+
+# f36752bda4e04588b42a7a3ea2a4ebc9
+#: ../../frequently_asked_questions.rst:51
+msgid ""
+"No. Karesansui uses the database to keep information for its user interface. "
+"Guests don't stop if when the database stops, but you will have problems to "
+"access Karesansui control panel."
+msgstr ""
+"データベースが停止していてもゲストやホストに影響が出ることはありません。ただ"
+"しブラウザからの操作はできなくなります。"
+
+# fbf334c5ebe54923ba5b102a87084bb5
+#: ../../frequently_asked_questions.rst:54
+msgid ""
+"I'll get \"You need Java installed\" errors when I try to access the guest "
+"console."
+msgstr "ゲストのコンソールを表示するとJavaが必要ってでるんだけど。"
+
+# 14223ba3d70b43a4adfec73056b1dcb9
+#: ../../frequently_asked_questions.rst:56
+msgid ""
+"We use `TightVNC <http://www.tightvnc.com/>`_ Java applet for guest console. "
+"So you need Java installed for your browser."
+msgstr ""
+"コンソールの表示には、オープンソースの `TightVNC <http://www.tightvnc.com/"
+">`_ のJava appletを利用していますので、Javaが必要となります。"
+
+# f109a54804ae42448f7793be23b643f7
+#: ../../frequently_asked_questions.rst:59
+msgid "Guest console doesn't show up. What can I do?"
+msgstr "コンソールが表示されないんだけど、どうしたらいい？"
+
+# 8aec92c14a7644929876ae274f0ba555
+#: ../../frequently_asked_questions.rst:61
+msgid ""
+"First, Check if you can access your host. From your client's console, type"
+msgstr ""
+"以下を試してみてください。通信ができるかどうかを確認します。クライアントのコ"
+"ンソールから以下のコマンドを発行します。"
+
+# 3e2eb69604ff4bd383095972051382e1
+#: ../../frequently_asked_questions.rst:67
+msgid "Next, Check if the VNC port is open on your Karesansui host."
+msgstr "次にKaresansuiサーバーでVNCポート番号が開いているか確認します。"
+
+# 646f4e87144e41c6bc83c03cf8b9b652
+#: ../../frequently_asked_questions.rst:73
+msgid ""
+"If all above are OK, then try to connect the guest from the client, using "
+"standard VNC viewer applications."
+msgstr ""
+"上記が正常な場合にはクライアントにVNCビューアを入れて接続してみてください。"
+
+# d4db8bec4c2b4a7286b104546981c036
+#: ../../frequently_asked_questions.rst:76
+msgid "Guest console keymap is garbled."
+msgstr ""
+"コンソールからキーボード入力すると、別のキーボード配列になってるんだけど。"
+
+# 6f055820f0a54b06aae5e573601f18df
+#: ../../frequently_asked_questions.rst:78
+msgid ""
+"Select 'Graphics' from guest device tab, and set 'Graphics Keymap'. Choose "
+"appropriate keymap."
+msgstr ""
+"「ゲスト」のデバイスタブから「Graphics」を選択し、「キーマップ」を選択してく"
+"ださい。日本語106/109キーボードは「ja」を選択してください。"
+
+# 0c8447bd554746e5b482763f5e267eab
+#: ../../frequently_asked_questions.rst:81
+msgid "I can't shutdown/stop guests."
+msgstr "ゲストのシャットダウン・再起動ができない"
+
+# 2f0dd2e5bae447d29514326f625f2c70
+#: ../../frequently_asked_questions.rst:83
+msgid ""
+"Try the following instructions. First check if acpid is running. On the "
+"guest console, do as shown below."
+msgstr ""
+"以下を試してください。ゲストに acpid が起動しているかを確認します。ゲストのコ"
+"ンソールから以下のコマンドを発行します。"
+
+# e5c6702c58a84cff995f3c42378e4790
+#: ../../frequently_asked_questions.rst:92
+msgid ""
+"If /usr/sbin/acpid is not installed, install it. If /usr/sbin/acpid is not "
+"running, start it."
+msgstr "/usr/sbin/acpid が起動していない場合には acpid を起動してください。"
+
+# b27cf8fd047e4954b2cd1c5e319edc5f
+#: ../../frequently_asked_questions.rst:100
+msgid ""
+"if acpid fails with error like \"acpid: can't open /proc/acpi/event: Device "
+"or resource busy\", try as following."
+msgstr ""
+"もし 'acpid: can't open /proc/acpi/event: Device or resource busy' エラーで "
+"acpid の起動に失敗する場合には以下を試してください。"
+
+# ffb1880924b947699d3801e2574a247d
+#: ../../frequently_asked_questions.rst:109
+msgid "Check if acpid is running on guest again."
+msgstr "ゲストに acpid が起動しているかを再確認します。"
+
+# c5e61ea5730b4df4b7edffa37846735c
+#: ../../frequently_asked_questions.rst:118
+msgid "After acpid is started, try to shutdown/stop the guest."
+msgstr ""
+"ゲストで acpid を起動後に、ゲストのシャットダウン・再起動を試してみてくださ"
+"い。"
+
+# a1bcbd084bca4d558b7cffb3bcf5b712
+#: ../../frequently_asked_questions.rst:121
+msgid "It doesn't work."
+msgstr "うまく動かないんだけど、どうしたらいい？"
+
+# 509aa89ff9c040f08d1485a8c5e00dfb
+#: ../../frequently_asked_questions.rst:123
+msgid ""
+"Go and ask your question in the `Karesansui Forum <http://karesansui-project."
+"info/projects/karesansui/boards>`_ . Somebody may answer you."
+msgstr ""
+"`Karesansui フォーラム <http://karesansui-project.info/projects/karesansui/"
+"boards>`_ で質問してみてください。有志の方や開発者が答えてくれるはずです。"
+
+# d2c6e55af06b4da99b5fa7c39cb10d96
+#: ../../frequently_asked_questions.rst:126
+msgid "Logging"
+msgstr "ロギング"
+
+# 6df930e3fca84d9c89ef1ecce0469a72
+#: ../../frequently_asked_questions.rst:129
+msgid "I want to change the log file rotation cycle, size, path, etc.."
+msgstr ""
+"ログファイルのサイズ・ファイルパス・ローテート数を変更したいんだけどどうすれ"
+"ばいい？"
+
+# fe140593331344659a4e7e4e4e82ec7f
+#: ../../frequently_asked_questions.rst:131
+msgid "Change \"args\" in the \"[handler_*\" category of log.conf"
+msgstr ""
+"log.conf内の \"[handler_*\"カテゴリにある \"args\" を変更します。以下に変更例"
+"を記載します。"
+
+# 07a871a42af44b138e97ff4a9ca3d5f8
+#: ../../frequently_asked_questions.rst:133
+msgid "ex: Set size of log file to 10M."
+msgstr "例: ログファイルサイズ 10M にする場合"
+
+# 7225fb414a67459b8b423d9ab22183d5
+#: ../../frequently_asked_questions.rst:139
+msgid "ex: Rename log file to 'server.log'."
+msgstr "例: ログファイル名を server.log にする場合"
+
+# 6df930e3fca84d9c89ef1ecce0469a72
+#: ../../frequently_asked_questions.rst:145
+msgid "ex: Change the number of rotated log files to 10."
+msgstr "例: ローテート世代数を10にする場合"
+
+# de1a2792b1f341ecb354cb292eab1747
+#: ../../frequently_asked_questions.rst:152
+msgid ""
+"I found an error on the Karesansui control panel, but can't find "
+"corresponding message in the error log."
+msgstr "画面でエラーが発生したがうまくログ出力されていないみたい。"
+
+# 273f1fe27c8b43fc85e051cdbeac1bde
+#: ../../frequently_asked_questions.rst:154
+msgid ""
+"May be the message is filtered by the log level. Check the level in "
+"\"[logger_*\" category of log.conf."
+msgstr ""
+"ログレベルによってログの出力を制限している可能性があります。 \"[logger_*\"カ"
+"テゴリのlevelを確認してください。"
+
+# f98af4246c0b404eb97362eb2f0d2df2
+#: ../../frequently_asked_questions.rst:156
+msgid "Log levels (From high to low. Higher level include lower level.)"
+msgstr "ログレベル (※上は下を包括します)"
+
+# 9e9f529e4a534fa2ad72fd18d21f4f50
+#: ../../frequently_asked_questions.rst:158
+msgid "DEBUG: Debug messages"
+msgstr "DEBUG: 全て出力(デバッグ用)"
+
+# 639db5630849432d87327ed652b1f8da
+#: ../../frequently_asked_questions.rst:159
+msgid "INFO: Informational messages"
+msgstr "INFO: 一般情報のみ出力"
+
+# e0c478fe022242d09466c1237d244212
+#: ../../frequently_asked_questions.rst:160
+msgid "WARNING: Warnings that don't cause an actual error (recommended)"
+msgstr "WARNING: 警告のみ出力(運用時の推奨設定)"
+
+# d96c3fb2e9b149f0a2ea8fc193c17a99
+#: ../../frequently_asked_questions.rst:161
+msgid "ERROR: Non-fatal errors."
+msgstr "ERROR: エラーのみ出力"
+
+# 6b00016433124d1aa4f0ea4d6a643bf8
+#: ../../frequently_asked_questions.rst:162
+msgid "CRITICAL: Fatal errors that cause the process to die."
+msgstr "CRITICAL: 深刻なエラーのみ出力"
+
+# 55c2c0dd0ecd4ae987ca8d9382145fa7
+#: ../../frequently_asked_questions.rst:163
+msgid "EXCEPTION: Errors that cause an exception."
+msgstr "EXCEPTION: システム的なエラーのみ出力"
+
+# b5cd4702f7994bfd989d714f91108d51
+#: ../../frequently_asked_questions.rst:165
+msgid "After modifying log.conf, you need to restart the web server."
+msgstr "ログ設定の変更時はWebサーバーの再起動が必要です。"
+
+# 4f68fe75c1d84708a5ef4fd476d1b561
+#: ../../frequently_asked_questions.rst:168
+msgid "Can I change the log output style?"
+msgstr "ログの出力形式を変更したいんだけど。"
+
+# 41ee70cfe4e8406c8f994043a17d6520
+#: ../../frequently_asked_questions.rst:170
+msgid "We use python logging. Check python logging instructions."
+msgstr ""
+"Python loggingで利用できるすべての形式に対応していますので詳しくはそちらを参"
+"照ください。"
+
+# 07a871a42af44b138e97ff4a9ca3d5f8
+#: ../../frequently_asked_questions.rst:173
+msgid "Where are the log files stored?"
+msgstr "ログファイルってどこに出力されるの？"
+
+# 2c0b83b0c62348ba9b5e97e0457e6b46
+#: ../../frequently_asked_questions.rst:175
+msgid "Where defined in \"args\" of  \"[handler_*\" category of log.conf."
+msgstr ""
+"log.conf内の \"[handler_*\"カテゴリにある \"args\" に定義されています。"
+
+# 27abcaf3fe5c4871a8a4fc3c59cb2478
+#: ../../frequently_asked_questions.rst:178
+msgid "I have several log files. What are these?"
+msgstr "ログファイルが3つあるんだけど。"
+
+# 96de84a2b8104a39ba69ae81b37800b2
+#: ../../frequently_asked_questions.rst:180
+msgid "Karesansui writes log in several files."
+msgstr "Karesansuiのログは複数のファイルで構成されています。"
+
+# 788f45e463ea40719644498c47875fb2
+#: ../../frequently_asked_questions.rst:182
+msgid "General log of Karesansui: /var/log/karesansui/application.log"
+msgstr "Karesansui全体のログ: /var/log/karesansui/application.log"
+
+# 3da870a0b5e24b7b8eb94924c4003112
+#: ../../frequently_asked_questions.rst:183
+msgid "Program trace for errors: /var/log/karesansui/error.log"
+msgstr ""
+"Karesansuiで発生したエラーのプログラムトレースログ: /var/log/karesansui/"
+"error.log"
+
+# e40cf38656984f868d2c426fe14ed8a6
+#: ../../frequently_asked_questions.rst:184
+msgid "SQL committed by Karesansui: /var/log/karesansui/sql.log"
+msgstr "Karesansuiが発行したSQL関連のログ : /var/log/karesansui/sql.log"

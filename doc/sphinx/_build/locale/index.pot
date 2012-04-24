@@ -1,0 +1,48 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2012, taizo
+# This file is distributed under the same license as the karesansui package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: karesansui 3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-04-24 12:41\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../index.rst:7
+# 7e9419ddf4e7452989fa3abd2551aef5
+msgid "Welcome to Karesansui's documentation!"
+msgstr ""
+
+#: ../../index.rst:9
+# 6089ab3f3b454729b45a4d2e1e8b0de9
+msgid "Contents:"
+msgstr ""
+
+#: ../../index.rst:19
+# e7c1c53343f34112b210162fa849940f
+msgid "Indices and tables"
+msgstr ""
+
+#: ../../index.rst:21
+# 90de4a9e01db42f28fda9cc672e0a032
+msgid ":ref:`genindex`"
+msgstr ""
+
+#: ../../index.rst:22
+# f5fdb079feb64370b7f7b70af5c1a598
+msgid ":ref:`modindex`"
+msgstr ""
+
+#: ../../index.rst:23
+# e962cb4315c648dba2be71e4d2ce5108
+msgid ":ref:`search`"
+msgstr ""
+

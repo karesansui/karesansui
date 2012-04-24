@@ -1,0 +1,341 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2012, taizo
+# This file is distributed under the same license as the karesansui package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: karesansui 3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-04-24 12:41\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../configurations.rst:3
+# 2f235c51f0c04dba80c3deb4b1e67c2f
+msgid "Configurations"
+msgstr ""
+
+#: ../../configurations.rst:6
+# 84ed56a81c0746e4887dcbaa8b97d03c
+msgid "Overview"
+msgstr ""
+
+#: ../../configurations.rst:8
+# b5f6bae1f15e48c28ea706ea888cba49
+msgid "This section describes configuration parameters for Karesansui and other services related to Karesansui."
+msgstr ""
+
+#: ../../configurations.rst:11
+# e984c2cc325f4537b9eaf8e0f6f83664
+msgid "Configuring Karesansui"
+msgstr ""
+
+#: ../../configurations.rst:13
+# 2f310f724ed34ee6b45cf266fcca65c1
+msgid "Here are the files used to configure Karesansui."
+msgstr ""
+
+#: ../../configurations.rst:16
+# d12fe04eb49a4f04996a4454fa673c92
+msgid "Main Configuration Files - /etc/karesansui/application.conf"
+msgstr ""
+
+#: ../../configurations.rst:19
+# 6e771d7ba9c04e279b1a23e3c4196e5e
+msgid "application.search.path"
+msgstr ""
+
+#: ../../configurations.rst:20
+# cbf795389aab413592703ecc8de612be
+msgid "Search path for Python modules."
+msgstr ""
+
+#: ../../configurations.rst:22
+# 1dbe3b424ef4444ea62280df66fca5bd
+msgid "Multiple values are comma-separated."
+msgstr ""
+
+#: ../../configurations.rst:24
+#: ../../configurations.rst:35
+#: ../../configurations.rst:45
+#: ../../configurations.rst:58
+#: ../../configurations.rst:68
+#: ../../configurations.rst:78
+#: ../../configurations.rst:90
+#: ../../configurations.rst:100
+#: ../../configurations.rst:110
+#: ../../configurations.rst:120
+#: ../../configurations.rst:131
+#: ../../configurations.rst:141
+#: ../../configurations.rst:151
+#: ../../configurations.rst:161
+#: ../../configurations.rst:171
+#: ../../configurations.rst:208
+#: ../../configurations.rst:219
+#: ../../configurations.rst:231
+#: ../../configurations.rst:241
+#: ../../configurations.rst:253
+# e55c89e0424b483380795e0c603730a0
+# 8a421ef725914312802c43908e99f2b5
+# 98127f1a8e374391a7d2d2de8bac0c87
+# 39a5c6450ec84950aabde5d0f4575c9d
+# 5aec8d1d1c1f4047ab61d5e97e5d05f6
+# 329fc17973384a4c907c26c802a8efe8
+# a094041c0b8640b68aa133cf511ff53d
+# 769f924330e942f1ae00b8df5c159e28
+# 2d206c0e5f494f67a9e5ab87acdb9e06
+# ac7af120decb4123a2d47beb02e41e32
+# 7443b98142aa4b5f90b168ec6a342d04
+# eb16c2cf7e9b4fbfa582c5b24029f674
+# d1164cb856a042b68f253bddfd6a3cce
+# 7643116b772841e1a7befbb6fd9a8cc0
+# c19d748d7d9740079eb64458fdc408fd
+# f47509dbe20040a9abc641831b1ac6dc
+# db85164afac54edebe9bee7b16aaf326
+# eda540cf2d104c11843a11e08ad2398f
+# 90430ba555a44102abc6e73a20b6ef77
+# ad20ecfecbf2417ea4679ccabfd443c1
+msgid "ex."
+msgstr ""
+
+#: ../../configurations.rst:32
+# 98cd327459b440d6b7cbc84a0dcdc7d1
+msgid "application.log.config"
+msgstr ""
+
+#: ../../configurations.rst:33
+# 035351356e2f49b58a616e8cab437458
+msgid "Log file path."
+msgstr ""
+
+#: ../../configurations.rst:42
+# 16708109fafd4f42a620b644f0934472
+msgid "application.url.prefix"
+msgstr ""
+
+#: ../../configurations.rst:43
+# 4742ea26bc1c42ca9ddac774d6f06e9a
+msgid "Prefix of the URL for Karesansui management console."
+msgstr ""
+
+#: ../../configurations.rst:52
+# 20ee56d7fd5f4d30b62cfab31b192b46
+msgid "application.default.locale"
+msgstr ""
+
+#: ../../configurations.rst:53
+# 20ee56d7fd5f4d30b62cfab31b192b46
+msgid "Default locale."
+msgstr ""
+
+#: ../../configurations.rst:56
+# f7b2a509d1f04fa9917184cca739395c
+msgid "As of this writing, only ja_JP or en_US can be specified."
+msgstr ""
+
+#: ../../configurations.rst:65
+# 09d4614248be4b66b5d46434fe01e242
+msgid "application.template.theme"
+msgstr ""
+
+#: ../../configurations.rst:66
+# 8aa5151fc0fc4a6ea84c86663594814e
+msgid "Default theme for Karesansui management console."
+msgstr ""
+
+#: ../../configurations.rst:75
+# 27534e79f9004c38a2e3cadf786899fc
+msgid "application.tmp.dir"
+msgstr ""
+
+#: ../../configurations.rst:76
+# ee4323670e3a452fbea31eec98030b03
+msgid "Directory where Karesansui should store its cache and temporary files."
+msgstr ""
+
+#: ../../configurations.rst:85
+# 7e3b462a00ec434fbd9df73bd38270fc
+msgid "application.bin.dir"
+msgstr ""
+
+#: ../../configurations.rst:86
+# 694bc59bbddb466b8b1b23447088aeda
+msgid "Directory where job commands executed by Karesansui are located."
+msgstr ""
+
+#: ../../configurations.rst:88
+# 948f02fbf28b457c88e35ded399430af
+msgid "The directory need to be writable for Karesansui owner."
+msgstr ""
+
+#: ../../configurations.rst:97
+# 44b964116be44e2fbee48cdad5428780
+msgid "application.mail.email"
+msgstr ""
+
+#: ../../configurations.rst:98
+# d35a6f7e78be441babc01a91f930fb22
+msgid "E-mail address of Karesansui Administrator."
+msgstr ""
+
+#: ../../configurations.rst:107
+# 602daeb712424e7f8f595782527978ba
+msgid "application.mail.port"
+msgstr ""
+
+#: ../../configurations.rst:108
+# b577d48f9509486ab5b52705ad9a20a8
+msgid "Port number of an SMTP server which Karesansui connects."
+msgstr ""
+
+#: ../../configurations.rst:117
+# 8745b52f420543519efc21d55b2199f6
+msgid "application.mail.server"
+msgstr ""
+
+#: ../../configurations.rst:118
+# 0cd4d9a31de249ed80ac37e2bb24deea
+msgid "FQDN or IP address of an SMTP server which Karesansui connects."
+msgstr ""
+
+#: ../../configurations.rst:127
+# 8f557a2381a54f8d88b8b44ec28bbcc3
+msgid "application.proxy.status"
+msgstr ""
+
+#: ../../configurations.rst:128
+# d9fce206775e4064a7accce6857efe04
+msgid "Either 1 or 0. This tells Karesansui whether or not it need to connect the Internet via proxy."
+msgstr ""
+
+#: ../../configurations.rst:138
+# 5dda0d322bd541549e6b67070dd0c703
+msgid "application.proxy.server"
+msgstr ""
+
+#: ../../configurations.rst:139
+# dbb87d3eef2547ad9ad372c115da3bfa
+msgid "FQDN or IP address of a proxy server which Karesansui uses."
+msgstr ""
+
+#: ../../configurations.rst:148
+# 8e65f6a58fc9487a8573f37f3cdfcdcc
+msgid "application.proxy.port"
+msgstr ""
+
+#: ../../configurations.rst:149
+# d96114d233634249bb9a2eab96b20cbc
+msgid "Port number of a proxy server which Karesansui uses."
+msgstr ""
+
+#: ../../configurations.rst:158
+# 999594e8e388477dafca2314a59d5a7e
+msgid "application.proxy.user"
+msgstr ""
+
+#: ../../configurations.rst:159
+# e00d7a899d7040d8be1573934aca16b6
+msgid "Username for authentication on a proxy server which Karesansui uses."
+msgstr ""
+
+#: ../../configurations.rst:168
+# 5a8e99d62dbf4597b7ed95fd90320131
+msgid "application.proxy.password"
+msgstr ""
+
+#: ../../configurations.rst:169
+# 31daf46b52024760be1d7d2e4eeb6402
+msgid "Password for authentication on a proxy server which Karesansui uses."
+msgstr ""
+
+#: ../../configurations.rst:178
+# e0e04d431e384239878ede13d8d091d6
+msgid "database.bind"
+msgstr ""
+
+#: ../../configurations.rst:179
+# 15ca75e5c20b4d82b59c7b1c758f06d2
+msgid "The database URI that should be used for the connection."
+msgstr ""
+
+#: ../../configurations.rst:183
+# eea3b1b466f249faa098021aaa2305a3
+msgid "This value must be specified in RFC-1738 style URL. See 'SQLAlchemy - Engine Configuration <http://docs.sqlalchemy.org/en/latest/core/engines.html>'_ for further information."
+msgstr ""
+
+#: ../../configurations.rst:186
+# 7298e0d50f2242da98e1a74e5024744a
+msgid "MySQL"
+msgstr ""
+
+#: ../../configurations.rst:194
+# c582829b29a34d72bc14f487f65a153a
+msgid "PostgreSQL"
+msgstr ""
+
+#: ../../configurations.rst:200
+# 6f6d229ac7b644fd9495905a387593a5
+msgid "SQLite"
+msgstr ""
+
+#: ../../configurations.rst:202
+# 9ff9e19808fb410d8c51458c0c36d1ad
+msgid "The database must be writable for Karesansui owner."
+msgstr ""
+
+#: ../../configurations.rst:215
+# 393b9697de174686abb95ea2522b9004
+msgid "database.pool.status"
+msgstr ""
+
+#: ../../configurations.rst:216
+# 466a728421db40cf91655dd3deedf5bd
+msgid "Either 1 or 0. This tells Karesansui whether or not it uses connection pools."
+msgstr ""
+
+#: ../../configurations.rst:226
+# 03b50ec14f864e97bc4550cea3d561d1
+msgid "database.pool.size"
+msgstr ""
+
+#: ../../configurations.rst:227
+# 5c56764002454a7e867f689891ba3cb0
+msgid "The number of connection pools."
+msgstr ""
+
+#: ../../configurations.rst:229
+# 9a6ad218599f40968c84c6e5e868c225
+msgid "If you use SQLite database, this will be ignored."
+msgstr ""
+
+#: ../../configurations.rst:238
+# ef2dc12990da4786a1f0b24dc489aeb7
+msgid "database.pool.max.overflow"
+msgstr ""
+
+#: ../../configurations.rst:239
+# 7ab9fbddcda6463db40a5b7ae0e487dc
+msgid "The maximum number of connection pools."
+msgstr ""
+
+#: ../../configurations.rst:248
+# d043588a8b5448c0991eb4bff8460302
+msgid "pysilhouette.conf.path"
+msgstr ""
+
+#: ../../configurations.rst:249
+# 0432ff96b6204c01bf1734c5ff021b6e
+msgid "Pysilhouette configuration file."
+msgstr ""
+
+#: ../../configurations.rst:251
+# ecbedce98e53498fb39a2273fcb6e1a1
+msgid "The configuration file must be readable for Karesansui owner."
+msgstr ""
+
