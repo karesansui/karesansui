@@ -12,6 +12,7 @@ Contents:
    :maxdepth: 2
 
    configurations
+   directory_layout
    frequently_asked_questions
    tips
 

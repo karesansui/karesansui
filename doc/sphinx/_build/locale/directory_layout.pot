@@ -1,0 +1,339 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2012, taizo
+# This file is distributed under the same license as the karesansui package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: karesansui 3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-04-25 16:03\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../directory_layout.rst:2
+# 5c0c1daf46ef4faebfa8843fdd658f3a
+msgid "Directory Layout"
+msgstr ""
+
+#: ../../directory_layout.rst:5
+# 4dbe3ec479fc4f86b27da601b414c22b
+msgid "Overview"
+msgstr ""
+
+#: ../../directory_layout.rst:7
+# 4ab88675b2e54de29a598b9299d2e016
+msgid "Here is overview of how Karesansui files and directories are structured. This document is based on the CentOS 6.x (x86_64) directory structure."
+msgstr ""
+
+#: ../../directory_layout.rst:12
+# 11cf6d2fceda45a4871634186a3cf150
+msgid "Directory Structure"
+msgstr ""
+
+#: ../../directory_layout.rst:15
+# d675175976b84e64bd25de081b2defb6
+msgid "/var/lib/libvirt"
+msgstr ""
+
+#: ../../directory_layout.rst:16
+# 04d256ee49284824b0c9473f50ece4df
+msgid "Directory where libvirt stores its data."
+msgstr ""
+
+#: ../../directory_layout.rst:18
+# 77b16e82982847e691798e923a00266d
+msgid "The /var/lib/libvirt directory typically looks like this:"
+msgstr ""
+
+#: ../../directory_layout.rst:29
+# 8cc5e65d655b45c7ab447503e886c935
+msgid "lxc/"
+msgstr ""
+
+#: ../../directory_layout.rst:31
+# 6b4cd085e7da4dbaa23b2a081facc33b
+msgid "Linux Containers (lxc) data. Karesansui does not use it."
+msgstr ""
+
+#: ../../directory_layout.rst:33
+# 025ab4acc82340e182302337080687b0
+msgid "boot/"
+msgstr ""
+
+#: ../../directory_layout.rst:35
+# 4713d30551d94d068f78d10f38c22b57
+msgid "Temporary kernel image or ramdisk image used at guest installation."
+msgstr ""
+
+#: ../../directory_layout.rst:37
+# 53bac77c10854c46b3d7f7bc88652390
+msgid "dnsmasq/"
+msgstr ""
+
+#: ../../directory_layout.rst:39
+# aad87fea8c2f4f69b6082caa329970dd
+msgid "Configurations of NAT networking. libvirtd invokes dnsmasq and tells it to store state under this directory."
+msgstr ""
+
+#: ../../directory_layout.rst:41
+# 44d2d87a3e5642f19fb67cb1bc7cf896
+msgid "network/"
+msgstr ""
+
+#: ../../directory_layout.rst:43
+# 199515cd7d9f49a28bd4cc09cda08813
+msgid "Configurations of virtual network."
+msgstr ""
+
+#: ../../directory_layout.rst:45
+# 845f7cabdc91400798bb9bee28afd40b
+msgid "domains/"
+msgstr ""
+
+#: ../../directory_layout.rst:47
+# e0b57ccbd55b426ca06d16b730070a79
+msgid "Virtual machine (VM) disk images. See `/var/lib/libvirt/domains <#id1>`_ for details."
+msgstr ""
+
+#: ../../directory_layout.rst:49
+#: ../../directory_layout.rst:145
+# 1911d9e7e1e24e8488c6df4eb1def9d1
+# 8e04f56a512e43cbae6263d64c08bfae
+msgid "qemu/"
+msgstr ""
+
+#: ../../directory_layout.rst:51
+# dceed8f8020a411ebafd2a4796fad0bb
+msgid "QEMU data. See `/var/lib/libvirt/qemu <#id2>`_ for details."
+msgstr ""
+
+#: ../../directory_layout.rst:55
+# 21a0bc14487f4481a94d6997bc195f66
+msgid "/var/lib/libvirt/domains"
+msgstr ""
+
+#: ../../directory_layout.rst:56
+# b58b5365b9dd4dc2964f377a2e22eb1c
+msgid "Directory where the virtual machine (VM) disk images are stored in."
+msgstr ""
+
+#: ../../directory_layout.rst:58
+# f9ef1570740049faa7db7d0c78eec68b
+msgid "The /var/lib/libvirt/domains directory typically looks like this:"
+msgstr ""
+
+#: ../../directory_layout.rst:66
+# a5b0217d773242639b2503e0bbc833ba
+msgid "UUID-based file name (linked to /var/lib/libvirt/domains/<guest_name>/images/<guest_name>.img)"
+msgstr ""
+
+#: ../../directory_layout.rst:68
+#: ../../directory_layout.rst:84
+# 7d4761cf5cec4772801889758fd0d67c
+# 141b4c41ab4d4495ba6e67963c761fe9
+msgid "Image file for the virtual machine (VM)."
+msgstr ""
+
+#: ../../directory_layout.rst:70
+# b1bb9c6dee6741e6aec815a162832265
+msgid "UUID-based file name (linked to /var/lib/libvirt/domains/<guest_name>/disk/<uuid>.img)"
+msgstr ""
+
+#: ../../directory_layout.rst:72
+#: ../../directory_layout.rst:80
+# 9cdb00214459413191fecb7a30e461a6
+# 5151a982e88e44bd8a75e5c5441591aa
+msgid "Image file for the virtual machine's additional disk."
+msgstr ""
+
+#: ../../directory_layout.rst:74
+# b8cc03e0e15a457485232a2c14968557
+msgid "Directory named after the guest name"
+msgstr ""
+
+#: ../../directory_layout.rst:76
+# 8283664d42464ee2a9dde7057dae532b
+msgid "A set of the virtual machine (VM) disk images. The list of its subdirectories and their descriptions is as follows:"
+msgstr ""
+
+#: ../../directory_layout.rst:78
+# 0f81bd918eab49dcb5b16a26a47a6f00
+msgid "disk/"
+msgstr ""
+
+#: ../../directory_layout.rst:82
+# 59d6ad2c68094c69bd0899eb21ffe06c
+msgid "images/"
+msgstr ""
+
+#: ../../directory_layout.rst:88
+# 92269b1f817c493caf33703c8e9b373c
+msgid "/var/lib/libvirt/qemu"
+msgstr ""
+
+#: ../../directory_layout.rst:89
+# b797bee64eaa4785971e6411e7612e36
+msgid "Directory where data and state for QEMU are stored in."
+msgstr ""
+
+#: ../../directory_layout.rst:91
+# 9924e26087764933ac17d662e2b2fc76
+msgid "The /var/lib/libvirt/qemu directory typically looks like this:"
+msgstr ""
+
+#: ../../directory_layout.rst:100
+# b844635a866342c3978515c448ced346
+msgid "<guest_name>.monitor"
+msgstr ""
+
+#: ../../directory_layout.rst:102
+# d8d16ddbf4fa413394319f3b4308b97d
+msgid "Socket file for QEMU monitor."
+msgstr ""
+
+#: ../../directory_layout.rst:104
+# f5f513c74fa44175928c79ba407a965f
+msgid "dump/"
+msgstr ""
+
+#: ../../directory_layout.rst:106
+# 3f482287ca534cf596451764b67bf825
+msgid "Directory where libvirtd will save dump files."
+msgstr ""
+
+#: ../../directory_layout.rst:108
+# 632839af169a4ffe8a0809a188d72829
+msgid "save/"
+msgstr ""
+
+#: ../../directory_layout.rst:110
+# 4cddce16f6c84a8399e7383af89890d8
+msgid "Directory where libvirtd will dump the virtual machine (VM) into when the host is shutdowned."
+msgstr ""
+
+#: ../../directory_layout.rst:112
+# 8b5ceb8c1a4249b5b499fc194b97ed7a
+msgid "snapshot/"
+msgstr ""
+
+#: ../../directory_layout.rst:114
+# cd34021bf4ac4cd999623cceb8199574
+msgid "Virtual machine (VM) snapshot information files."
+msgstr ""
+
+#: ../../directory_layout.rst:116
+# a5e9859f375b40a485bb77a53476d9a2
+msgid "/var/lib/libvirt/qemu/snapshot/<guest_name>/<snapshor_tag>.xml"
+msgstr ""
+
+#: ../../directory_layout.rst:120
+# 82f0ef26d851461a9cae5dc18f317630
+msgid "/etc/libvirt"
+msgstr ""
+
+#: ../../directory_layout.rst:121
+# 6a4638a435414de195e12cb8c46d4144
+msgid "Directory where libvirt configuration files is located."
+msgstr ""
+
+#: ../../directory_layout.rst:123
+# d2abd8f9a97742099563fe4dbf37612d
+msgid "The /etc/libvirt directory typically looks like this:"
+msgstr ""
+
+#: ../../directory_layout.rst:133
+# e92edf173a624c34af15a239dd2c8ab1
+msgid "libvirtd.conf"
+msgstr ""
+
+#: ../../directory_layout.rst:135
+# 87f358b6bd454a93afe62affc59e0e5c
+msgid "The libvirt daemon master configuration file."
+msgstr ""
+
+#: ../../directory_layout.rst:137
+# 9695ccbaa49d41b48d780126707d5555
+msgid "qemu.conf"
+msgstr ""
+
+#: ../../directory_layout.rst:139
+# 4f14956c0dab46d9a7e74e6dc402703d
+msgid "The QEMU driver configuration file."
+msgstr ""
+
+#: ../../directory_layout.rst:141
+# ed1a394a27254b7b97f057e382fa89f0
+msgid "nwfilter/"
+msgstr ""
+
+#: ../../directory_layout.rst:143
+# 7b7b4a96ab3c4d71bc9f518447675be8
+msgid "Configurations of firewall and network filtering."
+msgstr ""
+
+#: ../../directory_layout.rst:147
+# 61d75c1127274c9597ce605e302f3dde
+msgid "Configurations of KVM virtual machine and virtual network."
+msgstr ""
+
+#: ../../directory_layout.rst:150
+# 6eaae43e9057425095413bca9f41cc4a
+msgid "/etc/libvirt/qemu/<guest_name>.xml"
+msgstr ""
+
+#: ../../directory_layout.rst:153
+# cb2f1ba6103f459ba059f535b0948e9b
+msgid "/etc/libvirt/qemu/networks/<network_name>.xml"
+msgstr ""
+
+#: ../../directory_layout.rst:155
+# c204553dbaf34735b984d2c0de58ae82
+msgid "storage/"
+msgstr ""
+
+#: ../../directory_layout.rst:157
+# 7027afb0493f4cf7b233ea3d1a6a0223
+msgid "Configurations of the storage pool."
+msgstr ""
+
+#: ../../directory_layout.rst:161
+# 66630bd4e1ec468faf5b56d9830d0465
+msgid "/etc/karesansui"
+msgstr ""
+
+#: ../../directory_layout.rst:162
+# 5743910c151948bbbac0b7b5591dd476
+msgid "Directory where karesansui configuration files is located."
+msgstr ""
+
+#: ../../directory_layout.rst:164
+# a928c5d5d4344868b76e8440f9cc5602
+msgid "The /etc/karesansui directory typically looks like this:"
+msgstr ""
+
+#: ../../directory_layout.rst:175
+# 0f35937a96b34fa1971de39c5afbb305
+msgid "application.conf"
+msgstr ""
+
+#: ../../directory_layout.rst:177
+# 67bd375d95d64c3ab5c02fc0014aca85
+msgid "The karesansui main configuration file."
+msgstr ""
+
+#: ../../directory_layout.rst:179
+# bc798fe1602c486284b3b0b81ce6c71a
+msgid "firewall.xml"
+msgstr ""
+
+#: ../../directory_layout.rst:181
+# 74f58fda65fb4bd8838ed5370afff25c
+msgid "XML definition for iptables"
+msgstr ""
+
