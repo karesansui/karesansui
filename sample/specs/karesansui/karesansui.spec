@@ -1,4 +1,5 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%{!?_datarootdir: %global _datarootdir %{_prefix}/share}
 
 %define __app karesansui
 %define version 3.0.0
