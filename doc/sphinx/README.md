@@ -5,6 +5,7 @@ Requirement
 * python-sphinx >= 1.1.0
 * python-jinja2 >= 2.3
 * python-pygments >= 1.2
+* python-nose >= 0.11.1
 
 Setting Up
 ----------

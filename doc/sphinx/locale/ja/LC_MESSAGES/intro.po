@@ -1,0 +1,57 @@
+# Japanese translations for PACKAGE package.
+# Copyright (C) 2012, Karesansui Project
+# This file is distributed under the same license as the karesansui package.
+# root <root@taizo-kss.prd.local.hde.co.jp>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: karesansui 3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-04-26 11:42\n"
+"PO-Revision-Date: 2012-04-26 11:42+0900\n"
+"Last-Translator: root <root@taizo-kss.prd.local.hde.co.jp>\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+# ab5979671d15406287c1cb3e35f5fbf1
+#: ../../intro.rst:2
+msgid "Introduction"
+msgstr "イントロダクション"
+
+# caa42fe43fe84509aabc50bdef8c1cc9
+#: ../../intro.rst:4
+msgid ""
+"This documentation describes Karesansui configurations or configuration "
+"tips, etc."
+msgstr "このドキュメンテーションはKaresansuiの設定や設定上のTipsなどについて説明します。"
+
+# 7cf86bf2ba4f417fa75baeb8b3431d47
+#: ../../intro.rst:7
+msgid "Installation"
+msgstr "インストール"
+
+# 5effc1af09274599a5f21b2efc279b6d
+#: ../../intro.rst:8
+msgid ""
+"See `INSTALL <http://github.com/karesansui/karesansui/blob/master/INSTALL."
+"md>`_ document."
+msgstr ""
+"`INSTALL <http://github.com/karesansui/karesansui/blob/master/INSTALL."
+"ja.md>`_ をご覧ください。"
+
+# 3392d97279054085a2a523c8af3204ea
+#: ../../intro.rst:11
+msgid "License"
+msgstr "ライセンス"
+
+# 6d9b6d0402e14364b302f5dad13833f8
+#: ../../intro.rst:12
+msgid ""
+"See `README <http://github.com/karesansui/karesansui/blob/master/README."
+"md>`_ document."
+msgstr ""
+"`README <http://github.com/karesansui/karesansui/blob/master/README."
+"ja.md>`_ をご覧ください。"

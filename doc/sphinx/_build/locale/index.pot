@@ -1,5 +1,5 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) 2012, taizo
+# Copyright (C) 2012, Karesansui Project
 # This file is distributed under the same license as the karesansui package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: karesansui 3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-24 16:56\n"
+"POT-Creation-Date: 2012-04-26 11:46\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,22 +26,22 @@ msgstr ""
 msgid "Contents:"
 msgstr ""
 
-#: ../../index.rst:19
+#: ../../index.rst:21
 # e7c1c53343f34112b210162fa849940f
 msgid "Indices and tables"
 msgstr ""
 
-#: ../../index.rst:21
+#: ../../index.rst:23
 # 90de4a9e01db42f28fda9cc672e0a032
 msgid ":ref:`genindex`"
 msgstr ""
 
-#: ../../index.rst:22
+#: ../../index.rst:24
 # f5fdb079feb64370b7f7b70af5c1a598
 msgid ":ref:`modindex`"
 msgstr ""
 
-#: ../../index.rst:23
+#: ../../index.rst:25
 # e962cb4315c648dba2be71e4d2ce5108
 msgid ":ref:`search`"
 msgstr ""

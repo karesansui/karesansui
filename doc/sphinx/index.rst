@@ -11,6 +11,7 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   intro
    configurations
    directory_layout
    frequently_asked_questions
