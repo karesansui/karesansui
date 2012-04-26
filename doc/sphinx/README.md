@@ -22,7 +22,7 @@ If you want to translate the documents in your own language:
 
 ######1. Generate po file.
 
-If you want to update exising po file, you can merge translations using following approach:
+If you want to update existing po file, you can merge translations using following approach:
 
     # msgmerge --update locale/[lang]/LC_MESSAGES/index.po _build/locale/index.pot
 

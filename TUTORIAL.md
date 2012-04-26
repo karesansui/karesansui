@@ -38,7 +38,7 @@ If you doesn't have an ISO-9660 CD-ROM image but DVD-ROM, it may be created by u
 
 ######CASE 3: NOT able to connect to the Internet. (Local Install/CD-ROM)
 
-Using CentOS 6(x86_64) DVD, you can intall guest OS.
+Using CentOS 6(x86_64) DVD, you can install guest OS.
 You may need to install FTP server software such as vsftpd before setting up your own FTP server temporarily.
 Please insert CentOS 6(x86_64) DVD to drive, and mount OS image on AnonymousFTP area.
 

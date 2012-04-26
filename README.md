@@ -42,7 +42,7 @@ Karesansui is released under the MIT license to reduce problems for re-using. Al
 
 For exception, some Karesansui files some don't have license notice for technical problems.
 We can only mention about files we distribute, so consult the original author for such files.
-Please see TRADEMARKS.TXT included with this distibution for information about Karesansui's trademark and logo usage policy.
+Please see TRADEMARKS.TXT included with this distribution for information about Karesansui's trademark and logo usage policy.
 
 This Karesansui source tree includes other open source projects work, which may come with its own distribution rule. Please consult each license notice for these projects.
 
@@ -58,7 +58,7 @@ This Karesansui source tree includes other open source projects work, which may 
 
 Acknowledgements
 ----------------
-We want to thank so much the contributers of these projects: Python, libvirt, webpy, flup, psycopg2, tightvncviewer, jquery, jquery.form.js, jquery-tablesort, jquery-plugin-autocomplete, jCarousel, ajax-upload.
+We want to thank so much the contributors of these projects: Python, libvirt, webpy, flup, psycopg2, tightvncviewer, jquery, jquery.form.js, jquery-tablesort, jquery-plugin-autocomplete, jCarousel, ajax-upload.
 
 Contact Info
 ------------

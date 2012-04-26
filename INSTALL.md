@@ -13,7 +13,7 @@ This document is based on CentOS 6.x (x86_64). However, following the similar st
 
 
 ## Installing operating system ##
-<a name='intalling_operating_system'/>
+<a name='installing_operating_system'/>
 
 Karesansui only works on systems that have the virtualization system installed.
 So you need to enable KVM (Kernel-based Virtual Machine).
@@ -148,11 +148,11 @@ You can install most of them by using the software updater provided by each dist
     # yum install python-flup python-sqlite2
     # yum install collectd collectd-ping collectd-rrdtool collectd-virt
 
-#####Building packages that are not provided by the offifial or third party repositories.
+#####Building packages that are not provided by the official or third party repositories.
 
 ######Step 1. Setting up RPM build environment.
 
-Create a seperate account for building RPMs and set up the environment for it:
+Create a separate account for building RPMs and set up the environment for it:
 
     # yum install rpm-build
     # useradd rpmbuild
@@ -465,7 +465,7 @@ Please make sure that virsh client can connect to the QEMU monitor with libvirt.
 
     # virsh -c qemu+tcp://localhost:16509/system list
 
-If the connection atempt succeed, it will display message as below:
+If the connection attempt succeed, it will display message as below:
 
     Id Name                 State
     ----------------------------------

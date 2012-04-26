@@ -13,7 +13,7 @@ Karesansuiのインストール
 
 
 ## OSのインストール ##
-<a name='intalling_operating_system'/>
+<a name='installing_operating_system'/>
 
 Karesansuiは、仮想化システムがインストールされた環境でのみ動作します。
 
