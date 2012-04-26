@@ -25,7 +25,7 @@ Karesansuiは、他のソフトウェアを必要とします。
 * [collectd](http://collectd.org/) 4.10.3 (or better)
 * [TightVNC Java Viewer](http://www.tightvnc.com/) 1.3.10 (or better)
 * [IPAexfont](http://ossipedia.ipa.go.jp/ipafont/) 1.03 (or better)
-* [web.py](http://webpy.org/) 0.36 (or better)
+* [web.py](http://webpy.org/) 0.35 (or better)
 
 上記の依存ソフトウェアのインストール方法を含めた一連のインストール方法は、[INSTALL](http://github.com/karesansui/karesansui/blob/master/INSTALL.ja.md)にも記載されています。
 

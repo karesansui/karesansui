@@ -23,7 +23,7 @@ To install Karesansui, you will need:
 * [flup](http://trac.saddi.com/flup) 1.0.2 (or better)
 * [collectd](http://collectd.org/) 4.10.3 (or better)
 * [TightVNC Java Viewer](http://www.tightvnc.com/) 1.3.10 (or better)
-* [web.py](http://webpy.org/) 0.36 (or better)
+* [web.py](http://webpy.org/) 0.35 (or better)
 
 The [INSTALL](http://github.com/karesansui/karesansui/blob/master/INSTALL.md) document also describes a whole series of additional installation steps, including an easier way to install the required software listed above.
 
