@@ -35,3 +35,5 @@ do
   msgfmt ${po_file} -o ${mo_file}
 done
 
+touch *.rst
+make html

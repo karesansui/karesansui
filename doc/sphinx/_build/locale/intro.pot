@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: karesansui 3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-26 11:46\n"
+"POT-Creation-Date: 2012-04-26 12:51\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,5 +44,15 @@ msgstr ""
 #: ../../intro.rst:12
 # 6d9b6d0402e14364b302f5dad13833f8
 msgid "See `README <http://github.com/karesansui/karesansui/blob/master/README.md>`_ document."
+msgstr ""
+
+#: ../../intro.rst:15
+# 14c904813cf74c1ea491fd495e4131c6
+msgid "Tutorial"
+msgstr ""
+
+#: ../../intro.rst:16
+# bac50da9c26840feb0b030868d473d87
+msgid "See `TUTORIAL <http://github.com/karesansui/karesansui/blob/master/TUTORIAL.md>`_ document to learn how to install a Guest OS using Karesansui."
 msgstr ""
 

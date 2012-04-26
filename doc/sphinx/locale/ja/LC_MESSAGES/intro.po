@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: karesansui 3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-26 11:42\n"
+"POT-Creation-Date: 2012-04-26 12:47\n"
 "PO-Revision-Date: 2012-04-26 11:42+0900\n"
 "Last-Translator: root <root@taizo-kss.prd.local.hde.co.jp>\n"
 "Language-Team: Japanese\n"
@@ -26,7 +26,9 @@ msgstr "イントロダクション"
 msgid ""
 "This documentation describes Karesansui configurations or configuration "
 "tips, etc."
-msgstr "このドキュメンテーションはKaresansuiの設定や設定上のTipsなどについて説明します。"
+msgstr ""
+"このドキュメンテーションはKaresansuiの設定や設定上のTipsなどについて説明しま"
+"す。"
 
 # 7cf86bf2ba4f417fa75baeb8b3431d47
 #: ../../intro.rst:7
@@ -39,8 +41,8 @@ msgid ""
 "See `INSTALL <http://github.com/karesansui/karesansui/blob/master/INSTALL."
 "md>`_ document."
 msgstr ""
-"`INSTALL <http://github.com/karesansui/karesansui/blob/master/INSTALL."
-"ja.md>`_ をご覧ください。"
+"`INSTALL <http://github.com/karesansui/karesansui/blob/master/INSTALL.ja."
+"md>`_ をご覧ください。"
 
 # 3392d97279054085a2a523c8af3204ea
 #: ../../intro.rst:11
@@ -53,5 +55,19 @@ msgid ""
 "See `README <http://github.com/karesansui/karesansui/blob/master/README."
 "md>`_ document."
 msgstr ""
-"`README <http://github.com/karesansui/karesansui/blob/master/README."
-"ja.md>`_ をご覧ください。"
+"`README <http://github.com/karesansui/karesansui/blob/master/README.ja.md>`_ "
+"をご覧ください。"
+
+# 14c904813cf74c1ea491fd495e4131c6
+#: ../../intro.rst:15
+msgid "Tutorial"
+msgstr "チュートリアル"
+
+# 5effc1af09274599a5f21b2efc279b6d
+#: ../../intro.rst:16
+msgid ""
+"See `TUTORIAL <http://github.com/karesansui/karesansui/blob/master/TUTORIAL."
+"md>`_ document to learn how to install a Guest OS using Karesansui."
+msgstr ""
+"Karesansuiを使ってゲストOSをインストールする方法を知りたい場合は、`TUTORIAL <http://github.com/karesansui/karesansui/blob/master/TUTORIAL.ja."
+"md>`_ をご覧ください。"
