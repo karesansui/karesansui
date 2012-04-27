@@ -10,7 +10,7 @@
 %define _kss_sysconfdir %{_sysconfdir}/%{__app}
 %define _psi_sysconfdir %{_sysconfdir}/pysilhouette
 %define _kss_bindir     %{_datarootdir}/%{__app}/bin
-%define _kss_datadir    %{_sharedstatedir}/%{__app}
+%define _kss_datadir    %{_localstatedir}/lib/%{__app}
 
 %define _bindir   %{_kss_bindir}
 %define _tmpdir   %{_kss_datadir}/tmp
@@ -210,7 +210,7 @@ if [ -d %{_psi_sysconfdir} ]; then
   fi
 fi
 
-gpasswd -a qemu %{_group} >/dev/null 2>&1
+gpasswd -a qemu %{_group} >/dev/null 2>&1 || :
 
 %postun
 if [ $1 = 0 ]; then
