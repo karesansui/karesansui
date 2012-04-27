@@ -292,7 +292,7 @@ fi
 %defattr(-,root,%{_group})
 %dir %{python_sitelib}/karesansui/tests/
 %{python_sitelib}/karesansui/tests/*
-%{python_sitelib}/karesansui*egg-info
+#%{python_sitelib}/karesansui*egg-info
 
 %files plus
 %defattr(-,root,%{_group})
