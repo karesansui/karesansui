@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: karesansui 3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-26 11:46\n"
+"POT-Creation-Date: 2012-05-07 12:40\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,149 +36,210 @@ msgstr ""
 msgid "Installing SPICE client."
 msgstr ""
 
-#: ../../tips.rst:12
-# e7f656e05aa74f49a12eab27705a393e
-msgid "# yum install spice-client"
-msgstr ""
-
-#: ../../tips.rst:14
+#: ../../tips.rst:16
 # d6beaf5fb78b414a8469129bc31b8f3e
 msgid "Connecting with SPICE client."
 msgstr ""
 
-#: ../../tips.rst:16
-# 0f7a934c27dc41548897092a818b13c4
-msgid "$ spicec -h <host> -p <port_number> -w <password>"
-msgstr ""
-
-#: ../../tips.rst:20
+#: ../../tips.rst:24
 # 2c5cad4ca4e94ecd9d4503f3d4ee8140
 msgid "How to connect to VNC service with VNC client"
 msgstr ""
 
-#: ../../tips.rst:22
+#: ../../tips.rst:26
 # b62ea775dfe64408a9d136eb63acacf7
 msgid "Installing VNC client."
 msgstr ""
 
-#: ../../tips.rst:24
-# 596dfdb530d74cebbf577b54c212061b
-msgid "# yum install vnc"
-msgstr ""
-
-#: ../../tips.rst:26
+#: ../../tips.rst:32
 # 5dc507fecb40473a839aa134d5e17cad
 msgid "Connecting with VNC client."
 msgstr ""
 
-#: ../../tips.rst:28
-# 5c5668a4e0c04dffb63bf1cb9795e13a
-msgid "$ vncviewer <host>:<port_number> or $ java -jar /opt/oc4j/j2ee/home/applications/OVS/webapp1/Class/VncViewer.jar HOST <host> PORT <port_number>"
+#: ../../tips.rst:38
+#: ../../tips.rst:82
+#: ../../tips.rst:98
+#: ../../tips.rst:125
+#: ../../tips.rst:131
+# 45c6985e2bcf44f1ac271bb493f5a4f4
+# e521fe1f6d3c4aeab653cde4f23da530
+# 5fc114b3bd5a4f23ba127e45e1e37c5b
+# 350591ea95bd4ae4a879d26e0c18994e
+# 943cbedd5b524f60b0cd7ff614775065
+msgid "Or"
 msgstr ""
 
-#: ../../tips.rst:33
+#: ../../tips.rst:46
 # b6799240c6104e84b59865916eff51ac
 msgid "Network"
 msgstr ""
 
-#: ../../tips.rst:36
+#: ../../tips.rst:49
 # 751d9d1f495049c6bf6f74af881426b0
 msgid "Device eth1 is present rather than eth0 after copying a KVM guest"
 msgstr ""
 
-#: ../../tips.rst:38
+#: ../../tips.rst:51
 # dbb874fd7e474fb693a23e0f2f042dfb
 msgid "When you cloned a KVM guest, you may find the lack of an eth0 device. That occurs due to a new twist of CentOS 6/Red Hat Enterprise Linux 6 – dynamic device management."
 msgstr ""
 
-#: ../../tips.rst:42
+#: ../../tips.rst:55
 # 33e72ba623324c559bd5a9dd97f03fd6
 msgid "Log in the KVM guest and modify udev configuration file."
 msgstr ""
 
-#: ../../tips.rst:44
-# d3f954e94e9749eebd6525e9a67506e9
-msgid "# vi /etc/udev/rules.d/70-persistent-net.rules"
-msgstr ""
-
-#: ../../tips.rst:46
-# 6196d6a47717414e874138dc7e03399c
-msgid "#SUBSYSTEM==\"net\", ACTION==\"add\", DRIVERS==\"?*\", ATTR{address}==\"52:54:00:01:a8:a0\", ATTR{type}==\"1\", KERNEL==\"eth*\", NAME=\"eth0\"     # <- comment out"
-msgstr ""
-
-#: ../../tips.rst:48
-# 9512015352124fb4881e8ac464ef875e
-msgid "SUBSYSTEM==\"net\", ACTION==\"add\", DRIVERS==\"?*\", ATTR{address}==\"00:16:36:1e:e8:00\", ATTR{dev_id}==\"0x0\", ATTR{type}==\"1\", KERNEL==\"eth*\", NAME=\"eth0\" # <- change to 'eth0'"
-msgstr ""
-
-#: ../../tips.rst:50
+#: ../../tips.rst:65
 # bb341acc989243148925ec71bf2743c9
 msgid "Restart the KVM guest."
 msgstr ""
 
-#: ../../tips.rst:54
+#: ../../tips.rst:69
 # 8826574e9d4b4c4fb499ce7d1fc45589
 msgid "CD/DVD-ROM Drive"
 msgstr ""
 
-#: ../../tips.rst:57
+#: ../../tips.rst:72
 # 5ecbfe0655fb469782b9114bc4f3b450
-msgid "How to attach CD/DVD-ROM device to guests."
+msgid "How to attach CD/DVD-ROM device to guests"
 msgstr ""
 
-#: ../../tips.rst:59
+#: ../../tips.rst:74
 # 272d9497c635438caf86b3c71030213e
 msgid "You can attach CD/DVD-ROM device by executing the following Karesansui's job command."
 msgstr ""
 
-#: ../../tips.rst:61
+#: ../../tips.rst:76
 # 3ea88b8b281b425298cbc901e7f22c34
 msgid "Using physical CD/DVD-ROM on host."
 msgstr ""
 
-#: ../../tips.rst:63
-# e77c92e7a9cc4a9c88dafe3c8399033c
-msgid "# /usr/share/karesansui/bin/append_disk.py -n <guest_name> -d /dev/sr0 -t vdc -b virtio -D block -N qemu -T raw -W cdrom"
-msgstr ""
-
-#: ../../tips.rst:65
-#: ../../tips.rst:76
-# e521fe1f6d3c4aeab653cde4f23da530
-# 5fc114b3bd5a4f23ba127e45e1e37c5b
-msgid "Or"
-msgstr ""
-
-#: ../../tips.rst:67
-# 3270951ffddc4f11b460e18e711ae343
-msgid "# /usr/share/karesansui/bin/append_disk.py -n <guest_name> -d /dev/sr0 -t hdc -b ide -D block -N qemu -T raw -W cdrom"
-msgstr ""
-
-#: ../../tips.rst:70
+#: ../../tips.rst:90
 # 4c45e11408c24688a9a41b8beb5d6888
 msgid "You need to manually mount the cdrom before restarting the guest."
 msgstr ""
 
-#: ../../tips.rst:72
+#: ../../tips.rst:92
 # e97bcf7c50144362a06572c1b24c8fb5
 msgid "Using ISO9660 image file on host."
 msgstr ""
 
-#: ../../tips.rst:74
-# acd518d422644b07976e1e1668927125
-msgid "# /usr/share/karesansui/bin/append_disk.py -n <guest_name> -d /path/to/iso_file -t vdc -b virtio -D file -N qemu -T raw -W cdrom"
-msgstr ""
-
-#: ../../tips.rst:78
-# 3a0f4700da634f97895126ab8c47d858
-msgid "# /usr/share/karesansui/bin/append_disk.py -n <guest_name> -d /path/to/iso_file -t hdc -b ide -D file -N qemu -T raw -W cdrom"
-msgstr ""
-
-#: ../../tips.rst:80
+#: ../../tips.rst:104
 # c39265efb9204f4ab1a47228226e19e8
 msgid "Then, restart the guest."
 msgstr ""
 
-#: ../../tips.rst:85
+#: ../../tips.rst:108
+# 0410a00a1525473fbf6d413d99aac3f9
+msgid "Miscellious"
+msgstr ""
+
+#: ../../tips.rst:111
+# f89fe1630c4d462792e3e13f64558feb
+msgid "How to work with CentOS 5 or Red Hat Enterprize Linux 5"
+msgstr ""
+
+#: ../../tips.rst:113
+# 4e8f1c6b4d864ac388bc5b58576a4786
+msgid "The installed packages should be more up to date, particularly packages such as dbus, libgcrypt and audit."
+msgstr ""
+
+#: ../../tips.rst:119
+# 66b311dd53954198a6e7cf3c8256c37b
+msgid "Otherwise, errors occur as below:"
+msgstr ""
+
+#: ../../tips.rst:138
+# 711c4020a9424b9f98374c216c39a682
+msgid "Using the Xen hypervisor"
+msgstr ""
+
+#: ../../tips.rst:141
+# e1fee8526e864f8498cce6fdaca77599
+msgid "Setting up a network bridge (for CentOS 5)"
+msgstr ""
+
+#: ../../tips.rst:146
+# 2b4484286f16410e8b24365ee9df775f
+msgid "If you are accessing the server via SSH or Telnet instead of console, you MAY be disconnected when you restart the network service after modifying network settings. You should configure the settings via the local console."
+msgstr ""
+
+#: ../../tips.rst:148
+# 33e72ba623324c559bd5a9dd97f03fd6
+msgid "Edit xend configuration file"
+msgstr ""
+
+#: ../../tips.rst:150
+# 33e72ba623324c559bd5a9dd97f03fd6
+msgid "You may need to modify the following configuration files."
+msgstr ""
+
+#: ../../tips.rst:152
+# c86ddbed283649cda22c2798196ee5ce
+msgid "Replace network-bridge to network-dummy in /etc/xen/xend-config.sxp."
+msgstr ""
+
+#: ../../tips.rst:158
+# 8f93c4a1b8e7467ead37799f3b199c1b
+msgid "Create the network script defining a Linux bridge associated with the network card."
+msgstr ""
+
+#: ../../tips.rst:160
+# 8ad0cddc93bc484aa77753891c60503d
+msgid "The script file path is /etc/sysconfig/network-scripts/ifcfg-xenbr0, where xenbr0 is the name of the bridge."
+msgstr ""
+
+#: ../../tips.rst:166
+# ab9a008e51ab4c51a9283e7324e603b5
+msgid "Edit the script file for xenbr0 (/etc/sysconfig/network-scripts/ifcfg-xenbr0)"
+msgstr ""
+
+#: ../../tips.rst:168
+# b4a841ec25ef4b5184474bc5409b7c34
+msgid "If your network card is configured with a static IP address, your original network script file should look similar to the following example:"
+msgstr ""
+
+#: ../../tips.rst:180
+# 29643be3f70c4f379a785470149ef6de
+msgid "You need to edit ifcfg-xenbr0 as shown in the following example."
+msgstr ""
+
+#: ../../tips.rst:192
+# c5419ed73e2e4bf793c8168567d72c29
+msgid "Edit the script file for eth0 (/etc/sysconfig/network-scripts/ifcfg-eth0)"
+msgstr ""
+
+#: ../../tips.rst:194
+# 9eae460d34ca4e13acc486af7973183e
+msgid "Now you need to configure your network script for eth0. You will already have a script for eth0, but you’ll need to modify it by adding one line as BRIDGE=xenbr0 so that it looks similar to the following script."
+msgstr ""
+
+#: ../../tips.rst:207
+# b5e7811a6f8844828f5d25ea3395aa0a
+msgid "Restart network services and xend/libvirtd daemon."
+msgstr ""
+
+#: ../../tips.rst:209
+# 13f5d10d94024e1787b98432bd5b425c
+msgid "In order for all the network script modifications to take effect, you need to restart your network services."
+msgstr ""
+
+#: ../../tips.rst:218
+# ff075e1951014519b2b04e51dbe32121
+msgid "Check the status of current interfaces"
+msgstr ""
+
+#: ../../tips.rst:225
+# 5edcb36a574c45b096bfe6277ec729e9
+msgid "Change permissions of Xen system files after every reboot to allow Karesansui to access Xen."
+msgstr ""
+
+#: ../../tips.rst:227
+# 7ff980d860b44b41a13f8b94a4f70fdd
+msgid "Here is a sample scriptlet."
+msgstr ""
+
+#: ../../tips.rst:253
 # ed080829d4d54d1fb64a10110756fd82
 msgid "More information are coming soon..."
 msgstr ""
