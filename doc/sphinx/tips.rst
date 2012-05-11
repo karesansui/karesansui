@@ -147,19 +147,13 @@ Setting up a network bridge (for CentOS 5)
 
 1. Edit xend configuration file
 
-You may need to modify the following configuration files.
+You may need to modify xend configuration file.
 
 Replace network-bridge to network-dummy in /etc/xen/xend-config.sxp.
 
 .. code-block:: bash
 
    (network-script network-dummy)
-
-Enable xend-http-server.
-
-.. code-block:: bash
-
-   (xend-http-server yes)
 
 2. Create the network script defining a Linux bridge associated with the network card.
 
@@ -228,7 +222,21 @@ In order for all the network script modifications to take effect, you need to re
     # /sbin/ifconfig -a
     # virsh -c xen:/// list
 
-7. Change permissions of Xen system files after every reboot to allow Karesansui to access Xen.
+
+How to associate Karesansui with libvirt's Xen driver (for CentOS 5)
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+1. Edit xend configuration file
+
+You may need to modify xend configuration file.
+
+Set xend-http-server parameter to yes in /etc/xen/xend-config.sxp.
+
+.. code-block:: bash
+
+   (xend-http-server yes)
+
+2. Change permissions of Xen system files after every reboot to allow Karesansui to access Xen.
 
 Here is a sample scriptlet.
 
@@ -256,7 +264,7 @@ Here is a sample scriptlet.
     find /etc/libvirt -type d  -exec chmod g+rwx \{\} \;
     find /etc/libvirt -type d  -exec chgrp kss \{\} \;
 
-8. Edit libvirtd configuration file (/etc/libvirt/libvirtd.conf)
+3. Edit libvirtd configuration file (/etc/libvirt/libvirtd.conf)
 
 .. code-block:: bash
 
