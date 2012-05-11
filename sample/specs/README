@@ -1,0 +1,11 @@
+Setting up RPM build environment
+================================
+
+Create a separate account for building RPMs and set up the environment for it:
+
+    # yum install rpm-build
+    # useradd rpmbuild
+    # su - rpmbuild
+    $ mkdir -p ~/pkgs/{BUILD,RPMS/{i{3,4,5,6}86,x86_64,noarch},SOURCES,SPECS,SRPMS}
+    $ echo '%_topdir %(echo $HOME)/pkgs' > ~/.rpmmacros
+

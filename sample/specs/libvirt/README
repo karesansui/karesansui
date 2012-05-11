@@ -1,0 +1,10 @@
+For CentOS 5 or Red Hat Enterprise Linux 5
+==========================================
+
+   # yum install -y gcc
+   # yum install -y xen-devel libxml2-devel xhtml1-dtds readline-devel ncurses-devel gnutls-devel hal-devel libpcap-devel libnl-devel avahi-devel libselinux-devel radvd ebtables cyrus-sasl-devel qemu parted-devel device-mapper-devel numactl-devel libssh2-devel curl-devel audit-libs-devel
+   # yum install -y lzop
+
+   $ cp libvirt.spec ~rpmbuild/pkgs/SPECS/
+   $ pushd ~rpmbuild/pkgs/SPECS/
+   $ rpmbuild -ba --define 'rhel 5' --define '_without_storage_fs 1' libvirt.spec
