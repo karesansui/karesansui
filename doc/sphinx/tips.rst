@@ -155,6 +155,12 @@ Replace network-bridge to network-dummy in /etc/xen/xend-config.sxp.
 
    (network-script network-dummy)
 
+Enable xend-http-server.
+
+.. code-block:: bash
+
+   (xend-http-server yes)
+
 2. Create the network script defining a Linux bridge associated with the network card.
 
 The script file path is /etc/sysconfig/network-scripts/ifcfg-xenbr0, where xenbr0 is the name of the bridge.
@@ -247,7 +253,22 @@ Here is a sample scriptlet.
       chgrp ${PRIVSEP_GROUP} /proc/xen/privcmd
       chmod g+rw /proc/xen/privcmd
     fi
+    find /etc/libvirt -type d  -exec chmod g+rwx \{\} \;
+    find /etc/libvirt -type d  -exec chgrp kss \{\} \;
 
+8. Edit libvirtd configuration file (/etc/libvirt/libvirtd.conf)
+
+.. code-block:: bash
+
+    unix_sock_group = "kss"
+    unix_sock_ro_perms = "0777"
+    unix_sock_rw_perms = "0770"
+
+In order for modifications to take effect, you need to restart libvirtd.
+
+.. code-block:: bash
+
+    # /etc/init.d/libvirtd restart
 
 
 More information are coming soon...
