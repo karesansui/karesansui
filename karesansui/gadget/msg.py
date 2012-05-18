@@ -47,6 +47,8 @@ class Msg(Rest):
             m2j = m2j_find(self.orm, jg.id)
             msg['id'] = jg.id
             msg['name'] = jg.name
+            msg['machine_id'] = "--"
+            msg['machine_parent_id'] = "--"
             if m2j == []:
                 msg['machine_name'] = None
                 msg['user_name'] = None

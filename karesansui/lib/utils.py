@@ -2990,6 +2990,16 @@ def get_filesystem_info():
 
     return ret
 
+def karesansui_database_exists():
+    from karesansui.db import get_session
+    from karesansui.db.model.user import User
+    session = get_session()
+    try:
+        email = session.query(User).first().email
+    except:
+        return False
+    return True
+
 class ReverseFile(object):
     def __init__(self, fp):
         self.fp = fp
