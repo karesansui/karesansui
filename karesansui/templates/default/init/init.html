@@ -29,7 +29,7 @@ function validate_database(){
     check = check_username(
                 $("#nickname"),
                 CHECK_EMPTY | CHECK_LENGTH | CHECK_ONLYSPACE,
-                "${_('User Name')}",
+                "${_('Nickname')}",
                 USER_MIN_LENGTH,
                 USER_MAX_LENGTH
             ) && check;
@@ -91,7 +91,21 @@ $(document).ready(function(){
 
 <form method="post" action="" id="input_init_form" name="input_init_form">
 <center>
+<h1>${_('Initialize Database')}</h1>
+
 <table align='center'>
+
+ <tr>
+ <td height='100%' colspan='2'>
+<div style="text-align:left;">
+${_("No database record found. You need to initialize the database.")}
+<br />
+${_("The administrator information for Karesansui must be completed below.")}
+<br />
+${_("Please fill out all items and click 'Initialize' button to complete the initialization.")}
+</div>
+ </td>
+ </tr>
 
  <tr>
  <td height='100%'>
@@ -105,14 +119,7 @@ $(document).ready(function(){
  </tr>
 
  <tr>
- <td height='100%'>
-    <div class="grayout-param">${_('User Name')}<span id="nickname_help"/></div>
- </td>
- <td>
-    <div class="grayout-value grayout-form">
-        <input type="text" name="nickname" value="" id="nickname" size="40" maxlength="16" />
-    </div>
- </td>
+ <th height='100%' colspan=2>${_('Administrator Information')}</th>
  </tr>
 
  <tr>
@@ -141,6 +148,17 @@ $(document).ready(function(){
  </tr>
 
  <tr>
+ <td height='100%'>
+    <div class="grayout-param">${_('Nickname')}<span id="nickname_help"/></div>
+ </td>
+ <td>
+    <div class="grayout-value grayout-form">
+        <input type="text" name="nickname" value="" id="nickname" size="40" maxlength="16" />
+    </div>
+ </td>
+ </tr>
+
+ <tr>
  <td>
     <div class="grayout-param">${_('Language')}<span id="languages_help"/></div>
  </td>
@@ -148,7 +166,7 @@ $(document).ready(function(){
     <div class="grayout-value grayout-form">
         <select name="languages" id="languages">
 % for locale in locales:
-% if "en_US" == locale:
+% if default_locale == locale:
             <option value="${locale}" selected="selected">${_(locale)}</option>
 % else:
             <option value="${locale}">${_(locale)}</option>

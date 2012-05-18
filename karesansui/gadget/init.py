@@ -123,6 +123,7 @@ class Init(Rest):
     def _GET(self, *param, **params):
 
         self.view.database_bind = karesansui.config['database.bind'] 
+        self.view.default_locale = karesansui.config['application.default.locale'] 
         self.view.locales = DEFAULT_LANGS.keys()
 
         if karesansui_database_exists() is True:
