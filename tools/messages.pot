@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-05-18 16:13+0900\n"
+"POT-Creation-Date: 2012-05-25 10:05+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2818,8 +2818,6 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/hostby1settingby1proxy/hostby1settingby1proxy.input:88
 #: karesansui.git/karesansui/templates/default/hostby1settingby1proxy/hostby1settingby1proxy.input:131
 #: karesansui.git/karesansui/templates/default/hostby1settingby1proxy/hostby1settingby1proxy.part:31
-#: karesansui.git/karesansui/templates/default/init/init.html:32
-#: karesansui.git/karesansui/templates/default/init/init.html:127
 #: karesansui.git/karesansui/templates/default/job/job.part:24
 #: karesansui.git/karesansui/templates/default/job/job.part:168
 #: karesansui.git/karesansui/templates/default/job/job.part:239
@@ -2842,7 +2840,7 @@ msgstr ""
 #: karesansui.git/karesansui/gadget/userby1.py:71
 #: karesansui.git/karesansui/gadget/userby1.py:74
 #: karesansui.git/karesansui/templates/default/init/init.html:40
-#: karesansui.git/karesansui/templates/default/init/init.html:138
+#: karesansui.git/karesansui/templates/default/init/init.html:127
 #: karesansui.git/karesansui/templates/default/me/me.input:27
 #: karesansui.git/karesansui/templates/default/me/me.input:74
 #: karesansui.git/karesansui/templates/default/me/me.input:107
@@ -2873,8 +2871,8 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/hostby1settingby1proxy/hostby1settingby1proxy.input:92
 #: karesansui.git/karesansui/templates/default/hostby1settingby1proxy/hostby1settingby1proxy.input:136
 #: karesansui.git/karesansui/templates/default/init/init.html:50
-#: karesansui.git/karesansui/templates/default/init/init.html:149
-#: karesansui.git/karesansui/templates/default/init/init.html:153
+#: karesansui.git/karesansui/templates/default/init/init.html:138
+#: karesansui.git/karesansui/templates/default/init/init.html:142
 #: karesansui.git/karesansui/templates/default/me/me.input:48
 #: karesansui.git/karesansui/templates/default/me/me.input:78
 #: karesansui.git/karesansui/templates/default/user/user.input:30
@@ -2890,7 +2888,7 @@ msgstr ""
 #: karesansui.git/karesansui/gadget/me.py:63
 #: karesansui.git/karesansui/gadget/user.py:87
 #: karesansui.git/karesansui/gadget/userby1.py:92
-#: karesansui.git/karesansui/templates/default/init/init.html:155
+#: karesansui.git/karesansui/templates/default/init/init.html:144
 #: karesansui.git/karesansui/templates/default/me/me.input:118
 #: karesansui.git/karesansui/templates/default/user/user.input:94
 #: karesansui.git/karesansui/templates/default/userby1/userby1.input:103
@@ -2956,6 +2954,8 @@ msgstr ""
 #: karesansui.git/karesansui/gadget/user.py:61
 #: karesansui.git/karesansui/gadget/userby1.py:59
 #: karesansui.git/karesansui/gadget/userby1.py:62
+#: karesansui.git/karesansui/templates/default/init/init.html:32
+#: karesansui.git/karesansui/templates/default/init/init.html:152
 #: karesansui.git/karesansui/templates/default/me/me.part:11
 #: karesansui.git/karesansui/templates/default/user/user.input:12
 #: karesansui.git/karesansui/templates/default/user/user.part:207
@@ -3229,6 +3229,34 @@ msgstr ""
 
 #: karesansui.git/karesansui/lib/locale.py:44
 msgid "en_US"
+msgstr ""
+
+#: karesansui.git/karesansui/lib/locale.py:45
+msgid "de_DE"
+msgstr ""
+
+#: karesansui.git/karesansui/lib/locale.py:46
+msgid "es_ES"
+msgstr ""
+
+#: karesansui.git/karesansui/lib/locale.py:47
+msgid "fr_FR"
+msgstr ""
+
+#: karesansui.git/karesansui/lib/locale.py:48
+msgid "it_IT"
+msgstr ""
+
+#: karesansui.git/karesansui/lib/locale.py:49
+msgid "ko_KR"
+msgstr ""
+
+#: karesansui.git/karesansui/lib/locale.py:50
+msgid "pt_BR"
+msgstr ""
+
+#: karesansui.git/karesansui/lib/locale.py:51
+msgid "zh_CN"
 msgstr ""
 
 #: karesansui.git/karesansui/lib/pager.py:41
