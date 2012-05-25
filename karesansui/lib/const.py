@@ -28,9 +28,18 @@ import math
 
 import karesansui
 
-DEFAULT_LANGS = {"ja_JP": {'DATE_FORMAT' : ("%Y/%m/%d", "%Y/%m/%d %H:%M:%S", "yy-mm-dd")},
-                 "en_US": {'DATE_FORMAT' : ("%m/%d/%Y", "%m/%d/%Y %H:%M:%S", "mm-dd-yy")},
-                 }
+DEFAULT_LANGS = {
+    "ja_JP": {'DATE_FORMAT' : ("%Y/%m/%d", "%Y/%m/%d %H:%M:%S", "yy-mm-dd")},
+    "en_US": {'DATE_FORMAT' : ("%m/%d/%Y", "%m/%d/%Y %H:%M:%S", "mm-dd-yy")},
+#    "de_DE": {'DATE_FORMAT' : ("%m/%d/%Y", "%m/%d/%Y %H:%M:%S", "mm-dd-yy")},
+#    "es_ES": {'DATE_FORMAT' : ("%m/%d/%Y", "%m/%d/%Y %H:%M:%S", "mm-dd-yy")},
+#    "fr_FR": {'DATE_FORMAT' : ("%m/%d/%Y", "%m/%d/%Y %H:%M:%S", "mm-dd-yy")},
+#    "it_IT": {'DATE_FORMAT' : ("%m/%d/%Y", "%m/%d/%Y %H:%M:%S", "mm-dd-yy")},
+#    "ko_KR": {'DATE_FORMAT' : ("%m/%d/%Y", "%m/%d/%Y %H:%M:%S", "mm-dd-yy")},
+#    "pt_BR": {'DATE_FORMAT' : ("%m/%d/%Y", "%m/%d/%Y %H:%M:%S", "mm-dd-yy")},
+#    "ru_RU": {'DATE_FORMAT' : ("%m/%d/%Y", "%m/%d/%Y %H:%M:%S", "mm-dd-yy")},
+#    "zh_CN": {'DATE_FORMAT' : ("%m/%d/%Y", "%m/%d/%Y %H:%M:%S", "mm-dd-yy")},
+}
 
 DEFAULT_DATE_FORMAT = ("%m/%d/%Y", "%m/%d/%Y %H:%M:%S", "mm/dd/yy", "%Y/%m/%d %H:%M")
 

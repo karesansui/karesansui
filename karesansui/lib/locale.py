@@ -42,3 +42,10 @@ except (ImportError,AttributeError,IOError):
 
 ja_JP = _("ja_JP")
 en_US = _("en_US")
+de_DE = _("de_DE")
+es_ES = _("es_ES")
+fr_FR = _("fr_FR")
+it_IT = _("it_IT")
+ko_KR = _("ko_KR")
+pt_BR = _("pt_BR")
+zh_CN = _("zh_CN")

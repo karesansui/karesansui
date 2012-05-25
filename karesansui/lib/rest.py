@@ -48,7 +48,7 @@ from mako.lookup import TemplateLookup
 from mako import exceptions
 
 import karesansui
-from karesansui.lib.utils import is_int, is_param
+from karesansui.lib.utils import is_int, is_param, karesansui_database_exists
 from karesansui.db.access.user import login as dba_login
 from karesansui.db.access.machine import is_findbyhost1, is_findbyguest1
 from karesansui.lib.const import LOGOUT_FILE_PREFIX, DEFAULT_LANGS
@@ -784,7 +784,17 @@ def auth(func):
     TODO: English Comment
     </comment-en>
     """
+
+
     def wrapper(self, *args, **kwargs):
+
+        if web.ctx.path[0:6] == '/data/':
+            self._ = mako_translation(languages=[ unicode(karesansui.config['application.default.locale']), ])
+            return func(self, *args, **kwargs)
+
+        if karesansui_database_exists() is False:
+            return web.tempredirect(web.ctx.path + "init", absolute=False)
+
         if web.ctx.env.has_key('HTTP_AUTHORIZATION'):
             (user, email) = login()
 

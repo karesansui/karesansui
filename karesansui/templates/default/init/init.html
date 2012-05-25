@@ -1,0 +1,197 @@
+<%doc>Copyright (C) 2009-2012 HDE, Inc.</%doc><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Cache-Control" content="no-cache" />
+<title>${title}</title>
+<meta http-equiv="content-style-type" content="text/css" />
+<link rel="stylesheet" type="text/css" href="${ctx.homepath}/static/css/style.css" />
+<link rel="icon" href="${ctx.homepath}/static/images/favicon.ico" type="image/x-icon" />
+<meta http-equiv="content-script-type" content="text/javascript" />
+<script type="text/javascript" src="${ctx.homepath}/static/lib/jquery.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/static/lib/jquery.ui/jquery.ui.all.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/static/js/const.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/static/js/base.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/data/js/ajax.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/data/js/checker.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ctx.homepath}/data/js/alert.js" charset="utf-8"></script>
+
+
+<script type="text/javascript">
+<!--
+function validate_database(){
+    var check = true;
+    ERROR_MSG = "";
+
+    check = check_username(
+                $("#nickname"),
+                CHECK_EMPTY | CHECK_LENGTH | CHECK_ONLYSPACE,
+                "${_('Nickname')}",
+                USER_MIN_LENGTH,
+                USER_MAX_LENGTH
+            ) && check;
+    
+    check = check_mailaddress(
+                $("#email"),
+                CHECK_EMPTY | CHECK_VALID,
+                "${_('Mail Address')}",
+                null,
+                EMAIL_MIN_LENGTH,
+                EMAIL_MAX_LENGTH
+            ) && check;
+    
+    check = check_password(
+                $("#password"),
+                $("#retype"),
+                CHECK_EMPTY | CHECK_VALID | CHECK_LENGTH,
+                "${_('Password')}",
+                PASSWORD_MIN_LENGTH,
+                PASSWORD_MAX_LENGTH
+            ) && check;
+    
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}" + "\n" + ERROR_MSG);
+        return false;
+    } else {
+        return true;
+    }
+}
+
+$(document).ready(function(){
+    ajax_post_event(
+        "#init_button",
+        "${ctx.homepath}${ctx.path}",
+        "#init :input",
+        validate_database
+    );
+});
+//-->
+</script>
+</head>
+<body>
+
+<div id="ajax">
+    <div id="_ajax1_lock" class="error" style="display:none;">
+        <div class="error-message">
+        </div>
+    </div>
+</div>
+
+<div id="screen" style="display: none"></div>
+<div id="dialog" style="display: none"></div>
+<div id="page">
+
+<div id="main">
+
+<div id="init" style="text-align:center;margin-top:55px;">
+<img src="${ctx.homepath}/static/images/logo-m.png" alt="" /><br />
+
+<form method="post" action="" id="input_init_form" name="input_init_form">
+<center>
+<h1>${_('Initialize Database')}</h1>
+
+<table align='center'>
+
+ <tr>
+ <td height='100%' colspan='2'>
+<div style="text-align:left;">
+${_("No database record found. You need to initialize the database.")}
+<br />
+${_("The administrator information for Karesansui must be completed below.")}
+<br />
+${_("Please fill out all items and click 'Initialize' button to complete the initialization.")}
+</div>
+ </td>
+ </tr>
+
+ <tr>
+ <td height='100%'>
+    <div class="grayout-param">${_('Database')}</div>
+ </td>
+ <td>
+    <div class="grayout-value grayout-form">
+        ${database_bind}
+    </div>
+ </td>
+ </tr>
+
+ <tr>
+ <th height='100%' colspan=2>${_('Administrator Information')}</th>
+ </tr>
+
+ <tr>
+ <td>
+    <div class="grayout-param">${_('Mail Address')}<span id="email_help"/></div>
+ </td>
+ <td>
+    <div class="grayout-value grayout-form">
+        <input type="text" name="email" value="" id="email" size="40" maxlength="256" />
+    </div>
+ </td>
+ </tr>
+
+ <tr>
+ <td>
+    <div class="grayout-param">${_('Password')}<span id="password_help"/></div>
+ </td>
+ <td>
+    <div class="grayout-value grayout-form">
+        <p>${_('Password')}</p>
+        <input type="password" name="password" id="password" size="30" maxlength="40" />
+        <p>${_('Retype')}</p>
+        <input type="password" name="retype" id="retype" size="30" maxlength="40" />
+    </div>
+ </td>
+ </tr>
+
+ <tr>
+ <td height='100%'>
+    <div class="grayout-param">${_('Nickname')}<span id="nickname_help"/></div>
+ </td>
+ <td>
+    <div class="grayout-value grayout-form">
+        <input type="text" name="nickname" value="" id="nickname" size="40" maxlength="16" />
+    </div>
+ </td>
+ </tr>
+
+ <tr>
+ <td>
+    <div class="grayout-param">${_('Language')}<span id="languages_help"/></div>
+ </td>
+ <td>
+    <div class="grayout-value grayout-form">
+        <select name="languages" id="languages">
+% for locale in locales:
+% if default_locale == locale:
+            <option value="${locale}" selected="selected">${_(locale)}</option>
+% else:
+            <option value="${locale}">${_(locale)}</option>
+% endif
+% endfor
+        </select>
+    </div>
+ </td>
+ </tr>
+
+</table>
+</center>
+
+
+<div class="grayout-footer">
+    <a href="#" name="init_button" id="init_button" class="button">
+    <span class="button-left">&nbsp;</span><span class="button-right">${_('Initialize')}</span>
+    </a>
+</div>
+
+
+</form>
+
+</div>
+
+</div></div>
+</body>
+</html>
