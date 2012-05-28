@@ -138,8 +138,8 @@ Karesansuiをセットアップするには、依存するソフトウェアを�
 
 #####[EPEL(Extra Packages for Enterprise Linux)](http://fedoraproject.org/wiki/EPEL)リポジトリからインストール
 
-    # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-5.noarch.rpm
-    # rpm -Uvh epel-release-6-5.noarch.rpm 
+    # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-7.noarch.rpm
+    # rpm -Uvh epel-release-6-7.noarch.rpm 
     # yum install python-flup python-sqlite2
     # yum install collectd collectd-ping collectd-rrdtool collectd-virt
 
@@ -512,8 +512,8 @@ http://[インストールしたサーバー]:8080/karesansui/v3/
 
 [EPEL(Extra Packages for Enterprise Linux)](http://fedoraproject.org/wiki/EPEL)リポジトリから _lighttpd_ パッケージをインストールします。
 
-    # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-5.noarch.rpm
-    # rpm -Uvh epel-release-6-5.noarch.rpm 
+    # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-7.noarch.rpm
+    # rpm -Uvh epel-release-6-7.noarch.rpm 
     # yum install lighttpd lighttpd-fastcgi spawn-fcgi
 
 ####2. グループメンバーの調整
@@ -644,8 +644,8 @@ https://[インストールしたサーバー]/karesansui/v3/
 
 [EPEL(Extra Packages for Enterprise Linux)](http://fedoraproject.org/wiki/EPEL)リポジトリから _nginx_ パッケージをインストールします。
 
-    # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-5.noarch.rpm
-    # rpm -Uvh epel-release-6-5.noarch.rpm 
+    # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-7.noarch.rpm
+    # rpm -Uvh epel-release-6-7.noarch.rpm 
     # yum install nginx spawn-fcgi
 
 ####2. グループメンバーの調整

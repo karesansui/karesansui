@@ -143,8 +143,8 @@ You can install most of them by using the software updater provided by each dist
 
 #####Fetching packages from [EPEL(Extra Packages for Enterprise Linux)](http://fedoraproject.org/wiki/EPEL) repository.
 
-    # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-5.noarch.rpm
-    # rpm -Uvh epel-release-6-5.noarch.rpm 
+    # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-7.noarch.rpm
+    # rpm -Uvh epel-release-6-7.noarch.rpm 
     # yum install python-flup python-sqlite2
     # yum install collectd collectd-ping collectd-rrdtool collectd-virt
 
@@ -517,8 +517,8 @@ Using other HTTP server
 
 Install several packages from [EPEL(Extra Packages for Enterprise Linux)](http://fedoraproject.org/wiki/EPEL) repository.
 
-    # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-5.noarch.rpm
-    # rpm -Uvh epel-release-6-5.noarch.rpm 
+    # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-7.noarch.rpm
+    # rpm -Uvh epel-release-6-7.noarch.rpm 
     # yum install lighttpd lighttpd-fastcgi spawn-fcgi
 
 ####2. Configuring group members.
@@ -650,8 +650,8 @@ https://[your-server-name]/karesansui/v3/
 
 Install several packages from [EPEL(Extra Packages for Enterprise Linux)](http://fedoraproject.org/wiki/EPEL) repository.
 
-    # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-5.noarch.rpm
-    # rpm -Uvh epel-release-6-5.noarch.rpm 
+    # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-7.noarch.rpm
+    # rpm -Uvh epel-release-6-7.noarch.rpm 
     # yum install nginx spawn-fcgi
 
 ####2. Configuring group members.
