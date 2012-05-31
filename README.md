@@ -15,6 +15,7 @@ Karesansui requires (or is dependent on) other software.
 To install Karesansui, you will need:
 
 * [Python](http://www.python.org/) 2.6 (2.4 might work?)
+* [libvirt](http://libvirt.org/) 0.9.4 (or better)
 * [RRDtool](http://oss.oetiker.ch/rrdtool/) 1.3 (or better)
 * [Mako](http://www.makotemplates.org/) 0.3.2 (or better)
 * [SQLAlchemy](http://www.sqlalchemy.org/) 0.5 (or better)
