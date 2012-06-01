@@ -41,7 +41,7 @@ License
 -------
 Karesansui is released under the MIT license to reduce problems for re-using. All source code has license notice, so you should clearly know what license to follow.
 
-For exception, some Karesansui files some don't have license notice for technical problems.
+For exception, some Karesansui files don't have license notice for technical problems.
 We can only mention about files we distribute, so consult the original author for such files.
 Please see TRADEMARKS.TXT included with this distribution for information about Karesansui's trademark and logo usage policy.
 
