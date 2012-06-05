@@ -30,7 +30,7 @@ A hash (#) prompt indicates you are logged-in as the root user; a dollar ($) pro
 ###For `Debian 6`:
 
     # aptitude install qemu-kvm libvirtd-bin vlan ifenslave bridge-utils
-    # /etc/init.d/libvirtd-bin start
+    # /etc/init.d/libvirt-bin start
     # /sbin/modprobe -b kvm-intel (or /sbin/modprobe -b kvm-amd)
 
 Please make sure that the kernel modules for KVM are loaded.
@@ -65,7 +65,7 @@ Note: If you are accessing the server via SSH or Telnet instead of console, you 
 
 ####2. Create the network interfaces file
 
-The script file path is _/etc/network/interfaces.
+The script file path is _/etc/network/interfaces_.
 
     # The loopback network interface
     auto lo
@@ -124,14 +124,16 @@ The script file path is _/etc/network/interfaces.
 
 ####3. Configure Bonding
 
-You need to config bonding a bit to be able to use multiple bonds. Therefor add this to a file _/etc/modprobe.d/bonding.conf:
+You need to config bonding a bit to be able to use multiple bonds. Therefor add this to a file _/etc/modprobe.d/bonding.conf_:
 
     alias bond0 bonding
     alias bond1 bonding
     alias bond2 bonding
     options bonding mode=1 miimon=100 max_bonds=3
 
-####4. Add allow bridge rule to your iptables firewall script. I don't know where you save your script on Debian, but it should have something like:
+####4. Add the accepted bridge rule to your iptables firewall script
+
+I don't know where you save your script on Debian, but it should have something like:
 
     # /sbin/iptables -A FORWARD -m physdev --physdev-is-bridged -j ACCEPT
 
@@ -139,7 +141,7 @@ You need to config bonding a bit to be able to use multiple bonds. Therefor add 
 
 In order for all the network config modifications to take effect, you need to restart your network services.
 
-    # sudo invoke-rc.d networking stop && sudo invoke-rc.d networking start
+    # invoke-rc.d networking stop && invoke-rc.d networking start
 
 ####5. Check the status of current interfaces
 
@@ -234,49 +236,8 @@ You can install most of them by using the software updater provided by each dist
 #####Fetching packages from Debian repository.
 
     # aptitude install python-mako python-sqlalchemy python-simplejson rrdtool python-rrdtool python-flup collectd collectd-utils python-webpy tightvnc-java
-
-#####Building packages that are not provided by the official or third party repositories.
-
-######Step 1. Setting up RPM build environment.
-
-Create a separate account for building RPMs and set up the environment for it:
-
-    # yum install rpm-build
-    # useradd rpmbuild
-    # su - rpmbuild
-    $ mkdir -p ~/pkgs/{BUILD,RPMS/{i{3,4,5,6}86,x86_64,noarch},SOURCES,SPECS,SRPMS}
-    $ echo '%_topdir %(echo $HOME)/pkgs' > ~/.rpmmacros
-
-######Step 2. Fetching Karesansui source code from github repository.
-
-    # yum install git python-setuptools
-    # su - rpmbuild
-    $ git clone git://github.com/karesansui/karesansui.git
-
-Now you have karesansui source code under ~rpmbuild/karesansui with our sample spec files to build RPM packages.
-
-######Step 3. Building python-webpy package.
-
-    # su - rpmbuild
-    $ cd ~/pkgs/SOURCES/
-    $ wget http://webpy.org/static/web.py-0.36.tar.gz
-    $ rpmbuild -ba ~/karesansui/sample/specs/python-webpy/python-webpy.spec
-
-######Step 4. Building tightvnc-java package.
-
-    # su - rpmbuild
-    $ cd ~/pkgs/SOURCES/
-    $ wget http://downloads.sourceforge.net/sourceforge/vnc-tight/tightvnc-1.3.10_javabin.tar.gz
-    $ wget http://downloads.sourceforge.net/sourceforge/vnc-tight/tightvnc-1.3.10_javasrc.tar.gz
-    $ rpmbuild -ba ~/karesansui/sample/specs/tightvnc-java/tightvnc-java.spec 
-
-######Step 5. Installing the newly built packages.
-
-Now you can install the newly built packages.
-
-    $ cd ~/pkgs/RPMS/noarch
-    # rpm -Uvh python-webpy-*.el6.noarch.rpm tightvnc-java-*.el6.noarch.rpm 
-
+    # aptitude install git python-setuptools python-virtualenv python-pip
+    # aptitude install pbuilder cdbs python-dev
 
 ## Installing pysilhouette ##
 <a name='installing_pysilhouette'/>
@@ -287,72 +248,55 @@ Pysilhouette is a python-based background job manager, intended to co-work with 
 It makes it available to get job status to programmers, which was difficult in http-based stateless/interactive session before.
 It is also developed by Karesansui Project Team.
 
-###Procedure for `CentOS 6`:
-
 ####1. Fetching pysilhouette source code from github repository.
 
-    # su - rpmbuild
     $ git clone git://github.com/karesansui/pysilhouette.git
 
-####2a. (Method 1) Building pysilhouette package and installing it.
+####2. Installing pysilhouette with Python's distutils.
 
-    $ cd ~/pysilhouette
-    $ python setup.py sdist
-    $ rpmbuild -ta dist/pysilhouette-*.tar.gz
-    # rpm -Uvh ~rpmbuild/pkgs/RPMS/noarch/pysilhouette-*.noarch.rpm
-
-####2b. (Method 2) Installing pysilhouette with Python's distutils.
-
-    $ cd ~/pysilhouette
+    $ cd pysilhouette
     $ python setup.py build
-    # python setup.py install --root=/ --record=INSTALLED_FILES
+    # python setup.py install --root=/ --record=INSTALLED_FILES --prefix=/usr
 
     #### Create pysilhouette account ####
-    # /usr/sbin/useradd -c "Pysilhouette" -s /bin/false -r pysilhouette
+    # /usr/sbin/useradd -c "Pysilhouette" -d /var/lib/pysilhouette -s /bin/false -r pysilhouette
 
     #### Create the application's system directories ####
     # mkdir /etc/pysilhouette
     # mkdir /var/log/pysilhouette
     # mkdir /var/lib/pysilhouette
+    # chown -R pysilhouette:pysilhouette /var/log/pysilhouette
+    # chown -R pysilhouette:pysilhouette /var/lib/pysilhouette
 
     #### Copy several programs, configuration files and SysV init script ####
-    # cp -f ~rpmbuild/pysilhouette/sample/rc.d/init.d/* /etc/rc.d/init.d/
-    # cp -f ~rpmbuild/pysilhouette/sample/sysconfig/silhouetted /etc/sysconfig/silhouetted
-    # cp -f ~rpmbuild/pysilhouette/sample/log.conf.example /etc/pysilhouette/log.conf
-    # cp -f ~rpmbuild/pysilhouette/sample/silhouette.conf.example /etc/pysilhouette/silhouette.conf
-    # cp -f ~rpmbuild/pysilhouette/sample/whitelist.conf.example /etc/pysilhouette/whitelist.conf
-    # ln -s `python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()"`/pysilhouette/silhouette.py /usr/bin
-    # cp -f ~rpmbuild/pysilhouette/tools/psil-cleandb /usr/sbin
-    # cp -f ~rpmbuild/pysilhouette/tools/psil-set /usr/sbin
+    # cp -f pysilhouette/debian/silhouetted.init /etc/init.d/silhouetted 
+    # cp -f pysilhouette/debian/performerd.init /etc/init.d/performerd 
+    # cp -f pysilhouette/debian/silhouetted.default /etc/default/silhouetted
+    # cp -f pysilhouette/sample/log.conf.example /etc/pysilhouette/log.conf
+    # cp -f pysilhouette/sample/silhouette.conf.example /etc/pysilhouette/silhouette.conf
+    # cp -f pysilhouette/sample/whitelist.conf.example /etc/pysilhouette/whitelist.conf
+    # ln -s `python -c "from distutils.sysconfig import get_python_lib; import sys; sys.real_prefix = '/usr'; print get_python_lib(0,0)"
+`/pysilhouette/silhouette.py /usr/bin
+    # cp -f pysilhouette/tools/psil-cleandb /usr/sbin
+    # cp -f pysilhouette/tools/psil-set /usr/sbin
     # chmod 0744 /usr/sbin/psil-*
 
     #### Modify the following files if necessary. 
-    ## vi /etc/rc.d/init.d/silhouetted
-    ## vi /etc/sysconfig/silhouetted
-
+    ## vi /etc/init.d/silhouetted
+    ## vi /etc/default/silhouetted
 
 ## Installing karesansui ##
 <a name='installing_karesansui'/>
 
-###Procedure for `CentOS 6`:
-
 ####1. Fetching karesansui source code from github repository.
 
-    # su - rpmbuild
     $ git clone git://github.com/karesansui/karesansui.git # No need if already downloaded.
 
-####2a. (Method 1) Building karesansui package and installing it.
+####2. Installing karesansui with Python's distutils.
 
-    $ cd ~/karesansui
-    $ python setup.py sdist
-    $ rpmbuild -ta dist/karesansui-*.tar.gz
-    # rpm -Uvh ~rpmbuild/pkgs/RPMS/noarch/karesansui-{,{bin,data,gadget,lib,plus}-}3.*.noarch.rpm
-
-####2b. (Method 2) Installing karesansui with Python's distutils.
-
-    $ cd ~/karesansui
+    $ cd karesansui
     $ python setup.py build
-    # python setup.py install --record=INSTALLED_FILES --install-scripts=/usr/share/karesansui/bin
+    # python setup.py install --record=INSTALLED_FILES --install-scripts=/usr/share/karesansui/bin --prefix=/usr
 
     #### Create kss account ####
     # /usr/sbin/useradd -c "Karesansui Project" -s /bin/false -r -m -d /var/lib/karesansui kss
@@ -379,13 +323,13 @@ It is also developed by Karesansui Project Team.
     # find /usr/share/karesansui/ -type d -exec chmod g+rwx \{\} \;
 
     #### Copy several programs, configuration files and SysV init script ####
-    # cp -f  ~rpmbuild/karesansui/sample/application.conf.example /etc/karesansui/application.conf
-    # cp -f  ~rpmbuild/karesansui/sample/log.conf.example /etc/karesansui/log.conf
-    # cp -f  ~rpmbuild/karesansui/sample/service.xml.example /etc/karesansui/service.xml
-    # cp -f  ~rpmbuild/karesansui/sample/logview.xml.example /etc/karesansui/logview.xml
-    # cp -fr ~rpmbuild/karesansui/sample/template/ /etc/karesansui/template/
-    # cp -f  ~rpmbuild/karesansui/sample/cron_cleantmp.example /etc/cron.d/karesansui_cleantmp
-    # cp -f  ~rpmbuild/karesansui/sample/whitelist.conf.example /etc/pysilhouette/whitelist.conf
+    # cp -f  karesansui/sample/application.conf.example /etc/karesansui/application.conf
+    # cp -f  karesansui/sample/log.conf.example /etc/karesansui/log.conf
+    # cp -f  karesansui/sample/service.xml.example /etc/karesansui/service.xml
+    # cp -f  karesansui/sample/logview.xml.example /etc/karesansui/logview.xml
+    # cp -fr karesansui/sample/template/ /etc/karesansui/template/
+    # cp -f  karesansui/sample/cron_cleantmp.example /etc/cron.d/karesansui_cleantmp
+    # cp -f  karesansui/sample/whitelist.conf.example /etc/pysilhouette/whitelist.conf
 
 
 ## Configuring pysilhouette ##
@@ -454,7 +398,7 @@ You may need to modify the following configuration files.
 
 With a script bundled with the source code, you can create a database for karesansui and insert information of the administrator into the database.
 
-    # python ~rpmbuild/karesansui/tools/initialize_database.py -m <Administrator's E-mail Address> -p <Administrator's Password> -l en_US
+    # python karesansui/tools/initialize_database.py -m <Administrator's E-mail Address> -p <Administrator's Password> -l en_US
 
 If you use a SQLite database, you must change the attributes of the database file.
 
@@ -629,7 +573,7 @@ Edit _/etc/lighttpd/modules.conf_ to enable the following modules.
 
 Copy the sample configuration file bundled with the source code to the location of lighttpd config directory, and edit it if necessary.
 
-    # cp ~rpmbuild/karesansui/sample/lighttpd/karesansui.conf /etc/lighttpd/conf.d/
+    # cp karesansui/sample/lighttpd/karesansui.conf /etc/lighttpd/conf.d/
 
 
 ####4. Setting up a simple SSL configuration with lighttpd
@@ -692,7 +636,7 @@ Add _apache_ user to _kss_ group and _kss_ user to _apache_ group.
 
 Copy the sample configuration file bundled with the source code to the location of httpd config directory, and edit it if necessary.
 
-    # cp ~rpmbuild/karesansui/sample/apache/fastcgi.conf /etc/httpd/conf.d/
+    # cp karesansui/sample/apache/fastcgi.conf /etc/httpd/conf.d/
 
 ####4. Start web service
 
@@ -752,7 +696,7 @@ Add _nginx_ user to _kss_ group and _kss_ user to _nginx_ group.
 
 Copy the sample configuration file bundled with the source code to the location of nginx config directory, and edit it if necessary.
 
-    # cp ~rpmbuild/karesansui/sample/nginx/karesansui.conf /etc/nginx/conf.d/
+    # cp karesansui/sample/nginx/karesansui.conf /etc/nginx/conf.d/
 
 ####4. Start web service
 
