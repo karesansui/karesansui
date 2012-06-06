@@ -239,6 +239,10 @@ You can install most of them by using the software updater provided by each dist
     # aptitude install git python-setuptools python-virtualenv python-pip
     # aptitude install pbuilder cdbs python-dev
 
+#####Fetching packages from PyPI.
+
+    # easy_install PyXML
+
 ## Installing pysilhouette ##
 <a name='installing_pysilhouette'/>
 
@@ -256,7 +260,7 @@ It is also developed by Karesansui Project Team.
 
     $ cd pysilhouette
     $ python setup.py build
-    # python setup.py install --root=/ --record=INSTALLED_FILES --prefix=/usr
+    # python setup.py install --root=/ --record=INSTALLED_FILES --prefix=/usr --install-layout=deb
 
     #### Create pysilhouette account ####
     # /usr/sbin/useradd -c "Pysilhouette" -d /var/lib/pysilhouette -s /bin/false -r pysilhouette
@@ -275,7 +279,7 @@ It is also developed by Karesansui Project Team.
     # cp -f pysilhouette/sample/log.conf.example /etc/pysilhouette/log.conf
     # cp -f pysilhouette/sample/silhouette.conf.example /etc/pysilhouette/silhouette.conf
     # cp -f pysilhouette/sample/whitelist.conf.example /etc/pysilhouette/whitelist.conf
-    # ln -s `python -c "from distutils.sysconfig import get_python_lib; import sys; sys.real_prefix = '/usr'; print get_python_lib(0,0)"`/pysilhouette/silhouette.py /usr/bin
+    # ln -s `python -c "from distutils.sysconfig import get_python_lib; print get_python_lib(0,0)"`/pysilhouette/silhouette.py /usr/bin
     # cp -f pysilhouette/tools/psil-cleandb /usr/sbin
     # cp -f pysilhouette/tools/psil-set /usr/sbin
     # chmod 0744 /usr/sbin/psil-*
@@ -295,7 +299,7 @@ It is also developed by Karesansui Project Team.
 
     $ cd karesansui
     $ python setup.py build
-    # python setup.py install --record=INSTALLED_FILES --install-scripts=/usr/share/karesansui/bin --prefix=/usr
+    # python setup.py install --record=INSTALLED_FILES --install-scripts=/usr/share/karesansui/bin --prefix=/usr --install-layout=deb
 
     #### Create kss account ####
     # /usr/sbin/useradd -c "Karesansui Project" -s /bin/false -r -m -d /var/lib/karesansui kss
@@ -313,11 +317,11 @@ It is also developed by Karesansui Project Team.
     # chmod -R g+rw  /etc/karesansui
     # chmod -R o-rwx /etc/karesansui
     # chgrp -R kss   /var/log/karesansui
-    # chmod -R 0700  /var/log/karesansui
+    # chmod -R 0770  /var/log/karesansui
     # chgrp -R kss   /var/lib/karesansui
     # chmod -R 0770  /var/lib/karesansui
-    # chgrp -R kss `python -c "from distutils.sysconfig import get_python_lib; import sys; sys.real_prefix = '/usr'; print get_python_lib(0,0)"`/karesansui
-    # find `python -c "from distutils.sysconfig import get_python_lib; import sys; sys.real_prefix = '/usr'; print get_python_lib(0,0)"`/karesansui -type d -exec chmod g+rwx \{\} \;
+    # chgrp -R kss `python -c "from distutils.sysconfig import get_python_lib; print get_python_lib(0,0)"`/karesansui
+    # find `python -c "from distutils.sysconfig import get_python_lib; print get_python_lib(0,0)"`/karesansui -type d -exec chmod g+rwx \{\} \;
     # find /usr/share/karesansui/ -type d -exec chgrp -R kss \{\} \;
     # find /usr/share/karesansui/ -type d -exec chmod g+rwx \{\} \;
 
@@ -437,9 +441,9 @@ __/etc/libvirt/libvirtd.conf__
  * unix_sock_group = "kss"
  * auth_tcp = "none"
 
-__/etc/sysconfig/libvirtd__
+__/etc/default/libvirt-bin__
 
- * LIBVIRTD_ARGS="--listen"
+ * libvirtd_opts="-d --listen"
 
 ####2. Create directories for libvirt
 
@@ -454,6 +458,7 @@ __/etc/sysconfig/libvirtd__
 
 First, set up a Certificate Authority (CA).
 
+    # aptitude install gnutls-bin
     $ certtool --generate-privkey > cakey.pem
     $ vi ca.info
     cn = Name of your organization
@@ -475,6 +480,7 @@ Issue server certificates.
 Install the certificates.
 
     # mkdir -p /etc/pki/libvirt/private/
+    # mkdir -p /etc/pki/CA/
     # cp -i cacert.pem /etc/pki/CA/
     # cp -i servercert.pem /etc/pki/libvirt/
     # cp -i serverkey.pem /etc/pki/libvirt/private/
