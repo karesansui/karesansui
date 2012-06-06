@@ -1,0 +1,28 @@
+diff -ur a/xml/xpath/ParsedAbbreviatedAbsoluteLocationPath.py b/xml/xpath/ParsedAbbreviatedAbsoluteLocationPath.py
+--- a/xml/xpath/ParsedAbbreviatedAbsoluteLocationPath.py	2012-06-06 16:54:32.000000000 +0900
++++ b/xml/xpath/ParsedAbbreviatedAbsoluteLocationPath.py	2012-06-06 16:54:49.000000000 +0900
+@@ -24,8 +24,8 @@
+         self._rel = rel
+         nt = ParsedNodeTest.ParsedNodeTest('node', '')
+         ppl = ParsedPredicateList.ParsedPredicateList([])
+-        as = ParsedAxisSpecifier.ParsedAxisSpecifier('descendant-or-self')
+-        self._step = ParsedStep.ParsedStep(as, nt, ppl)
++        asp = ParsedAxisSpecifier.ParsedAxisSpecifier('descendant-or-self')
++        self._step = ParsedStep.ParsedStep(asp, nt, ppl)
+         return
+ 
+     def evaluate(self, context):
+diff -ur a/xml/xpath/ParsedAbbreviatedRelativeLocationPath.py b/xml/xpath/ParsedAbbreviatedRelativeLocationPath.py
+--- a/xml/xpath/ParsedAbbreviatedRelativeLocationPath.py	2012-06-06 16:53:52.000000000 +0900
++++ b/xml/xpath/ParsedAbbreviatedRelativeLocationPath.py	2012-06-06 16:54:18.000000000 +0900
+@@ -28,8 +28,8 @@
+         self._right = right
+         nt = ParsedNodeTest.ParsedNodeTest('node','')
+         ppl = ParsedPredicateList.ParsedPredicateList([])
+-        as = ParsedAxisSpecifier.ParsedAxisSpecifier('descendant-or-self')
+-        self._middle = ParsedStep.ParsedStep(as, nt, ppl)
++        asp = ParsedAxisSpecifier.ParsedAxisSpecifier('descendant-or-self')
++        self._middle = ParsedStep.ParsedStep(asp, nt, ppl)
+ 
+     def evaluate(self, context):
+         res = []
