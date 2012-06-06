@@ -296,7 +296,6 @@ It is also developed by Karesansui Project Team.
     # cp -f  ~rpmbuild/karesansui/sample/log.conf.example /etc/karesansui/log.conf
     # cp -f  ~rpmbuild/karesansui/sample/service.xml.example /etc/karesansui/service.xml
     # cp -f  ~rpmbuild/karesansui/sample/logview.xml.example /etc/karesansui/logview.xml
-    # cp -fr ~rpmbuild/karesansui/sample/template/ /etc/karesansui/template/
     # cp -f  ~rpmbuild/karesansui/sample/cron_cleantmp.example /etc/cron.d/karesansui_cleantmp
     # cp -f  ~rpmbuild/karesansui/sample/whitelist.conf.example /etc/pysilhouette/whitelist.conf
 
