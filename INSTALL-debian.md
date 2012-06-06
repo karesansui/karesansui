@@ -441,6 +441,11 @@ __/etc/libvirt/libvirtd.conf__
  * unix_sock_group = "kss"
  * auth_tcp = "none"
 
+__/etc/libvirt/qemu.conf__
+
+ * user = "kss"
+ * group = "kss"
+
 __/etc/default/libvirt-bin__
 
  * libvirtd_opts="-d --listen"

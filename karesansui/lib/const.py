@@ -24,8 +24,8 @@
 # THE SOFTWARE.
 #
 
+import os
 import math
-
 import karesansui
 
 DEFAULT_LANGS = {
@@ -101,7 +101,10 @@ KVM_VIRT_CONFIG_DIR  = "/etc/karesansui/virt/kvm"
 KVM_VIRT_URI_RW = "qemu+tcp://127.0.0.1:16509/system"
 KVM_VIRT_URI_RO = "qemu+tcp://127.0.0.1:16509/system"
 KVM_KARESANSUI_TMP_DIR = KARESANSUI_TMP_DIR + "/kvm"
-KVM_KEYMAP_DIR = '/usr/share/qemu-kvm/keymaps'
+if os.path.exists('/usr/share/qemu-kvm/keymaps'):
+    KVM_KEYMAP_DIR = '/usr/share/qemu-kvm/keymaps'
+else:
+    KVM_KEYMAP_DIR = '/usr/share/kvm/keymaps'
 #KVM_BRIDGE_PREFIX = "(eth|bondbr)"
 KVM_BRIDGE_PREFIX = "br"
 
