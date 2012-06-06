@@ -3,10 +3,19 @@
 import sys, os
 import socket
 import re
+import string
 from optparse import OptionParser
 import traceback
 
 try:
+    from distutils.sysconfig import get_python_lib
+    sys.real_prefix = '/usr';
+    sys.path.append(get_python_lib(0,0))
+except:
+    pass
+
+try:
+    import sqlalchemy
     import karesansui
     from karesansui import __version__
     from karesansui.lib.utils import is_uuid, is_int
@@ -130,18 +139,28 @@ try:
                               u"Administrator",
                               u"%s" % lang,
                               )
-        session.save(new_user)
+
+        if string.atof(sqlalchemy.__version__[0:3]) >= 0.6:
+            session.add(new_user)
+        else:
+            session.save(new_user)
         session.commit()
     else:
         user.password  = password
         user.salt      = salt
         user.languages = lang
-        session.update(user)
+        if string.atof(sqlalchemy.__version__[0:3]) >= 0.6:
+            session.add(user)
+        else:
+            session.update(user)
         session.commit()
 
     # Tag Table set.
     tag = Tag(u"default")
-    session.save(tag)
+    if string.atof(sqlalchemy.__version__[0:3]) >= 0.6:
+        session.add(tag)
+    else:
+        session.save(tag)
     session.commit()
         
     # Machine Table set.
@@ -160,7 +179,11 @@ try:
                        False,
                        None,
                       )
-    session.save(machine)
+
+    if string.atof(sqlalchemy.__version__[0:3]) >= 0.6:
+        session.add(machine)
+    else:
+        session.save(machine)
     session.commit()
 
     session.close()
