@@ -30,7 +30,7 @@ A hash (#) prompt indicates you are logged-in as the root user; a dollar ($) pro
 ###For `Debian 6`:
 
     # aptitude install qemu-kvm libvirtd-bin vlan ifenslave bridge-utils
-    # /etc/init.d/libvirt-bin start
+    # invoke-rc.d libvirt-bin start
     # /sbin/modprobe -b kvm-intel (or /sbin/modprobe -b kvm-amd)
 
 Please make sure that the kernel modules for KVM are loaded.
@@ -275,8 +275,7 @@ It is also developed by Karesansui Project Team.
     # cp -f pysilhouette/sample/log.conf.example /etc/pysilhouette/log.conf
     # cp -f pysilhouette/sample/silhouette.conf.example /etc/pysilhouette/silhouette.conf
     # cp -f pysilhouette/sample/whitelist.conf.example /etc/pysilhouette/whitelist.conf
-    # ln -s `python -c "from distutils.sysconfig import get_python_lib; import sys; sys.real_prefix = '/usr'; print get_python_lib(0,0)"
-`/pysilhouette/silhouette.py /usr/bin
+    # ln -s `python -c "from distutils.sysconfig import get_python_lib; import sys; sys.real_prefix = '/usr'; print get_python_lib(0,0)"`/pysilhouette/silhouette.py /usr/bin
     # cp -f pysilhouette/tools/psil-cleandb /usr/sbin
     # cp -f pysilhouette/tools/psil-set /usr/sbin
     # chmod 0744 /usr/sbin/psil-*
@@ -300,11 +299,11 @@ It is also developed by Karesansui Project Team.
 
     #### Create kss account ####
     # /usr/sbin/useradd -c "Karesansui Project" -s /bin/false -r -m -d /var/lib/karesansui kss
-    # gpasswd -a qemu kss
+    # gpasswd -a libvirt-qemu kss
 
     #### Create the application's system directories ####
-    # mkdir /etc/karesansui/virt
-    # mkdir /var/log/karesansui
+    # mkdir -p /etc/karesansui/virt
+    # mkdir -p /var/log/karesansui
     # mkdir -p /var/lib/karesansui/{tmp,cache}
 
     #### Change attributes of the application's directories/files ####
@@ -317,8 +316,8 @@ It is also developed by Karesansui Project Team.
     # chmod -R 0700  /var/log/karesansui
     # chgrp -R kss   /var/lib/karesansui
     # chmod -R 0770  /var/lib/karesansui
-    # chgrp -R kss `python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()"`/karesansui
-    # find `python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()"`/karesansui -type d -exec chmod g+rwx \{\} \;
+    # chgrp -R kss `python -c "from distutils.sysconfig import get_python_lib; import sys; sys.real_prefix = '/usr'; print get_python_lib(0,0)"`/karesansui
+    # find `python -c "from distutils.sysconfig import get_python_lib; import sys; sys.real_prefix = '/usr'; print get_python_lib(0,0)"`/karesansui -type d -exec chmod g+rwx \{\} \;
     # find /usr/share/karesansui/ -type d -exec chgrp -R kss \{\} \;
     # find /usr/share/karesansui/ -type d -exec chmod g+rwx \{\} \;
 
@@ -327,7 +326,6 @@ It is also developed by Karesansui Project Team.
     # cp -f  karesansui/sample/log.conf.example /etc/karesansui/log.conf
     # cp -f  karesansui/sample/service.xml.example /etc/karesansui/service.xml
     # cp -f  karesansui/sample/logview.xml.example /etc/karesansui/logview.xml
-    # cp -fr karesansui/sample/template/ /etc/karesansui/template/
     # cp -f  karesansui/sample/cron_cleantmp.example /etc/cron.d/karesansui_cleantmp
     # cp -f  karesansui/sample/whitelist.conf.example /etc/pysilhouette/whitelist.conf
 
@@ -359,9 +357,7 @@ You may need to modify the following configuration files.
 
 Add pysilhouette as a service and enable it for auto start at bootup.
 
-    # /sbin/chkconfig --add silhouetted
-    # /sbin/chkconfig silhouetted on
-
+    # update-rc.d silhouetted defaults
 
 ## Configuring karesansui ##
 <a name='configuring_karesansui'/>
@@ -424,7 +420,7 @@ If you use a SQLite database, you must change the attributes of the database fil
 ## Starting pysilhouette service ##
 <a name='starting_pysilhouette_service'/>
 
-    # /etc/init.d/silhouetted start
+    # invoke-rc.d silhouetted start
 
 
 ## Configuring libvirt ##
@@ -487,8 +483,8 @@ Install the certificates.
 
 Restart service and enable it for auto start at bootup.
 
-    # /sbin/chkconfig libvirtd on
-    # /etc/init.d/libvirtd restart
+    # update-rc.d libvirt-bin defaults
+    # invoke-rc.d libvirt-bin restart
 
 ####5. Check for connectivity to libvirtd
 
@@ -546,11 +542,8 @@ Using other HTTP server
 
 ####1. Installing packages.
 
-Install several packages from [EPEL(Extra Packages for Enterprise Linux)](http://fedoraproject.org/wiki/EPEL) repository.
-
-    # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-7.noarch.rpm
-    # rpm -Uvh epel-release-6-7.noarch.rpm 
-    # yum install lighttpd lighttpd-fastcgi spawn-fcgi
+    # aptitude install lighttpd
+    # lighty-enable-mod fastcgi
 
 ####2. Configuring group members.
 
@@ -590,13 +583,13 @@ If you have already tried to run Karesansui with other web server, you need to r
 
 Restart service and enable it for auto start at bootup.
 
-    # /sbin/chkconfig lighttpd on
-    # /etc/init.d/lighttpd restart
+    # update-rc.d lighttpd defaults
+    # invoke-rc.d lighttpd restart
 
 If SELinux is set to "Enforcing", lighttpd may not work properly. Set it to "Permissive" mode and try to restart the service again.
 
     # /usr/sbin/setenforce 0
-    # /etc/init.d/lighttpd restart
+    # invoke-rc.d lighttpd restart
 
 Moreover, if you need to use "Permissive" mode at the next reboot, you have to modify /etc/selinux/config file as well.
 
@@ -646,17 +639,17 @@ If you have already tried to run Karesansui with other web server, you need to r
 
 Restart service and enable it for auto start at bootup.
 
-    # /sbin/chkconfig httpd on
-    # /etc/init.d/httpd restart
+    # update-rc.d apache2 defaults
+    # invoke-rc.d apache2 restart
 
     # chmod 777 /tmp/dynamic
     # chown apache:apache /tmp/dynamic
-    # /etc/init.d/httpd restart
+    # invoke-rc.d apache2 restart
 
 If SELinux is set to "Enforcing", apache may not work properly. Set it to "Permissive" mode and try to restart the service again.
 
     # /usr/sbin/setenforce 0
-    # /etc/init.d/httpd restart
+    # invoke-rc.d apache2 restart
 
 Moreover, if you need to use "Permissive" mode at the next reboot, you have to modify /etc/selinux/config file as well.
 
@@ -679,11 +672,7 @@ https://[your-server-name]/karesansui/v3/
 
 ####1. Installing packages.
 
-Install several packages from [EPEL(Extra Packages for Enterprise Linux)](http://fedoraproject.org/wiki/EPEL) repository.
-
-    # wget ftp://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-7.noarch.rpm
-    # rpm -Uvh epel-release-6-7.noarch.rpm 
-    # yum install nginx spawn-fcgi
+    # aptitude install nginx spawn-fcgi
 
 ####2. Configuring group members.
 
@@ -710,8 +699,8 @@ First, run the karesansui program using the built-in server.
 
 Restart service and enable it for auto start at bootup.
 
-    # /sbin/chkconfig nginx on
-    # /etc/init.d/nginx restart
+    # update-rc.d nginx defaults
+    # invoke-rc.d nginx restart
 
 ####6. Checking for connectivity to Karesansui management console
 
@@ -802,8 +791,8 @@ __Plugin configuration__
 
 In order for all the modifications to take effect, you need to restart collectd service.
 
-    # /sbin/chkconfig collectd on
-    # /etc/init.d/collectd restart
+    # update-rc.d collectd defaults
+    # invoke-rc.d collectd restart
 
 
 Feedback & Suggestions
