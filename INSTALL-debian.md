@@ -29,7 +29,7 @@ A hash (#) prompt indicates you are logged-in as the root user; a dollar ($) pro
 
 ###For `Debian 6`:
 
-    # aptitude install qemu-kvm libvirtd-bin python-libvirt vlan ifenslave bridge-utils
+    # aptitude install qemu-kvm libvirt-bin python-libvirt vlan ifenslave bridge-utils
     # invoke-rc.d libvirt-bin start
     # /sbin/modprobe -b kvm-intel (or /sbin/modprobe -b kvm-amd)
 
