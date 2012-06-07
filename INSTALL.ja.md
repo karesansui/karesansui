@@ -11,6 +11,16 @@ Karesansuiのインストール
 
   [install]:https://github.com/karesansui/karesansui/blob/master/INSTALL.ja.md
 
+### 作者 ###
+
+* Taizo Ito &lt;taizo at karesansui-project.info&gt;
+
+### 貢献者 ###
+
+貢献した人々の努力に感謝します。
+
+* Mihai Moldovan &lt;ionic at ionic.de&gt; - mod_fcgid configuration hints.
+
 
 ## OSのインストール ##
 <a name='installing_operating_system'/>
@@ -582,11 +592,18 @@ https://[インストールしたサーバー]/karesansui/v3/
 
 ####1. パッケージのインストール
 
+#### For mod_fastcgi ####
+
 [RepoForge](http://repoforge.org/)リポジトリから _mod_fastcgi_ パッケージをインストールします。
 
     # wget http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
     # rpm -Uvh rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm 
     # yum install httpd mod_fastcgi
+
+#### For mod_fcgid ####
+
+サードパーティ・リポジトリにmod_fcgidがない場合は、自身でコンパイルする必要があります。
+
 
 ####2. グループメンバーの調整
 
@@ -599,7 +616,13 @@ _apache_ ユーザーを _kss_ グループに、 _kss_ ユーザーを _apache_
 
 ソースコードに付属する設定ファイルのサンプルをコピーし、必要であれば設定内容を変更します。
 
+#### For mod_fastcgi ####
+
     # cp ~rpmbuild/karesansui/sample/apache/fastcgi.conf /etc/httpd/conf.d/
+
+#### For mod_fcgid ####
+
+    # cp ~rpmbuild/karesansui/sample/apache/fcgid.conf /etc/httpd/conf.d/
 
 ####4. Webサーバーの起動
 
@@ -612,6 +635,7 @@ _apache_ ユーザーを _kss_ グループに、 _kss_ ユーザーを _apache_
     # /sbin/chkconfig httpd on
     # /etc/init.d/httpd restart
 
+    # This section is needed for mod_fastcgi only.
     # chmod 777 /tmp/dynamic
     # chown apache:apache /tmp/dynamic
     # /etc/init.d/httpd restart

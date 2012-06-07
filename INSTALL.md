@@ -11,6 +11,16 @@ This document is based on CentOS 6.x (x86_64). However, following the similar st
 
   [install]: https://github.com/karesansui/karesansui/blob/master/INSTALL.md
 
+### Authors ###
+
+* Taizo Ito &lt;taizo at karesansui-project.info&gt;
+
+### Contributors ###
+
+Thanks to the volunteer efforts of contributors.
+
+* Mihai Moldovan &lt;ionic at ionic.de&gt; - mod_fcgid configuration hints.
+
 
 ## Installing operating system ##
 <a name='installing_operating_system'/>
@@ -587,11 +597,18 @@ https://[your-server-name]/karesansui/v3/
 
 ####1. Installing packages.
 
+#### For mod_fastcgi ####
+
 Install several packages from [RepoForge](http://repoforge.org/) repository.
 
     # wget http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
     # rpm -Uvh rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm 
     # yum install httpd mod_fastcgi
+
+#### For mod_fcgid ####
+
+If mod_fcgid cannot be found in the third-party repository, so you would have to compile it on your own.
+
 
 ####2. Configuring group members.
 
@@ -604,7 +621,13 @@ Add _apache_ user to _kss_ group and _kss_ user to _apache_ group.
 
 Copy the sample configuration file bundled with the source code to the location of httpd config directory, and edit it if necessary.
 
+#### For mod_fastcgi ####
+
     # cp ~rpmbuild/karesansui/sample/apache/fastcgi.conf /etc/httpd/conf.d/
+
+#### For mod_fcgid ####
+
+    # cp ~rpmbuild/karesansui/sample/apache/fcgid.conf /etc/httpd/conf.d/
 
 ####4. Start web service
 
@@ -617,6 +640,7 @@ Restart service and enable it for auto start at bootup.
     # /sbin/chkconfig httpd on
     # /etc/init.d/httpd restart
 
+    # This section is needed for mod_fastcgi only.
     # chmod 777 /tmp/dynamic
     # chown apache:apache /tmp/dynamic
     # /etc/init.d/httpd restart
