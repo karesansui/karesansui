@@ -43,8 +43,9 @@ try:
     from karesansui.lib.utils import load_locale, is_uuid
     from karesansui.lib.virt.config_export import ExportConfigParam
     from karesansui.lib.virt.config import ConfigParam
-except ImportError:
-    print >>sys.stderr, "[Error] karesansui package was not found."
+
+except ImportError, e:
+    print >>sys.stderr, "[Error] some packages not found. - %s" % e
     sys.exit(1)
 
 _ = load_locale()

@@ -39,8 +39,9 @@ try:
     from karesansui.lib.virt.virt import KaresansuiVirtConnection, KaresansuiVirtException
     from karesansui.lib.const import NETWORK_IFCONFIG_COMMAND, NETWORK_BRCTL_COMMAND
     from karesansui.lib.utils import load_locale
-except ImportError:
-    print >>sys.stderr, "[Error] karesansui package was not found."
+
+except ImportError, e:
+    print >>sys.stderr, "[Error] some packages not found. - %s" % e
     sys.exit(1)
 
 _ = load_locale()

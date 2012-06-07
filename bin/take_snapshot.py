@@ -42,8 +42,9 @@ try:
     from karesansui.lib.utils import get_xml_parse        as XMLParse
     from karesansui.lib.utils import get_xml_xpath        as XMLXpath
     from karesansui.lib.utils import get_nums_xml_xpath   as XMLXpathNum
-except ImportError:
-    print >>sys.stderr, "[Error] karesansui package was not found."
+
+except ImportError, e:
+    print >>sys.stderr, "[Error] some packages not found. - %s" % e
     sys.exit(1)
 
 _ = load_locale()

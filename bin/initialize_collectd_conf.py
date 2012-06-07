@@ -46,8 +46,9 @@ try:
     from karesansui.lib.utils import preprint_r, base64_decode
     from karesansui.lib.collectd.config import initialize_collectd_settings, COLLECTD_PLUGINS
     from karesansui.lib.dict_op import DictOp
-except ImportError:
-    print >>sys.stderr, "[Error] karesansui package was not found."
+
+except ImportError, e:
+    print >>sys.stderr, "[Error] some packages not found. - %s" % e
     sys.exit(1)
 
 _ = load_locale()

@@ -40,8 +40,8 @@ try:
     from karesansui.lib.utils import load_locale, execute_command, pipe_execute_command, generate_phrase, get_filesystem_info
     from karesansui.lib.const import KARESANSUI_TMP_DIR, MOUNT_CMD, UMOUNT_CMD, FORMAT_CMD, YES_CMD
 
-except ImportError:
-    print >>sys.stderr, "[Error] karesansui package was not found."
+except ImportError, e:
+    print >>sys.stderr, "[Error] some packages not found. - %s" % e
     sys.exit(1)
 
 _ = load_locale()

@@ -51,8 +51,9 @@ try:
     from karesansui.lib.virt.virt import KaresansuiVirtConnection
     from karesansui.lib.utils import load_locale, is_uuid
     from karesansui.lib.const import PORT_MIN_NUMBER, PORT_MAX_NUMBER
-except ImportError:
-    print >>sys.stderr, "[Error] karesansui package was not found."
+
+except ImportError, e:
+    print >>sys.stderr, "[Error] some packages not found. - %s" % e
     sys.exit(1)
 
 _ = load_locale()

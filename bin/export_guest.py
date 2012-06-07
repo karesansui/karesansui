@@ -46,8 +46,9 @@ try:
     from karesansui.lib.utils import generate_uuid        as GenUUID
     from karesansui.lib.virt.snapshot import KaresansuiVirtSnapshot
     from karesansui.db.access.snapshot import findbyname_guestby1 as s_findbyname_guestby1
-except ImportError:
-    print >>sys.stderr, "[Error] karesansui package was not found."
+
+except ImportError, e:
+    print >>sys.stderr, "[Error] some packages not found. - %s" % e
     sys.exit(1)
 
 _ = load_locale()

@@ -88,8 +88,8 @@ try:
         ISCSI_CMD, ISCSI_CMD_OPTION_MODE, ISCSI_CMD_OPTION_MODE_DISCOVERY, ISCSI_CMD_OPTION_TYPE, \
         ISCSI_CMD_OPTION_TYPE_SENDTARGETS, ISCSI_CMD_OPTION_PORTAL
 
-except ImportError:
-    print >>sys.stderr, "[Error] karesansui package was not found."
+except ImportError, e:
+    print >>sys.stderr, "[Error] some packages not found. - %s" % e
     sys.exit(1)
 
 _ = load_locale()

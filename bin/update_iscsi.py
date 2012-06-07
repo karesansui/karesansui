@@ -45,9 +45,8 @@ try:
         ISCSI_CONFIG_KEY_AUTH_METHOD, ISCSI_CONFIG_KEY_AUTH_USER, ISCSI_CONFIG_KEY_AUTH_PASSWORD, \
         ISCSI_CONFIG_KEY_SATRTUP, ISCSI_CONFIG_VALUE_SATRTUP_ON, ISCSI_CONFIG_VALUE_SATRTUP_OFF
 
-
-except ImportError:
-    print >>sys.stderr, "[Error] karesansui package was not found."
+except ImportError, e:
+    print >>sys.stderr, "[Error] some packages not found. - %s" % e
     sys.exit(1)
 
 _ = load_locale()
