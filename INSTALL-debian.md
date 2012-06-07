@@ -29,7 +29,7 @@ A hash (#) prompt indicates you are logged-in as the root user; a dollar ($) pro
 
 ###For `Debian 6`:
 
-    # aptitude install qemu-kvm libvirtd-bin vlan ifenslave bridge-utils
+    # aptitude install qemu-kvm libvirtd-bin python-libvirt vlan ifenslave bridge-utils
     # invoke-rc.d libvirt-bin start
     # /sbin/modprobe -b kvm-intel (or /sbin/modprobe -b kvm-amd)
 
@@ -283,6 +283,7 @@ It is also developed by Karesansui Project Team.
     # cp -f pysilhouette/tools/psil-cleandb /usr/sbin
     # cp -f pysilhouette/tools/psil-set /usr/sbin
     # chmod 0744 /usr/sbin/psil-*
+    # chmod +x /etc/init.d/silhouetted /etc/init.d/performerd
 
     #### Modify the following files if necessary. 
     ## vi /etc/init.d/silhouetted
@@ -308,7 +309,8 @@ It is also developed by Karesansui Project Team.
     #### Create the application's system directories ####
     # mkdir -p /etc/karesansui/virt
     # mkdir -p /var/log/karesansui
-    # mkdir -p /var/lib/karesansui/{tmp,cache}
+    # mkdir -p /var/lib/karesansui/tmp
+    # mkdir -p /var/lib/karesansui/cache
 
     #### Change attributes of the application's directories/files ####
     # chgrp -R kss   /etc/karesansui
@@ -402,9 +404,9 @@ With a script bundled with the source code, you can create a database for karesa
 
 If you use a SQLite database, you must change the attributes of the database file.
 
-    # chgrp -R kss /var/lib/karesansui/karesansui.db
-    # chmod -R g+w /var/lib/karesansui/karesansui.db
-    # chmod -R o-rwx /var/lib/karesansui/karesansui.db
+    # chgrp -R kss /var/lib/karesansui/
+    # chmod -R g+rw /var/lib/karesansui/
+    # chmod -R o-rwx /var/lib/karesansui/
 
 
 ## Creating database for pysilhouette ##
@@ -452,7 +454,9 @@ __/etc/default/libvirt-bin__
 
 ####2. Create directories for libvirt
 
-    # mkdir -p /var/lib/libvirt/{disk,domains,snapshot}
+    # mkdir -p /var/lib/libvirt/disk
+    # mkdir -p /var/lib/libvirt/domains
+    # mkdir -p /var/lib/libvirt/snapshot
     # chgrp -R kss  /var/lib/libvirt
     # chmod -R 0770 /var/lib/libvirt
 
