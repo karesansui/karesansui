@@ -40,13 +40,20 @@ from karesansui.lib.const import KVM_BRIDGE_PREFIX
 
 def _prep_console():
     java_dir = karesansui.dirname + '/static/java'
-    source = '/usr/lib/tightvnc/classes/VncViewer.jar'
+
+    sources = ['/usr/lib/tightvnc/classes/VncViewer.jar',
+               '/usr/share/tightvnc-java/VncViewer.jar',
+              ]
+
     target = java_dir + '/VncViewer.jar'
 
     if not os.path.lexists(target):
         if not os.path.exists(java_dir):
             os.makedirs(java_dir)
-        os.symlink(source,target) 
+
+        for source in sources:
+          if os.path.exists(source):
+            os.symlink(source,target) 
 
 class Console(Rest):
 
