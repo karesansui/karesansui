@@ -46,7 +46,7 @@ try:
                     VIRT_XML_CONFIG_DIR
 
 except ImportError, e:
-    print >>sys.stderr, "[Error] karesansui package was not found."
+    print >>sys.stderr, "[Error] some packages not found. - %s" % e
     sys.exit(1)
 
 _ = load_locale()

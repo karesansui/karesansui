@@ -41,8 +41,8 @@ try:
         ISCSI_CMD_OPTION_MODE_NODE, ISCSI_CMD_OPTION_OPERATOR, ISCSI_CMD_OPTION_OPERATOR_DELETE, \
         ISCSI_CMD_OPTION_TARGETNAME, ISCSI_CMD_OPTION_PORTAL
 
-except ImportError:
-    print >>sys.stderr, "[Error] karesansui package was not found."
+except ImportError, e:
+    print >>sys.stderr, "[Error] some packages not found. - %s" % e
     sys.exit(1)
 
 _ = load_locale()

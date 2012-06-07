@@ -44,8 +44,8 @@ try:
         ISCSI_CMD_OPTION_PORTAL,     ISCSI_CMD_OPTION_LOGIN, \
         ISCSI_CMD_RES_NO_ACTIVE_SESSION
 
-except ImportError:
-    print >>sys.stderr, "[Error] karesansui package was not found."
+except ImportError, e:
+    print >>sys.stderr, "[Error] some packages not found. - %s" % e
     sys.exit(1)
 
 _ = load_locale()

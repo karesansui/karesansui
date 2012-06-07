@@ -42,8 +42,9 @@ try:
     from karesansui.lib.const import STORAGE_POOL_TYPE, STORAGE_VOLUME_FORMAT, \
         STORAGE_VOLUME_SIZE_MIN_LENGTH, STORAGE_VOLUME_SIZE_MAX_LENGTH, STORAGE_VOLUME_UNIT, \
         DISK_USES
-except ImportError:
-    print >>sys.stderr, "[Error] karesansui package was not found."
+
+except ImportError, e:
+    print >>sys.stderr, "[Error] some packages not found. - %s" % e
     sys.exit(1)
 
 _ = load_locale()

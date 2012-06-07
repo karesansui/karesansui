@@ -44,8 +44,9 @@ try:
     from karesansui.lib.utils import is_executable, execute_command
     from karesansui.lib.utils import available_virt_uris
     from karesansui.lib.utils import available_virt_mechs
-except ImportError:
-    print >>sys.stderr, "[Error] karesansui package was not found."
+
+except ImportError, e:
+    print >>sys.stderr, "[Error] some packages not found. - %s" % e
     sys.exit(1)
 
 _ = load_locale()

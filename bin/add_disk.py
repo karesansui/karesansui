@@ -41,8 +41,8 @@ try:
     from karesansui.lib.utils import load_locale, get_disk_img_info
     from karesansui.lib.const import ISCSI_DEVICE_DIR, DISK_USES
 
-except ImportError:
-    print >>sys.stderr, "[Error] karesansui package was not found."
+except ImportError, e:
+    print >>sys.stderr, "[Error] some packages not found. - %s" % e
     sys.exit(1)
 
 _ = load_locale()

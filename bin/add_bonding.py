@@ -50,8 +50,8 @@ try:
         VENDOR_DATA_BONDING_EVACUATION_DIR, NETWORK_IFCFG_DIR, NETWORK_COMMAND, \
         NETWORK_IFDOWN_COMMAND,             NETWORK_BRCTL_COMMAND
 
-except ImportError:
-    print >>sys.stderr, "[Error] karesansui package was not found."
+except ImportError, e:
+    print >>sys.stderr, "[Error] some packages not found. - %s" % e
     sys.exit(1)
 
 _ = load_locale()

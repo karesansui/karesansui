@@ -40,8 +40,8 @@ try:
     from karesansui.lib.const import ISCSI_CMD, ISCSI_CMD_OPTION_MODE, ISCSI_CMD_OPTION_MODE_NODE, \
         ISCSI_CMD_OPTION_TARGETNAME, ISCSI_CMD_OPTION_PORTAL, ISCSI_CMD_OPTION_LOGOUT
 
-except ImportError:
-    print >>sys.stderr, "[Error] karesansui package was not found."
+except ImportError, e:
+    print >>sys.stderr, "[Error] some packages not found. - %s" % e
     sys.exit(1)
 
 _ = load_locale()

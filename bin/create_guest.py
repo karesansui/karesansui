@@ -41,8 +41,8 @@ try:
     from karesansui.lib.utils import load_locale, is_uuid, is_iso9660_filesystem_format
     from karesansui.lib.const import DEFAULT_KEYMAP, GRAPHICS_PORT_MIN_NUMBER, GRAPHICS_PORT_MAX_NUMBER
 
-except ImportError:
-    print >>sys.stderr, "[Error] karesansui package was not found."
+except ImportError, e:
+    print >>sys.stderr, "[Error] some packages not found. - %s" % e
     sys.exit(1)
 
 _ = load_locale()
