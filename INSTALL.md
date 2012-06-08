@@ -380,9 +380,9 @@ With a script bundled with the source code, you can create a database for karesa
 
 If you use a SQLite database, you must change the attributes of the database file.
 
-    # chgrp -R kss /var/lib/karesansui/karesansui.db
-    # chmod -R g+w /var/lib/karesansui/karesansui.db
-    # chmod -R o-rwx /var/lib/karesansui/karesansui.db
+    # chgrp -R kss /var/lib/karesansui/
+    # chmod -R g+rw /var/lib/karesansui/
+    # chmod -R o-rwx /var/lib/karesansui/
 
 
 ## Creating database for pysilhouette ##
