@@ -18,6 +18,8 @@ recursive-include karesansui/static *
 include karesansui.spec
 prune sample/specs/collectd/
 prune sample/specs/IPAexfont
-prune sample/specs/python-webpy
-prune sample/specs/rrdtool
-prune sample/specs/tightvnc-java
+prune sample/specs/libvirt/
+prune sample/specs/python-sqlalchemy/
+prune sample/specs/python-webpy/
+prune sample/specs/rrdtool/
+prune sample/specs/tightvnc-java/
