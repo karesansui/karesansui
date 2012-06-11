@@ -4373,6 +4373,61 @@ class KaresansuiVirtStorageVolume(KaresansuiVirtStorage):
                 }
 
 
+def getCredentials(credentials, data):
+
+    userpass = data.split(":")
+
+    for credential in credentials:
+
+        if credential[0] == libvirt.VIR_CRED_AUTHNAME:
+            credential[4] = userpass[0]
+
+        elif credential[0] == libvirt.VIR_CRED_PASSPHRASE:
+            credential[4] = userpass[1]
+
+        else:
+            return -1
+
+    return 0
+
+
+class KaresansuiVirtConnectionRemote(KaresansuiVirtConnection):
+
+    def __init__(self,uri=None,readonly=True):
+        self.logger = logging.getLogger('karesansui.virt')
+        self.logger.debug(get_inspect_stack())
+        try:
+            self.open(uri,readonly)
+        except:
+            raise KaresansuiVirtException(_("Cannot open '%s'") % uri)
+
+    def open(self, uri, creds="foo:pass"):
+        """
+        <comment-ja>
+        libvirtのコネクションをOpenします。またそれに伴う初期化も行います。
+        </comment-ja>
+        <comment-en>
+        </comment-en>
+        """
+
+        if uri != None:
+            self.uri = uri
+
+        try:
+            self.logger.debug('libvirt.open - %s' % self.uri)
+
+            flags = [libvirt.VIR_CRED_AUTHNAME,libvirt.VIR_CRED_PASSPHRASE]
+            auth = [flags,getCredentials,creds]
+            self._conn = libvirt.openAuth(self.uri,auth,0)
+
+        except:
+            self.logger.error('failed to libvirt open - %s' % self.uri)
+
+        self.logger.debug('succeed to libvirt open - %s' % self.uri)
+
+        return self._conn
+
+
 if __name__ == '__main__':
     from karesansui.lib.utils import preprint_r
 
@@ -4390,7 +4445,7 @@ if __name__ == '__main__':
         #print conn.get_storage_volume_bydomain("centos55",image_type=None, attr="path")
         #print conn.get_storage_volume_bydomain("centos55",image_type="os", attr="info")
         #print conn.get_storage_volume_bydomain("centos55",image_type="os", attr="name")
-        print conn.get_storage_volume_bydomain("centos55",image_type="disk", attr="name")
+        #print conn.get_storage_volume_bydomain("centos55",image_type="disk", attr="name")
         #print conn.get_storage_pool_name_byimage("/var/lib/libvirt/domains/guest1/images/guest1.img")
         #print conn.list_used_graphics_port()
         #print conn.list_used_mac_addr()
