@@ -3,7 +3,7 @@
 
 %define __app karesansui
 %define version 3.0.0
-%define release 1
+%define release 2
 %define date %(echo `LANG=C date +%%Y%%m%%d%%H%%M%%S`)
 
 %define name karesansui
@@ -138,6 +138,7 @@ popd
 
 find $RPM_BUILD_ROOT%{python_sitelib} -type d -exec chmod g+rwx \{\} \; 2>/dev/null
 
+%{__rm} -f $RPM_BUILD_ROOT%{python_sitelib}/karesansui*egg-info
 
 %clean
 rm -rf $RPM_BUILD_ROOT

@@ -57,7 +57,10 @@ from libvirt import VIR_DOMAIN_NOSTATE,VIR_DOMAIN_RUNNING,\
      VIR_STORAGE_POOL_DELETE_NORMAL,\
      VIR_STORAGE_POOL_DELETE_ZEROED, \
      VIR_STORAGE_VOL_DELETE_NORMAL, \
-     VIR_STORAGE_VOL_DELETE_ZEROED
+     VIR_STORAGE_VOL_DELETE_ZEROED, \
+     VIR_DOMAIN_XML_SECURE, \
+     VIR_DOMAIN_XML_INACTIVE, \
+     VIR_DOMAIN_XML_UPDATE_CPU
 
 if __name__ == '__main__':
     for y in [os.path.abspath(os.path.dirname(os.path.abspath(__file__))+"/../../.."),"/usr/lib/python2.6","/usr/lib/python2.6/site-packages"]:
@@ -546,12 +549,13 @@ class KaresansuiVirtConnection:
 
             param = ConfigParam(guest.name())
             xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, guest.name())
+            dom = self._conn.lookupByName(guest.name())
             if not os.path.exists(xml_file):
-                dom = self._conn.lookupByName(guest.name())
                 ConfigFile(xml_file).write(dom.XMLDesc(0))
                 if os.getuid() == 0 and os.path.exists(xml_file):
                     r_chgrp(xml_file,KARESANSUI_GROUP)
-            param.load_xml_config(xml_file)
+            #param.load_xml_config(xml_file)
+            param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
             graphics_port = param.graphics_port
             if graphics_port and int(graphics_port) > 0:
@@ -573,12 +577,13 @@ class KaresansuiVirtConnection:
 
             param = ConfigParam(guest.name())
             xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, guest.name())
+            dom = self._conn.lookupByName(guest.name())
             if not os.path.exists(xml_file):
-                dom = self._conn.lookupByName(guest.name())
                 ConfigFile(xml_file).write(dom.XMLDesc(0))
                 if os.getuid() == 0 and os.path.exists(xml_file):
                     r_chgrp(xml_file,KARESANSUI_GROUP)
-            param.load_xml_config(xml_file)
+            #param.load_xml_config(xml_file)
+            param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
             for info in param.interfaces:
                 mac_addr = info['mac']
@@ -1107,12 +1112,13 @@ class KaresansuiVirtConnection:
         param = ConfigParam(name)
 
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, source_name)
+        dom = self._conn.lookupByName(source_name)
         if not os.path.exists(xml_file):
-            dom = self._conn.lookupByName(source_name)
             ConfigFile(xml_file).write(dom.XMLDesc(0))
             if os.getuid() == 0 and os.path.exists(xml_file):
                 r_chgrp(xml_file,KARESANSUI_GROUP)
-        param.load_xml_config(xml_file)
+        #param.load_xml_config(xml_file)
+        param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
         autostart = False
         try:
@@ -3040,7 +3046,8 @@ class KaresansuiVirtGuest:
             ConfigFile(xml_file).write(dom.XMLDesc(0))
             if os.getuid() == 0 and os.path.exists(xml_file):
                 r_chgrp(xml_file,KARESANSUI_GROUP)
-        param.load_xml_config(xml_file)
+        #param.load_xml_config(xml_file)
+        param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
         vm_type = param.domain_type
         os_root = param.os_root
@@ -3093,7 +3100,8 @@ class KaresansuiVirtGuest:
             ConfigFile(xml_file).write(dom.XMLDesc(0))
             if os.getuid() == 0 and os.path.exists(xml_file):
                 r_chgrp(xml_file,KARESANSUI_GROUP)
-        param.load_xml_config(xml_file)
+        #param.load_xml_config(xml_file)
+        param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
         for info in param.disks:
             driver = {}
@@ -3149,7 +3157,8 @@ class KaresansuiVirtGuest:
             ConfigFile(xml_file).write(dom.XMLDesc(1))
             if os.getuid() == 0 and os.path.exists(xml_file):
                 r_chgrp(xml_file,KARESANSUI_GROUP)
-        param.load_xml_config(xml_file)
+        #param.load_xml_config(xml_file)
+        param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
         try:
             max_vcpus = int(param.max_vcpus)
@@ -3227,7 +3236,8 @@ class KaresansuiVirtGuest:
             ConfigFile(xml_file).write(dom.XMLDesc(0))
             if os.getuid() == 0 and os.path.exists(xml_file):
                 r_chgrp(xml_file,KARESANSUI_GROUP)
-        param.load_xml_config(xml_file)
+        #param.load_xml_config(xml_file)
+        param.load_xml_config(dom.XMLDesc(0))
 
         type     = param.get_graphics_type()
         port     = param.get_graphics_port()
@@ -3245,12 +3255,14 @@ class KaresansuiVirtGuest:
         """ current setting """
         param = ConfigParam(self.get_domain_name())
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
+        dom = self._conn.lookupByName(self.get_domain_name())
         if not os.path.exists(xml_file):
-            dom = self._conn.lookupByName(self.get_domain_name())
             ConfigFile(xml_file).write(dom.XMLDesc(0))
             if os.getuid() == 0 and os.path.exists(xml_file):
                 r_chgrp(xml_file,KARESANSUI_GROUP)
-        param.load_xml_config(xml_file)
+        #param.load_xml_config(xml_file)
+        param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
+
         type     = param.get_graphics_type()
         port     = param.get_graphics_port()
         autoport = param.get_graphics_autoport()
@@ -3360,12 +3372,13 @@ class KaresansuiVirtGuest:
         param = ConfigParam(self.get_domain_name())
 
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
+        dom = self._conn.lookupByName(self.get_domain_name())
         if not os.path.exists(xml_file):
-            dom = self._conn.lookupByName(self.get_domain_name())
             ConfigFile(xml_file).write(dom.XMLDesc(0))
             if os.getuid() == 0 and os.path.exists(xml_file):
                 r_chgrp(xml_file,KARESANSUI_GROUP)
-        param.load_xml_config(xml_file)
+        #param.load_xml_config(xml_file)
+        param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
         param.set_current_snapshot(id)
 
@@ -3414,7 +3427,8 @@ class KaresansuiVirtGuest:
             ConfigFile(xml_file).write(dom.XMLDesc(0))
             if os.getuid() == 0 and os.path.exists(xml_file):
                 r_chgrp(xml_file,KARESANSUI_GROUP)
-        param.load_xml_config(xml_file)
+        #param.load_xml_config(xml_file)
+        param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
         if bus is None:
             bus = self.connection.bus_types[0]
@@ -3485,7 +3499,8 @@ class KaresansuiVirtGuest:
             ConfigFile(xml_file).write(dom.XMLDesc(0))
             if os.getuid() == 0 and os.path.exists(xml_file):
                 r_chgrp(xml_file,KARESANSUI_GROUP)
-        param.load_xml_config(xml_file)
+        #param.load_xml_config(xml_file)
+        param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
         if bus is None:
             bus = self.connection.bus_types[0]
@@ -3548,7 +3563,8 @@ class KaresansuiVirtGuest:
             ConfigFile(xml_file).write(dom.XMLDesc(0))
             if os.getuid() == 0 and os.path.exists(xml_file):
                 r_chgrp(xml_file,KARESANSUI_GROUP)
-        param.load_xml_config(xml_file)
+        #param.load_xml_config(xml_file)
+        param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
         path = param.get_disk_path(target)
 
@@ -3600,7 +3616,8 @@ class KaresansuiVirtGuest:
             ConfigFile(xml_file).write(dom.XMLDesc(0))
             if os.getuid() == 0 and os.path.exists(xml_file):
                 r_chgrp(xml_file,KARESANSUI_GROUP)
-        param.load_xml_config(xml_file)
+        #param.load_xml_config(xml_file)
+        param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
         if network is not None:
             netinfo = self.connection.search_kvn_networks(network)[0].get_info()
@@ -3656,7 +3673,8 @@ class KaresansuiVirtGuest:
             ConfigFile(xml_file).write(dom.XMLDesc(0))
             if os.getuid() == 0 and os.path.exists(xml_file):
                 r_chgrp(xml_file,KARESANSUI_GROUP)
-        param.load_xml_config(xml_file)
+        #param.load_xml_config(xml_file)
+        param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
         current_snapshot = param.get_current_snapshot()
         if force is True:
@@ -3721,7 +3739,8 @@ class KaresansuiVirtGuest:
             ConfigFile(xml_file).write(dom.XMLDesc(0))
             if os.getuid() == 0 and os.path.exists(xml_file):
                 r_chgrp(xml_file,KARESANSUI_GROUP)
-        param.load_xml_config(xml_file)
+        #param.load_xml_config(xml_file)
+        param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
         new_interfaces = []
 
@@ -3766,7 +3785,8 @@ class KaresansuiVirtGuest:
             ConfigFile(xml_file).write(dom.XMLDesc(0))
             if os.getuid() == 0 and os.path.exists(xml_file):
                 r_chgrp(xml_file,KARESANSUI_GROUP)
-        param.load_xml_config(xml_file)
+        #param.load_xml_config(xml_file)
+        param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
         if maxmem:
             param.set_max_memory(maxmem)
@@ -3796,7 +3816,8 @@ class KaresansuiVirtGuest:
             ConfigFile(xml_file).write(dom.XMLDesc(0))
             if os.getuid() == 0 and os.path.exists(xml_file):
                 r_chgrp(xml_file,KARESANSUI_GROUP)
-        param.load_xml_config(xml_file)
+        #param.load_xml_config(xml_file)
+        param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
         if max_vcpus is not None:
             param.set_max_vcpus(int(max_vcpus))
@@ -3833,7 +3854,8 @@ class KaresansuiVirtGuest:
             ConfigFile(xml_file).write(dom.XMLDesc(0))
             if os.getuid() == 0 and os.path.exists(xml_file):
                 r_chgrp(xml_file,KARESANSUI_GROUP)
-        param.load_xml_config(xml_file)
+        #param.load_xml_config(xml_file)
+        param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
         if port is not None:
             param.set_graphics_port(port)

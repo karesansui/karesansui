@@ -376,9 +376,9 @@ karesansuiのソースコードに付属するスクリプトを利用してデ�
 
 データベースにSQLiteを利用している場合は、以下のコマンドでデータベースファイルの属性変更を行ってください。
 
-    # chgrp -R kss /var/lib/karesansui/karesansui.db
-    # chmod -R g+w /var/lib/karesansui/karesansui.db
-    # chmod -R o-rwx /var/lib/karesansui/karesansui.db
+    # chgrp -R kss /var/lib/karesansui/
+    # chmod -R g+rw /var/lib/karesansui/
+    # chmod -R o-rwx /var/lib/karesansui/
 
 
 ## pysilhouette用データベースの作成 ##

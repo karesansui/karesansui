@@ -243,8 +243,8 @@ CentOS や Red Hat Enterprise Linux の場合は、_acpid_ パッケージをイ
 
     # rpm -q acpid 2>/dev/null || yum -y install acpid
     # /sbin/service haldaemon stop
-    # /sbin/service apcid restart
-    # /sbin/chkconfig apcid on
+    # /sbin/service acpid restart
+    # /sbin/chkconfig acpid on
     # /sbin/service haldaemon start
 
 

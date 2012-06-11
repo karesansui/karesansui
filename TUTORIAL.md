@@ -246,8 +246,8 @@ Under CentOS, Red Hat Enterprise Linux or Fedora Linux, _acpid_ package should b
 
     # rpm -q acpid 2>/dev/null || yum -y install acpid
     # /sbin/service haldaemon stop
-    # /sbin/service apcid restart
-    # /sbin/chkconfig apcid on
+    # /sbin/service acpid restart
+    # /sbin/chkconfig acpid on
     # /sbin/service haldaemon start
 
 
