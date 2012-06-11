@@ -43,7 +43,8 @@ from karesansui.lib.const import \
     TAG_MIN_LENGTH, TAG_MAX_LENGTH, \
     FQDN_MIN_LENGTH, FQDN_MAX_LENGTH, \
     PORT_MIN_NUMBER, PORT_MAX_NUMBER, \
-    MACHINE_ATTRIBUTE, MACHINE_HYPERVISOR
+    MACHINE_ATTRIBUTE, MACHINE_HYPERVISOR, \
+    USER_MIN_LENGTH, USER_MAX_LENGTH
 
 from karesansui.db.access.machine import \
      findbyhostall, findby1uniquekey, findby1hostname, \
@@ -72,33 +73,59 @@ def validates_host_add(obj):
                     max = MACHINE_NAME_MAX_LENGTH,
             ) and check
 
-    if not is_param(obj.input, 'm_hostname'):
+
+    if not is_param(obj.input, 'm_connect_type'):
         check = False
-        checker.add_error(_('"%s" is required.') % _('FQDN'))
+        checker.add_error(_('Parameter m_connect_type does not exist.'))
     else:
-        m_hostname_parts = obj.input.m_hostname.split(":")
-        if len(m_hostname_parts) > 2:
-            check = False
-            checker.add_error(_('%s contains too many colon(:)s.') % _('FQDN'))
-        else:
-            check = checker.check_domainname(
-                        _('FQDN'),
-                        m_hostname_parts[0],
-                        CHECK_EMPTY | CHECK_LENGTH | CHECK_VALID,
-                        min = FQDN_MIN_LENGTH,
-                        max = FQDN_MAX_LENGTH,
-                        ) and check
-            try:
-                check = checker.check_number(
-                            _('Port Number'),
-                            m_hostname_parts[1],
-                            CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
-                            PORT_MIN_NUMBER,
-                            PORT_MAX_NUMBER,
-                            ) and check
-            except IndexError:
-                # when reach here, 'm_hostname' has only host name
+        if obj.input.m_connect_type == "karesansui":
+
+            if not is_param(obj.input, 'm_hostname'):
+                check = False
+                checker.add_error(_('"%s" is required.') % _('FQDN'))
+            else:
+                m_hostname_parts = obj.input.m_hostname.split(":")
+                if len(m_hostname_parts) > 2:
+                    check = False
+                    checker.add_error(_('%s contains too many colon(:)s.') % _('FQDN'))
+                else:
+                    check = checker.check_domainname(
+                                _('FQDN'),
+                                m_hostname_parts[0],
+                                CHECK_EMPTY | CHECK_LENGTH | CHECK_VALID,
+                                min = FQDN_MIN_LENGTH,
+                                max = FQDN_MAX_LENGTH,
+                                ) and check
+                    try:
+                        check = checker.check_number(
+                                    _('Port Number'),
+                                    m_hostname_parts[1],
+                                    CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                                    PORT_MIN_NUMBER,
+                                    PORT_MAX_NUMBER,
+                                    ) and check
+                    except IndexError:
+                        # when reach here, 'm_hostname' has only host name
+                        pass
+
+        if obj.input.m_connect_type == "libvirt":
+
+            if not is_param(obj.input, 'm_uri'):
+                check = False
+                checker.add_error(_('"%s" is required.') % _('URI'))
+            else:
                 pass
+
+            if is_param(obj.input, 'm_auth_user') and obj.input.m_auth_user != "":
+
+                check = checker.check_username(
+                    _('User Name'),
+                    obj.input.m_auth_user,
+                    CHECK_LENGTH | CHECK_ONLYSPACE,
+                    min = USER_MIN_LENGTH,
+                    max = USER_MAX_LENGTH,
+                    ) and check
+
 
     if not is_param(obj.input, 'm_uuid'):
         check = False
@@ -199,7 +226,14 @@ class Host(Rest):
 
         uniq_key = self.input.m_uuid
         name = self.input.m_name
-        hostname = self.input.m_hostname
+
+        if self.input.m_connect_type == "karesansui":
+            hostname = self.input.m_hostname
+            attribute = MACHINE_ATTRIBUTE['HOST']
+
+        if self.input.m_connect_type == "libvirt":
+            hostname = self.input.m_uri
+            attribute = MACHINE_ATTRIBUTE['URI']
 
         model = findby1uniquekey(self.orm, uniq_key, is_deleted = True)
         if model is None:
@@ -208,7 +242,7 @@ class Host(Rest):
                          uniq_key=uni_force(uniq_key),
                          name=name,
                          hostname=hostname,
-                         attribute=MACHINE_ATTRIBUTE['HOST'],
+                         attribute=attribute,
                          hypervisor=MACHINE_HYPERVISOR['REAL'],
                          notebook=_notebook,
                          tags=_tags,

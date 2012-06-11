@@ -200,7 +200,7 @@ $(document).ready(function(){
                                             ${_('User Name')}<span id="uri_user_help"/>
                                         </td>
                                         <td>
-                                            <input type="text" id="m_uri_user" name="m_uri_user" value="" size="20" /><span class="require-text" id="m_uri_user"></span>
+                                            <input type="text" id="m_auth_user" name="m_auth_user" value="" size="20" /><span class="require-text" id="m_auth_user"></span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -208,7 +208,7 @@ $(document).ready(function(){
                                             ${_('Password')}<span id="uri_passwd_help"/>
                                         </td>
                                         <td>
-                                            <input type="password" id="m_uri_passwd" name="m_uri_passwd" value="" size="20" /><span class="require-text" id="m_uri_passwd"></span>
+                                            <input type="password" id="m_auth_passwd" name="m_auth_passwd" value="" size="20" /><span class="require-text" id="m_auth_passwd"></span>
                                         </td>
                                     </tr>
                                 </table>
