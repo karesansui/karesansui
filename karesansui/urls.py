@@ -97,6 +97,7 @@ import karesansui.gadget.guestby1snapshot
 import karesansui.gadget.guestby1snapshotby1
 import karesansui.gadget.guestby1currentsnapshot
 import karesansui.gadget.guestby1job
+import karesansui.gadget.uriby1
 import karesansui.gadget.init
 
 #: URL List
@@ -172,7 +173,9 @@ urls = karesansui.gadget.index.urls \
        + karesansui.gadget.guestby1snapshotby1.urls \
        + karesansui.gadget.guestby1currentsnapshot.urls \
        + karesansui.gadget.guestby1job.urls \
+       + karesansui.gadget.uriby1.urls \
        + karesansui.gadget.init.urls \
+
 
 if web.wsgi._is_dev_mode() is True:
     import karesansui.gadget.static
