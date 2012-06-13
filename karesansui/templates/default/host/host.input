@@ -17,14 +17,18 @@ function validates_host(){
                 MACHINE_NAME_MAX_LENGTH
             ) && check;
 
-    m_hostname_tmp = $("#m_hostname").val();
-    m_hostname_parts = m_hostname_tmp.split(":");
-    if(m_hostname_parts.length > 2){
-        check = false;
-        ERROR_MSG += minisprintf("${_('%s contains too many colon(:)s.')}", "${_('FQDN')}");
-    } else {
-        $("#m_hostname").val(m_hostname_parts[0]);
-        check = check_domainname(
+   connect_type = $("input:radio[name='m_connect_type']:checked").val();
+
+   if(connect_type == "karesansui") {
+
+        m_hostname_tmp = $("#m_hostname").val();
+        m_hostname_parts = m_hostname_tmp.split(":");
+        if(m_hostname_parts.length > 2){
+            check = false;
+            ERROR_MSG += minisprintf("${_('%s contains too many colon(:)s.')}", "${_('FQDN')}");
+        } else {
+            $("#m_hostname").val(m_hostname_parts[0]);
+            check = check_domainname(
                     $("#m_hostname"),
                     CHECK_EMPTY | CHECK_LENGTH | CHECK_VALID,
                     "${_('FQDN')}",
@@ -32,17 +36,26 @@ function validates_host(){
                     FQDN_MIN_LENGTH,
                     FQDN_MAX_LENGTH
                 ) && check;
-        if(m_hostname_parts[1]){
-            $("#m_hostname").val(m_hostname_parts[1]);
-            check = check_number(
+            if(m_hostname_parts[1]){
+                $("#m_hostname").val(m_hostname_parts[1]);
+                check = check_number(
                             $("#m_hostname"),
                             CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
                             "${_('Port Number')}",
                             PORT_MIN_NUMBER,
                             PORT_MAX_NUMBER
                         ) && check;
+            }
+            $("#m_hostname").val(m_hostname_tmp);
         }
-        $("#m_hostname").val(m_hostname_tmp);
+
+    } else {
+
+        check = check_uri(
+                $("#m_uri"),
+                CHECK_EMPTY | CHECK_VALID,
+                "${_('URI')}", 0, 0
+            ) && check;
     }
     
     check = check_unique_key(
@@ -140,9 +153,70 @@ $(document).ready(function(){
             <input type="text" id="m_name" name="m_name" value="" size="40" maxlength="256" /><span class="require-text">${_('Require')}</span>
         </div>
 
-        <div class="grayout-param">${_('FQDN')}<span id="m_hostname_help"/></div>
+        <div class="grayout-param">${_('Connection Type')}<span id="m_hostname_help"/></div>
         <div class="grayout-value grayout-form">
-            <input type="text" id="m_hostname" name="m_hostname" value="" size="40" maxlength="256" /><span class="require-text">${_('Require')}</span>
+
+            <div style="background-color: #FFFFFF">
+                <div id="connect_type_karesansui_html">
+                    <table width="100%" style="background-color: #FFFFFF; padding: 10px">
+                        <tr>
+                            <td width="120px">
+                                <input type="radio" name="m_connect_type" id="m_connect_type_karesansui" value="karesansui" checked />${_("Other Karesansui")}
+                            </td>
+                            <td>
+                                <table width="100%" style="background-color: #F5F5F5;">
+                                    <tr>
+                                        <td width="120px">
+                                            ${_('FQDN')}<span id="m_hostname_help"/>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="m_hostname" name="m_hostname" value="" size="40" maxlength="256" /><span class="require-text">${_('Require')}</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="connect_type_libvirt_html">
+                    <table width="100%" style="background-color: #FFFFFF; padding: 10px">
+                        <tr>
+                            <td width="120px">
+                                <input type="radio" name="m_connect_type" id="m_connect_type_libvirt" value="libvirt" />${_("Libvirt URI")}
+                            </td>
+                            <td>
+                                <table width="100%" style="background-color: #F5F5F5;">
+                                    <tr>
+                                        <td width="120px">
+                                            ${_('URI')}<span id="m_uri_help"/>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="m_uri" name="m_uri" value="" size="40" maxlength="256" /><span class="require-text">${_('Require')}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="120px">
+                                            ${_('User Name')}<span id="uri_user_help"/>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="m_auth_user" name="m_auth_user" value="" size="20" /><span class="require-text" id="m_auth_user"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="120px">
+                                            ${_('Password')}<span id="uri_passwd_help"/>
+                                        </td>
+                                        <td>
+                                            <input type="password" id="m_auth_passwd" name="m_auth_passwd" value="" size="20" /><span class="require-text" id="m_auth_passwd"></span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
 
         <div class="grayout-param">${_('Unique Key')}<span id="uniqkey_help"/></div>

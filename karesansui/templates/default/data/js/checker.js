@@ -60,6 +60,26 @@ function trim(value){
   return s;
 }
 
+function parse_uri(uri){
+/**
+  var regexp = /^(([^:\/?#]+):)?(\/\/(([a-zA-Z0-9\.\-]+)@)?([^\/?#:]*)(:([0-9]+))?)?([^?#]*)(\?([^#]*))?(#(.*))?/
+**/
+  var regexp = /^(([^:\/?#]+):\/\/)((([a-zA-Z0-9\.\-]+)@)?([^\/?#:]*)(:([0-9]+))?)?([^?#]*)(\?([^#]*))?(#(.*))?/
+  segs = uri.match(regexp);
+  if(segs) {
+    return {
+     "scheme" : segs[2],
+     "user"   : segs[5],
+     "host"   : segs[6],
+     "port"   : segs[8],
+     "path"   : segs[9],
+     "query"  : segs[10],
+     };
+  } else {
+    return {};
+  }
+}
+
 function netmask_to_netlen(netmask){
   var netlen = -1;
   var reg    = /^(\d+)\.(\d+)\.(\d+)\.(\d+)$/;
@@ -800,8 +820,8 @@ function check_cidr(form, check, name){
       if(ret_val){
         old_value = form.value;
         form.value = len;
-        ret_val = check_number(form, 0, 32, check|CHECK_MIN|CHECK_MAX, 
-                       minisprintf("${_('Network length part of %s')}", name));
+        ret_val = check_number(form, check|CHECK_MIN|CHECK_MAX, 
+                       minisprintf("${_('Network length part of %s')}", name), 0, 32);
         form.value = old_value;
       }
 
@@ -1598,3 +1618,53 @@ function check_time_string(form, check, name){
 
     return ret_val;
 }
+
+function check_uri(form, check, name, min, max){
+
+  if(form.jquery != undefined) {
+    form = form[0];
+  }
+
+  ret_val = true;
+  if(check & CHECK_EMPTY){
+    ret_val = check_empty(form, name) && ret_val;
+  }
+
+  if(ret_val && check & CHECK_LENGTH){
+    ret_val = check_length(form, name, min, max) && ret_val;
+  }
+
+  if(form.value && ret_val){
+    if(check & CHECK_VALID){
+
+      segs = parse_uri(form.value)
+
+      if(segs['scheme'] == null) {
+	ERROR_MSG += minisprintf("${_('Scheme of %s must be specified.')}",name);
+	ERROR_MSG += "\n";
+	ret_val = false;
+      }
+
+      old_value = form.value;
+      form.value = segs['host']
+      ret_val = check_hostname(form, name, min, max) && ret_val;
+      form.value = old_value;
+
+      if(segs['port'] != null) {
+
+        old_value = form.value;
+        form.value = segs['port']
+        ret_val = check_number(form, check|CHECK_MIN|CHECK_MAX, 
+                       minisprintf("${_('Port of %s')}",name), 1, 65335) && ret_val;
+        form.value = old_value;
+      }
+
+    }
+  }  
+  if(!ret_val){
+    form.focus();
+  }
+  return ret_val;
+}
+
+
