@@ -116,7 +116,7 @@ from karesansui.lib.net.http import wget              as DownloadFile
 from karesansui.lib.utils import is_uuid, get_ifconfig_info, r_chgrp, r_chmod, \
   getfilesize_str, get_filesize_MB, get_disk_img_info, available_virt_uris, \
   is_iso9660_filesystem_format, is_windows_bootable_iso, is_darwin_bootable_iso, \
-  file_contents_replace
+  file_contents_replace, uri_split, uri_join
 
 from karesansui.lib.utils import get_inspect_stack
 
@@ -3039,18 +3039,30 @@ class KaresansuiVirtGuest:
             os_type = dom.OSType()
         except:
             os_type = None
+        try:
+            uuid = dom.UUIDString()
+        except:
+            uuid = None
 
-        param = ConfigParam(dom.name())
-        xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, dom.name())
-        if not os.path.exists(xml_file):
-            ConfigFile(xml_file).write(dom.XMLDesc(0))
-            if os.getuid() == 0 and os.path.exists(xml_file):
-                r_chgrp(xml_file,KARESANSUI_GROUP)
-        #param.load_xml_config(xml_file)
-        param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
+        #import pdb; pdb.set_trace()
+        try:
+            param = ConfigParam(dom.name())
+            xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, dom.name())
+            if not os.path.exists(xml_file):
+                ConfigFile(xml_file).write(dom.XMLDesc(0))
+                if os.getuid() == 0 and os.path.exists(xml_file):
+                    r_chgrp(xml_file,KARESANSUI_GROUP)
+            #param.load_xml_config(xml_file)
+            param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
-        vm_type = param.domain_type
-        os_root = param.os_root
+            vm_type = param.domain_type
+            os_root = param.os_root
+
+        except:
+            vm_type = uri_split(self._conn.getURI())["scheme"]
+            os_root = "unknown"
+            pass
+
         hypervisor = self.connection.get_hypervisor_type()
         try:
           hvVersion = libvirtmod.virConnectGetVersion(self._conn._o)
@@ -3072,6 +3084,7 @@ class KaresansuiVirtGuest:
                 "hypervisor": hypervisor,
                 "hv_version": hv_version,
                 "os_root"   : os_root,
+                "uuid"      : uuid,
         }
 
     def get_netinfo(self):
@@ -4391,13 +4404,13 @@ def getCredentials(credentials, data):
     return 0
 
 
-class KaresansuiVirtConnectionRemote(KaresansuiVirtConnection):
+class KaresansuiVirtConnectionURI(KaresansuiVirtConnection):
 
-    def __init__(self,uri=None,readonly=True):
+    def __init__(self,uri=None,creds="", readonly=True):
         self.logger = logging.getLogger('karesansui.virt')
         self.logger.debug(get_inspect_stack())
         try:
-            self.open(uri,readonly)
+            self.open(uri, creds)
         except:
             raise KaresansuiVirtException(_("Cannot open '%s'") % uri)
 

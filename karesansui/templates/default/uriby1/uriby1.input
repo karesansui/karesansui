@@ -1,0 +1,152 @@
+<%doc>Copyright (C) 2009-2012 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<%
+view_tags = []
+for tag in model.tags:
+    view_tags.append(tag.name)
+%>
+<script type="text/javascript">
+<!--
+function validates_guest(){
+    var check = true;
+    ERROR_MSG = "";
+
+    check = check_string(
+                $("#m_name"),
+                CHECK_EMPTY | CHECK_LENGTH | CHECK_ONLYSPACE,
+                "${_('Guest Name')}",
+                null,
+                MACHINE_NAME_MIN_LENGTH,
+                MACHINE_NAME_MAX_LENGTH
+            ) && check;
+
+    check = check_string(
+                $("#note_title"),
+                CHECK_LENGTH | CHECK_ONLYSPACE,
+                "${_('Title')}",
+                null,
+                NOTE_TITLE_MIN_LENGTH,
+                NOTE_TITLE_MAX_LENGTH
+            ) && check;
+
+    check = check_string(
+                $("#note_value"),
+                CHECK_ONLYSPACE,
+                "${_('Note')}",
+                null,
+                null,
+                null
+            ) && check;
+    
+    if($("#tags").val()){
+        var form_tmp = $("#tags").val();
+        var tags = $("#tags").val().split(",");
+        var tag_check = true;
+
+        for (var idx in tags){
+            $("#tags").val(tags[idx]);
+            tag_check = check_string(
+                        $("#tags"),
+                        CHECK_LENGTH | CHECK_ONLYSPACE,
+                        "${_('Tag')}",
+                        null,
+                        TAG_MIN_LENGTH,
+                        TAG_MAX_LENGTH
+                    ) && tag_check;
+            if(tag_check == false){
+                break;
+            }
+        }
+        $("#tags").val(form_tmp);
+        check = check && tag_check;
+    }
+    
+    if(!check){
+        show_alert_msg("${_('Please input correct value.')}\n" + ERROR_MSG);
+    }
+
+    return check;
+}
+
+$(document).ready(function(){
+    icon_post_event(
+        "#input_guest_icon_form",
+        "${ctx.homepath}/icon",
+        function(){return true;}
+    );
+
+    machine_put_event(
+        "#input_guest_submit",
+        "${ctx.homepath}${ctx.path}",
+        "#input_guest :input",
+        validates_guest
+    );
+    // help
+    helptip("#guestby1_name_help", 
+        "${_('Guest Name')}", 
+        "${_('Name of the guest. This will be used in Karesansui control panel. Any letters, including spaces and symbols are allowed.')}");
+
+    helptip("#guestby1_icon_help", 
+        "${_('Guest Icon')}", 
+        "${_('Icon image to be used in Karesansui control panel. Choose the file and click upload button.')}");
+    
+    helptip("#guestby1_note_help", 
+        "${_('Note')}", 
+        "${_('Notebook is for your reminders, memopads, etc.')}");
+    
+    helptip("#guestby1_tag_help", 
+        "${_('Tag')}", 
+        "${_(r'Tag to add to the guest to be used in Karesansui control panel. Can be used to search guests using tags in the \"Guests\" panel. Separate tags with commas to specify two or more tags. Any letters, including spaces and symbols are allowed.')}");
+});
+// -->
+</script>
+
+<div id="input_guest">
+    <div class="grayout-head">
+        <span class="grayout-title">
+            <a href="#" id="server" class="path-a"><img src="${ctx.homepath}/static/images/settings-title.gif" alt="">${_('Edit Guest Settings')}</a>
+        </span>
+        <br style="clear: both;"/>
+    </div>
+    
+    <div class="grayout-contents">
+        <div class="grayout-param">${_('Guest Name')}<span id="guestby1_name_help"/></div>
+        <div class="grayout-value grayout-form">
+            <input type="text" id="m_name" name="m_name" value="${model.name | h}" size="40" maxlength="256" /><span class="require-text">${_('Require')}</span>
+        </div>
+
+        <div class="grayout-param">${_('Guest Icon')}<span id="guestby1_icon_help"/></div>
+        <div class="grayout-value grayout-form">
+            <form action="#" method="post" id="input_guest_icon_form" name="input_guest_icon_form">
+                <input type="file" id="multi_icon" name="multi_icon" size="40" />
+                <input type="hidden" id="icon_filename" name="icon_filename" value="" />
+                <a href="#" name="icon_upload_submit" id="icon_upload_submit" class="button" style="display: inline">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Upload')}</span>
+                </a>
+                <a href="#" name="icon_cancel_submit" id="icon_cancel_submit" class="button" style="display: inline">
+                    <span class="button-left">&nbsp;</span><span class="button-right">${_('Cancel')}</span>
+                </a>
+            </form>
+        </div>
+        <div class="grayout-param">${_('Notebook')}<span id="guestby1_note_help"/></div>
+        <div class="grayout-value grayout-form">
+            <p>${_('Title')}</p>
+                <input type="text" id="note_title" name="note_title" value="${model.notebook.title | h}" size="40" maxlength="64" />
+            <p>${_('Note')}</p>
+                <textarea id="note_value" name="note_value" cols="50" rows="5">${model.notebook.value | h}</textarea>
+        </div>
+        <div class="grayout-param">${_('Tag')}<span id="guestby1_tag_help"/></div>
+        <div class="grayout-value grayout-form">
+            <input type="text" id="tags" name="tags" value="${','.join(view_tags) | h}" size="40" />
+        </div>
+
+        <div class="grayout-footer">
+            <a href="#" name="input_guest_submit" id="input_guest_submit" class="button">
+                <span class="button-left">&nbsp;</span><span class="button-right">${_('Edit')}</span>
+            </a>
+            <br style="clear: both;"/>
+        </div>
+        <br style="clear: both;"/>
+    </div>
+</div> 
