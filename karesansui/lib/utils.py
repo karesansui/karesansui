@@ -2791,6 +2791,78 @@ def host2ip(host):
     import socket
     return socket.gethostbyname(host)
 
+def uri_split(uri):
+    """
+       Basic URI Parser
+    """
+    import re
+    regex = '^(([^:/?#]+):)?(//(([^:]+)(:(.+))?@)?([^/?#:]*)(:([0-9]+))?)?([^?#]*)(\?([^#]*))?(#(.*))?'
+
+    p = re.match(regex, uri).groups()
+    scheme, user, passwd, host, port, path, query, fragment = p[1], p[4], p[6], p[7], p[9], p[10], p[12], p[14]
+
+    if not path: path = None
+    return { "scheme"  :scheme,
+             "user"    :user,
+             "passwd"  :passwd,
+             "host"    :host,
+             "port"    :port,
+             "path"    :path,
+             "query"   :query,
+             "fragment":fragment,
+           }
+
+def uri_join(segments,without_auth=False):
+    """
+       Reverse of uri_split()
+    """
+    result = ''
+
+    try:
+        result += segments["scheme"] + '://'
+    except:
+        pass
+
+    if without_auth is False:
+        try:
+            result += segments["user"]
+            try:
+                result += ':' + segments["passwd"]
+            except:
+                pass
+            result += '@'
+        except:
+            pass
+
+    try:
+        result += segments["host"]
+    except:
+        pass
+
+    try:
+        result += ':' + segments["port"]
+    except:
+        pass
+
+    try:
+        if segments["path"] is None or segments["path"] == "":
+            segments["path"] = "/"
+        if result != "":
+            result += segments["path"]
+    except:
+        pass
+
+    try:
+        result += '?' + segments["query"]
+    except:
+        pass
+    try:
+        result += '#' + segments["fragment"]
+    except:
+        pass
+
+    return result
+
 def locale_dummy(str):
     return str
 
