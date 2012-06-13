@@ -89,7 +89,7 @@ class MergeHost:
                                         notebook,
                                         [],
                                         u"%s" % "",
-                                        u'icon-guest1.png',
+                                        u'icon-guest3.png',
                                         False,
                                         None,
                                         )

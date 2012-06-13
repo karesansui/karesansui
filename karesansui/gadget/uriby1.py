@@ -94,6 +94,7 @@ class UriBy1(Rest):
 
                         _virt = self.kvc.search_kvg_guests(guest.info["model"].name)
                         if 0 < len(_virt):
+                            #import pdb; pdb.set_trace()
                             info = _virt[0].get_info()
                             if info["uuid"] == uri_id:
                                 __guest = MergeGuest(guest.info["model"], _virt[0])
@@ -105,6 +106,7 @@ class UriBy1(Rest):
                 finally:
                     self.kvc.close()
 
+                #import pdb; pdb.set_trace()
                 # .json
                 if self.__template__["media"] == 'json':
                     self.view.data = json_dumps(

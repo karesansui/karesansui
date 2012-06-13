@@ -560,9 +560,10 @@ function make_uri_detail(data, status) {
     }
     _g += make_tr("${_('Autostart')}", autostart);
 
+
     var type = "";
-    if(data.info["type"] != null){
-        type = data.info["type"];
+    if(data.info["VMType"] != null){
+        type = data.info["VMType"];
         if(data.info["hv_version"] != null){
             type += " ("+data.info["hv_version"]+")";
         }
@@ -572,31 +573,22 @@ function make_uri_detail(data, status) {
     _g += make_tr("${_('Hypervisor')}", type);
 
     var os = "";
-    if(data.info["os"] != null){
-        os = data.info["os"];
+    if(data.info["OSType"] != null){
+        os = data.info["OSType"];
     } else {
         os = "${_('Unknown')}";
     }
     _g += make_tr("${_('OS Type')}", os);
-    var tags = "";
-    if(data.model.tags.length > 0){
-        for(var i = 0; i < data.model.tags.length; i++){
-            tags += data.model.tags[i].name + ", ";
-        }
-        tags = tags.slice(0, tags.length - 2);
-    } else {
-        tags = "${_('No tag')}";
-    }
-    _g += make_tr("${_('Tag Name')}", tags);
 
     _g += "</table>";
     _s += make_tr("${_('General Information')}", _g, true);
     _s += make_space();
 
+
     // CPU
     var _c = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
 
-    _c += make_tr("${_('CPU Time (seconds)')}", format_cputime(data.info["cpu"] / (1000.00 * 1000.00 * 1000.00)));
+    _c += make_tr("${_('CPU Time (seconds)')}", format_cputime(data.info["cpuTime"] / (1000.00 * 1000.00 * 1000.00)));
 
     _c += "</table>";
     _s += make_tr("${_('CPU Info')}", _c, true);
@@ -738,6 +730,7 @@ $("#guests div[id*='_']").each(function(){
         var _type = get_target_type($(this));
         if(_type == "export"){
             active_id = $(this).attr("id").replace("export_", "");
+            tool_reset("#create_guest");
             tool_invalid("#edit_guest");
             tool_invalid("#replicate_guest");
             tool_reset("#delete_guest");
@@ -749,6 +742,7 @@ $("#guests div[id*='_']").each(function(){
         }
         if(_type == "guest"){
             active_id = $(this).attr("id").replace("guest_", "");
+            tool_reset("#create_guest");
             tool_reset("#edit_guest");
             tool_reset("#replicate_guest");
             tool_reset("#delete_guest");
@@ -832,12 +826,15 @@ grayout_view("GET",
 show_detail_event();
 
 // tag
+% if not uri_guests:
 tag_get_event(
     "#tag",
     "#guests",
     "#detail_value",
     "${ctx.homepath}${ctx.path}".replace(".part", "") + "/tag.part"
 );
+% endif
+
 // init action
 $("#action>a").hover(
     function(){tool_over(this);},
@@ -846,6 +843,10 @@ $("#action>a").hover(
     var id = $(this).attr("id");
     tool_active(this);
 });
+
+% if uri_guests:
+tool_invalid("#create_guest");
+% endif
 tool_invalid("#edit_guest");
 tool_invalid("#replicate_guest");
 tool_invalid("#delete_guest");
@@ -940,6 +941,7 @@ tool_invalid("#import_guest");
                     <div class="space"></div>
 
 
+% if not uri_guests:
                     <div id="tag">
                         <div class="left"></div>
                         <div class="right"></div>
@@ -954,6 +956,7 @@ tool_invalid("#import_guest");
                         </div>
                         <div id="tag-progress"></div>
                     </div>
+% endif
                     <br style="clear: both;"/>
 
                         <div id="view">
