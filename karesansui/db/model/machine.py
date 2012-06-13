@@ -178,13 +178,19 @@ class Machine(karesansui.db.model.Model):
         ret["icon"] = self.webicon()
         ret["attribute"] = self.attribute
         ret["hostname"] = self.hostname
-        ret["created"] = self.created.strftime(
-            DEFAULT_LANGS[languages]['DATE_FORMAT'][1])
+        try:
+            ret["created"] = self.created.strftime(
+                DEFAULT_LANGS[languages]['DATE_FORMAT'][1])
+        except:
+            ret["created"] = "unknown"
 
         ret["created_user_id"] = self.created_user_id
         ret["is_deleted"] = self.is_deleted
-        ret["modified"] = self.modified.strftime(
-            DEFAULT_LANGS[languages]['DATE_FORMAT'][1])
+        try:
+            ret["modified"] = self.modified.strftime(
+                DEFAULT_LANGS[languages]['DATE_FORMAT'][1])
+        except:
+            ret["modified"] = "unknown"
 
         ret["modified_user_id"] = self.modified_user_id
         ret["name"] = self.name
