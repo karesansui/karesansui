@@ -49,7 +49,7 @@ from karesansui.lib.utils import comma_split, \
      get_ifconfig_info, get_keymaps, available_virt_mechs, \
      available_virt_uris, is_iso9660_filesystem_format, \
      get_dom_list, get_dom_type, base64_encode, \
-     uri_split, uri_join
+     uri_split, uri_join, dict_search
 
 from karesansui.lib.utils import get_xml_parse as XMLParse
 from karesansui.lib.utils import get_xml_xpath as XMLXpath
@@ -433,7 +433,8 @@ class Guest(Rest):
             uri_guests = []
             uri_guests_status = {}
             uri_guests_kvg = {}
-            uri_guests_inf = {}
+            uri_guests_info = {}
+            uri_guests_name = {}
             segs = uri_split(model.hostname)
             uri = uri_join(segs, without_auth=True)
             creds = ''
@@ -451,13 +452,16 @@ class Guest(Rest):
 
                         _virt = self.kvc.search_kvg_guests(guest.info["model"].name)
                         if 0 < len(_virt):
-                            uuid = _virt[0].get_info()["uuid"]
-                            uri_guests_inf[uuid] = guest.info
-                            uri_guests_kvg[uuid] = _virt[0]
+                            for _v in _virt:
+                                uuid = _v.get_info()["uuid"]
+                                uri_guests_info[uuid] = guest.info
+                                uri_guests_kvg[uuid] = _v
+                                uri_guests_name[uuid] = guest.info["model"].name.encode("utf8")
 
-                    for uuid in sorted(uri_guests_kvg.keys()):
-                        uri_guests.append(MergeGuest(uri_guests_inf[uuid]["model"], uri_guests_kvg[uuid]))
-                        uri_guests_status[uuid]  = uri_guests_inf[uuid]['virt'].status()
+                    for name in sorted(uri_guests_name.values(),key=str.lower):
+                        for uuid in dict_search(name,uri_guests_name):
+                            uri_guests.append(MergeGuest(uri_guests_info[uuid]["model"], uri_guests_kvg[uuid]))
+                            uri_guests_status[uuid]  = uri_guests_info[uuid]['virt'].status()
 
                 finally:
                     self.kvc.close()

@@ -460,7 +460,7 @@ class KaresansuiVirtConnection:
             return ''
 
 
-    def list_inactive_guest(self):
+    def list_inactive_guest(self,type=None):
         """
         <comment-ja>
         現在起動していないゲストOSを取得します。
@@ -468,9 +468,12 @@ class KaresansuiVirtConnection:
         <comment-en>
         </comment-en>
         """
-        return self._conn.listDefinedDomains()
+        if type == "uuid":
+            return self._conn.listDefinedDomains()
+        else:
+            return self._conn.listDefinedDomains()
 
-    def list_active_guest(self):
+    def list_active_guest(self,type=None):
         """
         <comment-ja>
         現在起動しているゲストOSを取得します。
@@ -481,7 +484,10 @@ class KaresansuiVirtConnection:
         names = []
         for id in self._conn.listDomainsID():
             dom = self._conn.lookupByID(id);
-            names.append(dom.name())
+            if type == "uuid":
+                names.append(dom.UUIDString())
+            else:
+                names.append(dom.name())
         return names
 
     def search_guests(self, name=None):

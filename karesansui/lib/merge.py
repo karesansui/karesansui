@@ -67,19 +67,21 @@ class MergeHost:
         if self.set_guests is True:
 
             if model.attribute == 2:
+                #import pdb; pdb.set_trace()
+                user  = User(u"unknown",
+                             unicode("dummydummy"),
+                             unicode("dummydummy"),
+                             u"Unknown User",
+                             u"",
+                            )
+                notebook = Notebook(u"", u"")
+
                 for guest_name in kvc.list_active_guest() + kvc.list_inactive_guest():
                     _virt = kvc.search_kvg_guests(guest_name)
                     if len(_virt) > 0:
                         uuid = _virt[0].get_info()["uuid"]
 
                         #import pdb; pdb.set_trace()
-                        user  = User(u"unknown",
-                                     unicode("dummydummy"),
-                                     unicode("dummydummy"),
-                                     u"Unknown User",
-                                     u"",
-                                    )
-                        notebook = Notebook(u"", u"")
                         guest = Machine(user,
                                         user,
                                         u"%s" % uuid,

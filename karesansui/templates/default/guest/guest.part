@@ -14,8 +14,8 @@ function guest_location(id){
 }
 
 function uri_location(id){
-    var uri = "${ctx.homepath}${ctx.path}".replace(".part", "");
-    location.href = uri + "/" + id + ".html";
+    var uri = "${ctx.homepath}${ctx.path}".replace("/guest.part", "");
+    location.href = uri + "/uri/" + id + ".html";
 }
 
 function get_target_type(obj){

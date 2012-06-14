@@ -151,6 +151,27 @@ def dict_ksort(dt):
         new_dict[k] = v
     return new_dict
 
+def dict_search(search_key, dt):
+    """<comment-ja>
+    辞書配列から指定した値に対応するキーを取得する
+
+    @param dt: 辞書
+    @type dt: dict
+    @return: 取得したキーを要素とする配列
+    @rtype: array
+    </comment-ja>
+    <comment-en>
+    Searches the dictionary for a given value and returns the corresponding key.
+    </comment-en>
+    """
+    def map_find(_x, _y):
+        if _y == search_key:
+            return _x
+    def except_None(_z):
+        return _z <> None
+    rlist = map(map_find, dt.keys(), dt.values())
+    return filter(except_None, rlist)
+
 def dec2hex(num):
     """<comment-ja>
     整数値を１６進数の文字列に変換する
