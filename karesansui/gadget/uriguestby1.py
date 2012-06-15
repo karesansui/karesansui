@@ -42,7 +42,7 @@ from karesansui.db.model._2pysilhouette import Job, JobGroup
 
 from pysilhouette.command import dict2command
 
-class UriBy1(Rest):
+class UriGuestBy1(Rest):
 
     def _post(self, f):
         ret = Rest._post(self, f)
@@ -144,5 +144,5 @@ class UriBy1(Rest):
 
 
 urls = (
-    '/host/(\d+)/uri/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/?(\.html|\.part|\.json)?', UriBy1,
+    '/host/(\d+)/uriguest/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/?(\.html|\.part|\.json)?', UriGuestBy1,
     )

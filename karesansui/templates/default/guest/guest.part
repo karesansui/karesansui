@@ -13,9 +13,9 @@ function guest_location(id){
     location.href = uri + "/" + id + ".html";
 }
 
-function uri_location(id){
+function uriguest_location(id){
     var uri = "${ctx.homepath}${ctx.path}".replace("/guest.part", "");
-    location.href = uri + "/uri/" + id + ".html";
+    location.href = uri + "/uriguest/" + id + ".html";
 }
 
 function get_target_type(obj){
@@ -26,8 +26,8 @@ function get_target_type(obj){
     if(obj.is("[id^='guest_']")){
         ret = "guest";
     }
-    if(obj.is("[id^='uri_']")){
-        ret = "uri";
+    if(obj.is("[id^='uriguest_']")){
+        ret = "uriguest";
     }
     return ret;
 }
@@ -53,8 +53,8 @@ function get_target_id(){
     if(type == "guest"){
         target_id = target.attr("id").replace("guest_", "");
     }
-    if(type == "uri"){
-        target_id = target.attr("id").replace("uri_", "");
+    if(type == "uriguest"){
+        target_id = target.attr("id").replace("uriguest_", "");
     }
     return target_id;
 }
@@ -542,7 +542,7 @@ function make_guest_detail(data, status) {
 
 
 
-function make_uri_detail(data, status) {
+function make_uriguest_detail(data, status) {
     var _s = "<table class='detail-contents'>";
 
     // General
@@ -750,8 +750,8 @@ $("#guests div[id*='_']").each(function(){
             tool_reset("#export_guest");
             $("#import_guest").unbind('click');
         }
-        if(_type == "uri"){
-            active_id = $(this).attr("id").replace("uri_", "");
+        if(_type == "uriguest"){
+            active_id = $(this).attr("id").replace("uriguest_", "");
             tool_invalid("#create_guest");
             tool_invalid("#edit_guest");
             tool_invalid("#replicate_guest");
@@ -765,8 +765,8 @@ $("#guests div[id*='_']").each(function(){
             guest_location(active_id);
         }
 
-        if($(this).hasClass("active") == true && _type == "uri"){
-            uri_location(active_id);
+        if($(this).hasClass("active") == true && _type == "uriguest"){
+            uriguest_location(active_id);
         }
 
         if($(this).hasClass("passive") == true){
@@ -778,10 +778,10 @@ $("#guests div[id*='_']").each(function(){
                 var uri = "${ctx.homepath}${ctx.path}".replace("/guest.part", "");
                 uri += "/guestexport/" + active_id + ".json";
                 _fn = make_export_detail;
-            } else if(_type == "uri"){
+            } else if(_type == "uriguest"){
                 var uri = "${ctx.homepath}${ctx.path}".replace("/guest.part", "");
-                uri += "/uri/" + active_id + ".json";
-                _fn = make_uri_detail;
+                uri += "/uriguest/" + active_id + ".json";
+                _fn = make_uriguest_detail;
             }
             // guest 
             ajax_json(
@@ -966,7 +966,7 @@ tool_invalid("#import_guest");
                             <div id="guests">
 % if uri_guests:
     % for guest in uri_guests:
-                                <div id="uri_${guest.info['model'].uniq_key}" class="passive">
+                                <div id="uriguest_${guest.info['model'].uniq_key}" class="passive">
                                     <span class="status-b">
         % if uri_guests_status[guest.info['model'].uniq_key] is None:
                                         <img src="${ctx.homepath}/static/images/nostate.png" alt="Unknown" />

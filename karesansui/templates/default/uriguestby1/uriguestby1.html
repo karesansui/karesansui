@@ -14,7 +14,7 @@
             &nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;
             <img src="${ctx.homepath}/static/images/host-icon.png"/><a href="${ctx.homepath}/host/${parent_model.id}" class="path-a">${clipping(parent_model.name, MACHINE_NAME_CLIPPING_RANGE) | h}</a>
             &nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;
-            <img src="${ctx.homepath}/static/images/tree-guest.png" alt=""/><a href="${ctx.homepath}/host/${parent_model.id}/uri/${model.uniq_key}" class="path-a">${clipping(model.name, MACHINE_NAME_CLIPPING_RANGE) | h}</a>
+            <img src="${ctx.homepath}/static/images/tree-guest.png" alt=""/><a href="${ctx.homepath}/host/${parent_model.id}/uriguest/${model.uniq_key}" class="path-a">${clipping(model.name, MACHINE_NAME_CLIPPING_RANGE) | h}</a>
         </div>
         <div class="right"></div>
 </%def>
@@ -38,7 +38,7 @@ $(document).ready(function(){
         $("#tab .text ul li a[id*=job]").parent().addClass('tab-selected');
         
         // content
-        goto_tab("${ctx.homepath}/host/"+pid+"/uri/"+mid+"/job.part", null);
+        goto_tab("${ctx.homepath}/host/"+pid+"/uriguest/"+mid+"/job.part", null);
         ajax_get(
             "#detail_value",
             "${ctx.homepath}/job/" + job_id + ".part",
@@ -69,10 +69,10 @@ $(document).ready(function(){
                     <div class="text">
                         <ul>
                         <li class="top-tab">
-                            <a class="tab-left" href="#" id="${ctx.homepath}/host/${parent_model.id}/uri/${model.uniq_key}.part"><span class="tab-right">${_('Summary')}</span></a>
+                            <a class="tab-left" href="#" id="${ctx.homepath}/host/${parent_model.id}/uriguest/${model.uniq_key}.part"><span class="tab-right">${_('Summary')}</span></a>
                         </li>
                         <li class="top-tab">
-                            <a class="tab-left" href="#" id="${ctx.homepath}/host/${parent_model.id}/uri/${model.uniq_key}/console.part?standalone=1"><span class="tab-right">${_('Console')}</span></a>
+                            <a class="tab-left" href="#" id="${ctx.homepath}/host/${parent_model.id}/uriguest/${model.uniq_key}/console.part?standalone=1"><span class="tab-right">${_('Console')}</span></a>
                         </li>
                     </ul>
                 </div>

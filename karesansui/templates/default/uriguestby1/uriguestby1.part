@@ -12,7 +12,7 @@ from karesansui.lib.const import MACHINE_NAME_CLIPPING_RANGE, DEFAULT_DECIMAL_PO
 <!--
 
 function action(status){
-    ajax_put("${ctx.homepath}/host/${parent_model.id}/uri/${model.uniq_key}/status.part",
+    ajax_put("${ctx.homepath}/host/${parent_model.id}/uriguest/${model.uniq_key}/status.part",
         {"status" : status},
         function(data, status){
         },
