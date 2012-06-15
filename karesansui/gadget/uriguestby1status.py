@@ -28,7 +28,7 @@ import web
 import karesansui
 from karesansui.lib.rest import Rest, auth
 from karesansui.lib.virt.virt import KaresansuiVirtException, \
-     KaresansuiVirtConnectionURI, KaresansuiVirtGuest
+     KaresansuiVirtConnectionAuth, KaresansuiVirtGuest
 from karesansui.lib.const import VIRT_COMMAND_START_GUEST, \
      VIRT_COMMAND_SHUTDOWN_GUEST, VIRT_COMMAND_SUSPEND_GUEST, \
      VIRT_COMMAND_RESUME_GUEST, VIRT_COMMAND_REBOOT_GUEST, \
@@ -128,7 +128,7 @@ class UriGuestBy1Status(Rest):
                     creds += segs["user"]
                     if segs["passwd"] is not None:
                         creds += ':' + segs["passwd"]
-                self.kvc = KaresansuiVirtConnectionURI(uri,creds)
+                self.kvc = KaresansuiVirtConnectionAuth(uri,creds)
 
                 try:
                     host = MergeHost(self.kvc, model)

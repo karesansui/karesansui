@@ -4410,7 +4410,7 @@ def getCredentials(credentials, data):
     return 0
 
 
-class KaresansuiVirtConnectionURI(KaresansuiVirtConnection):
+class KaresansuiVirtConnectionAuth(KaresansuiVirtConnection):
 
     def __init__(self,uri=None,creds="", readonly=True):
         self.logger = logging.getLogger('karesansui.virt')
@@ -4443,6 +4443,8 @@ class KaresansuiVirtConnectionURI(KaresansuiVirtConnection):
             self.logger.error('failed to libvirt open - %s' % self.uri)
 
         self.logger.debug('succeed to libvirt open - %s' % self.uri)
+
+        self.guest = KaresansuiVirtGuest(self)
 
         return self._conn
 

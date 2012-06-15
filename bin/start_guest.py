@@ -26,6 +26,7 @@
 
 import os
 import sys
+import fcntl
 import logging
 from optparse import OptionParser
 
@@ -36,8 +37,9 @@ try:
     import karesansui
     from karesansui import __version__
     from karesansui.lib.virt.virt import KaresansuiVirtConnection, \
-                 VIR_DOMAIN_SHUTOFF, VIR_DOMAIN_SHUTDOWN
-    from karesansui.lib.utils import load_locale
+                                         KaresansuiVirtConnectionAuth, \
+                                         VIR_DOMAIN_SHUTOFF, VIR_DOMAIN_SHUTDOWN
+    from karesansui.lib.utils import load_locale, uri_split, uri_join
 
 except ImportError, e:
     print >>sys.stderr, "[Error] some packages not found. - %s" % e
@@ -50,11 +52,16 @@ usage = '%prog [options]'
 def getopts():
     optp = OptionParser(usage=usage, version=__version__)
     optp.add_option('-n', '--name', dest='name', help=_('Domain Name'))
+    optp.add_option('-c', '--connection', dest='uri', help=_('Connection URI'), default=None)
+    optp.add_option('-w', '--passwd-file', dest='passwd_file', help=_('Password File for URI Connection'), default=None)
     return optp.parse_args()
 
 def chkopts(opts):
     if not opts.name:
         raise KssCommandOptException('ERROR: -n or --name option is required.')
+
+    if opts.passwd_file is not None and not os.path.exists(opts.passwd_file):
+        raise KssCommandOptException('ERROR: %s is not found.' % opts.passwd_file)
 
 class StartGuest(KssCommand):
 
@@ -63,8 +70,45 @@ class StartGuest(KssCommand):
         chkopts(opts)
         self.up_progress(10)
 
-        conn = KaresansuiVirtConnection(readonly=False)
+        passwd = None
+        if opts.passwd_file is not None and os.path.exists(opts.passwd_file):
+            try:
+                fp = open(opts.passwd_file, "r")
+                try:
+                    self.up_progress(10)
+                    fcntl.lockf(fp.fileno(), fcntl.LOCK_SH)
+                    try:
+                        passwd = fp.readline().strip("\n")
+                    finally:
+                        fcntl.lockf(fp.fileno(), fcntl.LOCK_UN)
+                    self.up_progress(10)
+                finally:
+                    fp.close()
+
+            except Exception, e:
+                self.logger.error('Failed to read.- dom=%s passwd_file=%s' \
+                      % (opts.name,opts.passwd_file))
+                print >>sys.stderr,_('Failed to read.- dom=%s passwd_file=%s') \
+                      % (opts.name,opts.passwd_file)
+                raise e
+
+            os.remove(opts.passwd_file)
+
         try:
+            if passwd is None:
+                if opts.uri is None:
+                    conn = KaresansuiVirtConnection(readonly=False)
+                else:
+                    uri = uri_join(uri_split(opts.uri), without_auth=True)
+                    conn = KaresansuiVirtConnection(uri, readonly=False)
+
+            else:
+                if opts.uri is None:
+                    conn = KaresansuiVirtConnectionAuth(creds=passwd,readonly=False)
+                else:
+                    uri = uri_join(uri_split(opts.uri), without_auth=True)
+                    conn = KaresansuiVirtConnectionAuth(uri,creds=passwd,readonly=False)
+
             conn.set_domain_name(opts.name)
 
             active_guests = conn.list_active_guest()
@@ -91,8 +135,15 @@ class StartGuest(KssCommand):
                     'Guest not found. - dom=%s' % (opts.name))
 
             return True
+
+        except Exception, e:
+            self.logger.error('Failed to start guest. - dom=%s' % (opts.name))
+            print >>sys.stderr, _('Failed to start guest. - dom=%s') % (opts.name)
+            raise e
+
         finally:
-            conn.close()
+            if 'conn' in locals():
+                conn.close()
 
 if __name__ == "__main__":
     target = StartGuest()

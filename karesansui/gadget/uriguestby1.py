@@ -33,7 +33,7 @@ from karesansui.lib.utils import \
     comma_split, uniq_sort, is_param, json_dumps, \
     uri_split, uri_join
 
-from karesansui.lib.virt.virt import KaresansuiVirtConnectionURI
+from karesansui.lib.virt.virt import KaresansuiVirtConnectionAuth
 
 from karesansui.lib.merge import MergeGuest, MergeHost
 from karesansui.db.access.machine import findbyhost1
@@ -79,7 +79,7 @@ class UriGuestBy1(Rest):
                     creds += segs["user"]
                     if segs["passwd"] is not None:
                         creds += ':' + segs["passwd"]
-                self.kvc = KaresansuiVirtConnectionURI(uri,creds)
+                self.kvc = KaresansuiVirtConnectionAuth(uri,creds)
 
                 try:
                     host = MergeHost(self.kvc, model)

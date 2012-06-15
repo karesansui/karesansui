@@ -74,7 +74,7 @@ from karesansui.lib.const import \
     VIRT_COMMAND_DELETE_STORAGE_VOLUME, STORAGE_VOLUME_PWD, \
     DISK_USES
 
-from karesansui.lib.virt.virt import KaresansuiVirtConnection, KaresansuiVirtConnectionURI
+from karesansui.lib.virt.virt import KaresansuiVirtConnection, KaresansuiVirtConnectionAuth
 from karesansui.lib.virt.config_export import ExportConfigParam
 
 from karesansui.lib.merge import  MergeGuest, MergeHost
@@ -446,7 +446,7 @@ class Guest(Rest):
             # Output .part
             if self.is_mode_input() is not True:
                 try:
-                    self.kvc = KaresansuiVirtConnectionURI(uri,creds)
+                    self.kvc = KaresansuiVirtConnectionAuth(uri,creds)
                     host = MergeHost(self.kvc, model)
                     for guest in host.guests:
 
