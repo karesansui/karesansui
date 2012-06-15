@@ -35,7 +35,7 @@ from karesansui.lib.utils import \
 
 from karesansui.lib.virt.virt import KaresansuiVirtConnectionURI
 
-from karesansui.lib.merge import  MergeGuest, MergeHost
+from karesansui.lib.merge import MergeGuest, MergeHost
 from karesansui.db.access.machine import findbyhost1
 from karesansui.db.access._2pysilhouette import save_job_collaboration
 from karesansui.db.model._2pysilhouette import Job, JobGroup
@@ -57,7 +57,6 @@ class UriGuestBy1(Rest):
             self.view.job_id = self.input.job_id
         else:
             self.view.job_id = None
-
 
         host_id =  param[0]
         host_id = self.chk_hostby1(param)
