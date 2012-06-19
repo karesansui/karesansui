@@ -557,9 +557,10 @@ class KaresansuiVirtConnection:
             xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, guest.name())
             dom = self._conn.lookupByName(guest.name())
             if not os.path.exists(xml_file):
-                ConfigFile(xml_file).write(dom.XMLDesc(0))
-                if os.getuid() == 0 and os.path.exists(xml_file):
-                    r_chgrp(xml_file,KARESANSUI_GROUP)
+                if dom._conn.getURI() in available_virt_uris().values():
+                    ConfigFile(xml_file).write(dom.XMLDesc(0))
+                    if os.getuid() == 0 and os.path.exists(xml_file):
+                        r_chgrp(xml_file,KARESANSUI_GROUP)
             #param.load_xml_config(xml_file)
             param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
@@ -585,9 +586,10 @@ class KaresansuiVirtConnection:
             xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, guest.name())
             dom = self._conn.lookupByName(guest.name())
             if not os.path.exists(xml_file):
-                ConfigFile(xml_file).write(dom.XMLDesc(0))
-                if os.getuid() == 0 and os.path.exists(xml_file):
-                    r_chgrp(xml_file,KARESANSUI_GROUP)
+                if dom._conn.getURI() in available_virt_uris().values():
+                    ConfigFile(xml_file).write(dom.XMLDesc(0))
+                    if os.getuid() == 0 and os.path.exists(xml_file):
+                        r_chgrp(xml_file,KARESANSUI_GROUP)
             #param.load_xml_config(xml_file)
             param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
@@ -1120,9 +1122,10 @@ class KaresansuiVirtConnection:
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, source_name)
         dom = self._conn.lookupByName(source_name)
         if not os.path.exists(xml_file):
-            ConfigFile(xml_file).write(dom.XMLDesc(0))
-            if os.getuid() == 0 and os.path.exists(xml_file):
-                r_chgrp(xml_file,KARESANSUI_GROUP)
+            if dom._conn.getURI() in available_virt_uris().values():
+                ConfigFile(xml_file).write(dom.XMLDesc(0))
+                if os.getuid() == 0 and os.path.exists(xml_file):
+                    r_chgrp(xml_file,KARESANSUI_GROUP)
         #param.load_xml_config(xml_file)
         param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
@@ -3055,9 +3058,10 @@ class KaresansuiVirtGuest:
             param = ConfigParam(dom.name())
             xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, dom.name())
             if not os.path.exists(xml_file):
-                ConfigFile(xml_file).write(dom.XMLDesc(0))
-                if os.getuid() == 0 and os.path.exists(xml_file):
-                    r_chgrp(xml_file,KARESANSUI_GROUP)
+                if dom._conn.getURI() in available_virt_uris().values():
+                    ConfigFile(xml_file).write(dom.XMLDesc(0))
+                    if os.getuid() == 0 and os.path.exists(xml_file):
+                        r_chgrp(xml_file,KARESANSUI_GROUP)
             #param.load_xml_config(xml_file)
             param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
@@ -3116,9 +3120,10 @@ class KaresansuiVirtGuest:
         param = ConfigParam(dom.name())
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, dom.name())
         if not os.path.exists(xml_file):
-            ConfigFile(xml_file).write(dom.XMLDesc(0))
-            if os.getuid() == 0 and os.path.exists(xml_file):
-                r_chgrp(xml_file,KARESANSUI_GROUP)
+            if dom._conn.getURI() in available_virt_uris().values():
+                ConfigFile(xml_file).write(dom.XMLDesc(0))
+                if os.getuid() == 0 and os.path.exists(xml_file):
+                    r_chgrp(xml_file,KARESANSUI_GROUP)
         #param.load_xml_config(xml_file)
         param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
@@ -3173,9 +3178,10 @@ class KaresansuiVirtGuest:
         param = ConfigParam(dom.name())
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, dom.name())
         if not os.path.exists(xml_file):
-            ConfigFile(xml_file).write(dom.XMLDesc(1))
-            if os.getuid() == 0 and os.path.exists(xml_file):
-                r_chgrp(xml_file,KARESANSUI_GROUP)
+            if dom._conn.getURI() in available_virt_uris().values():
+                ConfigFile(xml_file).write(dom.XMLDesc(1))
+                if os.getuid() == 0 and os.path.exists(xml_file):
+                    r_chgrp(xml_file,KARESANSUI_GROUP)
         #param.load_xml_config(xml_file)
         param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
@@ -3208,9 +3214,10 @@ class KaresansuiVirtGuest:
         param = ConfigParam(dom.name())
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, dom.name())
         if not os.path.exists(xml_file):
-            ConfigFile(xml_file).write(dom.XMLDesc(0))
-            if os.getuid() == 0 and os.path.exists(xml_file):
-                r_chgrp(xml_file,KARESANSUI_GROUP)
+            if dom._conn.getURI() in available_virt_uris().values():
+                ConfigFile(xml_file).write(dom.XMLDesc(0))
+                if os.getuid() == 0 and os.path.exists(xml_file):
+                    r_chgrp(xml_file,KARESANSUI_GROUP)
         #param.load_xml_config(xml_file)
         param.load_xml_config(dom.XMLDesc(0))
 
@@ -3252,9 +3259,10 @@ class KaresansuiVirtGuest:
         param = ConfigParam(dom.name())
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, dom.name())
         if not os.path.exists(xml_file):
-            ConfigFile(xml_file).write(dom.XMLDesc(0))
-            if os.getuid() == 0 and os.path.exists(xml_file):
-                r_chgrp(xml_file,KARESANSUI_GROUP)
+            if dom._conn.getURI() in available_virt_uris().values():
+                ConfigFile(xml_file).write(dom.XMLDesc(0))
+                if os.getuid() == 0 and os.path.exists(xml_file):
+                    r_chgrp(xml_file,KARESANSUI_GROUP)
         #param.load_xml_config(xml_file)
         param.load_xml_config(dom.XMLDesc(0))
 
@@ -3276,9 +3284,10 @@ class KaresansuiVirtGuest:
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
         dom = self._conn.lookupByName(self.get_domain_name())
         if not os.path.exists(xml_file):
-            ConfigFile(xml_file).write(dom.XMLDesc(0))
-            if os.getuid() == 0 and os.path.exists(xml_file):
-                r_chgrp(xml_file,KARESANSUI_GROUP)
+            if dom._conn.getURI() in available_virt_uris().values():
+                ConfigFile(xml_file).write(dom.XMLDesc(0))
+                if os.getuid() == 0 and os.path.exists(xml_file):
+                    r_chgrp(xml_file,KARESANSUI_GROUP)
         #param.load_xml_config(xml_file)
         param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
@@ -3393,9 +3402,10 @@ class KaresansuiVirtGuest:
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
         dom = self._conn.lookupByName(self.get_domain_name())
         if not os.path.exists(xml_file):
-            ConfigFile(xml_file).write(dom.XMLDesc(0))
-            if os.getuid() == 0 and os.path.exists(xml_file):
-                r_chgrp(xml_file,KARESANSUI_GROUP)
+            if dom._conn.getURI() in available_virt_uris().values():
+                ConfigFile(xml_file).write(dom.XMLDesc(0))
+                if os.getuid() == 0 and os.path.exists(xml_file):
+                    r_chgrp(xml_file,KARESANSUI_GROUP)
         #param.load_xml_config(xml_file)
         param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
@@ -3409,32 +3419,44 @@ class KaresansuiVirtGuest:
 
 
     def autostart(self, flag=None):
-        if self.connection.get_hypervisor_type() == "Xen":
-            autostart_file = "%s/%s" %(VIRT_XENDOMAINS_AUTO_DIR,self.get_domain_name())
+        dom = self._conn.lookupByName(self.get_domain_name())
 
-            if flag == True:
-                if not os.path.exists(autostart_file):
-                    command_args = [
+        if dom._conn.getURI() in available_virt_uris().values():
+            if self.connection.get_hypervisor_type() == "Xen":
+                autostart_file = "%s/%s" %(VIRT_XENDOMAINS_AUTO_DIR,self.get_domain_name())
+
+                if flag == True:
+                    if not os.path.exists(autostart_file):
+                        command_args = [
                         "/bin/ln", "-s",
                         "%s/%s" %(self.connection.config_dir,self.get_domain_name()),
                         "%s" % VIRT_XENDOMAINS_AUTO_DIR
-                    ]
-                    ret = ExecCmd(command_args)
-            elif flag == False:
-                if os.path.exists(autostart_file):
-                    os.unlink(autostart_file)
-            else:
-                return os.path.lexists(autostart_file)
+                        ]
+                        ret = ExecCmd(command_args)
+                    return True
+                elif flag == False:
+                    if os.path.exists(autostart_file):
+                        os.unlink(autostart_file)
+                    return True
+                else:
+                    return os.path.lexists(autostart_file)
 
-        if self.connection.get_hypervisor_type() == "QEMU":
-            autostart_file = "%s/%s.xml" %(VIRT_AUTOSTART_CONFIG_DIR,self.get_domain_name())
-            dom = self._conn.lookupByName(self.get_domain_name())
+            elif self.connection.get_hypervisor_type() == "QEMU":
+                autostart_file = "%s/%s.xml" %(VIRT_AUTOSTART_CONFIG_DIR,self.get_domain_name())
+                if flag == True:
+                    return dom.setAutostart(flag)
+                elif flag == False:
+                    return dom.setAutostart(flag)
+                else:
+                    return os.path.exists(autostart_file)
+
+        else:
             if flag == True:
                 return dom.setAutostart(flag)
             elif flag == False:
                 return dom.setAutostart(flag)
-            else:
-                return os.path.exists(autostart_file)
+
+        return False
 
     def next_disk_target(self,bus=None):
         dom = self._conn.lookupByName(self.get_domain_name())
@@ -3443,9 +3465,10 @@ class KaresansuiVirtGuest:
         param = ConfigParam(dom.name())
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, dom.name())
         if not os.path.exists(xml_file):
-            ConfigFile(xml_file).write(dom.XMLDesc(0))
-            if os.getuid() == 0 and os.path.exists(xml_file):
-                r_chgrp(xml_file,KARESANSUI_GROUP)
+            if dom._conn.getURI() in available_virt_uris().values():
+                ConfigFile(xml_file).write(dom.XMLDesc(0))
+                if os.getuid() == 0 and os.path.exists(xml_file):
+                    r_chgrp(xml_file,KARESANSUI_GROUP)
         #param.load_xml_config(xml_file)
         param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
@@ -3515,9 +3538,10 @@ class KaresansuiVirtGuest:
 
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
         if not os.path.exists(xml_file):
-            ConfigFile(xml_file).write(dom.XMLDesc(0))
-            if os.getuid() == 0 and os.path.exists(xml_file):
-                r_chgrp(xml_file,KARESANSUI_GROUP)
+            if dom._conn.getURI() in available_virt_uris().values():
+                ConfigFile(xml_file).write(dom.XMLDesc(0))
+                if os.getuid() == 0 and os.path.exists(xml_file):
+                    r_chgrp(xml_file,KARESANSUI_GROUP)
         #param.load_xml_config(xml_file)
         param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
@@ -3579,9 +3603,10 @@ class KaresansuiVirtGuest:
 
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
         if not os.path.exists(xml_file):
-            ConfigFile(xml_file).write(dom.XMLDesc(0))
-            if os.getuid() == 0 and os.path.exists(xml_file):
-                r_chgrp(xml_file,KARESANSUI_GROUP)
+            if dom._conn.getURI() in available_virt_uris().values():
+                ConfigFile(xml_file).write(dom.XMLDesc(0))
+                if os.getuid() == 0 and os.path.exists(xml_file):
+                    r_chgrp(xml_file,KARESANSUI_GROUP)
         #param.load_xml_config(xml_file)
         param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
@@ -3632,9 +3657,10 @@ class KaresansuiVirtGuest:
 
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
         if not os.path.exists(xml_file):
-            ConfigFile(xml_file).write(dom.XMLDesc(0))
-            if os.getuid() == 0 and os.path.exists(xml_file):
-                r_chgrp(xml_file,KARESANSUI_GROUP)
+            if dom._conn.getURI() in available_virt_uris().values():
+                ConfigFile(xml_file).write(dom.XMLDesc(0))
+                if os.getuid() == 0 and os.path.exists(xml_file):
+                    r_chgrp(xml_file,KARESANSUI_GROUP)
         #param.load_xml_config(xml_file)
         param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
@@ -3689,9 +3715,10 @@ class KaresansuiVirtGuest:
 
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
         if not os.path.exists(xml_file):
-            ConfigFile(xml_file).write(dom.XMLDesc(0))
-            if os.getuid() == 0 and os.path.exists(xml_file):
-                r_chgrp(xml_file,KARESANSUI_GROUP)
+            if dom._conn.getURI() in available_virt_uris().values():
+                ConfigFile(xml_file).write(dom.XMLDesc(0))
+                if os.getuid() == 0 and os.path.exists(xml_file):
+                    r_chgrp(xml_file,KARESANSUI_GROUP)
         #param.load_xml_config(xml_file)
         param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
@@ -3755,9 +3782,10 @@ class KaresansuiVirtGuest:
 
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
         if not os.path.exists(xml_file):
-            ConfigFile(xml_file).write(dom.XMLDesc(0))
-            if os.getuid() == 0 and os.path.exists(xml_file):
-                r_chgrp(xml_file,KARESANSUI_GROUP)
+            if dom._conn.getURI() in available_virt_uris().values():
+                ConfigFile(xml_file).write(dom.XMLDesc(0))
+                if os.getuid() == 0 and os.path.exists(xml_file):
+                    r_chgrp(xml_file,KARESANSUI_GROUP)
         #param.load_xml_config(xml_file)
         param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
@@ -3801,9 +3829,10 @@ class KaresansuiVirtGuest:
 
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
         if not os.path.exists(xml_file):
-            ConfigFile(xml_file).write(dom.XMLDesc(0))
-            if os.getuid() == 0 and os.path.exists(xml_file):
-                r_chgrp(xml_file,KARESANSUI_GROUP)
+            if dom._conn.getURI() in available_virt_uris().values():
+                ConfigFile(xml_file).write(dom.XMLDesc(0))
+                if os.getuid() == 0 and os.path.exists(xml_file):
+                    r_chgrp(xml_file,KARESANSUI_GROUP)
         #param.load_xml_config(xml_file)
         param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
@@ -3832,9 +3861,10 @@ class KaresansuiVirtGuest:
 
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
         if not os.path.exists(xml_file):
-            ConfigFile(xml_file).write(dom.XMLDesc(0))
-            if os.getuid() == 0 and os.path.exists(xml_file):
-                r_chgrp(xml_file,KARESANSUI_GROUP)
+            if dom._conn.getURI() in available_virt_uris().values():
+                ConfigFile(xml_file).write(dom.XMLDesc(0))
+                if os.getuid() == 0 and os.path.exists(xml_file):
+                    r_chgrp(xml_file,KARESANSUI_GROUP)
         #param.load_xml_config(xml_file)
         param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 
@@ -3870,9 +3900,10 @@ class KaresansuiVirtGuest:
 
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
         if not os.path.exists(xml_file):
-            ConfigFile(xml_file).write(dom.XMLDesc(0))
-            if os.getuid() == 0 and os.path.exists(xml_file):
-                r_chgrp(xml_file,KARESANSUI_GROUP)
+            if dom._conn.getURI() in available_virt_uris().values():
+                ConfigFile(xml_file).write(dom.XMLDesc(0))
+                if os.getuid() == 0 and os.path.exists(xml_file):
+                    r_chgrp(xml_file,KARESANSUI_GROUP)
         #param.load_xml_config(xml_file)
         param.load_xml_config(dom.XMLDesc(VIR_DOMAIN_XML_INACTIVE))
 

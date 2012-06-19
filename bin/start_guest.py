@@ -39,7 +39,8 @@ try:
     from karesansui.lib.virt.virt import KaresansuiVirtConnection, \
                                          KaresansuiVirtConnectionAuth, \
                                          VIR_DOMAIN_SHUTOFF, VIR_DOMAIN_SHUTDOWN
-    from karesansui.lib.utils import load_locale, uri_split, uri_join
+    from karesansui.lib.utils import load_locale
+    from karesansui.lib.utils import uri_split, uri_join
 
 except ImportError, e:
     print >>sys.stderr, "[Error] some packages not found. - %s" % e
@@ -62,6 +63,10 @@ def chkopts(opts):
 
     if opts.passwd_file is not None and not os.path.exists(opts.passwd_file):
         raise KssCommandOptException('ERROR: %s is not found.' % opts.passwd_file)
+
+    if opts.uri is not None:
+        if uri_split(opts.uri)["scheme"] is None:
+            raise KssCommandOptException('ERROR: uri %s is invalid.' % opts.uri)
 
 class StartGuest(KssCommand):
 
