@@ -182,7 +182,7 @@ class Machine(karesansui.db.model.Model):
             ret["created"] = self.created.strftime(
                 DEFAULT_LANGS[languages]['DATE_FORMAT'][1])
         except:
-            ret["created"] = "unknown"
+            ret["created"] = ""
 
         ret["created_user_id"] = self.created_user_id
         ret["is_deleted"] = self.is_deleted
@@ -190,7 +190,7 @@ class Machine(karesansui.db.model.Model):
             ret["modified"] = self.modified.strftime(
                 DEFAULT_LANGS[languages]['DATE_FORMAT'][1])
         except:
-            ret["modified"] = "unknown"
+            ret["modified"] = ""
 
         ret["modified_user_id"] = self.modified_user_id
         ret["name"] = self.name
@@ -198,10 +198,15 @@ class Machine(karesansui.db.model.Model):
         ret["parent_id"] = self.parent_id
         ret["uniq_key"] = self.uniq_key
         ret["hypervisor"] = self.hypervisor
-        
-        ret["created_user"] = self.created_user.get_json(languages)
-        ret["modified_user"] = self.modified_user.get_json(languages)
-        ret["notebook"] = self.notebook.get_json(languages)
+
+        try:
+            ret["created_user"] = self.created_user.get_json(languages)
+            ret["modified_user"] = self.modified_user.get_json(languages)
+            ret["notebook"] = self.notebook.get_json(languages)
+        except:
+            ret["created_user"] = ""
+            ret["modified_user"] = ""
+            ret["notebook"] = ""
         
         #if  self.parent:
         #    ret["parent"] = self.parent.get_json()

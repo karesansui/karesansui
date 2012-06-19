@@ -23,6 +23,7 @@
 # THE SOFTWARE.
 #
 
+import os
 import web
 
 import karesansui
@@ -33,6 +34,7 @@ from karesansui.lib.const import VIRT_COMMAND_START_GUEST, \
      VIRT_COMMAND_SHUTDOWN_GUEST, VIRT_COMMAND_SUSPEND_GUEST, \
      VIRT_COMMAND_RESUME_GUEST, VIRT_COMMAND_REBOOT_GUEST, \
      VIRT_COMMAND_DESTROY_GUEST, VIRT_COMMAND_AUTOSTART_GUEST
+from karesansui.lib.const import KARESANSUI_TMP_DIR
 
 from karesansui.lib.utils import \
     comma_split, uniq_sort, is_param, json_dumps, \
@@ -184,150 +186,156 @@ class UriGuestBy1Status(Rest):
 
         model = findbyhost1(self.orm, host_id)
 
+        if model.attribute == 2:
+            info = {}
+            segs = uri_split(model.hostname)
+            uri = uri_join(segs, without_auth=True)
+            creds = ''
+            if segs["user"] is not None:
+                creds += segs["user"]
+                if segs["passwd"] is not None:
+                    creds += ':' + segs["passwd"]
+            self.kvc = KaresansuiVirtConnectionAuth(uri,creds)
 
+            try:
+                host = MergeHost(self.kvc, model)
+                for guest in host.guests:
+                    _virt = self.kvc.search_kvg_guests(guest.info["model"].name)
+                    if 0 < len(_virt):
+                        for _v in _virt:
+                            info = _v.get_info()
+                            #uri = _v._conn.getURI()
+                            if info["uuid"] == uri_id:
 
+                                opts = {"name":"'%s'" % guest.info["model"].name,"connection":uri}
 
+                                if creds != '':
+                                    passwd_file = KARESANSUI_TMP_DIR + "/" + segs['host'] + ".auth"
+                                    open(passwd_file, "w").write(creds)
+                                    os.chmod(passwd_file, 0600)
+                                    opts["passwd-file"] = passwd_file
 
-
-
-
-
-
-
-
-
-
-
-
-        kvc = KaresansuiVirtConnection()
-        try:
-            domname = kvc.uuid_to_domname(model.uniq_key)
-            if not domname: return web.conflict(web.ctx.path)
-            virt = kvc.search_kvg_guests(domname)
-
-            if status == GUEST_ACTION_CREATE:
-                # -- Create
-                cmdname = ["Start Guest", "start guest"]
-                if virt[0].is_creatable() is True:
-                    _cmd = dict2command(
-                        "%s/%s" % (karesansui.config['application.bin.dir'],
-                                   VIRT_COMMAND_START_GUEST),
-                        {"name":domname})
+                                if status == GUEST_ACTION_CREATE:
+                                    # -- Create
+                                    cmdname = ["Start Guest", "start guest"]
+                                    if _v.is_creatable() is True:
+                                        _cmd = dict2command(
+                                            "%s/%s" % (karesansui.config['application.bin.dir'],VIRT_COMMAND_START_GUEST),
+                                            opts)
+                                        
+                                        self.view.status = VIRT_COMMAND_START_GUEST
+                                    else:
+                                        self.logger.error("Create Action:The state can not run. - %d" % _v.status())
+                                    
+                                elif status == GUEST_ACTION_SHUTDOWN:
+                                    cmdname = ["Shutdown Guest", "shutdown guest"]
+                                    if _v.is_shutdownable() is True:
+                                        # -- Shutdown
+                                        _cmd = dict2command(
+                                            "%s/%s" % (karesansui.config['application.bin.dir'],VIRT_COMMAND_SHUTDOWN_GUEST),
+                                            opts)
+                                        
+                                        self.view.status = VIRT_COMMAND_SHUTDOWN_GUEST
+                                    else:
+                                        self.logger.error("Shutdown Action:The state can not run. - %d" % _v.status())
+                                
+                                elif status == GUEST_ACTION_DESTROY:
+                                    cmdname = ["Destroy Guest", "Destroy guest"]
+                                    if _v.is_destroyable() is True:
+                                        # -- destroy
+                                        _cmd = dict2command(
+                                            "%s/%s" % (karesansui.config['application.bin.dir'],VIRT_COMMAND_DESTROY_GUEST),
+                                            opts)
+                                        
+                                        self.view.status = VIRT_COMMAND_DESTROY_GUEST
+                                    else:
+                                        self.logger.error("Destroy Action:The state can not run. - %d" % _v.status())
+                                        
+                                elif status == GUEST_ACTION_SUSPEND:
+                                    cmdname = ["Suspend Guest", "suspend guest"]
+                                    if _v.is_suspendable() is True:
+                                        # -- Suspend
+                                        _cmd = dict2command(
+                                            "%s/%s" % (karesansui.config['application.bin.dir'],VIRT_COMMAND_SUSPEND_GUEST),
+                                            opts)
+                                        
+                                        self.view.status = VIRT_COMMAND_SUSPEND_GUEST
+                                    else:
+                                        self.logger.error("Destroy Action:The state can not run. - %d" % _v.status())
+                                        
+                                elif status == GUEST_ACTION_RESUME:
+                                    cmdname = ["Resume Guest", "resume guest"]
+                                    if _v.is_resumable() is True:
+                                        # -- Resume
+                                        _cmd = dict2command(
+                                            "%s/%s" % (karesansui.config['application.bin.dir'],VIRT_COMMAND_RESUME_GUEST),
+                                            opts)
+                                        
+                                        self.view.status = VIRT_COMMAND_RESUME_GUEST
+                                    else:
+                                        self.logger.error("Resume Action:The state can not run. - %d" % _v.status())
                     
-                    self.view.status = VIRT_COMMAND_START_GUEST
-                else:
-                    self.logger.error("Create Action:The state can not run. - %d" % virt[0].status())
-                
-            elif status == GUEST_ACTION_SHUTDOWN:
-                cmdname = ["Shutdown Guest", "shutdown guest"]
-                if virt[0].is_shutdownable() is True:
-                    # -- Shutdown
-                    _cmd = dict2command(
-                        "%s/%s" % (karesansui.config['application.bin.dir'],
-                                   VIRT_COMMAND_SHUTDOWN_GUEST),
-                        {"name":domname})
+                                elif status == GUEST_ACTION_REBOOT:
+                                    cmdname = ["Reboot Guest", "reboot guest"]
+                                    if _v.is_shutdownable() is True:
+                                        # -- Reboot
+                                        _cmd = dict2command(
+                                            "%s/%s" % (karesansui.config['application.bin.dir'],VIRT_COMMAND_REBOOT_GUEST),
+                                            opts)
+                                        
+                                        self.view.status = VIRT_COMMAND_REBOOT_GUEST
+                                    else:
+                                        self.logger.error("Reboot Action:The state can not run. - %d" % _v.status())
                     
-                    self.view.status = VIRT_COMMAND_SHUTDOWN_GUEST
-                else:
-                    self.logger.error("Shutdown Action:The state can not run. - %d" % virt[0].status())
-            
-            elif status == GUEST_ACTION_DESTROY:
-                cmdname = ["Destroy Guest", "Destroy guest"]
-                if virt[0].is_destroyable() is True:
-                    # -- destroy
-                    _cmd = dict2command(
-                        "%s/%s" % (karesansui.config['application.bin.dir'],
-                                   VIRT_COMMAND_DESTROY_GUEST),
-                                        {"name":domname})
+                                elif status == GUEST_ACTION_ENABLE_AUTOSTART:
+                                    opts["enable"] = None
+                                    cmdname = ["Enable Autostart Guest", "enable autostart guest"]
+                                    # -- Enable autostart guest
+                                    _cmd = dict2command(
+                                        "%s/%s" % (karesansui.config['application.bin.dir'],VIRT_COMMAND_AUTOSTART_GUEST),
+                                        opts)
+                                        
+                                    self.view.status = VIRT_COMMAND_AUTOSTART_GUEST
                     
-                    self.view.status = VIRT_COMMAND_DESTROY_GUEST
-                else:
-                    self.logger.error("Destroy Action:The state can not run. - %d" % virt[0].status())
-                    
-            elif status == GUEST_ACTION_SUSPEND:
-                cmdname = ["Suspend Guest", "suspend guest"]
-                if virt[0].is_suspendable() is True:
-                    # -- Suspend
-                    _cmd = dict2command(
-                        "%s/%s" % (karesansui.config['application.bin.dir'],
-                                   VIRT_COMMAND_SUSPEND_GUEST),
-                        {"name":domname})
-                    
-                    self.view.status = VIRT_COMMAND_SUSPEND_GUEST
-                else:
-                    self.logger.error("Destroy Action:The state can not run. - %d" % virt[0].status())
-                    
-            elif status == GUEST_ACTION_RESUME:
-                cmdname = ["Resume Guest", "resume guest"]
-                if virt[0].is_resumable() is True:
-                    # -- Resume
-                    _cmd = dict2command(
-                        "%s/%s" % (karesansui.config['application.bin.dir'],
-                                   VIRT_COMMAND_RESUME_GUEST),
-                        {"name":domname})
-                    
-                    self.view.status = VIRT_COMMAND_RESUME_GUEST
-                else:
-                    self.logger.error("Resume Action:The state can not run. - %d" % virt[0].status())
+                                elif status == GUEST_ACTION_DISABLE_AUTOSTART:
+                                    opts["disable"] = None
+                                    cmdname = ["Disable Autostart Guest", "disable autostart guest"]
+                                    # -- Disable autostart guest
+                                    _cmd = dict2command(
+                                        "%s/%s" % (karesansui.config['application.bin.dir'],VIRT_COMMAND_AUTOSTART_GUEST),
+                                        opts)
+                                        
+                                    self.view.status = VIRT_COMMAND_AUTOSTART_GUEST
 
-            elif status == GUEST_ACTION_REBOOT:
-                cmdname = ["Reboot Guest", "reboot guest"]
-                if virt[0].is_shutdownable() is True:
-                    # -- Reboot
-                    _cmd = dict2command(
-                        "%s/%s" % (karesansui.config['application.bin.dir'],
-                                   VIRT_COMMAND_REBOOT_GUEST),
-                        {"name":domname})
-                    
-                    self.view.status = VIRT_COMMAND_REBOOT_GUEST
-                else:
-                    self.logger.error("Reboot Action:The state can not run. - %d" % virt[0].status())
+                                else:
+                                    self.logger.error("Action:Bad Request. - request status=%d" % status)
+                                    return web.badrequest()
 
-            elif status == GUEST_ACTION_ENABLE_AUTOSTART:
-                cmdname = ["Enable Autostart Guest", "enable autostart guest"]
-                # -- Enable autostart guest
-                _cmd = dict2command(
-                    "%s/%s" % (karesansui.config['application.bin.dir'],
-                               VIRT_COMMAND_AUTOSTART_GUEST),
-                    {"name":domname, "enable":None})
-                    
-                self.view.status = VIRT_COMMAND_AUTOSTART_GUEST
+                                break
 
-            elif status == GUEST_ACTION_DISABLE_AUTOSTART:
-                cmdname = ["Disable Autostart Guest", "disable autostart guest"]
-                # -- Disable autostart guest
-                _cmd = dict2command(
-                    "%s/%s" % (karesansui.config['application.bin.dir'],
-                               VIRT_COMMAND_AUTOSTART_GUEST),
-                    {"name":domname, "disable":None})
-                    
-                self.view.status = VIRT_COMMAND_AUTOSTART_GUEST
+            finally:
+                self.kvc.close()
 
-            else:
-                self.logger.error("Action:Bad Request. - request status=%d" % status)
-                return web.badrequest()
 
-        finally:
-            kvc.close()
-
-        # Job Register
-        _jobgroup = JobGroup(cmdname[0], karesansui.sheconf['env.uniqkey'])
-        _jobgroup.jobs.append(Job('%s command' % cmdname[1], 0, _cmd))
+            # Job Register
+            _jobgroup = JobGroup(cmdname[0], karesansui.sheconf['env.uniqkey'])
+            _jobgroup.jobs.append(Job('%s command' % cmdname[1], 0, _cmd))
         
-        _machine2jobgroup = m2j_new(machine=model,
-                                    jobgroup_id=-1,
-                                    uniq_key=karesansui.sheconf['env.uniqkey'],
-                                    created_user=self.me,
-                                    modified_user=self.me,
-                                    )
-        
-        # INSERT
-        save_job_collaboration(self.orm,
-                               self.pysilhouette.orm,
-                               _machine2jobgroup,
-                               _jobgroup,
-                               )
-        return web.accepted(url="/host/%d/guest/%d.part" % (host_id, guest_id))
+            _machine2jobgroup = m2j_new(machine=model,
+                                        jobgroup_id=-1,
+                                        uniq_key=karesansui.sheconf['env.uniqkey'],
+                                        created_user=self.me,
+                                        modified_user=self.me,
+                                        )
+
+            # INSERT
+            save_job_collaboration(self.orm,
+                                   self.pysilhouette.orm,
+                                   _machine2jobgroup,
+                                   _jobgroup,
+                                   )
+
+            return web.accepted(url="/host/%d/uriguest/%s.part" % (host_id, uri_id))
 
 urls = (
     '/host/(\d+)/uriguest/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/status/?(\.part|\.json)?$', UriGuestBy1Status,
