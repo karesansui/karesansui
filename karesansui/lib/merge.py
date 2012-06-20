@@ -25,11 +25,13 @@
 #
 
 import karesansui
+import logging
 
 from karesansui.lib.const import MACHINE_ATTRIBUTE, MACHINE_HYPERVISOR
 from karesansui.db.model.machine import Machine
 from karesansui.db.model.user import User
 from karesansui.db.model.notebook import Notebook
+from karesansui.lib.utils import uri_split, uri_join
 
 class MergeHost:
     """<comment-ja>
@@ -55,6 +57,8 @@ class MergeHost:
         TODO: English Comment
         </comment-en>
         """
+        self.logger = logging.getLogger('karesansui.merge')
+
         self.info = {"model" : model,
                      "virt" : None,
                      }
@@ -77,9 +81,13 @@ class MergeHost:
                 notebook = Notebook(u"", u"")
 
                 for guest_name in kvc.list_active_guest() + kvc.list_inactive_guest():
+                    #print guest_name
+                    self.logger.info("Reading guest '%s' on '%s' ..." % (guest_name,uri_join(uri_split(model.hostname),without_auth=True)))
+
                     _virt = kvc.search_kvg_guests(guest_name)
                     if len(_virt) > 0:
-                        uuid = _virt[0].get_info()["uuid"]
+                        #uuid = _virt[0].get_info()["uuid"]
+                        uuid = _virt[0]._conn.lookupByName(guest_name).UUIDString()
 
                         #import pdb; pdb.set_trace()
                         guest = Machine(user,

@@ -31,7 +31,7 @@ from karesansui import config
 from karesansui.lib.rest import Rest, auth
 
 from karesansui.lib.utils import generate_uuid, string_from_uuid, \
-     uni_force, is_param, comma_split, uniq_sort
+     uni_force, is_param, comma_split, uniq_sort, uri_split, uri_join
 
 from karesansui.lib.checker import Checker, \
     CHECK_EMPTY, CHECK_LENGTH, CHECK_ONLYSPACE, CHECK_VALID, \
@@ -197,9 +197,10 @@ class Host(Rest):
         if uniq_key_check is not None and config['application.uniqkey'] != self.input.m_uuid:
             return web.conflict(web.ctx.path)
 
-        hostname_check = findby1hostname(self.orm, self.input.m_hostname)
-        if hostname_check is not None:
-            return web.conflict(web.ctx.path)
+        if self.input.m_connect_type == "karesansui":
+            hostname_check = findby1hostname(self.orm, self.input.m_hostname)
+            if hostname_check is not None:
+                return web.conflict(web.ctx.path)
 
         # notebook
         note_title = None
@@ -228,12 +229,19 @@ class Host(Rest):
         name = self.input.m_name
 
         if self.input.m_connect_type == "karesansui":
-            hostname = self.input.m_hostname
             attribute = MACHINE_ATTRIBUTE['HOST']
+            if is_param(self.input, "m_hostname"):
+                hostname = self.input.m_hostname
 
         if self.input.m_connect_type == "libvirt":
-            hostname = self.input.m_uri
             attribute = MACHINE_ATTRIBUTE['URI']
+            if is_param(self.input, "m_uri"):
+                segs = uri_split(self.input.m_uri)
+                if is_param(self.input, "m_auth_user") and self.input.m_auth_user:
+                    segs["user"] = self.input.m_auth_user
+                    if is_param(self.input, "m_auth_passwd") and self.input.m_auth_passwd:
+                        segs["passwd"] = self.input.m_auth_passwd
+                hostname = uri_join(segs)
 
         model = findby1uniquekey(self.orm, uniq_key, is_deleted = True)
         if model is None:

@@ -503,14 +503,18 @@ class KaresansuiVirtConnection:
         if is_uuid(name):
             name = self.uuid_to_domname(name)
 
-        ids = self._conn.listDomainsID()
-        for id in ids:
-            if self._conn.lookupByID(id).name() == "Domain-0" and self.get_hypervisor_type() == 'Xen':
-                continue
-            guests.append(self._conn.lookupByID(id))
-        names = self.list_inactive_guest()
-        for _name in names:
-            guests.append(self._conn.lookupByName(_name))
+        try:
+            guests = self.result_search_guests
+        except:
+            ids = self._conn.listDomainsID()
+            for id in ids:
+                if self._conn.lookupByID(id).name() == "Domain-0" and self.get_hypervisor_type() == 'Xen':
+                    continue
+                guests.append(self._conn.lookupByID(id))
+            names = self.list_inactive_guest()
+            for _name in names:
+                guests.append(self._conn.lookupByName(_name))
+            self.result_search_guests = guests
 
         if name == None:
             return guests
@@ -3053,7 +3057,6 @@ class KaresansuiVirtGuest:
         except:
             uuid = None
 
-        #import pdb; pdb.set_trace()
         try:
             param = ConfigParam(dom.name())
             xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, dom.name())
@@ -3073,16 +3076,29 @@ class KaresansuiVirtGuest:
             os_root = "unknown"
             pass
 
-        hypervisor = self.connection.get_hypervisor_type()
         try:
-          hvVersion = libvirtmod.virConnectGetVersion(self._conn._o)
-          hvVersion_major = hvVersion / 1000000
-          hvVersion %= 1000000
-          hvVersion_minor = hvVersion / 1000
-          hvVersion_rel = hvVersion % 1000
-          hv_version = "%s %d.%d.%d" %(hypervisor, hvVersion_major, hvVersion_minor, hvVersion_rel)
+            self.connection.hypervisor
         except:
-          hv_version = None
+            self.connection.hypervisor = self.connection.get_hypervisor_type()
+        hypervisor = self.connection.hypervisor
+
+        try:
+            self.connection.hvVersion
+        except:
+            try:
+                self.connection.hvVersion = libvirtmod.virConnectGetVersion(self._conn._o)
+            except:
+                pass
+        try:
+            hvVersion = self.connection.hvVersion
+            hvVersion_major = hvVersion / 1000000
+            hvVersion %= 1000000
+            hvVersion_minor = hvVersion / 1000
+            hvVersion_rel = hvVersion % 1000
+            hv_version = "%s %d.%d.%d" %(hypervisor, hvVersion_major, hvVersion_minor, hvVersion_rel)
+        except:
+            hv_version = None
+
         return {
                 "state"     : data[0],
                 "maxMem"    : data[1],
@@ -4449,7 +4465,7 @@ class KaresansuiVirtConnectionAuth(KaresansuiVirtConnection):
         try:
             self.open(uri, creds)
         except:
-            raise KaresansuiVirtException(_("Cannot open '%s'") % uri)
+            raise KaresansuiVirtException(_("Cannot open '%s'") % uri_join(uri_split(uri.encode('utf8')), without_auth=True))
 
     def open(self, uri, creds="foo:pass"):
         """

@@ -192,7 +192,7 @@ $(document).ready(function(){
                                             ${_('URI')}<span id="m_uri_help"/>
                                         </td>
                                         <td>
-                                            <input type="text" id="m_uri" name="m_uri" value="" size="40" maxlength="256" /><span class="require-text">${_('Require')}</span>
+                                            <input type="text" id="m_uri" name="m_uri" value="" size="50" maxlength="256" /><span class="require-text">${_('Require')}</span>
                                         </td>
                                     </tr>
                                     <tr>
