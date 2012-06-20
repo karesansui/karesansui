@@ -62,7 +62,8 @@ def findbyhost(session, host_id, created_start=None,
     query = query.filter(
                 or_(
                     and_(Machine.parent_id == host_id, Machine.attribute == MACHINE_ATTRIBUTE['GUEST']),
-                    and_(Machine.id == host_id, Machine.attribute == MACHINE_ATTRIBUTE['HOST'])
+                    and_(Machine.id == host_id, Machine.attribute == MACHINE_ATTRIBUTE['HOST']),
+                    and_(Machine.id == host_id, Machine.attribute == MACHINE_ATTRIBUTE['URI'])
                 )
             )
 

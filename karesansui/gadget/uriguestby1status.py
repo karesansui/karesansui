@@ -207,7 +207,8 @@ class UriGuestBy1Status(Rest):
                             #uri = _v._conn.getURI()
                             if info["uuid"] == uri_id:
 
-                                opts = {"name":"'%s'" % guest.info["model"].name,"connection":uri}
+                                esc_name = "'%s'" % guest.info["model"].name
+                                opts = {"name":esc_name,"connection":uri}
 
                                 if creds != '':
                                     passwd_file = KARESANSUI_TMP_DIR + "/" + segs['host'] + ".auth"

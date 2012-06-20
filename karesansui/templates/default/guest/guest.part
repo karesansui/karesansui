@@ -267,9 +267,9 @@ function make_guest_detail(data, status) {
 
     var autostart = "";
     if(data.autostart == true){
-        autostart = "${_('ON')}";
+        autostart = "${_('Enabled')}";
     } else {
-        autostart = "${_('OFF')}";
+        autostart = "${_('Disabled')}";
     }
     _g += make_tr("${_('Autostart')}", autostart);
 
@@ -554,9 +554,9 @@ function make_uriguest_detail(data, status) {
 
     var autostart = "";
     if(data.autostart == true){
-        autostart = "${_('ON')}";
+        autostart = "${_('Enabled')}";
     } else {
-        autostart = "${_('OFF')}";
+        autostart = "${_('Disabled')}";
     }
     _g += make_tr("${_('Autostart')}", autostart);
 
