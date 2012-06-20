@@ -13,6 +13,11 @@ function guest_location(id){
     location.href = uri + "/" + id + ".html";
 }
 
+function uriguest_location(id){
+    var uri = "${ctx.homepath}${ctx.path}".replace("/guest.part", "");
+    location.href = uri + "/uriguest/" + id + ".html";
+}
+
 function get_target_type(obj){
     var ret = null;
     if(obj.is("[id^='export_']")){
@@ -20,6 +25,9 @@ function get_target_type(obj){
     }
     if(obj.is("[id^='guest_']")){
         ret = "guest";
+    }
+    if(obj.is("[id^='uriguest_']")){
+        ret = "uriguest";
     }
     return ret;
 }
@@ -44,6 +52,9 @@ function get_target_id(){
     }
     if(type == "guest"){
         target_id = target.attr("id").replace("guest_", "");
+    }
+    if(type == "uriguest"){
+        target_id = target.attr("id").replace("uriguest_", "");
     }
     return target_id;
 }
@@ -243,6 +254,7 @@ function make_export_detail(data, status) {
     return true;
 
 }
+
 function make_guest_detail(data, status) {
     var _s = "<table class='detail-contents'>";
 
@@ -528,6 +540,82 @@ function make_guest_detail(data, status) {
     return true;
 }
 
+
+
+function make_uriguest_detail(data, status) {
+    var _s = "<table class='detail-contents'>";
+
+    // General
+    var _g = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+    _g += make_tr("${_('Name')}", data.model.name);
+    _g += make_tr("${_('State')}", str_status(data.virt.state));
+    _g += make_tr("${_('Unique Key')}", data.model.uniq_key);
+    _g += make_tr("${_('Domain Name')}", data.virt.name);
+
+    var autostart = "";
+    if(data.autostart == true){
+        autostart = "${_('ON')}";
+    } else {
+        autostart = "${_('OFF')}";
+    }
+    _g += make_tr("${_('Autostart')}", autostart);
+
+
+    var type = "";
+    if(data.info["VMType"] != null){
+        type = data.info["VMType"];
+        if(data.info["hv_version"] != null){
+            type += " ("+data.info["hv_version"]+")";
+        }
+    } else {
+        type = "${_('Unknown')}";
+    }
+    _g += make_tr("${_('Hypervisor')}", type);
+
+    var os = "";
+    if(data.info["OSType"] != null){
+        os = data.info["OSType"];
+    } else {
+        os = "${_('Unknown')}";
+    }
+    _g += make_tr("${_('OS Type')}", os);
+
+    _g += "</table>";
+    _s += make_tr("${_('General Information')}", _g, true);
+    _s += make_space();
+
+
+    // CPU
+    var _c = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+
+    _c += make_tr("${_('CPU Time (seconds)')}", format_cputime(data.info["cpuTime"] / (1000.00 * 1000.00 * 1000.00)));
+
+    _c += "</table>";
+    _s += make_tr("${_('CPU Info')}", _c, true);
+    _s += make_space();
+
+    // Memory
+    var _m = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
+
+    var mem_size = '<span>' + view_megaunit(data.info["memory"], 'KB') + '</span>';
+    mem_size += '<span class="dark-text autounit">(' + view_autounit(data.info["memory"], ['KB','MB','GB','TB', 'PB', 'EB'], DEFAULT_DECIMAL_POINT, true) + ')</span>';
+    _m += make_tr("${_('Memory Size (MB)')}", mem_size, true);
+
+    _m += "</table>";
+    _s += make_tr("${_('Memory Info')}", _m, true);
+    _s += make_space();
+
+    $("#detail_value").html(_s);
+    return true;
+}
+
+
+
+
+
+
+
+
 $(document).ready(function(){
 
 // init
@@ -642,6 +730,7 @@ $("#guests div[id*='_']").each(function(){
         var _type = get_target_type($(this));
         if(_type == "export"){
             active_id = $(this).attr("id").replace("export_", "");
+            tool_reset("#create_guest");
             tool_invalid("#edit_guest");
             tool_invalid("#replicate_guest");
             tool_reset("#delete_guest");
@@ -653,6 +742,7 @@ $("#guests div[id*='_']").each(function(){
         }
         if(_type == "guest"){
             active_id = $(this).attr("id").replace("guest_", "");
+            tool_reset("#create_guest");
             tool_reset("#edit_guest");
             tool_reset("#replicate_guest");
             tool_reset("#delete_guest");
@@ -660,9 +750,23 @@ $("#guests div[id*='_']").each(function(){
             tool_reset("#export_guest");
             $("#import_guest").unbind('click');
         }
+        if(_type == "uriguest"){
+            active_id = $(this).attr("id").replace("uriguest_", "");
+            tool_invalid("#create_guest");
+            tool_invalid("#edit_guest");
+            tool_invalid("#replicate_guest");
+            tool_invalid("#delete_guest");
+            tool_invalid("#import_guest");
+            tool_invalid("#export_guest");
+            $("#import_guest").unbind('click');
+        }
 
         if($(this).hasClass("active") == true && _type == "guest"){
             guest_location(active_id);
+        }
+
+        if($(this).hasClass("active") == true && _type == "uriguest"){
+            uriguest_location(active_id);
         }
 
         if($(this).hasClass("passive") == true){
@@ -672,8 +776,12 @@ $("#guests div[id*='_']").each(function(){
                 _fn = make_guest_detail;
             } else if(_type == "export"){
                 var uri = "${ctx.homepath}${ctx.path}".replace("/guest.part", "");
-                    uri += "/guestexport/" + active_id + ".json";
-                    _fn = make_export_detail;
+                uri += "/guestexport/" + active_id + ".json";
+                _fn = make_export_detail;
+            } else if(_type == "uriguest"){
+                var uri = "${ctx.homepath}${ctx.path}".replace("/guest.part", "");
+                uri += "/uriguest/" + active_id + ".json";
+                _fn = make_uriguest_detail;
             }
             // guest 
             ajax_json(
@@ -718,12 +826,15 @@ grayout_view("GET",
 show_detail_event();
 
 // tag
+% if not uri_guests:
 tag_get_event(
     "#tag",
     "#guests",
     "#detail_value",
     "${ctx.homepath}${ctx.path}".replace(".part", "") + "/tag.part"
 );
+% endif
+
 // init action
 $("#action>a").hover(
     function(){tool_over(this);},
@@ -732,6 +843,10 @@ $("#action>a").hover(
     var id = $(this).attr("id");
     tool_active(this);
 });
+
+% if uri_guests:
+tool_invalid("#create_guest");
+% endif
 tool_invalid("#edit_guest");
 tool_invalid("#replicate_guest");
 tool_invalid("#delete_guest");
@@ -826,6 +941,7 @@ tool_invalid("#import_guest");
                     <div class="space"></div>
 
 
+% if not uri_guests:
                     <div id="tag">
                         <div class="left"></div>
                         <div class="right"></div>
@@ -840,6 +956,7 @@ tool_invalid("#import_guest");
                         </div>
                         <div id="tag-progress"></div>
                     </div>
+% endif
                     <br style="clear: both;"/>
 
                         <div id="view">
@@ -847,7 +964,43 @@ tool_invalid("#import_guest");
 
                         <!-- host start -->
                             <div id="guests">
-% if guests:
+% if uri_guests:
+    % for guest in uri_guests:
+                                <div id="uriguest_${guest.info['model'].uniq_key}" class="passive">
+                                    <span class="status-b">
+        % if uri_guests_status[guest.info['model'].uniq_key] is None:
+                                        <img src="${ctx.homepath}/static/images/nostate.png" alt="Unknown" />
+        % else:
+                                        ${img_status(uri_guests_status[guest.info['model'].uniq_key])}
+        % endif
+                                    </span>
+                                    <span title='${guest.info['model'].name | h}'>
+                                    <div class="icon-shadow">
+    % if guest.info['model'].webicon() is None:
+                                        <img src="${ctx.homepath}/static/images/notos.png" alt="" width="114px" height="114px" />
+    % else:
+                                        <img src="${guest.info['model'].webicon()}" alt="" width="114px" height="114px" />
+    % endif
+                                    </div>
+                                    ${clipping(guest.info['model'].name, MACHINE_NAME_CLIPPING_RANGE) | h}
+                                    </span>
+                                    <br/>
+                                    <span class="status">
+        % if uri_guests_status[guest.info['model'].uniq_key] is None:
+                                        <!--
+                                        TRANSLATORS:
+                                        不明                                        
+                                        -->
+                                        (${_('Unknown')})
+        % else:
+                                        (${str_status(uri_guests_status[guest.info['model'].uniq_key], _)})
+        % endif
+                                    </span>
+                                </div>
+    % endfor
+
+
+% elif guests:
     % for guest in guests:
                                 <div id="guest_${guest.info['model'].id}" class="passive">
                                     <span class="status-b">
@@ -857,6 +1010,7 @@ tool_invalid("#import_guest");
                                         ${img_status(guest.info['virt'].status())}
         % endif
                                     </span>
+                                    <span title='${guest.info['model'].name | h}'>
                                     <div class="icon-shadow">
     % if guest.info['model'].webicon() is None:
                                         <img src="${ctx.homepath}/static/images/notos.png" alt="" width="114px" height="114px" />
@@ -865,6 +1019,7 @@ tool_invalid("#import_guest");
     % endif
                                     </div>
                                     ${clipping(guest.info['model'].name, MACHINE_NAME_CLIPPING_RANGE) | h}
+                                    </span>
                                     <br/>
                                     <span class="status">
         % if guest.info['virt'] is None:

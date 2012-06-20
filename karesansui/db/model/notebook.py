@@ -92,10 +92,16 @@ class Notebook(karesansui.db.model.Model):
         ret["id"] = self.id
         ret["title"] = self.title
         ret["value"] = self.value
-        ret["created"] = self.created.strftime(
-            DEFAULT_LANGS[languages]['DATE_FORMAT'][1])
-        ret["modified"] = self.modified.strftime(
-            DEFAULT_LANGS[languages]['DATE_FORMAT'][1])
+        try:
+            ret["created"] = self.created.strftime(
+                DEFAULT_LANGS[languages]['DATE_FORMAT'][1])
+        except:
+            ret["created"] = "unknown"
+        try:
+            ret["modified"] = self.modified.strftime(
+                DEFAULT_LANGS[languages]['DATE_FORMAT'][1])
+        except:
+            ret["modified"] = "unknown"
         return ret
     
     def __repr__(self):

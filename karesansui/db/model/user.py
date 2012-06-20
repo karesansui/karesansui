@@ -114,10 +114,16 @@ class User(karesansui.db.model.Model):
         #ret["salt"] = self.salt
         ret["nickname"] = self.nickname
         ret["languages"] = self.languages
-        ret["created"] = self.created.strftime(
-            DEFAULT_LANGS[languages]['DATE_FORMAT'][1])
-        ret["modified"] = self.modified.strftime(
-            DEFAULT_LANGS[languages]['DATE_FORMAT'][1])
+        try:
+            ret["created"] = self.created.strftime(
+                DEFAULT_LANGS[languages]['DATE_FORMAT'][1])
+        except:
+            ret["created"] = "unknown"
+        try:
+            ret["modified"] = self.modified.strftime(
+                DEFAULT_LANGS[languages]['DATE_FORMAT'][1])
+        except:
+            ret["modified"] = "unknown"
         
         return ret
     

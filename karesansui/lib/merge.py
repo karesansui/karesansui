@@ -26,6 +26,11 @@
 
 import karesansui
 
+from karesansui.lib.const import MACHINE_ATTRIBUTE, MACHINE_HYPERVISOR
+from karesansui.db.model.machine import Machine
+from karesansui.db.model.user import User
+from karesansui.db.model.notebook import Notebook
+
 class MergeHost:
     """<comment-ja>
     Machine(s) Model と libvirt KaresansuiVirtGuest(s)をマージします。
@@ -60,23 +65,57 @@ class MergeHost:
         self.if_deleted = if_deleted
 
         if self.set_guests is True:
-            for guest in model.children:
-                if self.if_deleted == 0:
-                    _virt = kvc.search_kvg_guests(guest.uniq_key)
+
+            if model.attribute == 2:
+                #import pdb; pdb.set_trace()
+                user  = User(u"unknown",
+                             unicode("dummydummy"),
+                             unicode("dummydummy"),
+                             u"Unknown User",
+                             u"",
+                            )
+                notebook = Notebook(u"", u"")
+
+                for guest_name in kvc.list_active_guest() + kvc.list_inactive_guest():
+                    _virt = kvc.search_kvg_guests(guest_name)
                     if len(_virt) > 0:
+                        uuid = _virt[0].get_info()["uuid"]
+
+                        #import pdb; pdb.set_trace()
+                        guest = Machine(user,
+                                        user,
+                                        u"%s" % uuid,
+                                        u"%s" % guest_name,
+                                        MACHINE_ATTRIBUTE['GUEST'],
+                                        MACHINE_HYPERVISOR['URI'],
+                                        notebook,
+                                        [],
+                                        u"%s" % "",
+                                        u'icon-guest3.png',
+                                        False,
+                                        None,
+                                        )
+
                         self.guests.append(MergeGuest(guest, _virt[0]))
-                elif self.if_deleted == 1:
-                    if guest.is_deleted is True:
+
+            else:
+                for guest in model.children:
+                    if self.if_deleted == 0:
                         _virt = kvc.search_kvg_guests(guest.uniq_key)
                         if len(_virt) > 0:
                             self.guests.append(MergeGuest(guest, _virt[0]))
-                elif self.if_deleted == 2:
-                    if guest.is_deleted is False:
-                        _virt = kvc.search_kvg_guests(guest.uniq_key)
-                        if len(_virt) > 0:
-                            self.guests.append(MergeGuest(guest, _virt[0]))
-                else:
-                    raise Karesansui.KaresansuiLibException("Flag is not expected. if_deleted=%d" % if_deleted)
+                    elif self.if_deleted == 1:
+                        if guest.is_deleted is True:
+                            _virt = kvc.search_kvg_guests(guest.uniq_key)
+                            if len(_virt) > 0:
+                                self.guests.append(MergeGuest(guest, _virt[0]))
+                    elif self.if_deleted == 2:
+                        if guest.is_deleted is False:
+                            _virt = kvc.search_kvg_guests(guest.uniq_key)
+                            if len(_virt) > 0:
+                                self.guests.append(MergeGuest(guest, _virt[0]))
+                    else:
+                        raise Karesansui.KaresansuiLibException("Flag is not expected. if_deleted=%d" % if_deleted)
                 
     def get_json(self, languages):
         """<comment-ja>

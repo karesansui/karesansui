@@ -38,6 +38,7 @@ from gettext import translation as translation
 import logging
 import traceback
 import os
+import sys
 
 import web
 from web.utils import Storage
@@ -908,7 +909,13 @@ def mako_render(_, templatename, **kwargs):
             view[x] = kwargs['view'][x]
         kwargs.pop('view')
     kwargs.update(view)
-    return t.render(**kwargs)
+
+    try:
+        return t.render(**kwargs)
+    except Exception, e:
+        print >>sys.stderr, '[Error] failed to render. - %s' % ''.join(e.args)
+        traceback.format_exc()
+        raise
 
 def mako_translation(languages, domain='messages', localedir='locale'):
     """<comment-ja>

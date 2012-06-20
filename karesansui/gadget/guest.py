@@ -48,7 +48,8 @@ from karesansui.lib.utils import comma_split, \
      uni_force, get_partition_info, chk_create_disk, json_dumps, \
      get_ifconfig_info, get_keymaps, available_virt_mechs, \
      available_virt_uris, is_iso9660_filesystem_format, \
-     get_dom_list, get_dom_type, base64_encode
+     get_dom_list, get_dom_type, base64_encode, \
+     uri_split, uri_join, dict_search
 
 from karesansui.lib.utils import get_xml_parse as XMLParse
 from karesansui.lib.utils import get_xml_xpath as XMLXpath
@@ -73,10 +74,10 @@ from karesansui.lib.const import \
     VIRT_COMMAND_DELETE_STORAGE_VOLUME, STORAGE_VOLUME_PWD, \
     DISK_USES
 
-from karesansui.lib.virt.virt import KaresansuiVirtConnection
+from karesansui.lib.virt.virt import KaresansuiVirtConnection, KaresansuiVirtConnectionAuth
 from karesansui.lib.virt.config_export import ExportConfigParam
 
-from karesansui.lib.merge import  MergeGuest
+from karesansui.lib.merge import  MergeGuest, MergeHost
 
 from karesansui.db.access.machine import \
      findbyhost1guestall, findbyhost1, \
@@ -426,6 +427,56 @@ class Guest(Rest):
 
         model = findbyhost1(self.orm, host_id)
         uris = available_virt_uris()
+
+        #import pdb; pdb.set_trace()
+        if model.attribute == 2:
+            uri_guests = []
+            uri_guests_status = {}
+            uri_guests_kvg = {}
+            uri_guests_info = {}
+            uri_guests_name = {}
+            segs = uri_split(model.hostname)
+            uri = uri_join(segs, without_auth=True)
+            creds = ''
+            if segs["user"] is not None:
+                creds += segs["user"]
+                if segs["passwd"] is not None:
+                    creds += ':' + segs["passwd"]
+
+            # Output .part
+            if self.is_mode_input() is not True:
+                try:
+                    self.kvc = KaresansuiVirtConnectionAuth(uri,creds)
+                    host = MergeHost(self.kvc, model)
+                    for guest in host.guests:
+
+                        _virt = self.kvc.search_kvg_guests(guest.info["model"].name)
+                        if 0 < len(_virt):
+                            for _v in _virt:
+                                uuid = _v.get_info()["uuid"]
+                                uri_guests_info[uuid] = guest.info
+                                uri_guests_kvg[uuid] = _v
+                                uri_guests_name[uuid] = guest.info["model"].name.encode("utf8")
+
+                    for name in sorted(uri_guests_name.values(),key=str.lower):
+                        for uuid in dict_search(name,uri_guests_name):
+                            uri_guests.append(MergeGuest(uri_guests_info[uuid]["model"], uri_guests_kvg[uuid]))
+                            uri_guests_status[uuid]  = uri_guests_info[uuid]['virt'].status()
+
+                finally:
+                    self.kvc.close()
+
+                # .json
+                if self.is_json() is True:
+                    guests_json = []
+                    for x in uri_guests:
+                        guests_json.append(x.get_json(self.me.languages))
+
+                    self.view.uri_guests = json_dumps(guests_json)
+                else:
+                    self.view.uri_guests = uri_guests
+                    self.view.uri_guests_status = uri_guests_status
+
 
         self.kvc = KaresansuiVirtConnection()
         try: # libvirt connection scope -->

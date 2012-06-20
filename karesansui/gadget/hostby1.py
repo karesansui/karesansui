@@ -33,11 +33,11 @@ from karesansui.db.access.machine import \
      update as m_update, delete as m_delete, logical_delete
 
 from karesansui.lib.merge import MergeHost
-from karesansui.lib.virt.virt import KaresansuiVirtConnection
+from karesansui.lib.virt.virt import KaresansuiVirtConnection, KaresansuiVirtConnectionAuth
 from karesansui.lib.utils import \
     comma_split, uniq_sort, is_param, json_dumps, \
     get_proc_cpuinfo, get_proc_meminfo, get_partition_info, \
-    available_virt_uris
+    available_virt_uris, uri_split, uri_join
 
 from karesansui.lib.checker import Checker, \
     CHECK_EMPTY, CHECK_LENGTH, CHECK_ONLYSPACE, CHECK_VALID,\
@@ -168,7 +168,7 @@ class HostBy1(Rest):
 
         # other_url
         other_url = "%s://%s%s/" % (self.view.ctx.protocol, model.hostname, karesansui.config['application.url.prefix'])
-        
+
         if self.is_mode_input() is False:
             if karesansui.config["application.uniqkey"] == model.uniq_key:
                 # My host
@@ -208,16 +208,44 @@ class HostBy1(Rest):
                     self.kvc.close()
 
             else:
+                # other uri
+                if model.attribute == 2:
+                    segs = uri_split(model.hostname)
+                    uri = uri_join(segs, without_auth=True)
+                    creds = ''
+                    if segs["user"] is not None:
+                        creds += segs["user"]
+                        if segs["passwd"] is not None:
+                            creds += ':' + segs["passwd"]
+                    self.kvc = KaresansuiVirtConnectionAuth(uri,creds)
+
+                    try:
+                        host = MergeHost(self.kvc, model)
+                        if self.is_json() is True:
+                            json_host = host.get_json(self.me.languages)
+
+                            self.view.data = json_dumps({"model": json_host["model"],
+                                                         "uri"  : uri,
+                                                         "num_of_guests"  : len(host.guests),
+                                                     })
+                        else:
+                            self.view.model = host.info["model"]
+                            self.view.virt = host.info["virt"]
+                    finally:
+                        self.kvc.close()
+
+
                 # other host
-                if self.is_json() is True:
-                    self.view.data = json_dumps({
-                        "model": model.get_json(self.me.languages),
-                        "other_url" : other_url,
-                        })
                 else:
-                    self.view.model = model
-                    self.view.virt = None
-                    self.view.other_url = other_url
+                    if self.is_json() is True:
+                        self.view.data = json_dumps({
+                            "model": model.get_json(self.me.languages),
+                            "other_url" : other_url,
+                            })
+                    else:
+                        self.view.model = model
+                        self.view.virt = None
+                        self.view.other_url = other_url
 
             return True
         else:

@@ -122,6 +122,7 @@ $(document).ready(function(){
                                 <span class="tab-right">${_('Guests')}</span>
                             </a>
                         </li>
+% if model.attribute != 2:
                         <li class="top-tab">
                             <a class="tab-left original-top-tab" href="#" id="${ctx.homepath}/host/${model.id}/setting.part">
                                 <span class="tab-right">${_('Settings')}
@@ -192,6 +193,7 @@ $(document).ready(function(){
                                 <a class="stacktab-item" href="#" id="${ctx.homepath}/host/${model.id}/service.part">${_('Service')}</a>
                             </div>
                         </li>
+% endif
                     </ul>
                 </div>
 </%def>
