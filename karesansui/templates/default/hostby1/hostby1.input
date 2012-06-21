@@ -147,11 +147,6 @@ $(document).ready(function(){
 <div id="input_host">
     <div class="grayout-head">
         <span class="grayout-title">
-        <!--
-        TRANSLATORS:
-        fussyになっていると思いますが、現在「ゲスト設定の編集」になっていますので「ホスト設定の編集」
-        に変更をお願いします。
-        -->
             <a href="#" id="server" class="path-a"><img src="${ctx.homepath}/static/images/settings-title.gif" alt="" >${_('Edit Host Settings')}</a>
         </span>
         <br style="clear: both;"/>
