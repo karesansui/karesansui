@@ -165,7 +165,7 @@ $(document).ready(function(){
                 <div id="connect_type_karesansui_html">
                     <table width="100%" style="background-color: #FFFFFF; padding: 10px">
                         <tr>
-                            <td width="120px">
+                            <td width="150px">
 % if model.attribute == 2:
                                 <input type="radio" name="m_connect_type" id="m_connect_type_karesansui" value="karesansui" />${_("Other Karesansui")}
 % else:
@@ -175,7 +175,7 @@ $(document).ready(function(){
                             <td>
                                 <table width="100%" style="background-color: #F5F5F5;">
                                     <tr>
-                                        <td width="120px">
+                                        <td width="100px">
                                             ${_('FQDN')}<span id="m_hostname_help"/>
                                         </td>
                                         <td>
@@ -195,7 +195,7 @@ $(document).ready(function(){
                 <div id="connect_type_libvirt_html">
                     <table width="100%" style="background-color: #FFFFFF; padding: 10px">
                         <tr>
-                            <td width="120px">
+                            <td width="150px">
 % if model.attribute == 2:
                                 <input type="radio" name="m_connect_type" id="m_connect_type_libvirt" value="libvirt" checked="checked"/>${_("Libvirt URI")}
 % else:
@@ -205,7 +205,7 @@ $(document).ready(function(){
                             <td>
                                 <table width="100%" style="background-color: #F5F5F5;">
                                     <tr>
-                                        <td width="120px">
+                                        <td width="100px">
                                             ${_('URI')}<span id="m_uri_help"/>
                                         </td>
                                         <td>
@@ -217,7 +217,7 @@ $(document).ready(function(){
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="120px">
+                                        <td width="100px">
                                             ${_('User Name')}<span id="uri_user_help"/>
                                         </td>
                                         <td>
@@ -229,7 +229,7 @@ $(document).ready(function(){
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="120px">
+                                        <td width="100px">
                                             ${_('Password')}<span id="uri_passwd_help"/>
                                         </td>
                                         <td>

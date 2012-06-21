@@ -49,6 +49,12 @@ function validates_host(){
             $("#m_hostname").val(m_hostname_tmp);
         }
 
+        check = check_unique_key(
+                        $("#m_uuid"),
+                        CHECK_EMPTY | CHECK_VALID,
+                        "${_('Karesansui Unique Key')}"
+                    ) && check;
+
     } else {
 
         check = check_uri(
@@ -57,12 +63,6 @@ function validates_host(){
                 "${_('URI')}", 0, 0
             ) && check;
     }
-    
-    check = check_unique_key(
-                    $("#m_uuid"),
-                    CHECK_EMPTY | CHECK_VALID,
-                    "${_('Karesansui Unique Key')}"
-                ) && check;
     
     check = check_string(
                 $("#note_title"),
@@ -160,19 +160,28 @@ $(document).ready(function(){
                 <div id="connect_type_karesansui_html">
                     <table width="100%" style="background-color: #FFFFFF; padding: 10px">
                         <tr>
-                            <td width="120px">
+                            <td width="150px">
                                 <input type="radio" name="m_connect_type" id="m_connect_type_karesansui" value="karesansui" checked />${_("Other Karesansui")}
                             </td>
                             <td>
                                 <table width="100%" style="background-color: #F5F5F5;">
                                     <tr>
-                                        <td width="120px">
+                                        <td width="100px">
                                             ${_('FQDN')}<span id="m_hostname_help"/>
                                         </td>
                                         <td>
                                             <input type="text" id="m_hostname" name="m_hostname" value="" size="40" maxlength="256" /><span class="require-text">${_('Require')}</span>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td width="100px">
+                                            ${_('Unique Key')}<span id="uniqkey_help"/>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="m_uuid" name="m_uuid" value="" size="40" maxlength="36" /><span class="require-text">${_('Require')}</span>
+                                        </td>
+                                    </tr>
+
                                 </table>
                             </td>
                         </tr>
@@ -182,13 +191,13 @@ $(document).ready(function(){
                 <div id="connect_type_libvirt_html">
                     <table width="100%" style="background-color: #FFFFFF; padding: 10px">
                         <tr>
-                            <td width="120px">
+                            <td width="150px">
                                 <input type="radio" name="m_connect_type" id="m_connect_type_libvirt" value="libvirt" />${_("Libvirt URI")}
                             </td>
                             <td>
                                 <table width="100%" style="background-color: #F5F5F5;">
                                     <tr>
-                                        <td width="120px">
+                                        <td width="100px">
                                             ${_('URI')}<span id="m_uri_help"/>
                                         </td>
                                         <td>
@@ -196,7 +205,7 @@ $(document).ready(function(){
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="120px">
+                                        <td width="100px">
                                             ${_('User Name')}<span id="uri_user_help"/>
                                         </td>
                                         <td>
@@ -204,7 +213,7 @@ $(document).ready(function(){
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="120px">
+                                        <td width="100px">
                                             ${_('Password')}<span id="uri_passwd_help"/>
                                         </td>
                                         <td>
@@ -217,11 +226,6 @@ $(document).ready(function(){
                     </table>
                 </div>
             </div>
-        </div>
-
-        <div class="grayout-param">${_('Unique Key')}<span id="uniqkey_help"/></div>
-        <div class="grayout-value grayout-form">
-            <input type="text" id="m_uuid" name="m_uuid" value="" size="40" maxlength="36" /><span class="require-text">${_('Require')}</span>
         </div>
 
         <div class="grayout-param">${_('Notebook')}</div>
