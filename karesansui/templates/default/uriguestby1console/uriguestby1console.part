@@ -1,0 +1,12 @@
+<%doc>Copyright (C) 2009-2012 HDE, Inc.</%doc>
+<%inherit file="../include/common.part" />
+
+<div style="vertical-align:middle; text-align:center; background-color:#E9E9E9;">
+    <applet archive='${ctx.homepath}/static/java/VncViewer.jar' width='760' height='600'>
+        <param name="Show controls" value="Yes">
+        <param name="Scaling factor" value="95">
+        <param name="Offer relogin" value="No">
+        <param name="PORT" value='5901'>
+        <param name="HOST" value='${host_ipaddr}'>
+    </applet>
+</div>
