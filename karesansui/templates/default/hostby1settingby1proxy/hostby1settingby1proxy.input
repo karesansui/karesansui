@@ -94,7 +94,7 @@ $(document).ready(function(){
 
     $("#setting_proxy input:radio:checked").click();
 });
--->
+// -->
 </script>
 
 <div id="setting_proxy">

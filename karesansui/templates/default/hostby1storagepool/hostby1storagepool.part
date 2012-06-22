@@ -130,7 +130,7 @@ $(document).ready(function(){
     bind_add_event();
     show_detail_event();
 });
--->
+// -->
 </script>
                     <div id="action">
                         <div class="left"></div>

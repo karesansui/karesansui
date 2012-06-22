@@ -139,7 +139,7 @@ $(document).ready(function(){
         "${_('Tag')}", 
         "${_(r'Tag to add to the guest to be used in Karesansui control panel. Can be used to search guests using tags in the \"Guests\" panel. Separate tags with commas to specify two or more tags. Any letters, including spaces and symbols are allowed.')}");
 });
-//-->
+// -->
 </script>
 
 <div id="input_guest">

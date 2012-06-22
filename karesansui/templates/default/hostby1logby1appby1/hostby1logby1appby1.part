@@ -3,7 +3,6 @@
 
 <script type="text/javascript">
 <!--
-
 function set_content(arg_content) {
 	var content = "";
     search_keyword = $("input[name=keyword]").val();
@@ -28,7 +27,7 @@ $(document).ready(function(){
 	log_content = ${log_json};
     set_content(log_content);
 });
--->
+// -->
 </script>
 <div width="100%" style="overflow: auto; max-height: 500px">
 <table width="100%" heigth="100%" cellspacing="0" border="0"><tr><td id="log-content"></td></tr></table>

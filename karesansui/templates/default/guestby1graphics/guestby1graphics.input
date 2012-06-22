@@ -52,7 +52,7 @@ $(document).ready(function() {
             "${_('Graphics Password')}",
             "${_(r"Graphics password for this guest. When choosing 'Set random phrase', the new password can be checked out on the 'Device' - 'Graphics' panel. Will be valid on next guest bootup.")}");
 });
--->
+// -->
 </script>
 
 <div id="display_setting">

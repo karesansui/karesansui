@@ -36,7 +36,7 @@ $(document).ready(function(){
         "${_('Tag Name')}", 
         "${_('Name of a new tag to add. Symbols including spaces can be used.')}");
 });
-//-->
+// -->
 </script>
 <div id="tag_setting">
     <form method="post" action="" id="input_tag_form" name="input_tag_form">

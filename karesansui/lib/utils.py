@@ -151,6 +151,27 @@ def dict_ksort(dt):
         new_dict[k] = v
     return new_dict
 
+def dict_search(search_key, dt):
+    """<comment-ja>
+    辞書配列から指定した値に対応するキーを取得する
+
+    @param dt: 辞書
+    @type dt: dict
+    @return: 取得したキーを要素とする配列
+    @rtype: array
+    </comment-ja>
+    <comment-en>
+    Searches the dictionary for a given value and returns the corresponding key.
+    </comment-en>
+    """
+    def map_find(_x, _y):
+        if _y == search_key:
+            return _x
+    def except_None(_z):
+        return _z <> None
+    rlist = map(map_find, dt.keys(), dt.values())
+    return filter(except_None, rlist)
+
 def dec2hex(num):
     """<comment-ja>
     整数値を１６進数の文字列に変換する
@@ -2790,6 +2811,78 @@ def get_hostname():
 def host2ip(host):
     import socket
     return socket.gethostbyname(host)
+
+def uri_split(uri):
+    """
+       Basic URI Parser
+    """
+    import re
+    regex = '^(([^:/?#]+):)?(//(([^:]+)(:(.+))?@)?([^/?#:]*)(:([0-9]+))?)?([^?#]*)(\?([^#]*))?(#(.*))?'
+
+    p = re.match(regex, uri).groups()
+    scheme, user, passwd, host, port, path, query, fragment = p[1], p[4], p[6], p[7], p[9], p[10], p[12], p[14]
+
+    if not path: path = None
+    return { "scheme"  :scheme,
+             "user"    :user,
+             "passwd"  :passwd,
+             "host"    :host,
+             "port"    :port,
+             "path"    :path,
+             "query"   :query,
+             "fragment":fragment,
+           }
+
+def uri_join(segments,without_auth=False):
+    """
+       Reverse of uri_split()
+    """
+    result = ''
+
+    try:
+        result += segments["scheme"] + '://'
+    except:
+        pass
+
+    if without_auth is False:
+        try:
+            result += segments["user"]
+            try:
+                result += ':' + segments["passwd"]
+            except:
+                pass
+            result += '@'
+        except:
+            pass
+
+    try:
+        result += segments["host"]
+    except:
+        pass
+
+    try:
+        result += ':' + segments["port"]
+    except:
+        pass
+
+    try:
+        if segments["path"] is None or segments["path"] == "":
+            segments["path"] = "/"
+        if result != "":
+            result += segments["path"]
+    except:
+        pass
+
+    try:
+        result += '?' + segments["query"]
+    except:
+        pass
+    try:
+        result += '#' + segments["fragment"]
+    except:
+        pass
+
+    return result
 
 def locale_dummy(str):
     return str

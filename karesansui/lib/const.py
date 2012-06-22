@@ -53,10 +53,12 @@ KARESANSUI_DATA_DIR    = "/var/lib/karesansui"
 
 MACHINE_ATTRIBUTE = {'HOST':0,
                      'GUEST':1,
+                     'URI':2,
                     }
 MACHINE_HYPERVISOR = {'REAL':0,
                       'XEN':1,
                       'KVM':2,
+                      'URI':3,
                      }
 
 # define vendor paths

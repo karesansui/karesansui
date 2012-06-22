@@ -6,8 +6,7 @@
 $(document).ready(function(){
 
 });
-
--->
+// -->
 </script>
                     <div id="report">
                         <div class="alert"></div>

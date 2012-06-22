@@ -50,7 +50,7 @@ $(document).ready(function(){
     helptip("#route_device_help", "${_('Device Name')}", "${_(r"Name of the device.")}");
     helptip("#route_gateway_help", "${_('Gateway')}", "${_('Address of the gateway of this route. The specified address must be reachable. ')}");
 });
--->
+// -->
 </script>
 
 <div id="input_route">

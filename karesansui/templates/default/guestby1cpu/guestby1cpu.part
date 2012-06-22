@@ -1,13 +1,11 @@
 <%doc>Copyright (C) 2009-2012 HDE, Inc.</%doc>
 <%inherit file="../include/common.part" />
 
-<style type="text/css">
-</style>
 <script type="text/javascript">
 <!--
 $(document).ready(function(){
 });
--->
+// -->
 </script>
             <table cellspacing="0" border="0" style="background-color:#bcbcbc;">
                 <tr>

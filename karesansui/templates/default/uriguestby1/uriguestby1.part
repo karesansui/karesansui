@@ -1,0 +1,373 @@
+<%doc>Copyright (C) 2009-2012 HDE, Inc.</%doc>
+<%!
+from karesansui.lib.template import locale_hypervisor, \
+    str_status, img_status, clipping, locale_bool, replace_empty, \
+    view_autounit, view_megaunit
+from karesansui.lib.const import MACHINE_NAME_CLIPPING_RANGE, DEFAULT_DECIMAL_POINT
+%>
+
+<%inherit file="../include/common.part" />
+
+<script type="text/javascript">
+<!--
+function action(status){
+    ajax_put("${ctx.homepath}/host/${parent_model.id}/uriguest/${model.uniq_key}/status.part",
+        {"status" : status},
+        function(data, status){
+        },
+        true
+    );
+}
+
+$(document).ready(function(){
+    $(".info_detail table tbody tr:odd").addClass("odd");
+    $("[id*='toggle_button']").each(function(){
+        var id = $(this).attr("id");
+        var parts = id.split('_');
+        var count = parts[parts.length-1]; 
+        var prefix = parts[0];
+
+        toggle_button_event("#"+prefix+"_toggle_button_"+count, "#"+prefix+"_toggle_value_"+count, "close");
+    });
+
+    $("#start_guest").one('click', function(){
+        action(0);
+    });
+
+    $("#shutdown_guest").one('click', function(){
+        action(1);
+    });
+
+    $("#restart_guest").one('click', function(){
+        action(5);
+    });
+
+    $("#suspend_guest").one('click', function(){
+        action(3);
+    });
+
+    $("#resume_guest").one('click', function(){
+        action(4);
+    });
+
+    $("#destroy_guest").one('click', function(){
+        action(2);
+    });
+
+    $("#disable_autostart_guest").one('click', function(){
+        action(7);
+    });
+
+    $("#enable_autostart_guest").one('click', function(){
+        action(6);
+    });
+
+    $("#action>a").hover(
+        function(){tool_over(this);},
+        function(){tool_over(this);}
+    ).mousedown(function(){
+        var id = $(this).attr("id");
+        if(id == "tool-shutdown"){
+            tool_invalid("#tool-destroy");
+            $("#tool-destroy").find("img").attr("src", "${ctx.homepath}/static/images/tool-esc-invalid.png");
+        }
+        tool_active(this);
+    });
+
+    renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
+});
+// -->
+</script>
+                <div id="guest">
+                    <div class="alert"></div>
+
+                    <div id="action" >
+		                <div class="left"></div>
+% if is_creatable is True:
+                        <a href="#" class="tool-link" id="start_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-start.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Start')}</div>
+                                </div>
+                            </div>
+                        </a>
+% elif is_shutdownable is True and is_active:
+                        <a href="#" class="tool-link" id="shutdown_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-stop.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Shutdown')}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="tool-link" id="restart_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-restart.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Reboot')}</div>
+                                </div>
+                            </div>
+                        </a>
+% endif
+
+% if is_suspendable is True and is_active:
+                        <a href="#" class="tool-link" id="suspend_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-pose.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Suspend')}</div>
+                                </div>
+                            </div>
+                        </a>
+% elif is_resumable is True and is_active:
+                        <a href="#" class="tool-link" id="resume_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-resume.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Resume')}</div>
+                                </div>
+                            </div>
+                        </a>
+% endif
+
+% if is_destroyable is True and is_active:
+                        <a href="#" class="tool-link" id="destroy_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-esc.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Destroy')}</div>
+                                </div>
+                            </div>
+                        </a>
+% endif
+%if autostart is True:
+                        <a href="#" class="tool-link" id="disable_autostart_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-boot.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Disable Autostart')}</div>
+                                </div>
+                            </div>
+                        </a>
+%else:
+                        <a href="#" class="tool-link" id="enable_autostart_guest">
+                            <div class="tool-mid">
+                                <div class="tool-left"></div>
+                                <div class="tool-img">
+                                    <img src="${ctx.homepath}/static/images/tool-boot.png" alt="" />
+                                </div>
+                                <div class="tool-right">
+                                    <div class="tool-text">${_('Enable Autostart')}</div>
+                                </div>
+                            </div>
+                        </a>
+%endif
+                        <div class="right">
+                            <a href="#" class="tool-link" >
+                                <div class="tool-mid">
+                                    <img src="${ctx.homepath}/static/images/reload.gif" alt="renew" id="tool_renew"/>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <br style="clear: both;"/>
+                    <div class="space"></div>
+                    <br style="clear: both;"/>
+                    <div id="view">
+                        <div id="list-box">
+                            <div id="minner">
+                                <table cellspacing="1">
+                                    <tr>
+                                        <td id="summary-icon">
+                                            <div class="passive">
+                                                <span class="status-b">${img_status(status)}</span>
+                                                <div class="icon-shadow">
+% if model.webicon() is None:
+                                                    <img src="${ctx.homepath}/static/images/notos.png" alt="" width="114px" height="114px" />
+% else:
+                                                    <img src="${model.webicon()}" alt="" width="114px" height="114px" />
+% endif
+                                                </div>
+                                                <span class="virt">${clipping(model.name, MACHINE_NAME_CLIPPING_RANGE) | h}</span>
+                                            </div>
+                                        </td>
+                                        <td id="summary-info">
+                                            <table cellspacing="0" class="border summary-main-info">
+                                                <tr>
+                                                    <th>
+                                                        <span class="summary-info-title">${_('General Information')}</span>
+                                                    </th>
+                                                    <td class="summary-info-space">
+                                                        <img src="${ctx.homepath}/static/images/table-space.gif">
+                                                    </td>
+                                                    <td>
+                                                        <table cellspacing="0" class="border summary-sub-info">
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('Name')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+                                                                    <span class="summary-info-data">${model.name | h}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('Status')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+                                                                    <span class="summary-info-data">${str_status(status, _) | h}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('Unique key')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+                                                                    <span class="summary-info-data">${model.uniq_key | h}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('Autostart')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+%if autostart is True:
+                                                                    <span class="summary-info-data">${_('Enabled')}</span>
+%else:
+                                                                    <span class="summary-info-data">${_('Disabled')}</span>
+%endif
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('Hypervisor')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+%if not info["VMType"] is None:
+                                                                    <span class="summary-info-data">${info["VMType"] | h}</span>
+  %if not info["hv_version"] is None and not info["hv_version"] == -1:
+                                                                    (${info["hv_version"] | h})
+  %endif
+%else:
+                                                                    <span class="summary-info-data">${_('Unknown')}</span>
+%endif
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('OS Type')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+%if not info["OSType"] is None:
+                                                                    <span class="summary-info-data">${info["OSType"] | h}</span>
+%else:
+                                                                    <span class="summary-info-data">${_('Unknown')}</span>
+%endif
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+
+                                                <tr><td colspan="3"><div class="summary-space" /></td></tr>
+                                                <tr>
+                                                    <th>
+                                                        <span class="summary-info-title">${_('CPU Info')}</span>
+                                                    </th>
+                                                    <td class="summary-info-space">
+                                                        <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                    </td>
+                                                    <td>
+                                                        <table cellspacing="0" class="border summary-sub-info">
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('CPU time(seconds)')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+                                                                    <span class="summary-info-data">${"%.2f" % (info["cpuTime"] / (1000.00 * 1000.00 * 1000.00)) | h}</span>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+
+                                                <tr><td colspan="3"><div class="summary-space" /></td></tr>
+
+                                                <tr>
+                                                    <th>
+                                                        <span class="summary-info-title">${_('Memory Info')}</span>
+                                                    </th>
+                                                    <td class="summary-info-space">
+                                                        <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                    </td>
+                                                    <td>
+                                                        <table cellspacing="0" class="border summary-sub-info">
+                                                            <tr>
+                                                                <th>
+                                                                    <span class="summary-info-title">${_('Memory Size (MB)')}</span>
+                                                                </th>
+                                                                <td class="summary-info-space">
+                                                                    <img src="${ctx.homepath}/static/images/table-space.gif" alt="" />
+                                                                </td>
+                                                                <td>
+                                                                    <span>${view_megaunit(info["memory"], 'KB') | h}</span><span class="dark-text autounit">(${view_autounit(info["memory"], unit=('KB', 'MB','GB','TB', 'PB', 'EB'), decimal_point=DEFAULT_DECIMAL_POINT, print_unit=True) | h})</span>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+
+
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br style="clear: both;"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br style="clear: both;"/>

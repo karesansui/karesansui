@@ -23,32 +23,43 @@ function validates_host(){
                 MACHINE_NAME_MAX_LENGTH
             ) && check;
     
-    m_hostname_tmp = $("#m_hostname").val();
-    m_hostname_parts = m_hostname_tmp.split(":");
-    if(m_hostname_parts.length > 2){
-        check = false;
-        ERROR_MSG += minisprintf("${_('%s contains too many colon(:)s.')}", "${_('FQDN')}");
+   connect_type = $("input:radio[name='m_connect_type']:checked").val();
+
+   if(connect_type == "karesansui") {
+
+       m_hostname_tmp = $("#m_hostname").val();
+       m_hostname_parts = m_hostname_tmp.split(":");
+       if(m_hostname_parts.length > 2){
+           check = false;
+           ERROR_MSG += minisprintf("${_('%s contains too many colon(:)s.')}", "${_('FQDN')}");
+       } else {
+           $("#m_hostname").val(m_hostname_parts[0]);
+           check = check_domainname(
+                       $("#m_hostname"),
+                       CHECK_EMPTY | CHECK_LENGTH | CHECK_VALID,
+                       "${_('FQDN')}",
+                       null,
+                       FQDN_MIN_LENGTH,
+                       FQDN_MAX_LENGTH
+                   ) && check;
+           if(m_hostname_parts[1]){
+               $("#m_hostname").val(m_hostname_parts[1]);
+               check = check_number(
+                               $("#m_hostname"),
+                               CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                               "${_('Port Number')}",
+                               PORT_MIN_NUMBER,
+                               PORT_MAX_NUMBER
+                           ) && check;
+           }
+           $("#m_hostname").val(m_hostname_tmp);
+       }
     } else {
-        $("#m_hostname").val(m_hostname_parts[0]);
-        check = check_domainname(
-                    $("#m_hostname"),
-                    CHECK_EMPTY | CHECK_LENGTH | CHECK_VALID,
-                    "${_('FQDN')}",
-                    null,
-                    FQDN_MIN_LENGTH,
-                    FQDN_MAX_LENGTH
-                ) && check;
-        if(m_hostname_parts[1]){
-            $("#m_hostname").val(m_hostname_parts[1]);
-            check = check_number(
-                            $("#m_hostname"),
-                            CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
-                            "${_('Port Number')}",
-                            PORT_MIN_NUMBER,
-                            PORT_MAX_NUMBER
-                        ) && check;
-        }
-        $("#m_hostname").val(m_hostname_tmp);
+        check = check_uri(
+                $("#m_uri"),
+                CHECK_EMPTY | CHECK_VALID,
+                "${_('URI')}", 0, 0
+            ) && check;
     }
 
     check = check_string(
@@ -130,17 +141,12 @@ $(document).ready(function(){
         "${_('Tag')}", 
         "${_(r"Tag to add to the host to be used in Karesansui control panel. Can be used to search hosts using tags in the 'Hosts' panel (features planned in future version). Separate tags with commas to specify two or more tags. Any letters, including spaces and symbols are allowed.")}");
 });
-//-->
+// -->
 </script>
 
 <div id="input_host">
     <div class="grayout-head">
         <span class="grayout-title">
-        <!--
-        TRANSLATORS:
-        fussyになっていると思いますが、現在「ゲスト設定の編集」になっていますので「ホスト設定の編集」
-        に変更をお願いします。
-        -->
             <a href="#" id="server" class="path-a"><img src="${ctx.homepath}/static/images/settings-title.gif" alt="" >${_('Edit Host Settings')}</a>
         </span>
         <br style="clear: both;"/>
@@ -152,9 +158,94 @@ $(document).ready(function(){
             <input type="text" id="m_name" name="m_name" value="${model.name | h}" size="40" maxlength="256" /><span class="require-text">${_('Require')}</span>
         </div>
 
-        <div class="grayout-param">${_('FQDN')}<span id="m_hostname_help"/></div>
+        <div class="grayout-param">${_('Connection Type')}<span id="m_hostname_help"/></div>
         <div class="grayout-value grayout-form">
-            <input type="text" id="m_hostname" name="m_hostname" value="${model.hostname | h}" size="40" maxlength="256" /><span class="require-text">${_('Require')}</span>
+
+            <div style="background-color: #FFFFFF">
+                <div id="connect_type_karesansui_html">
+                    <table width="100%" style="background-color: #FFFFFF; padding: 10px">
+                        <tr>
+                            <td width="150px">
+% if model.attribute == 2:
+                                <input type="radio" name="m_connect_type" id="m_connect_type_karesansui" value="karesansui" />${_("Other Karesansui")}
+% else:
+                                <input type="radio" name="m_connect_type" id="m_connect_type_karesansui" value="karesansui" checked="checked" />${_("Other Karesansui")}
+% endif
+                            </td>
+                            <td>
+                                <table width="100%" style="background-color: #F5F5F5;">
+                                    <tr>
+                                        <td width="100px">
+                                            ${_('FQDN')}<span id="m_hostname_help"/>
+                                        </td>
+                                        <td>
+% if model.attribute == 2:
+                                        <input type="text" id="m_hostname" name="m_hostname" value="" size="40" maxlength="256" /><span class="require-text">${_('Require')}</span>
+% else:
+                                        <input type="text" id="m_hostname" name="m_hostname" value="${model.hostname | h}" size="40" maxlength="256" /><span class="require-text">${_('Require')}</span>
+% endif
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="connect_type_libvirt_html">
+                    <table width="100%" style="background-color: #FFFFFF; padding: 10px">
+                        <tr>
+                            <td width="150px">
+% if model.attribute == 2:
+                                <input type="radio" name="m_connect_type" id="m_connect_type_libvirt" value="libvirt" checked="checked"/>${_("Libvirt URI")}
+% else:
+                                <input type="radio" name="m_connect_type" id="m_connect_type_libvirt" value="libvirt" />${_("Libvirt URI")}
+% endif
+                            </td>
+                            <td>
+                                <table width="100%" style="background-color: #F5F5F5;">
+                                    <tr>
+                                        <td width="100px">
+                                            ${_('URI')}<span id="m_uri_help"/>
+                                        </td>
+                                        <td>
+% if model.attribute == 2:
+                                        <input type="text" id="m_uri" name="m_uri" value="${uri | h}" size="50" maxlength="256" /><span class="require-text">${_('Require')}</span>
+% else:
+                                        <input type="text" id="m_uri" name="m_uri" value="" size="40" maxlength="256" /><span class="require-text">${_('Require')}</span>
+% endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="100px">
+                                            ${_('User Name')}<span id="uri_user_help"/>
+                                        </td>
+                                        <td>
+% if model.attribute == 2:
+                                        <input type="text" id="m_auth_user" name="m_auth_user" value="${auth_user | h}" size="20" /><span class="require-text" id="m_auth_user"></span>
+% else:
+                                        <input type="text" id="m_auth_user" name="m_auth_user" value="" size="20" /><span class="require-text" id="m_auth_user"></span>
+% endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="100px">
+                                            ${_('Password')}<span id="uri_passwd_help"/>
+                                        </td>
+                                        <td>
+% if model.attribute == 2:
+                                        <input type="password" id="m_auth_passwd" name="m_auth_passwd" value="${auth_passwd | h}" size="20" /><span class="require-text" id="m_auth_passwd"></span>
+% else:
+                                        <input type="password" id="m_auth_passwd" name="m_auth_passwd" value="" size="20" /><span class="require-text" id="m_auth_passwd"></span>
+% endif
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
 
 % if application_uniqkey == model.uniq_key:
