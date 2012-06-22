@@ -5,7 +5,7 @@ from karesansui.lib.template import clipping
 from karesansui.lib.const import MACHINE_NAME_CLIPPING_RANGE
 %>
 <script type="text/javascript">
-<!--
+//<![CDATA[
 
 // lib
 function hostby1_location(id){
@@ -235,7 +235,8 @@ $(document).ready(function(){
     renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
     show_detail_event();
 });
--->
+
+//]]>
 </script>
 <div class="alert"></div>
                     <div id="action">

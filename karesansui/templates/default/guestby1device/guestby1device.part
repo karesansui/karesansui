@@ -4,7 +4,6 @@
 <!--
 $(document).ready(function(){
 
-
 // init
 tool_invalid("#edit_device");
 tool_invalid("#delete_device");
@@ -149,8 +148,7 @@ function unbind_event() {
     $("#edit_device").unbind("click.edit");
     $("#delete_device").unbind("click.delete");
 }
-
--->
+// -->
 </script>
                     <div id="action">
                         <div class="left"></div>

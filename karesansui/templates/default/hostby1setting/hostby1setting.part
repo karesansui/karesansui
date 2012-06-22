@@ -54,7 +54,7 @@ $(document).ready(function(){
              null);
 
 });
--->
+// -->
 </script>
                     <div id="setting">
                         <div classs="alert"></div>

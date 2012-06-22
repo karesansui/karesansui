@@ -126,13 +126,11 @@ $(document).ready(function(){
     $("#created_start").datepicker({altFormat: '${USER_DATE_FORMAT[2]}'});
     $("#created_end").datepicker({altFormat: '${USER_DATE_FORMAT[2]}'});
 
-
     helptip("#guestby1_job_search_status_help",
         "${_('Status')}", 
         "${_('Status of the job. OK means normal exit. PEND means the job is in the queue and waiting to be executed. RUN means the job is being executed and running. APPERR means the background system error. NG means job command execution error.')}");
 });
-
--->
+// -->
 </script>
                     <div id="job">
                         <div class="alert"></div>

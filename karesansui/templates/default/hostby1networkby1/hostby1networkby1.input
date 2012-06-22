@@ -52,7 +52,7 @@ $(document).ready(function(){
     helptip("#forward_mode_help", "${_('IP Masquerading')}", "${_('When checked, enables IP masquerading to outer network from this network.')}");
     helptip("#autostart_help", "${_('Autostart')}", "${_('Configure the network to be automatically started when the host machine boots.')}");
 });
--->
+// -->
 </script>
 
 <div id="input_network">

@@ -53,7 +53,7 @@ $(document).ready(function() {
             "${_('Number of Virtual CPUs to Allocate')}",
             "${_('Specify how many CPUs you like to allocate to the guest.')}");
 });
--->
+// -->
 </script>
 
 <div id="cpu_setting">

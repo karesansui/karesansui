@@ -57,9 +57,10 @@ $(document).ready(function(){
     helptip("#dhcp_start_help", "${_('DHCP Start Address')}", "${_('Start address of the range of DHCP addresses, which the DHCP server uses (DHCP server will automatically start up). Should be an address within the same network with the bridge.')}");
     helptip("#dhcp_end_help", "${_('DHCP End Address')}", "${_('End address of the range of DHCP addresses, which the DHCP server uses (DHCP server will automatically start up). Should be an address within the same network with the bridge.')}");
     helptip("#forward_mode_help", "${_('IP Masquerading')}", "${_('When checked, enables IP masquerading to outer network from this network.')}");
-});
     helptip("#autostart_help", "${_('Autostart')}", "${_('Configure the network to be automatically started when the host machine boots.')}");
--->
+
+});
+// -->
 </script>
 
 <div id="input_network">

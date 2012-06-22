@@ -84,21 +84,22 @@ class UriGuestBy1(Rest):
                 try:
                     host = MergeHost(self.kvc, model)
                     for guest in host.guests:
-                        _virt = self.kvc.search_kvg_guests(guest.info["model"].name)
-                        if 0 < len(_virt):
-                            for _v in _virt:
-                                info = _v.get_info()
-                                if info["uuid"] == uri_id:
-                                    __guest = MergeGuest(guest.info["model"],_v)
-                                    autostart       = _v.autostart()
-                                    status          = _v.status()
-                                    is_creatable    = _v.is_creatable()
-                                    is_shutdownable = _v.is_shutdownable()
-                                    is_suspendable  = _v.is_suspendable()
-                                    is_resumable    = _v.is_resumable()
-                                    is_destroyable  = _v.is_destroyable()
-                                    is_active       = _v.is_active()
-                                    break
+                        if not '__guest' in locals():
+                            _virt = self.kvc.search_kvg_guests(guest.info["model"].name)
+                            if 0 < len(_virt):
+                                for _v in _virt:
+                                    info = _v.get_info()
+                                    if info["uuid"] == uri_id or (uri[0:5] == "test:"):
+                                        __guest = MergeGuest(guest.info["model"],_v)
+                                        autostart       = _v.autostart()
+                                        status          = _v.status()
+                                        is_creatable    = _v.is_creatable()
+                                        is_shutdownable = _v.is_shutdownable()
+                                        is_suspendable  = _v.is_suspendable()
+                                        is_resumable    = _v.is_resumable()
+                                        is_destroyable  = _v.is_destroyable()
+                                        is_active       = _v.is_active()
+                                        break
 
                     if self.is_json() is True:
                         json_host  = host.get_json(self.me.languages)

@@ -49,6 +49,8 @@ from karesansui.lib.const import \
     TAG_MIN_LENGTH, TAG_MAX_LENGTH, \
     FQDN_MIN_LENGTH, FQDN_MAX_LENGTH, \
     PORT_MIN_NUMBER, PORT_MAX_NUMBER, \
+    MACHINE_ATTRIBUTE, MACHINE_HYPERVISOR, \
+    USER_MIN_LENGTH, USER_MAX_LENGTH, \
     VENDOR_DATA_DIR
 
 from karesansui.db.access.tag import \
@@ -75,33 +77,58 @@ def validates_host_edit(obj):
                     max = MACHINE_NAME_MAX_LENGTH,
             ) and check
 
-    if not is_param(obj.input, 'm_hostname'):
+    if not is_param(obj.input, 'm_connect_type'):
         check = False
-        checker.add_error(_('"%s" is required.') % _('FQDN'))
+        checker.add_error(_('Parameter m_connect_type does not exist.'))
     else:
-        m_hostname_parts = obj.input.m_hostname.split(":")
-        if len(m_hostname_parts) > 2:
-            check = False
-            checker.add_error(_('%s contains too many colon(:)s.') % _('FQDN'))
-        else:
-            check = checker.check_domainname(
-                        _('FQDN'),
-                        m_hostname_parts[0],
-                        CHECK_EMPTY | CHECK_LENGTH | CHECK_VALID,
-                        min = FQDN_MIN_LENGTH,
-                        max = FQDN_MAX_LENGTH,
-                        ) and check
-            try:
-                check = checker.check_number(
-                            _('Port Number'),
-                            m_hostname_parts[1],
-                            CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
-                            PORT_MIN_NUMBER,
-                            PORT_MAX_NUMBER,
-                            ) and check
-            except IndexError:
-                # when reach here, 'm_hostname' has only host name
+        if obj.input.m_connect_type == "karesansui":
+
+            if not is_param(obj.input, 'm_hostname'):
+                check = False
+                checker.add_error(_('"%s" is required.') % _('FQDN'))
+            else:
+                m_hostname_parts = obj.input.m_hostname.split(":")
+                if len(m_hostname_parts) > 2:
+                    check = False
+                    checker.add_error(_('%s contains too many colon(:)s.') % _('FQDN'))
+                else:
+                    check = checker.check_domainname(
+                                _('FQDN'),
+                                m_hostname_parts[0],
+                                CHECK_EMPTY | CHECK_LENGTH | CHECK_VALID,
+                                min = FQDN_MIN_LENGTH,
+                                max = FQDN_MAX_LENGTH,
+                                ) and check
+                    try:
+                        check = checker.check_number(
+                                    _('Port Number'),
+                                    m_hostname_parts[1],
+                                    CHECK_EMPTY | CHECK_VALID | CHECK_MIN | CHECK_MAX,
+                                    PORT_MIN_NUMBER,
+                                    PORT_MAX_NUMBER,
+                                    ) and check
+                    except IndexError:
+                        # when reach here, 'm_hostname' has only host name
+                        pass
+
+        if obj.input.m_connect_type == "libvirt":
+
+            if not is_param(obj.input, 'm_uri'):
+                check = False
+                checker.add_error(_('"%s" is required.') % _('URI'))
+            else:
                 pass
+
+            if is_param(obj.input, 'm_auth_user') and obj.input.m_auth_user != "":
+
+                check = checker.check_username(
+                    _('User Name'),
+                    obj.input.m_auth_user,
+                    CHECK_LENGTH | CHECK_ONLYSPACE,
+                    min = USER_MIN_LENGTH,
+                    max = USER_MAX_LENGTH,
+                    ) and check
+
 
     if is_param(obj.input, 'note_title'):
         check = checker.check_string(
@@ -217,13 +244,13 @@ class HostBy1(Rest):
                         creds += segs["user"]
                         if segs["passwd"] is not None:
                             creds += ':' + segs["passwd"]
-                    self.kvc = KaresansuiVirtConnectionAuth(uri,creds)
 
                     try:
+                        self.kvc = KaresansuiVirtConnectionAuth(uri,creds)
+
                         host = MergeHost(self.kvc, model)
                         if self.is_json() is True:
                             json_host = host.get_json(self.me.languages)
-
                             self.view.data = json_dumps({"model": json_host["model"],
                                                          "uri"  : uri,
                                                          "num_of_guests"  : len(host.guests),
@@ -231,9 +258,23 @@ class HostBy1(Rest):
                         else:
                             self.view.model = host.info["model"]
                             self.view.virt = host.info["virt"]
-                    finally:
-                        self.kvc.close()
+                            self.view.uri = uri
+                            try:
+                                self.view.auth_user = segs["user"]
+                            except:
+                                self.view.auth_user = ""
+                            try:
+                                self.view.auth_passwd = segs["passwd"]
+                            except:
+                                self.view.auth_passwd = ""
 
+                    except:
+                        pass
+
+                    finally:
+                        #if 'kvc' in dir(locals()["self"])
+                        if 'kvc' in dir(self):
+                            self.kvc.close()
 
                 # other host
                 else:
@@ -250,13 +291,35 @@ class HostBy1(Rest):
             return True
         else:
             # mode=input
-            self.kvc = KaresansuiVirtConnection(uri)
-            try:
-                host = MergeHost(self.kvc, model)
-                self.view.model = host.info["model"]
-                self.view.application_uniqkey = karesansui.config['application.uniqkey']
-            finally:
-                self.kvc.close()
+            if model.attribute == 2:
+                segs = uri_split(model.hostname)
+                uri = uri_join(segs, without_auth=True)
+                creds = ''
+                if segs["user"] is not None:
+                    creds += segs["user"]
+                    if segs["passwd"] is not None:
+                        creds += ':' + segs["passwd"]
+
+                self.view.model = model
+                self.view.uri = uri
+                try:
+                    self.view.auth_user = segs["user"]
+                except:
+                    self.view.auth_user = ""
+                try:
+                    self.view.auth_passwd = segs["passwd"]
+                except:
+                    self.view.auth_passwd = ""
+
+            else:
+                self.kvc = KaresansuiVirtConnection(uri)
+                try:
+                    host = MergeHost(self.kvc, model)
+                    self.view.model = host.info["model"]
+                finally:
+                    self.kvc.close()
+
+            self.view.application_uniqkey = karesansui.config['application.uniqkey']
 
             return True
 
@@ -278,12 +341,26 @@ class HostBy1(Rest):
                               "- %s, %s" % (host, cmp_host))
             return web.conflict(web.ctx.path)
 
-        hostname_check = findby1hostname(self.orm, self.input.m_hostname)
-        if hostname_check is not None and int(host_id) != hostname_check.id:
-            return web.conflict(web.ctx.path)
+        if self.input.m_connect_type == "karesansui":
+            hostname_check = findby1hostname(self.orm, self.input.m_hostname)
+            if hostname_check is not None and int(host_id) != hostname_check.id:
+                return web.conflict(web.ctx.path)
 
-        if is_param(self.input, "m_hostname"):
-            host.hostname = self.input.m_hostname
+        if self.input.m_connect_type == "karesansui":
+            host.attribute = MACHINE_ATTRIBUTE['HOST']
+            if is_param(self.input, "m_hostname"):
+                host.hostname = self.input.m_hostname
+
+        if self.input.m_connect_type == "libvirt":
+            host.attribute = MACHINE_ATTRIBUTE['URI']
+            if is_param(self.input, "m_uri"):
+                segs = uri_split(self.input.m_uri)
+                if is_param(self.input, "m_auth_user") and self.input.m_auth_user:
+                    segs["user"] = self.input.m_auth_user
+                    if is_param(self.input, "m_auth_passwd") and self.input.m_auth_passwd:
+                        segs["passwd"] = self.input.m_auth_passwd
+                host.hostname = uri_join(segs)
+
         if is_param(self.input, "note_title"):
             host.notebook.title = self.input.note_title
         if is_param(self.input, "note_value"):

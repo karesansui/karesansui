@@ -53,6 +53,7 @@ from karesansui.lib.utils import is_int, is_param, karesansui_database_exists
 from karesansui.db.access.user import login as dba_login
 from karesansui.db.access.machine import is_findbyhost1, is_findbyguest1
 from karesansui.lib.const import LOGOUT_FILE_PREFIX, DEFAULT_LANGS
+from karesansui.db.access.user import findby1email
 
 BASIC_REALM = 'KARESANSUI_AUTHORIZE'
 """<comment-ja>
@@ -790,7 +791,16 @@ def auth(func):
     def wrapper(self, *args, **kwargs):
 
         if web.ctx.path[0:6] == '/data/':
-            self._ = mako_translation(languages=[ unicode(karesansui.config['application.default.locale']), ])
+            languages = unicode(karesansui.config['application.default.locale'])
+            if web.ctx.env.has_key('HTTP_AUTHORIZATION'):
+                _http_auth = web.ctx.env['HTTP_AUTHORIZATION'].strip()
+                if _http_auth[:5] == 'Basic':
+                    email, password = b64decode(_http_auth[6:].strip()).split(':')
+                    session = web.ctx.orm
+                    user = findby1email(session, email)
+                    languages = user.languages
+
+            self._ = mako_translation(languages=[ unicode(languages), ])
             return func(self, *args, **kwargs)
 
         if karesansui_database_exists() is False:

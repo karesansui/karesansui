@@ -267,9 +267,9 @@ function make_guest_detail(data, status) {
 
     var autostart = "";
     if(data.autostart == true){
-        autostart = "${_('ON')}";
+        autostart = "${_('Enabled')}";
     } else {
-        autostart = "${_('OFF')}";
+        autostart = "${_('Disabled')}";
     }
     _g += make_tr("${_('Autostart')}", autostart);
 
@@ -554,9 +554,9 @@ function make_uriguest_detail(data, status) {
 
     var autostart = "";
     if(data.autostart == true){
-        autostart = "${_('ON')}";
+        autostart = "${_('Enabled')}";
     } else {
-        autostart = "${_('OFF')}";
+        autostart = "${_('Disabled')}";
     }
     _g += make_tr("${_('Autostart')}", autostart);
 
@@ -860,6 +860,7 @@ tool_invalid("#import_guest");
                     <div id="action" >
                         <div class="left"></div>
 
+% if not uri_guests:
                         <a href="#" class="tool-link" name="create_guest" id="create_guest">
                             <div class="tool-mid">
                                 <div class="tool-left"></div>
@@ -928,6 +929,7 @@ tool_invalid("#import_guest");
                                 </div>
                             </div>
                         </a>
+% endif
 
                         <div class="right">
                             <a href="#" class="tool-link" >

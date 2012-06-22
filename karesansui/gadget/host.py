@@ -27,11 +27,9 @@ import web
 
 import karesansui
 from karesansui import config
-
 from karesansui.lib.rest import Rest, auth
-
 from karesansui.lib.utils import generate_uuid, string_from_uuid, \
-     uni_force, is_param, comma_split, uniq_sort
+     uni_force, is_param, comma_split, uniq_sort, uri_split, uri_join
 
 from karesansui.lib.checker import Checker, \
     CHECK_EMPTY, CHECK_LENGTH, CHECK_ONLYSPACE, CHECK_VALID, \
@@ -108,6 +106,16 @@ def validates_host_add(obj):
                         # when reach here, 'm_hostname' has only host name
                         pass
 
+            if not is_param(obj.input, 'm_uuid'):
+                check = False
+                checker.add_error(_('"%s" is required.') % _('Unique Key'))
+            else:
+                check = checker.check_unique_key(
+                            _('Unique Key'),
+                            obj.input.m_uuid,
+                            CHECK_EMPTY | CHECK_VALID
+                            ) and check
+
         if obj.input.m_connect_type == "libvirt":
 
             if not is_param(obj.input, 'm_uri'):
@@ -124,17 +132,6 @@ def validates_host_add(obj):
                     CHECK_LENGTH | CHECK_ONLYSPACE,
                     min = USER_MIN_LENGTH,
                     max = USER_MAX_LENGTH,
-                    ) and check
-
-
-    if not is_param(obj.input, 'm_uuid'):
-        check = False
-        checker.add_error(_('"%s" is required.') % _('Unique Key'))
-    else:
-        check = checker.check_unique_key(
-                    _('Unique Key'),
-                    obj.input.m_uuid,
-                    CHECK_EMPTY | CHECK_VALID
                     ) and check
 
     if is_param(obj.input, 'note_title'):
@@ -193,13 +190,15 @@ class Host(Rest):
         if not validates_host_add(self):
             return web.badrequest(self.view.alert)
 
-        uniq_key_check = findby1uniquekey(self.orm, self.input.m_uuid)
-        if uniq_key_check is not None and config['application.uniqkey'] != self.input.m_uuid:
-            return web.conflict(web.ctx.path)
+        if self.input.m_connect_type == "karesansui":
 
-        hostname_check = findby1hostname(self.orm, self.input.m_hostname)
-        if hostname_check is not None:
-            return web.conflict(web.ctx.path)
+            uniq_key_check = findby1uniquekey(self.orm, self.input.m_uuid)
+            if uniq_key_check is not None and config['application.uniqkey'] != self.input.m_uuid:
+                return web.conflict(web.ctx.path)
+
+            hostname_check = findby1hostname(self.orm, self.input.m_hostname)
+            if hostname_check is not None:
+                return web.conflict(web.ctx.path)
 
         # notebook
         note_title = None
@@ -224,16 +223,24 @@ class Host(Rest):
                 else:
                     _tags.append(t_name(self.orm, x))
 
-        uniq_key = self.input.m_uuid
         name = self.input.m_name
 
         if self.input.m_connect_type == "karesansui":
-            hostname = self.input.m_hostname
+            uniq_key = self.input.m_uuid
             attribute = MACHINE_ATTRIBUTE['HOST']
+            if is_param(self.input, "m_hostname"):
+                hostname = self.input.m_hostname
 
         if self.input.m_connect_type == "libvirt":
-            hostname = self.input.m_uri
+            uniq_key = string_from_uuid(generate_uuid())
             attribute = MACHINE_ATTRIBUTE['URI']
+            if is_param(self.input, "m_uri"):
+                segs = uri_split(self.input.m_uri)
+                if is_param(self.input, "m_auth_user") and self.input.m_auth_user:
+                    segs["user"] = self.input.m_auth_user
+                    if is_param(self.input, "m_auth_passwd") and self.input.m_auth_passwd:
+                        segs["passwd"] = self.input.m_auth_passwd
+                hostname = uri_join(segs)
 
         model = findby1uniquekey(self.orm, uniq_key, is_deleted = True)
         if model is None:

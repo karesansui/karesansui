@@ -59,7 +59,7 @@ $(document).ready(function(){
     helptip("#dhcp_end_help", "${_('DHCP End Address')}", "${_('End address of the range of DHCP addresses, which the DHCP server uses (DHCP server will automatically start up). Should be an address within the same network with the bridge.')}");
     helptip("#forward_mode_help", "${_('IP Masquerading')}", "${_('When checked, enables IP masquerading to outer network from this network.')}");
 });
--->
+// -->
 </script>
 
 <div id="input_network">

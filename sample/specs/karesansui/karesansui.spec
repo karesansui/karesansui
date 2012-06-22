@@ -2,8 +2,8 @@
 %{!?_datarootdir: %global _datarootdir %{_prefix}/share}
 
 %define __app karesansui
-%define version 3.0.0
-%define release 2
+%define version 3.0.1
+%define release 1
 %define date %(echo `LANG=C date +%%Y%%m%%d%%H%%M%%S`)
 
 %define name karesansui
@@ -301,6 +301,9 @@ fi
 %{python_sitelib}/karesansui/plus/*
 
 %changelog
+* Fri Jun 22 2012 Taizo ITO <taizo@karesansui-project.info> - 3.0.1-1
+- version 3.0.1 release.
+
 * Mon Apr  2 2012 Taizo ITO <taizo@karesansui-project.info> - 3.0.0-1
 - version 3.0.0 beta release.
 

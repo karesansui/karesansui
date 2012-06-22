@@ -132,6 +132,7 @@ $(document).ready(function(){
                                 <span class="tab-right">${_('Settings')}</span>
                             </a>
                         </li>
+% endif
                         <li class="top-tab">
                             <a class="tab-left original-top-tab" href="#" id="${ctx.homepath}/host/${model.id}/job.part">
                                 <span class="tab-right">${_('Job')}</span>
@@ -140,6 +141,7 @@ $(document).ready(function(){
                                 <span class="tab-right">${_('Job')}</span>
                             </a>
                         </li>
+% if model.attribute != 2:
                         <li class="top-tab">
                             <a class="tab-left original-top-tab" href="#" id="${ctx.homepath}/host/${model.id}/network.part">
                                 <span class="tab-right">${_('Network')}

@@ -11,7 +11,7 @@ $(document).ready(function(){
     helptip("#route_metric_help", "${_('Metric')}", "${_('The distance to the target \(usually counted in hops\).')}");
 
 });
--->
+// -->
 </script>
 
 <div id="route_detail_display">
