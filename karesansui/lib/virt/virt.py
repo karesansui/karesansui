@@ -158,11 +158,14 @@ class KaresansuiVirtConnection:
             r_chmod(VIRT_DOMAINS_DIR,"o-rwx")
 
     def __prep2(self):
-        if not os.path.exists(self.config_dir):
-          os.makedirs(self.config_dir)
-        self.logger = logging.getLogger('karesansui.virt')
-        if os.getuid() == 0:
-            r_chgrp(self.config_dir,KARESANSUI_GROUP)
+        try:
+            if not os.path.exists(self.config_dir):
+                os.makedirs(self.config_dir)
+            self.logger = logging.getLogger('karesansui.virt')
+            if os.getuid() == 0:
+                r_chgrp(self.config_dir,KARESANSUI_GROUP)
+        except:
+            pass
 
     def open(self, uri,readonly=True):
         """

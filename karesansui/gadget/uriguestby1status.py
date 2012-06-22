@@ -139,7 +139,7 @@ class UriGuestBy1Status(Rest):
                         if 0 < len(_virt):
                             for _v in _virt:
                                 info = _v.get_info()
-                                if info["uuid"] == uri_id:
+                                if info["uuid"] == uri_id or (uri[0:5] == "test:"):
                                     __guest = MergeGuest(guest.info["model"],_v)
                                     status          = _v.status()
                                     break
@@ -205,7 +205,7 @@ class UriGuestBy1Status(Rest):
                         for _v in _virt:
                             info = _v.get_info()
                             #uri = _v._conn.getURI()
-                            if info["uuid"] == uri_id:
+                            if info["uuid"] == uri_id or (uri[0:5] == "test:"):
 
                                 esc_name = "'%s'" % guest.info["model"].name
                                 opts = {"name":esc_name,"connection":uri}

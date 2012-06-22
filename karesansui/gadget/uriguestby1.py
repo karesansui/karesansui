@@ -89,7 +89,7 @@ class UriGuestBy1(Rest):
                             if 0 < len(_virt):
                                 for _v in _virt:
                                     info = _v.get_info()
-                                    if info["uuid"] == uri_id:
+                                    if info["uuid"] == uri_id or (uri[0:5] == "test:"):
                                         __guest = MergeGuest(guest.info["model"],_v)
                                         autostart       = _v.autostart()
                                         status          = _v.status()
