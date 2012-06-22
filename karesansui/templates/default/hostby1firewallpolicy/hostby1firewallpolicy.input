@@ -44,7 +44,7 @@ function notice_on() {
 notice_on()
 % endif
 
--->
+// -->
 </script>
     <div id="policy_setting">
         <div class="grayout-head">

@@ -394,7 +394,7 @@ $(document).ready(function(){
         }
     });
 });
-//-->
+// -->
 </script>
 <div id="watch_setting">
     <form method="post" action="" id="input_watch_form" name="input_watch_form">

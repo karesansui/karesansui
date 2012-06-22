@@ -68,7 +68,7 @@ $(document).ready(function() {
             "${_('Netmask')}",
             "${_('Netmask address of this device')}");
 });
--->
+// -->
 </script>
 
 <div id="nic_setting">

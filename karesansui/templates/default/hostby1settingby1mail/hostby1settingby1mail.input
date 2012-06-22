@@ -47,7 +47,7 @@ $(document).ready(function(){
         "${_('Port Number')}",
         '${_("Specify the port number of SMTP server which Karesansui connects (usually \"25\").")}');
 });
--->
+// -->
 </script>
 
 <div id="setting_mail">

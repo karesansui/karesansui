@@ -63,7 +63,7 @@ $("#grayout_close_button").one("click", function(){
     $('#dialog_screen').dialog('close');
 });
 % endif
-//-->
+// -->
 </script>
 
 <div id="input_guest">

@@ -35,7 +35,7 @@ $(document).ready(function() {
             "${_('MAC Address')}",
             "${_('MAC address of the guest network interface.')}");
 });
--->
+// -->
 </script>
 
 <div id="nic_setting">

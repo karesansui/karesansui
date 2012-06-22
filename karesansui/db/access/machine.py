@@ -24,6 +24,8 @@
 # THE SOFTWARE.
 #
 
+from sqlalchemy import and_, or_
+
 from karesansui.lib.const import MACHINE_ATTRIBUTE
 from karesansui.db.model.machine import Machine
 from karesansui.db.access import dbsave, dbupdate, dbdelete
@@ -60,13 +62,13 @@ def findby1hostname(session, hostname, is_deleted=False):
 # -- host
 def findbyhostall(session, is_deleted=False):
     return session.query(Machine).filter(
-        Machine.attribute == MACHINE_ATTRIBUTE['HOST']).filter(
+        or_(Machine.attribute == MACHINE_ATTRIBUTE['HOST'], Machine.attribute == MACHINE_ATTRIBUTE['URI'])).filter(
         Machine.is_deleted == is_deleted).all()
 
 def findbyhost1(session, machine_id, is_deleted=False):
     return session.query(Machine).filter(
         Machine.id == machine_id).filter(
-        Machine.attribute == MACHINE_ATTRIBUTE['HOST']).filter(
+        or_(Machine.attribute == MACHINE_ATTRIBUTE['HOST'], Machine.attribute == MACHINE_ATTRIBUTE['URI'])).filter(
         Machine.is_deleted == is_deleted).first()
 
 def is_findbyhost1(session, machine_id, is_deleted=False):
@@ -81,7 +83,7 @@ def is_findbyhost1(session, machine_id, is_deleted=False):
     """
     return session.query(Machine).filter(
         Machine.id == machine_id).filter(
-        Machine.attribute == MACHINE_ATTRIBUTE['HOST']).filter(
+        or_(Machine.attribute == MACHINE_ATTRIBUTE['HOST'], Machine.attribute == MACHINE_ATTRIBUTE['URI'])).filter(
         Machine.is_deleted == is_deleted).count()
 
 
@@ -132,6 +134,9 @@ def deleteby1uniquekey(session, uniq_key, is_deleted=False):
 @dbupdate
 def logical_delete(session, machine):
     if machine.attribute == MACHINE_ATTRIBUTE['HOST']:
+        machine.hostname = None
+
+    if machine.attribute == MACHINE_ATTRIBUTE['URI']:
         machine.hostname = None
 
     machine.is_deleted = True

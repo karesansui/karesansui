@@ -73,7 +73,7 @@ $(document).ready(function(){
 
     renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
 });
--->
+// -->
 </script>
 
                     <div id="action">

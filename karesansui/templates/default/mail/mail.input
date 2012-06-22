@@ -49,7 +49,7 @@ $(document).ready(function() {
         validates_mail
     );
 });
--->
+// -->
 </script>
 
 <div id="mailserver_setting">

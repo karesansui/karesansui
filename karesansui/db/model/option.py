@@ -112,10 +112,16 @@ class Option(karesansui.db.model.Model):
         ret["modified_user_id"] = self.modified_user_id
         ret["modified_user"] = self.modified_user.get_json(languages)
 
-        ret["created"] = self.created.strftime(
-            DEFAULT_LANGS[languages]['DATE_FORMAT'][1])
-        ret["modified"] = self.modified.strftime(
-            DEFAULT_LANGS[languages]['DATE_FORMAT'][1])
+        try:
+            ret["created"] = self.created.strftime(
+                DEFAULT_LANGS[languages]['DATE_FORMAT'][1])
+        except:
+            ret["created"] = "unknown"
+        try:
+            ret["modified"] = self.modified.strftime(
+                DEFAULT_LANGS[languages]['DATE_FORMAT'][1])
+        except:
+            ret["modified"] = "unknown"
 
         return ret
     

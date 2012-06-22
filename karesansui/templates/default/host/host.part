@@ -5,7 +5,7 @@ from karesansui.lib.template import clipping
 from karesansui.lib.const import MACHINE_NAME_CLIPPING_RANGE
 %>
 <script type="text/javascript">
-<!--
+//<![CDATA[
 
 // lib
 function hostby1_location(id){
@@ -73,11 +73,12 @@ $(document).ready(function(){
         // event
         $(this).click(function(){
             me_flag = $(this).hasClass("me");
+            uri_flag = $(this).hasClass("uri");
             past_active_id = active_id;
             active_id = $(this).attr("id").replace("host_", "");
 
             if($(this).hasClass("active") == true){
-                if(me_flag == true){  // My host
+                if(me_flag == true || uri_flag == true){  // My host and URI
                     hostby1_location(active_id);
                 } else {  // other host
                     location.href = $("#other_link").attr("href") + "host/" + active_id;
@@ -94,6 +95,7 @@ $(document).ready(function(){
                         var _s = "<table class='detail-contents'>";
 
                         if(me_flag == false){  // other host
+                        if(data.model.attribute == 0){
                             // Link is_ssl
                             var _l = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
                             _l += make_tr("${_('Link to Other Host Top Page')}", "<a id='other_link' href='" + data.other_url + "' alt='other host'>${_('Link')}</a>", true);
@@ -101,12 +103,20 @@ $(document).ready(function(){
                             _s += make_tr("${_('Other Information')}", _l, true);
                             _s += make_space();
                         }
+                        }
 
                         // General
                         var _g = "<table cellspacing='0' cellpadding='0' class='detail-sub-contents'>";
                         _g += make_tr("${_('Name')}", data.model.name);
-                        _g += make_tr("${_('Hostname')}", data.model.hostname);
-                        _g += make_tr("${_('Number of Guests')}", data.model.children.length);
+
+                        if(data.model.attribute == 2){
+                            _g += make_tr("${_('URI')}", data.uri);
+                            _g += make_tr("${_('Number of Guests')}", data.num_of_guests);
+                        } else {
+                            _g += make_tr("${_('Hostname')}", data.model.hostname);
+                            _g += make_tr("${_('Number of Guests')}", data.model.children.length);
+                        }
+
                         _g += make_tr("${_('Unique key')}", data.model.uniq_key);
 
                         var tags = "";
@@ -225,7 +235,8 @@ $(document).ready(function(){
     renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
     show_detail_event();
 });
--->
+
+//]]>
 </script>
 <div class="alert"></div>
                     <div id="action">
@@ -305,10 +316,14 @@ $(document).ready(function(){
                                 </div>
                                 ${clipping(host.name, MACHINE_NAME_CLIPPING_RANGE) | h}
                                 <br/>
-                                <span class="status">(${_('Host')})</span>
+                                <span class="status">(${_('My Host')})</span>
                             </div>
 % else:
+    % if host.attribute is 2:
+                            <div id="host_${host.id}" class="passive uri">
+    % else:
                             <div id="host_${host.id}" class="passive">
+    % endif
                                 <div class="icon-shadow">
     % if host.webicon() is None:
                                     <img src="${ctx.homepath}/static/images/notos.png" alt="" width="114px" height="114px" />
@@ -318,7 +333,11 @@ $(document).ready(function(){
                                 </div>
                                 ${clipping(host.name, MACHINE_NAME_CLIPPING_RANGE) | h}
                                 <br/>
+    % if host.attribute is 2:
+                                <span class="status">(${_('URI')})</span>
+    % else:
                                 <span class="status">(${_('Host')})</span>
+    % endif
                             </div>
 % endif
 % endfor

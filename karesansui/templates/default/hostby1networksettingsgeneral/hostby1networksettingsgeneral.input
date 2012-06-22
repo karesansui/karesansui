@@ -69,7 +69,7 @@ $(document).ready(function() {
             "${_('Nameserver')}",
             "${_('IP address of a name server that the resolver should query.')}");
 });
--->
+// -->
 </script>
 
 <div id="general_setting">

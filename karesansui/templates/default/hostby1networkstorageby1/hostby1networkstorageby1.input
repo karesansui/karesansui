@@ -94,7 +94,7 @@ $(document).ready(function(){
     helptip("#network_storage_password_help",
         "${_('Password')}",
         "${_('iSCSI authentication password. Please input the alphanumeric character up to 256 characters. ')}");
-    <!-- 自動接続 -->
+
     helptip("#network_storage_auto_start_help",
         "${_('Auto Connect')}",
         "${_('When checked, the connection automatically at startup.')}");
@@ -110,7 +110,7 @@ $(document).ready(function(){
 % endif
 
 });
--->
+// -->
 </script>
 
 <div id="input_network_storage">
@@ -170,14 +170,11 @@ $(document).ready(function(){
                 </div>
             </div>
 
-            <!-- 自動接続 -->
             <div class="grayout-param">${_('Auto Connect')}<span id="network_storage_auto_start_help" /></div>
             <div class="grayout-value grayout-form">
 % if info['autostart'] == 1:
-                <!-- 自動接続 -->
 	            <input type="checkbox" name="network_storage_auto_start" id="network_storage_auto_start" value="auto_start" checked />${_('Enable Auto Connect')}
 % else:
-                <!-- 自動接続 -->
 	            <input type="checkbox" name="network_storage_auto_start" id="network_storage_auto_start" value="auto_start" /> ${_('Enable Auto Connect')}
 % endif
             </div>

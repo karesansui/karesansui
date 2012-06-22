@@ -35,7 +35,7 @@
 
 __author__ = "Kei Funagayama <kei@karesansui-project.info>"
 __version__ = '3.0'
-__release__ = '0'
+__release__ = '1'
 __app__ = 'karesansui'
 
 import os

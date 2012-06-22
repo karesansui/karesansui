@@ -1,0 +1,96 @@
+<%doc>Copyright (C) 2009-2012 HDE, Inc.</%doc>
+<%inherit file="../include/base.html" />
+
+<%def name="breadcrumbs()">
+        <%!
+        from karesansui.lib.template import img_status, str_status, clipping
+        from karesansui.lib.const import MACHINE_NAME_CLIPPING_RANGE
+        %>
+
+
+        <div class="left"></div>
+        <div class="text">
+            <img src="${ctx.homepath}/static/images/top.png"/><a href="${ctx.homepath}/" class="path-a">${_('Top')}</a>
+            &nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;
+            <img src="${ctx.homepath}/static/images/host-icon.png"/><a href="${ctx.homepath}/host/${parent_model.id}" class="path-a">${clipping(parent_model.name, MACHINE_NAME_CLIPPING_RANGE) | h}</a>
+            &nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;
+            <img src="${ctx.homepath}/static/images/tree-guest.png" alt=""/><a href="${ctx.homepath}/host/${parent_model.id}/uriguest/${model.uniq_key}" class="path-a">${clipping(model.name, MACHINE_NAME_CLIPPING_RANGE) | h}</a>
+        </div>
+        <div class="right"></div>
+</%def>
+
+<%def name="tab()">
+<script type="text/javascript">
+<!--
+g_current_tree_id = "#tree-guest" + "${model.uniq_key}";
+$(document).ready(function(){
+
+    var job_id = "${job_id}";
+    if(job_id.match(/[0-9]+/)){
+
+        // get mid, pid  
+        var file_path = location.pathname.split("/");
+        var pid = file_path[file_path.length-4];
+        var mid = file_path[file_path.length-2];
+
+        // tab select
+        $("#tab .text ul li[class*='tab-selected']").removeClass('tab-selected');
+        $("#tab .text ul li a[id*=job]").parent().addClass('tab-selected');
+        
+        // content
+        goto_tab("${ctx.homepath}/host/"+pid+"/uriguest/"+mid+"/job.part", null);
+        ajax_get(
+            "#detail_value",
+            "${ctx.homepath}/job/" + job_id + ".part",
+            null
+        );
+            
+        // hi-light
+        $("table#job_list tbody tr#job_row" + job_id).addClass('active');
+
+    }
+
+    var tab_url = null;
+    $("#tab .text li a").click(function(){
+        tab_url = $(this).attr("id");
+        if(tab_url != null){
+            $("#tab .text ul li[class*='tab-selected']").removeClass('tab-selected');
+            $(this).parent().addClass('tab-selected');
+            if(tab_url.indexOf("console") != -1){
+                $("#show").html("<iframe frameborder='0' scrolling='no' height='600px' width='99%' src='" + tab_url + "'></iframe>")
+            } else {
+                goto_tab(tab_url, null);
+            }
+        }
+    });
+});
+// -->
+</script>
+                    <div class="text">
+                        <ul>
+                        <li class="top-tab">
+                            <a class="tab-left" href="#" id="${ctx.homepath}/host/${parent_model.id}/uriguest/${model.uniq_key}.part"><span class="tab-right">${_('Summary')}</span></a>
+                        </li>
+<!--
+                        <li class="top-tab">
+                            <a class="tab-left" href="#" id="${ctx.homepath}/host/${parent_model.id}/uriguest/${model.uniq_key}/console.part?standalone=1"><span class="tab-right">${_('Console')}</span></a>
+                        </li>
+-->
+                    </ul>
+                </div>
+</%def>
+
+
+<%def name="show()">
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+    var job_id = "${job_id}";
+    if(!job_id.match(/[0-9]+/)){
+        $("#tab .text ul li a[id$='${model.uniq_key}.part']").click();
+    }
+});
+// -->
+</script>
+</%def>
+

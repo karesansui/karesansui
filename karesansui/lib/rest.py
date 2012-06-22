@@ -38,6 +38,7 @@ from gettext import translation as translation
 import logging
 import traceback
 import os
+import sys
 
 import web
 from web.utils import Storage
@@ -52,6 +53,7 @@ from karesansui.lib.utils import is_int, is_param, karesansui_database_exists
 from karesansui.db.access.user import login as dba_login
 from karesansui.db.access.machine import is_findbyhost1, is_findbyguest1
 from karesansui.lib.const import LOGOUT_FILE_PREFIX, DEFAULT_LANGS
+from karesansui.db.access.user import findby1email
 
 BASIC_REALM = 'KARESANSUI_AUTHORIZE'
 """<comment-ja>
@@ -789,7 +791,16 @@ def auth(func):
     def wrapper(self, *args, **kwargs):
 
         if web.ctx.path[0:6] == '/data/':
-            self._ = mako_translation(languages=[ unicode(karesansui.config['application.default.locale']), ])
+            languages = unicode(karesansui.config['application.default.locale'])
+            if web.ctx.env.has_key('HTTP_AUTHORIZATION'):
+                _http_auth = web.ctx.env['HTTP_AUTHORIZATION'].strip()
+                if _http_auth[:5] == 'Basic':
+                    email, password = b64decode(_http_auth[6:].strip()).split(':')
+                    session = web.ctx.orm
+                    user = findby1email(session, email)
+                    languages = user.languages
+
+            self._ = mako_translation(languages=[ unicode(languages), ])
             return func(self, *args, **kwargs)
 
         if karesansui_database_exists() is False:
@@ -908,7 +919,13 @@ def mako_render(_, templatename, **kwargs):
             view[x] = kwargs['view'][x]
         kwargs.pop('view')
     kwargs.update(view)
-    return t.render(**kwargs)
+
+    try:
+        return t.render(**kwargs)
+    except Exception, e:
+        print >>sys.stderr, '[Error] failed to render. - %s' % ''.join(e.args)
+        traceback.format_exc()
+        raise
 
 def mako_translation(languages, domain='messages', localedir='locale'):
     """<comment-ja>

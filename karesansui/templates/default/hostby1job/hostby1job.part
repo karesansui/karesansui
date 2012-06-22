@@ -138,8 +138,7 @@ $(document).ready(function(){
     $("#created_start").datepicker({altFormat: '${USER_DATE_FORMAT[2]}'});
     $("#created_end").datepicker({altFormat: '${USER_DATE_FORMAT[2]}'});
 });
-
--->
+// -->
 </script>
                     <div id="job">
                         <div class="alert"></div>
