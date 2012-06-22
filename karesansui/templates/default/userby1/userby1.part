@@ -2,6 +2,7 @@
 <%inherit file="../include/common.part" />
 
 <script type="text/javascript">
+<!--
 $(document).ready(function() {
 
 $("#user_setting_close").click(function(){
@@ -9,7 +10,7 @@ $("#user_setting_close").click(function(){
 });
 
 });
--->
+// -->
 </script>
 
 <div class="settings-contents">

@@ -95,8 +95,7 @@ $(document).ready(function(){
 
     $("#report_tab_cpu").click();
 });
-
--->
+// -->
 </script>
                     <div id="report">
                         <div id="action" >

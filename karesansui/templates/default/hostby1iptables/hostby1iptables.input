@@ -24,7 +24,7 @@ $(document).ready(function() {
             "${_('A host that serves as an access point to another network.')}");
 
 });
--->
+// -->
 </script>
 
 <div id="iptables_setting">

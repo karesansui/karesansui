@@ -3,7 +3,6 @@
 
 <script type="text/javascript">
 <!--
-
 function validates_memory(){
     ERROR_MSG = "";
     var check = true;
@@ -52,7 +51,7 @@ $(document).ready(function() {
             "${_('Memory Size (MB)')}",
             "${_('Current memory size of the guest (in mega-bytes).')}");
 });
--->
+// -->
 </script>
 
 <div id="memory_setting">

@@ -186,8 +186,7 @@ $(document).ready(function(){
         "${_('Lines To Get')}",
         "${_('Get last lines specified here.')}");
 });
-
--->
+// -->
 </script>
 
 <div id="logview">

@@ -48,7 +48,7 @@ $(document).ready(function(){
         location.href = "#log_msg";
     });
 });
--->
+// -->
 </script>
         <div class="left"><a href="${ctx.homepath}/"><img src="${ctx.homepath}/static/images/logo.jpg" alt="" /></a></div>
         <div id="about_dialog"></div>

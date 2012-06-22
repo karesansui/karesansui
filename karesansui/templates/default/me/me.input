@@ -84,7 +84,7 @@ $(document).ready(function(){
     
 });
 
-//-->
+// -->
 </script>
 <div id="me">
     <form action="${ctx.homepath}${ctx.path}" method="post" name="me_input_form">

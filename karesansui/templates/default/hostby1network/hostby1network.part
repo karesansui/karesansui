@@ -146,7 +146,7 @@ $(document).ready(function(){
     renew_main_event("#tool_renew", "${ctx.homepath}${ctx.path}");
     show_detail_event();
 });
--->
+// -->
 </script>
 
                     <div id="network">

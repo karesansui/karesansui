@@ -49,7 +49,7 @@ $(document).ready(function(){
     show_switch();
 
 });
-//-->
+// -->
 </script>
                 <span class="tree_value">
 % if machines:

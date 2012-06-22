@@ -1,10 +1,6 @@
 <%doc>Copyright (C) 2009-2012 HDE, Inc.</%doc>
 <%inherit file="../include/common.part" />
 
-<style type="text/css">
-<!--
--->
-</style>
 <script type="text/javascript">
 <!--
 // lib

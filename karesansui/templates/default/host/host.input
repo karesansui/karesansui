@@ -1,7 +1,8 @@
 <%doc>Copyright (C) 2009-2012 HDE, Inc.</%doc>
 <%inherit file="../include/common.part" />
 <script type="text/javascript">
-<!--
+//<![CDATA[
+
 function validates_host(){
     var check = true;
     var m_hostname_tmp;
@@ -136,7 +137,8 @@ $(document).ready(function(){
         "${_("A unique ID to distinguish each host when using Karesansui in multi-host configuration. Should be a unique value between all hosts and guests. Format: 5 fields separated by '-'. Each field should have 8-4-4-4-12 letters.")}");
         
 });
-//-->
+
+//]]>
 </script>
 
 <div id="input_host">

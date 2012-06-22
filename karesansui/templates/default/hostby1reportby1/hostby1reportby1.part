@@ -200,7 +200,7 @@ $(document).ready(function(){
         $(this).after(space_tag);
     });
 });
--->
+// -->
 </script>
 
 <div id="report_graph_display">

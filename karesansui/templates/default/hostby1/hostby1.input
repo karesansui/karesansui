@@ -141,7 +141,7 @@ $(document).ready(function(){
         "${_('Tag')}", 
         "${_(r"Tag to add to the host to be used in Karesansui control panel. Can be used to search hosts using tags in the 'Hosts' panel (features planned in future version). Separate tags with commas to specify two or more tags. Any letters, including spaces and symbols are allowed.")}");
 });
-//-->
+// -->
 </script>
 
 <div id="input_host">
