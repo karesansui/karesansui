@@ -7,7 +7,7 @@ Features:
 
 Bugfixes:
 
-  - Use XMLDesc() with a flag VIR_DOMAIN_XML_INACTIVE instead of reading a real XML file.
+  - Use XMLDesc() with a flag VIR_DOMAIN_XML_INACTIVE instead of reading an existing XML file.
 
 Documentation:
 
