@@ -78,10 +78,10 @@ div.related a {
 			#143400 53%,
 			#143400 100%);
 	background-image: -webkit-gradient(linear, left top, left bottom,
-			from(#CC0000),
+			from(#8888EE),
 			color-stop(47%, #0000AA),
 			color-stop(53%, #000099),
-			to(#000099));
+			to(#0000EE));
 	background-image: -moz-linear-gradient(top,
 			#143400,
 			#143400 47%,
