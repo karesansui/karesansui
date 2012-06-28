@@ -29,7 +29,7 @@ ${self.footer()}
 <body>
 </%def>
 <%def name="footer()">
-</doby>
+</body>
 </html>
 </%def>
 <%def name="css()">
