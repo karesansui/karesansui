@@ -2,7 +2,7 @@
 
 Summary:        A simple web framework for Python
 Name:           python-webpy
-Version:        0.36
+Version:        0.37
 Release:        1%{?dist}
 Source0:        http://webpy.org/static/web.py-%{version}.tar.gz
 License:        Public domain
@@ -37,6 +37,8 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
+* Thu Jun 28 2012 Taizo ITO <taizo@karesansui-project.info> - 0.37-1
+- update to 0.37.
+
 * Tue Mar 13 2012 Taizo ITO <taizo@karesansui-project.info> - 0.36-1
 - initial 
-
