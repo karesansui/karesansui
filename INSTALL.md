@@ -182,7 +182,7 @@ Now you have karesansui source code under ~rpmbuild/karesansui with our sample s
 
     # su - rpmbuild
     $ cd ~/pkgs/SOURCES/
-    $ wget http://webpy.org/static/web.py-0.36.tar.gz
+    $ wget http://webpy.org/static/web.py-0.37.tar.gz
     $ rpmbuild -ba ~/karesansui/sample/specs/python-webpy/python-webpy.spec
 
 ######Step 4. Building tightvnc-java package.

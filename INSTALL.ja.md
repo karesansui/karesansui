@@ -177,7 +177,7 @@ RPMパッケージを作成する環境を構築します。パッケージ作�
 
     # su - rpmbuild
     $ cd ~/pkgs/SOURCES/
-    $ wget http://webpy.org/static/web.py-0.36.tar.gz
+    $ wget http://webpy.org/static/web.py-0.37.tar.gz
     $ rpmbuild -ba ~/karesansui/sample/specs/python-webpy/python-webpy.spec
 
 ######4. tightvnc-javaパッケージの作成
