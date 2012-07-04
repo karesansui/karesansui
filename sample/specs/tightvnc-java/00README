@@ -1,0 +1,17 @@
+How to build package
+--------------------
+
+jarsigner and keytool programs are required to generate signatures for Java ARchive (JAR) files.
+
+1. Download Java SE Development Kit(JDK).
+
+  Go to http://java.sun.com/javase/downloads/index.jsp and get jdk-6uXX-linux-x64-rpm.bin.
+
+2. Install the JDK.
+
+  # sh ./jdk-6uXX-linux-x64-rpm.bin
+
+3. Build tightvnc-java package.
+
+  $ rpmbuild -ba --define "signer 1" tightvnc-java.spec
+

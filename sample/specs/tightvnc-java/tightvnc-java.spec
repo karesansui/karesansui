@@ -1,3 +1,5 @@
+%{!?signer:%define signer 0}
+
 Summary:        A remote display system.
 Name:           tightvnc-java
 Version:        1.3.10
@@ -9,6 +11,9 @@ License:        GPL
 Group:          User Interface/Desktops
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
+%if %{signer}
+BuildRequires:  jdk >= 1.5.0
+%endif
 
 %description
 Virtual Network Computing (VNC) is a remote display system which
@@ -21,6 +26,34 @@ to connect to other desktops running a VNC or a TightVNC server.
 %prep
 echo RPM_BUILD_ROOT=$RPM_BUILD_ROOT
 %setup -q -c %{name}-%{version} 
+
+%if %{signer}
+cat << _EOT_>jarsigner.sh
+#!/bin/sh
+
+__jarsigner=/usr/lib/jvm/java-gcj/bin/jarsigner
+__keytool=/usr/lib/jvm/java-gcj/bin/keytool  
+__jarsigner=/usr/bin/gjarsigner
+__keytool=/usr/bin/gkeytool
+__jarsigner=`ls -1 /usr/java/jdk1.*/bin/jarsigner 2>/dev/null | head -1`
+__keytool=`ls -1 /usr/java/jdk1*/bin/keytool 2>/dev/null | head -1`
+
+if [ "x\$1" = "x" -o ! -f "\$1" ]; then
+  echo "ERROR: jarfile '\$1' not found." >&2
+  exit 1
+fi
+keystore=.keystore.dat
+jarfile=\$1
+
+/bin/rm -f \${keystore}
+\${__keytool} -genkey -alias vncviewer -validity 3650 -keystore \${keystore} || exit 1
+\${__jarsigner} -keystore \${keystore} \${jarfile} vncviewer || exit 1
+/bin/rm -f \${keystore}
+
+_EOT_
+
+sh ./jarsigner.sh classes/VncViewer.jar
+%endif
 
 %build
 
