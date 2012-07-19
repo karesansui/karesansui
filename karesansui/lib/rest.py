@@ -806,6 +806,10 @@ def auth(func):
         if karesansui_database_exists() is False:
             return web.tempredirect(web.ctx.path + "init", absolute=False)
 
+        if not web.ctx.env.has_key('HTTP_AUTHORIZATION'):
+            if web.ctx.env.has_key('Authorization'):
+                web.ctx.env['HTTP_AUTHORIZATION'] = web.ctx.env['Authorization']
+
         if web.ctx.env.has_key('HTTP_AUTHORIZATION'):
             (user, email) = login()
 
