@@ -497,6 +497,7 @@ class ConfigParam:
             disk_type = XMLXpath(document,'/domain/devices/disk[%i]/@type' % n)
             source_dev = XMLXpath(document,'/domain/devices/disk[%i]/source/@dev' % n) # block
             source_file = XMLXpath(document,'/domain/devices/disk[%i]/source/@file' % n) # file
+            source_attribute = ""
             if source_dev:
                 source_attribute = source_dev
             elif source_file:
