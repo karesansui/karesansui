@@ -167,9 +167,9 @@ $(document).ready(function(){
                         <tr>
                             <td width="150px">
 % if model.attribute == 2:
-                                <input type="radio" name="m_connect_type" id="m_connect_type_karesansui" value="karesansui" />${_("Other Karesansui")}
+                                <input type="radio" name="m_connect_type" id="m_connect_type_karesansui" value="karesansui" />${_("Karesansui")}
 % else:
-                                <input type="radio" name="m_connect_type" id="m_connect_type_karesansui" value="karesansui" checked="checked" />${_("Other Karesansui")}
+                                <input type="radio" name="m_connect_type" id="m_connect_type_karesansui" value="karesansui" checked="checked" />${_("Karesansui")}
 % endif
                             </td>
                             <td>
