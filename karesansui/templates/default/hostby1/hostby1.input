@@ -158,7 +158,7 @@ $(document).ready(function(){
             <input type="text" id="m_name" name="m_name" value="${model.name | h}" size="40" maxlength="256" /><span class="require-text">${_('Require')}</span>
         </div>
 
-        <div class="grayout-param">${_('Connection Type')}<span id="m_hostname_help"/></div>
+        <div class="grayout-param">${_('Connection Type')}</div>
         <div class="grayout-value grayout-form">
 
             <div style="background-color: #FFFFFF">
