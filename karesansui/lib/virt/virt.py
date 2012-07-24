@@ -2320,14 +2320,18 @@ class KaresansuiVirtConnection:
         TODO:
         </comment-en>
         """
+        vol = None
+
         try:
             pools = self.search_storage_pools(pool_name)
             if len(pools) <= 0:
-                return None
-            vol = pools[0].storageVolLookupByName(vol_name)
-            return vol
+                return vol
+            if vol_name in pools[0].listVolumes():
+                vol = pools[0].storageVolLookupByName(vol_name)
         except libvirt.libvirtError, e:
-            return None
+            return vol
+
+        return vol
 
     def get_storage_volume_path(self, pool_name, vol_name):
         """
