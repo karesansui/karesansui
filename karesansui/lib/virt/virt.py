@@ -885,6 +885,11 @@ class KaresansuiVirtConnection:
             f.close()
             self._conn.defineXML(cfgxml)
 
+            r_chmod(config,"o-rwx")
+            r_chmod(config,"g+rw")
+            if os.getuid() == 0:
+                r_chgrp(config,KARESANSUI_GROUP)
+
         try:
             self.search_storage_pools(storage_pool)[0].refresh(0)
         except:
