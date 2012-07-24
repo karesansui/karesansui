@@ -1250,4 +1250,10 @@ def sync_config_generator(param, domname=None):
     except:
         raise KaresansuiConfigParamException("Failed to update configuration files. - domname=" + str(domname))
 
+    if os.path.exists(tmp_dir):
+        shutil.rmtree(tmp_dir)
+
+    if os.path.exists(tmp_xml_dir):
+        shutil.rmtree(tmp_xml_dir)
+
     return True
