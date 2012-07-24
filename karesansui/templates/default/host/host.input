@@ -163,7 +163,7 @@ $(document).ready(function(){
                     <table width="100%" style="background-color: #FFFFFF; padding: 10px">
                         <tr>
                             <td width="150px">
-                                <input type="radio" name="m_connect_type" id="m_connect_type_karesansui" value="karesansui" checked />${_("Other Karesansui")}
+                                <input type="radio" name="m_connect_type" id="m_connect_type_karesansui" value="karesansui" checked />${_("Karesansui")}
                             </td>
                             <td>
                                 <table width="100%" style="background-color: #F5F5F5;">
