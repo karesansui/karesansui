@@ -5635,12 +5635,6 @@ msgstr ""
 msgid "Connection Type"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/host/host.input:164
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:175
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:177
-msgid "Other Karesansui"
-msgstr ""
-
 #: karesansui.git/karesansui/templates/default/host/host.input:186
 #: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:205
 #: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:207
