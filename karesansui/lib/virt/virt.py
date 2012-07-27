@@ -1834,6 +1834,12 @@ class KaresansuiVirtConnection:
         time.sleep(2)
         self._conn.networkDefineXML(cfgxml)
 
+        filename = "%s/%s.xml" %(VIRT_NETWORK_CONFIG_DIR,name)
+        r_chmod(filename,"o-rwx")
+        r_chmod(filename,"g+rw")
+        if os.getuid() == 0:
+            r_chgrp(filename,KARESANSUI_GROUP)
+
         if autostart is not None:
             self.network.set_network_name(name)
             self.network.autostart(autostart)
