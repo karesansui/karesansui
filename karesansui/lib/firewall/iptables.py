@@ -41,8 +41,7 @@ import time
 import os, stat
 import re
 from StringIO import StringIO
-from xml.dom.ext import PrettyPrint
-from xml.dom.DOMImplementation import implementation
+import xml.dom.minidom as dom
 import errno
 import pprint
 
