@@ -74,8 +74,8 @@ CHECK_DICTVALUE = 1<<16  # 辞書の値と一致するかどうか
 CHECK_DICTKEY   = 1<<17  # 辞書のキーと一致するかどうか
 CHECK_UNIQUE    = 1<<18  # 一意であるか
 
-t = gettext.translation('messages', karesansui.dirname + "/locale")
-_ = t.ugettext
+t = gettext.bindtextdomain('messages', karesansui.dirname + "/locale")
+_ = gettext.gettext
 #_ = t.gettext
 
 class Checker(object):
