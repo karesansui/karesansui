@@ -161,12 +161,12 @@ class Init(Rest):
                               u"%s" % self.input.nickname,
                               u"%s" % self.input.languages,
                               )
-        session.save(user)
+        session.add(user)
         session.commit()
 
         # Tag Table set.
         tag = Tag(u"default")
-        session.save(tag)
+        session.add(tag)
         session.commit()
         
         # Machine Table set.
@@ -187,7 +187,7 @@ class Init(Rest):
                        False,
                        None,
                       )
-        session.save(machine)
+        session.add(machine)
         session.commit()
 
         session.close()
