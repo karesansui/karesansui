@@ -39,10 +39,10 @@ Generate configuration file of info.dat.
 import os
 import time
 
-from StringIO import StringIO
-from xml.dom.ext import PrettyPrint
-from xml.dom.DOMImplementation import implementation
 import errno
+from StringIO import StringIO
+from xml.dom.minidom import DOMImplementation
+implementation = DOMImplementation()
 
 import karesansui
 
@@ -234,7 +234,7 @@ class ExportXMLGenerator:
     def generate(self, config):
         tree = self.generate_xml_tree(config)
         out = StringIO()
-        PrettyPrint(tree, out)
+        out.write(tree.toxml())
         return out.getvalue()
 
     def writecfg(self, cfg):

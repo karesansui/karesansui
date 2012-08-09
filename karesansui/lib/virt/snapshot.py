@@ -48,8 +48,8 @@ import logging
 import glob
 
 from StringIO import StringIO
-from xml.dom.ext import PrettyPrint
-from xml.dom.DOMImplementation import implementation
+from xml.dom.minidom import DOMImplementation
+implementation = DOMImplementation()
 
 import karesansui
 import karesansui.lib.locale
@@ -109,7 +109,7 @@ class KaresansuiVirtSnapshot:
 
     def generateXML(self, doc):
         out = StringIO()
-        PrettyPrint(doc, out)
+        out.write(doc,toxml())
         return out.getvalue()
 
     def isSupportedDomain(self,domain=None):

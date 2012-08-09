@@ -101,8 +101,6 @@ import os
 import time
 
 from StringIO import StringIO
-from xml.dom.ext import PrettyPrint
-from xml.dom.DOMImplementation import implementation
 import errno
 
 import karesansui

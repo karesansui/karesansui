@@ -40,11 +40,11 @@ Define the class to control packet filtering.
 import time
 import os, stat
 import re
-from StringIO import StringIO
-from xml.dom.ext import PrettyPrint
-from xml.dom.DOMImplementation import implementation
 import errno
 import pprint
+from StringIO import StringIO
+from xml.dom.minidom import DOMImplementation
+implementation = DOMImplementation()
 
 import karesansui
 from karesansui.lib.const import FIREWALL_XML_FILE, \
@@ -75,7 +75,7 @@ class IptablesXMLGenerator:
     def generate(self,config):
         tree = self.generate_xml_tree(config)
         out = StringIO()
-        PrettyPrint(tree, out, encoding='UTF-8', indent='  ')
+        out.write(tree.toxml('UTF-8'))
         return out.getvalue()
 
 class KaresansuiIpTables(IptablesXMLGenerator):

@@ -43,10 +43,10 @@ Generate configuration file of virtual networks for libvirt.
 import time
 import os, stat
 import re
-from StringIO import StringIO
-from xml.dom.ext import PrettyPrint
-from xml.dom.DOMImplementation import implementation
 import errno
+from StringIO import StringIO
+from xml.dom.minidom import DOMImplementation
+implementation = DOMImplementation()
 
 import karesansui
 from karesansui.lib.const import KARESANSUI_GROUP, \
@@ -247,7 +247,7 @@ class NetworkXMLGenerator:
     def generate(self, config):
         tree = self.generate_xml_tree(config)
         out = StringIO()
-        PrettyPrint(tree, out)
+        out.write(tree.toxml())
         return out.getvalue()
 
 class NetworkXMLConfigGenerator(NetworkXMLGenerator):
