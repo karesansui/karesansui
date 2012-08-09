@@ -40,10 +40,10 @@ Generate configuration file of storage pool/volume for libvirt.
 import time
 import os, stat
 import re
-from StringIO import StringIO
-from xml.dom.ext import PrettyPrint
-from xml.dom.DOMImplementation import implementation
 import errno
+from StringIO import StringIO
+from xml.dom.minidom import DOMImplementation
+implementation = DOMImplementation()
 
 import karesansui
 from karesansui.lib.const import KARESANSUI_GROUP, \
@@ -478,7 +478,7 @@ class StorageXMLGenerator:
     def generate(self, config):
         tree = self.generate_xml_tree(config)
         out = StringIO()
-        PrettyPrint(tree, out)
+        out.write(tree.toxml())
         return out.getvalue()
 
     def end_build(self):
