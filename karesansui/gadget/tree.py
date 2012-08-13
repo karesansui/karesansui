@@ -79,7 +79,8 @@ class Tree(Rest):
 
             self.view.machines = hosts
         except KaresansuiVirtException:
-            self.kvc.close()
+            if hasattr(self, "kvc") is True:
+                self.kvc.close()
             raise KaresansuiGadgetException
 
         return True
