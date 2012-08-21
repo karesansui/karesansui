@@ -61,7 +61,7 @@ def get_engine():
         echo = True
         echo_pool = True
         if karesansui.config['database.bind'][:6].strip() == 'sqlite':
-            engine = create_engine(karesansui.config['database.bind'],
+            engine = create_engine(karesansui.config['database.bind']+'?check_same_thread=False',
                                    encoding="utf-8",
                                    convert_unicode=True,
                                    #assert_unicode='warn', # DEBUG
