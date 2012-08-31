@@ -37,7 +37,6 @@ for _k,_v in environ.iteritems():
     os.environ[_k] = _v
 
 from karesansui.lib.file.k2v import K2V
-from karesansui.prep import create__cmd__
 config_file = os.environ["KARESANSUI_CONF"]
 if config_file: # read file
     _k2v = K2V(config_file)
@@ -47,7 +46,6 @@ if config and config.has_key('application.search.path'):
     for y in [x.strip() for x in config['application.search.path'].split(',') if x]:
         if (y in sys.path) is False: sys.path.insert(0, y)
 
-create__cmd__(config, config_file)
 karesansui.config = config
 if not karesansui.config:
     print >>sys.stderr, '[Error] Failed to load configuration file.'
