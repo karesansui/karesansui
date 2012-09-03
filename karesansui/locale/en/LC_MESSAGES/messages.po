@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-07-22 11:08+0900\n"
-"PO-Revision-Date: 2012-06-21 15:54+0900\n"
+"PO-Revision-Date: 2012-09-03 14:53+0900\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.4\n"
+"Generated-By: Babel 0.9.5\n"
 
 #: karesansui.git/bin/add_bonding.py:63
 msgid "Bonding Target Device Name"
@@ -126,14 +126,14 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guest/guest.part:274
 #: karesansui.git/karesansui/templates/default/guest/guest.part:561
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:274
-#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:61
-#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:113
+#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:60
+#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:114
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:53
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:106
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.part:33
 #: karesansui.git/karesansui/templates/default/hostby1storagepool/hostby1storagepool.part:214
 #: karesansui.git/karesansui/templates/default/hostby1storagepoolby1/hostby1storagepoolby1.part:105
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:263
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:262
 msgid "Autostart"
 msgstr ""
 
@@ -159,7 +159,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guestby1nicby1/guestby1nicby1.input:13
 #: karesansui.git/karesansui/templates/default/guestby1nicby1/guestby1nicby1.input:35
 #: karesansui.git/karesansui/templates/default/guestby1nicby1/guestby1nicby1.input:60
-#: karesansui.git/karesansui/templates/default/guestby1nicby1/guestby1nicby1.part:37
+#: karesansui.git/karesansui/templates/default/guestby1nicby1/guestby1nicby1.part:35
 #: karesansui.git/karesansui/templates/default/guestreplicate/guestreplicate.input:57
 #: karesansui.git/karesansui/templates/default/guestreplicate/guestreplicate.input:131
 #: karesansui.git/karesansui/templates/default/guestreplicate/guestreplicate.input:195
@@ -177,7 +177,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/hostby1/hostby1.html:147
 #: karesansui.git/karesansui/templates/default/hostby1/hostby1.html:152
 #: karesansui.git/karesansui/templates/default/hostby1networksettingsnicby1/hostby1networksettingsnicby1.part:121
-#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:147
+#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:146
 #: karesansui.git/karesansui/templates/default/hostby1watch/hostby1watch.input:668
 msgid "Network"
 msgstr ""
@@ -384,11 +384,11 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guest/guest.part:388
 #: karesansui.git/karesansui/templates/default/guest/guest.part:602
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:531
-#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:25
-#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:52
-#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:86
+#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:24
+#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:51
+#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:85
 #: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.part:55
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:351
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:350
 msgid "Memory Size (MB)"
 msgstr ""
 
@@ -550,14 +550,14 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:672
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:683
 #: karesansui.git/karesansui/templates/default/guestby1diskby1/guestby1diskby1.part:12
-#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:225
+#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:223
 #: karesansui.git/karesansui/templates/default/guestby1snapshot/guestby1snapshot.part:196
 #: karesansui.git/karesansui/templates/default/guestby1snapshotby1/guestby1snapshotby1.part:14
 #: karesansui.git/karesansui/templates/default/host/host.part:110
-#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:235
+#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:234
 #: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:13
 #: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:54
-#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:75
+#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:76
 #: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.part:229
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:47
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:68
@@ -578,7 +578,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/hostby1watchby1/hostby1watchby1.input:409
 #: karesansui.git/karesansui/templates/default/hostby1watchby1/hostby1watchby1.part:34
 #: karesansui.git/karesansui/templates/default/job/job.html:5
-#: karesansui.git/karesansui/templates/default/job/job.part:237
+#: karesansui.git/karesansui/templates/default/job/job.part:236
 #: karesansui.git/karesansui/templates/default/jobby1/jobby1.part:38
 #: karesansui.git/karesansui/templates/default/msg/msg.part:107
 #: karesansui.git/karesansui/templates/default/tag/tag.input:13
@@ -586,7 +586,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/tagby1/tagby1.input:13
 #: karesansui.git/karesansui/templates/default/tagby1/tagby1.input:52
 #: karesansui.git/karesansui/templates/default/tagby1/tagby1.part:9
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:230
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:229
 msgid "Name"
 msgstr ""
 
@@ -1018,7 +1018,7 @@ msgstr ""
 
 #: karesansui.git/bin/karesansui_sysinfo.py:253
 #: karesansui.git/karesansui/lib/rrd/memory.py:66
-#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:129
+#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:128
 #: karesansui.git/karesansui/templates/default/hostby1watch/hostby1watch.input:666
 msgid "Memory"
 msgstr ""
@@ -1458,7 +1458,7 @@ msgstr ""
 #: karesansui.git/karesansui/gadget/guest.py:105
 #: karesansui.git/karesansui/gadget/guestby1.py:73
 #: karesansui.git/karesansui/gadget/guestreplicate.py:84
-#: karesansui.git/karesansui/gadget/host.py:65
+#: karesansui.git/karesansui/gadget/host.py:63
 #: karesansui.git/karesansui/gadget/hostby1.py:69
 msgid "Parameter m_name does not exist."
 msgstr ""
@@ -1466,16 +1466,16 @@ msgstr ""
 #: karesansui.git/karesansui/gadget/guest.py:108
 #: karesansui.git/karesansui/gadget/guestby1.py:76
 #: karesansui.git/karesansui/gadget/guestreplicate.py:87
-#: karesansui.git/karesansui/gadget/host.py:68
+#: karesansui.git/karesansui/gadget/host.py:66
 #: karesansui.git/karesansui/gadget/hostby1.py:72
 #: karesansui.git/karesansui/lib/search.py:65
-#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:226
+#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:224
 #: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:35
-#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:167
-#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:236
+#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:166
+#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:235
 #: karesansui.git/karesansui/templates/default/job/job.part:32
-#: karesansui.git/karesansui/templates/default/job/job.part:165
-#: karesansui.git/karesansui/templates/default/job/job.part:238
+#: karesansui.git/karesansui/templates/default/job/job.part:164
+#: karesansui.git/karesansui/templates/default/job/job.part:237
 #: karesansui.git/karesansui/templates/default/jobby1/jobby1.part:43
 #: karesansui.git/karesansui/templates/default/msg/msg.part:108
 #: karesansui.git/karesansui/templates/default/tag/tag.part:211
@@ -1489,7 +1489,7 @@ msgstr ""
 #: karesansui.git/karesansui/gadget/guestby1snapshotby1.py:67
 #: karesansui.git/karesansui/gadget/guestexport.py:70
 #: karesansui.git/karesansui/gadget/guestreplicate.py:97
-#: karesansui.git/karesansui/gadget/host.py:142
+#: karesansui.git/karesansui/gadget/host.py:139
 #: karesansui.git/karesansui/gadget/hostby1.py:135
 #: karesansui.git/karesansui/templates/default/guest/guest.input:26
 #: karesansui.git/karesansui/templates/default/guest/guest.input:790
@@ -1507,11 +1507,11 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guestexport/guestexport.input:45
 #: karesansui.git/karesansui/templates/default/guestreplicate/guestreplicate.input:22
 #: karesansui.git/karesansui/templates/default/guestreplicate/guestreplicate.input:201
-#: karesansui.git/karesansui/templates/default/host/host.input:70
-#: karesansui.git/karesansui/templates/default/host/host.input:229
+#: karesansui.git/karesansui/templates/default/host/host.input:71
+#: karesansui.git/karesansui/templates/default/host/host.input:235
 #: karesansui.git/karesansui/templates/default/host/host.part:146
 #: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:68
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:274
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:269
 #: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.input:27
 #: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.input:134
 msgid "Title"
@@ -1522,7 +1522,7 @@ msgstr ""
 #: karesansui.git/karesansui/gadget/guestby1snapshot.py:74
 #: karesansui.git/karesansui/gadget/guestby1snapshotby1.py:77
 #: karesansui.git/karesansui/gadget/guestreplicate.py:107
-#: karesansui.git/karesansui/gadget/host.py:152
+#: karesansui.git/karesansui/gadget/host.py:149
 #: karesansui.git/karesansui/gadget/hostby1.py:145
 #: karesansui.git/karesansui/templates/default/guest/guest.input:35
 #: karesansui.git/karesansui/templates/default/guest/guest.input:792
@@ -1540,11 +1540,11 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guestreplicate/guestreplicate.input:31
 #: karesansui.git/karesansui/templates/default/guestreplicate/guestreplicate.input:135
 #: karesansui.git/karesansui/templates/default/guestreplicate/guestreplicate.input:203
-#: karesansui.git/karesansui/templates/default/host/host.input:79
-#: karesansui.git/karesansui/templates/default/host/host.input:231
+#: karesansui.git/karesansui/templates/default/host/host.input:80
+#: karesansui.git/karesansui/templates/default/host/host.input:237
 #: karesansui.git/karesansui/templates/default/host/host.part:154
 #: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:77
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:276
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:271
 #: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.input:36
 #: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.input:95
 #: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.input:136
@@ -1554,7 +1554,7 @@ msgstr ""
 #: karesansui.git/karesansui/gadget/guest.py:139
 #: karesansui.git/karesansui/gadget/guestby1.py:108
 #: karesansui.git/karesansui/gadget/guestreplicate.py:118
-#: karesansui.git/karesansui/gadget/host.py:163
+#: karesansui.git/karesansui/gadget/host.py:160
 #: karesansui.git/karesansui/gadget/hostby1.py:156
 #: karesansui.git/karesansui/gadget/tag.py:53
 #: karesansui.git/karesansui/templates/default/guest/guest.input:51
@@ -1567,8 +1567,8 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guestreplicate/guestreplicate.input:139
 #: karesansui.git/karesansui/templates/default/guestreplicate/guestreplicate.input:206
 #: karesansui.git/karesansui/templates/default/host/host.html:63
-#: karesansui.git/karesansui/templates/default/host/host.input:95
-#: karesansui.git/karesansui/templates/default/host/host.input:131
+#: karesansui.git/karesansui/templates/default/host/host.input:96
+#: karesansui.git/karesansui/templates/default/host/host.input:132
 #: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:93
 #: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:141
 #: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.input:52
@@ -1587,7 +1587,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guest/guest.part:573
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:289
 #: karesansui.git/karesansui/templates/default/jobby1/jobby1.part:99
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:278
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:277
 msgid "Hypervisor"
 msgstr ""
 
@@ -1663,9 +1663,9 @@ msgstr ""
 #: karesansui.git/karesansui/gadget/guestby1status.py:79
 #: karesansui.git/karesansui/gadget/guestexport.py:90
 #: karesansui.git/karesansui/gadget/guestreplicate.py:185
-#: karesansui.git/karesansui/gadget/host.py:85
-#: karesansui.git/karesansui/gadget/host.py:115
-#: karesansui.git/karesansui/gadget/host.py:132
+#: karesansui.git/karesansui/gadget/host.py:83
+#: karesansui.git/karesansui/gadget/host.py:111
+#: karesansui.git/karesansui/gadget/host.py:123
 #: karesansui.git/karesansui/gadget/hostby1.py:88
 #: karesansui.git/karesansui/gadget/hostby1.py:118
 #: karesansui.git/karesansui/gadget/hostby1firewallpolicy.py:47
@@ -1896,14 +1896,14 @@ msgstr ""
 
 #: karesansui.git/karesansui/gadget/guestby1cpu.py:148
 #: karesansui.git/karesansui/templates/default/guestby1cpu/guestby1cpu.input:13
-#: karesansui.git/karesansui/templates/default/guestby1cpu/guestby1cpu.part:27
-#: karesansui.git/karesansui/templates/default/guestby1cpu/guestby1cpu.part:38
+#: karesansui.git/karesansui/templates/default/guestby1cpu/guestby1cpu.part:25
+#: karesansui.git/karesansui/templates/default/guestby1cpu/guestby1cpu.part:36
 msgid "Maximum Number of Virtual CPUs"
 msgstr ""
 
 #: karesansui.git/karesansui/gadget/guestby1cpu.py:153
 #: karesansui.git/karesansui/templates/default/guestby1cpu/guestby1cpu.input:22
-#: karesansui.git/karesansui/templates/default/guestby1cpu/guestby1cpu.part:51
+#: karesansui.git/karesansui/templates/default/guestby1cpu/guestby1cpu.part:49
 msgid "Number of Virtual CPUs"
 msgstr ""
 
@@ -1931,21 +1931,21 @@ msgstr ""
 
 #: karesansui.git/karesansui/gadget/guestby1graphics.py:79
 #: karesansui.git/karesansui/gadget/guestby1graphics.py:95
-#: karesansui.git/karesansui/lib/checker.py:427
-#: karesansui.git/karesansui/lib/checker.py:635
-#: karesansui.git/karesansui/lib/checker.py:672
-#: karesansui.git/karesansui/lib/checker.py:710
-#: karesansui.git/karesansui/lib/checker.py:748
-#: karesansui.git/karesansui/lib/checker.py:785
-#: karesansui.git/karesansui/lib/checker.py:826
-#: karesansui.git/karesansui/lib/checker.py:985
-#: karesansui.git/karesansui/lib/checker.py:991
-#: karesansui.git/karesansui/lib/checker.py:1028
-#: karesansui.git/karesansui/lib/checker.py:1117
-#: karesansui.git/karesansui/lib/checker.py:1253
-#: karesansui.git/karesansui/lib/checker.py:1448
-#: karesansui.git/karesansui/lib/checker.py:1483
-#: karesansui.git/karesansui/lib/checker.py:1519
+#: karesansui.git/karesansui/lib/checker.py:432
+#: karesansui.git/karesansui/lib/checker.py:640
+#: karesansui.git/karesansui/lib/checker.py:677
+#: karesansui.git/karesansui/lib/checker.py:715
+#: karesansui.git/karesansui/lib/checker.py:753
+#: karesansui.git/karesansui/lib/checker.py:790
+#: karesansui.git/karesansui/lib/checker.py:831
+#: karesansui.git/karesansui/lib/checker.py:990
+#: karesansui.git/karesansui/lib/checker.py:996
+#: karesansui.git/karesansui/lib/checker.py:1033
+#: karesansui.git/karesansui/lib/checker.py:1122
+#: karesansui.git/karesansui/lib/checker.py:1258
+#: karesansui.git/karesansui/lib/checker.py:1453
+#: karesansui.git/karesansui/lib/checker.py:1488
+#: karesansui.git/karesansui/lib/checker.py:1524
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:724
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:756
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:763
@@ -1967,7 +1967,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.input:223
 #: karesansui.git/karesansui/templates/default/guestby1nicby1/guestby1nicby1.input:27
 #: karesansui.git/karesansui/templates/default/guestby1nicby1/guestby1nicby1.input:52
-#: karesansui.git/karesansui/templates/default/guestby1nicby1/guestby1nicby1.part:15
+#: karesansui.git/karesansui/templates/default/guestby1nicby1/guestby1nicby1.part:13
 msgid "Interface Type"
 msgstr ""
 
@@ -1997,7 +1997,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/hostby1networksettingsnicby1/hostby1networksettingsnicby1.part:150
 #: karesansui.git/karesansui/templates/default/hostby1networksettingsnicby1/hostby1networksettingsnicby1.part:156
 #: karesansui.git/karesansui/templates/default/hostby1networksettingsnicby1/hostby1networksettingsnicby1.part:172
-#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:138
+#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:137
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:156
 #: karesansui.git/karesansui/templates/default/hostby1watchby1/hostby1watchby1.part:209
 #: karesansui.git/karesansui/templates/default/hostby1watchby1/hostby1watchby1.part:213
@@ -2031,12 +2031,12 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:615
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:617
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:630
-#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:131
-#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:163
-#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:228
+#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:130
+#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:161
+#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:226
 #: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:126
-#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:173
-#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:238
+#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:172
+#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:237
 #: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.part:233
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.part:24
 #: karesansui.git/karesansui/templates/default/hostby1networksettings/hostby1networksettings.input:125
@@ -2048,11 +2048,11 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/hostby1storagepoolby1/hostby1storagepoolby1.part:96
 #: karesansui.git/karesansui/templates/default/job/job.html:8
 #: karesansui.git/karesansui/templates/default/job/job.part:135
-#: karesansui.git/karesansui/templates/default/job/job.part:171
-#: karesansui.git/karesansui/templates/default/job/job.part:240
+#: karesansui.git/karesansui/templates/default/job/job.part:170
+#: karesansui.git/karesansui/templates/default/job/job.part:239
 #: karesansui.git/karesansui/templates/default/jobby1/jobby1.part:67
 #: karesansui.git/karesansui/templates/default/msg/msg.part:110
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:241
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:240
 msgid "Status"
 msgstr ""
 
@@ -2089,7 +2089,7 @@ msgstr ""
 
 #: karesansui.git/karesansui/gadget/guestimport.py:221
 #: karesansui.git/karesansui/gadget/guestimport.py:226
-#: karesansui.git/karesansui/lib/virt/virt.py:1557
+#: karesansui.git/karesansui/lib/virt/virt.py:1565
 #, python-format
 msgid "guest '%s' already exists."
 msgstr ""
@@ -2114,27 +2114,27 @@ msgstr ""
 msgid "Can not find the storage pool."
 msgstr ""
 
-#: karesansui.git/karesansui/gadget/host.py:79
+#: karesansui.git/karesansui/gadget/host.py:77
 #: karesansui.git/karesansui/gadget/hostby1.py:82
 msgid "Parameter m_connect_type does not exist."
 msgstr ""
 
-#: karesansui.git/karesansui/gadget/host.py:85
-#: karesansui.git/karesansui/gadget/host.py:90
-#: karesansui.git/karesansui/gadget/host.py:93
+#: karesansui.git/karesansui/gadget/host.py:83
+#: karesansui.git/karesansui/gadget/host.py:88
+#: karesansui.git/karesansui/gadget/host.py:91
 #: karesansui.git/karesansui/gadget/hostby1.py:88
 #: karesansui.git/karesansui/gadget/hostby1.py:93
 #: karesansui.git/karesansui/gadget/hostby1.py:96
 #: karesansui.git/karesansui/gadget/hostby1networksettingsgeneral.py:59
 #: karesansui.git/karesansui/gadget/hostby1networksettingsgeneral.py:67
-#: karesansui.git/karesansui/templates/default/host/host.input:28
-#: karesansui.git/karesansui/templates/default/host/host.input:34
-#: karesansui.git/karesansui/templates/default/host/host.input:125
-#: karesansui.git/karesansui/templates/default/host/host.input:170
+#: karesansui.git/karesansui/templates/default/host/host.input:29
+#: karesansui.git/karesansui/templates/default/host/host.input:35
+#: karesansui.git/karesansui/templates/default/host/host.input:126
+#: karesansui.git/karesansui/templates/default/host/host.input:172
 #: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:34
 #: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:40
 #: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:133
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:184
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:179
 #: karesansui.git/karesansui/templates/default/hostby1networksettingsgeneral/hostby1networksettingsgeneral.input:21
 #: karesansui.git/karesansui/templates/default/hostby1networksettingsgeneral/hostby1networksettingsgeneral.input:65
 #: karesansui.git/karesansui/templates/default/hostby1networksettingsgeneral/hostby1networksettingsgeneral.input:92
@@ -2142,26 +2142,26 @@ msgstr ""
 msgid "FQDN"
 msgstr ""
 
-#: karesansui.git/karesansui/gadget/host.py:90
+#: karesansui.git/karesansui/gadget/host.py:88
 #: karesansui.git/karesansui/gadget/hostby1.py:93
-#: karesansui.git/karesansui/templates/default/host/host.input:28
+#: karesansui.git/karesansui/templates/default/host/host.input:29
 #: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:34
 #, python-format
 msgid "%s contains too many colon(:)s."
 msgstr ""
 
-#: karesansui.git/karesansui/gadget/host.py:101
+#: karesansui.git/karesansui/gadget/host.py:99
 #: karesansui.git/karesansui/gadget/hostby1.py:104
 #: karesansui.git/karesansui/gadget/hostby1settingby1mail.py:64
 #: karesansui.git/karesansui/gadget/hostby1settingby1mail.py:66
 #: karesansui.git/karesansui/gadget/hostby1settingby1proxy.py:74
 #: karesansui.git/karesansui/gadget/mail.py:67
 #: karesansui.git/karesansui/gadget/mail.py:69
-#: karesansui.git/karesansui/templates/default/host/host.input:44
+#: karesansui.git/karesansui/templates/default/host/host.input:45
 #: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:50
 #: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:19
 #: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:79
-#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:130
+#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:129
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:19
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:79
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:141
@@ -2180,38 +2180,49 @@ msgstr ""
 msgid "Port Number"
 msgstr ""
 
-#: karesansui.git/karesansui/gadget/host.py:115
+#: karesansui.git/karesansui/gadget/host.py:111
+#: karesansui.git/karesansui/gadget/host.py:114
+#: karesansui.git/karesansui/templates/default/guest/guest.part:265
+#: karesansui.git/karesansui/templates/default/guest/guest.part:552
+#: karesansui.git/karesansui/templates/default/host/host.input:136
+#: karesansui.git/karesansui/templates/default/host/host.input:180
+#: karesansui.git/karesansui/templates/default/job/job.html:6
+#: karesansui.git/karesansui/templates/default/jobby1/jobby1.part:47
+msgid "Unique Key"
+msgstr ""
+
+#: karesansui.git/karesansui/gadget/host.py:123
 #: karesansui.git/karesansui/gadget/hostby1.py:118
-#: karesansui.git/karesansui/templates/default/host/host.input:57
-#: karesansui.git/karesansui/templates/default/host/host.input:192
+#: karesansui.git/karesansui/templates/default/host/host.input:64
+#: karesansui.git/karesansui/templates/default/host/host.input:203
 #: karesansui.git/karesansui/templates/default/host/host.part:113
-#: karesansui.git/karesansui/templates/default/host/host.part:336
+#: karesansui.git/karesansui/templates/default/host/host.part:337
 #: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:61
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:214
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:209
 msgid "URI"
 msgstr ""
 
-#: karesansui.git/karesansui/gadget/host.py:122
+#: karesansui.git/karesansui/gadget/host.py:130
 #: karesansui.git/karesansui/gadget/hostby1.py:125
 #: karesansui.git/karesansui/gadget/init.py:66
 #: karesansui.git/karesansui/gadget/init.py:69
 #: karesansui.git/karesansui/gadget/me.py:113
 #: karesansui.git/karesansui/gadget/me.py:116
 #: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:27
-#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:160
-#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:227
-#: karesansui.git/karesansui/templates/default/host/host.input:200
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:226
+#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:158
+#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:225
+#: karesansui.git/karesansui/templates/default/host/host.input:211
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:221
 #: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:27
-#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:170
-#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:237
+#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:169
+#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:236
 #: karesansui.git/karesansui/templates/default/hostby1settingby1proxy/hostby1settingby1proxy.input:38
 #: karesansui.git/karesansui/templates/default/hostby1settingby1proxy/hostby1settingby1proxy.input:88
 #: karesansui.git/karesansui/templates/default/hostby1settingby1proxy/hostby1settingby1proxy.input:131
 #: karesansui.git/karesansui/templates/default/hostby1settingby1proxy/hostby1settingby1proxy.part:31
 #: karesansui.git/karesansui/templates/default/job/job.part:24
-#: karesansui.git/karesansui/templates/default/job/job.part:168
-#: karesansui.git/karesansui/templates/default/job/job.part:239
+#: karesansui.git/karesansui/templates/default/job/job.part:167
+#: karesansui.git/karesansui/templates/default/job/job.part:238
 #: karesansui.git/karesansui/templates/default/me/me.input:20
 #: karesansui.git/karesansui/templates/default/me/me.input:70
 #: karesansui.git/karesansui/templates/default/me/me.input:102
@@ -2220,17 +2231,6 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/user/user.input:80
 #: karesansui.git/karesansui/templates/default/userby1/userby1.input:61
 msgid "User Name"
-msgstr ""
-
-#: karesansui.git/karesansui/gadget/host.py:132
-#: karesansui.git/karesansui/gadget/host.py:135
-#: karesansui.git/karesansui/templates/default/guest/guest.part:265
-#: karesansui.git/karesansui/templates/default/guest/guest.part:552
-#: karesansui.git/karesansui/templates/default/host/host.input:135
-#: karesansui.git/karesansui/templates/default/host/host.input:222
-#: karesansui.git/karesansui/templates/default/job/job.html:6
-#: karesansui.git/karesansui/templates/default/jobby1/jobby1.part:47
-msgid "Unique Key"
 msgstr ""
 
 #: karesansui.git/karesansui/gadget/hostby1firewallpolicy.py:47
@@ -2270,16 +2270,16 @@ msgstr ""
 #: karesansui.git/karesansui/gadget/hostby1firewallrule.py:66
 #: karesansui.git/karesansui/gadget/me.py:89
 #: karesansui.git/karesansui/gadget/me.py:92
-#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:224
+#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:222
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:16
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:171
 #: karesansui.git/karesansui/templates/default/hostby1firewallrule/hostby1firewallrule.part:82
 #: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.part:35
-#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:234
+#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:233
 #: karesansui.git/karesansui/templates/default/hostby1watch/hostby1watch.part:217
 #: karesansui.git/karesansui/templates/default/hostby1watchby1/hostby1watchby1.part:29
 #: karesansui.git/karesansui/templates/default/job/job.html:4
-#: karesansui.git/karesansui/templates/default/job/job.part:236
+#: karesansui.git/karesansui/templates/default/job/job.part:235
 #: karesansui.git/karesansui/templates/default/jobby1/jobby1.part:33
 #: karesansui.git/karesansui/templates/default/me/me.input:13
 #: karesansui.git/karesansui/templates/default/me/me.part:7
@@ -2287,7 +2287,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/tag/tag.part:209
 #: karesansui.git/karesansui/templates/default/tagby1/tagby1.part:6
 #: karesansui.git/karesansui/templates/default/user/user.part:206
-#: karesansui.git/karesansui/templates/default/userby1/userby1.part:18
+#: karesansui.git/karesansui/templates/default/userby1/userby1.part:19
 msgid "ID"
 msgstr ""
 
@@ -2297,8 +2297,8 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:125
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:172
 #: karesansui.git/karesansui/templates/default/hostby1firewallrule/hostby1firewallrule.part:83
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:115
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:162
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:111
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:158
 #: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.part:39
 #: karesansui.git/karesansui/templates/default/hostby1staticroute/hostby1staticroute.input:14
 #: karesansui.git/karesansui/templates/default/hostby1staticroute/hostby1staticroute.input:20
@@ -2312,8 +2312,8 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:129
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:173
 #: karesansui.git/karesansui/templates/default/hostby1firewallrule/hostby1firewallrule.part:84
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:119
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:163
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:115
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:159
 #: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.part:43
 msgid "Protocol"
 msgstr ""
@@ -2324,10 +2324,10 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:50
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:133
 #: karesansui.git/karesansui/templates/default/hostby1firewallrule/hostby1firewallrule.part:85
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:41
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:44
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:123
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:164
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:37
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:40
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:119
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:160
 #: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.part:47
 msgid "Source Address"
 msgstr ""
@@ -2337,9 +2337,9 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:27
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:137
 #: karesansui.git/karesansui/templates/default/hostby1firewallrule/hostby1firewallrule.part:86
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:21
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:127
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:165
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:17
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:123
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:161
 #: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.part:51
 msgid "Source Port"
 msgstr ""
@@ -2350,10 +2350,10 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:60
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:140
 #: karesansui.git/karesansui/templates/default/hostby1firewallrule/hostby1firewallrule.part:87
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:51
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:54
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:131
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:166
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:47
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:50
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:127
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:162
 #: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.part:55
 msgid "Destination Address"
 msgstr ""
@@ -2363,9 +2363,9 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:37
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:144
 #: karesansui.git/karesansui/templates/default/hostby1firewallrule/hostby1firewallrule.part:88
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:31
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:135
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:167
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:27
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:131
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:163
 #: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.part:59
 msgid "Destination Port"
 msgstr ""
@@ -2373,7 +2373,7 @@ msgstr ""
 #: karesansui.git/karesansui/gadget/hostby1firewallrule.py:141
 #: karesansui.git/karesansui/gadget/hostby1firewallrule.py:144
 #: karesansui.git/karesansui/templates/default/hostby1firewallrule/hostby1firewallrule.part:89
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:168
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:164
 #: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.part:63
 msgid "In Interface"
 msgstr ""
@@ -2381,7 +2381,7 @@ msgstr ""
 #: karesansui.git/karesansui/gadget/hostby1firewallrule.py:151
 #: karesansui.git/karesansui/gadget/hostby1firewallrule.py:154
 #: karesansui.git/karesansui/templates/default/hostby1firewallrule/hostby1firewallrule.part:90
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:169
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:165
 #: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.part:67
 msgid "Out Interface"
 msgstr ""
@@ -2462,7 +2462,7 @@ msgstr ""
 #: karesansui.git/karesansui/gadget/hostby1networkby1.py:113
 #: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:19
 #: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:55
-#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:84
+#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:85
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:13
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:48
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:77
@@ -2481,7 +2481,7 @@ msgstr ""
 #: karesansui.git/karesansui/gadget/hostby1networkby1.py:75
 #: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:37
 #: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:56
-#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:99
+#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:100
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:31
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:49
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:92
@@ -2507,7 +2507,7 @@ msgstr ""
 #: karesansui.git/karesansui/gadget/hostby1networkby1.py:108
 #: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:25
 #: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:57
-#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:89
+#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:90
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:19
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:50
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:82
@@ -2527,7 +2527,7 @@ msgstr ""
 #: karesansui.git/karesansui/gadget/hostby1networkby1.py:108
 #: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:31
 #: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:58
-#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:94
+#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:95
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:25
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:51
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:87
@@ -2901,7 +2901,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/userby1/userby1.input:18
 #: karesansui.git/karesansui/templates/default/userby1/userby1.input:65
 #: karesansui.git/karesansui/templates/default/userby1/userby1.input:92
-#: karesansui.git/karesansui/templates/default/userby1/userby1.part:20
+#: karesansui.git/karesansui/templates/default/userby1/userby1.part:21
 msgid "Mail Address"
 msgstr ""
 
@@ -2914,8 +2914,8 @@ msgstr ""
 #: karesansui.git/karesansui/gadget/userby1.py:85
 #: karesansui.git/karesansui/gadget/userby1.py:99
 #: karesansui.git/karesansui/gadget/userby1.py:108
-#: karesansui.git/karesansui/templates/default/host/host.input:208
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:238
+#: karesansui.git/karesansui/templates/default/host/host.input:219
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:233
 #: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:91
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:95
 #: karesansui.git/karesansui/templates/default/hostby1settingby1proxy/hostby1settingby1proxy.input:46
@@ -2960,7 +2960,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/user/user.part:209
 #: karesansui.git/karesansui/templates/default/userby1/userby1.input:73
 #: karesansui.git/karesansui/templates/default/userby1/userby1.input:107
-#: karesansui.git/karesansui/templates/default/userby1/userby1.part:21
+#: karesansui.git/karesansui/templates/default/userby1/userby1.part:22
 msgid "Language"
 msgstr ""
 
@@ -3012,7 +3012,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/user/user.part:207
 #: karesansui.git/karesansui/templates/default/userby1/userby1.input:11
 #: karesansui.git/karesansui/templates/default/userby1/userby1.input:87
-#: karesansui.git/karesansui/templates/default/userby1/userby1.part:19
+#: karesansui.git/karesansui/templates/default/userby1/userby1.part:20
 msgid "Nickname"
 msgstr ""
 
@@ -3021,8 +3021,8 @@ msgid "User ID"
 msgstr ""
 
 #: karesansui.git/karesansui/gadget/userby1.py:154
-#: karesansui.git/karesansui/lib/checker.py:874
-#: karesansui.git/karesansui/lib/checker.py:1071
+#: karesansui.git/karesansui/lib/checker.py:879
+#: karesansui.git/karesansui/lib/checker.py:1076
 #, python-format
 msgid "%s is mismatched."
 msgstr ""
@@ -3035,59 +3035,59 @@ msgstr ""
 msgid "Current Password"
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:118
+#: karesansui.git/karesansui/lib/checker.py:123
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:116
 #: karesansui.git/karesansui/templates/default/hostby1networksettingsgeneral/hostby1networksettingsgeneral.input:29
 #, python-format
 msgid "%s is missing."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:148
+#: karesansui.git/karesansui/lib/checker.py:153
 #, python-format
 msgid "%s must be shorter than %d characters."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:151
+#: karesansui.git/karesansui/lib/checker.py:156
 #, python-format
 msgid "%s must be longer than %d characters."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:197
+#: karesansui.git/karesansui/lib/checker.py:202
 #, python-format
 msgid "%s includes invalid character[s] %s."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:203
-#: karesansui.git/karesansui/lib/checker.py:376
+#: karesansui.git/karesansui/lib/checker.py:208
+#: karesansui.git/karesansui/lib/checker.py:381
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:184
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:445
 #, python-format
 msgid "%s must not consist of only blank characters."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:243
+#: karesansui.git/karesansui/lib/checker.py:248
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:211
 #, python-format
 msgid "%s is not numerical value."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:249
-#: karesansui.git/karesansui/lib/checker.py:1685
+#: karesansui.git/karesansui/lib/checker.py:254
+#: karesansui.git/karesansui/lib/checker.py:1690
 #, python-format
 msgid "%s must be greater than %d."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:255
-#: karesansui.git/karesansui/lib/checker.py:1691
+#: karesansui.git/karesansui/lib/checker.py:260
+#: karesansui.git/karesansui/lib/checker.py:1696
 #, python-format
 msgid "%s must be smaller than %d."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:297
-#: karesansui.git/karesansui/lib/checker.py:369
-#: karesansui.git/karesansui/lib/checker.py:428
-#: karesansui.git/karesansui/lib/checker.py:486
-#: karesansui.git/karesansui/lib/checker.py:539
+#: karesansui.git/karesansui/lib/checker.py:302
+#: karesansui.git/karesansui/lib/checker.py:374
+#: karesansui.git/karesansui/lib/checker.py:433
+#: karesansui.git/karesansui/lib/checker.py:491
+#: karesansui.git/karesansui/lib/checker.py:544
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:316
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:360
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:433
@@ -3097,108 +3097,108 @@ msgstr ""
 msgid "Available characters are"
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:298
+#: karesansui.git/karesansui/lib/checker.py:303
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:317
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:361
 #, python-format
 msgid "0-9 a-z A-Z @ & ( ) + - . _ %s"
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:303
+#: karesansui.git/karesansui/lib/checker.py:308
 #, python-format
 msgid "%s is not a directory."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:308
+#: karesansui.git/karesansui/lib/checker.py:313
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:284
 #, python-format
 msgid "%s must start with /."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:313
+#: karesansui.git/karesansui/lib/checker.py:318
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:293
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:390
 #, python-format
 msgid "%s must not be root directory."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:318
-#: karesansui.git/karesansui/lib/checker.py:1260
-#: karesansui.git/karesansui/lib/checker.py:1588
-#: karesansui.git/karesansui/lib/checker.py:1625
+#: karesansui.git/karesansui/lib/checker.py:323
+#: karesansui.git/karesansui/lib/checker.py:1265
+#: karesansui.git/karesansui/lib/checker.py:1593
+#: karesansui.git/karesansui/lib/checker.py:1630
 #, python-format
 msgid "No such %s [%s]."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:364
+#: karesansui.git/karesansui/lib/checker.py:369
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:422
 #, python-format
 msgid "%s must begin with alphabet."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:370
-#: karesansui.git/karesansui/lib/checker.py:429
+#: karesansui.git/karesansui/lib/checker.py:375
+#: karesansui.git/karesansui/lib/checker.py:434
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:434
 msgid "0-9 a-z - . _"
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:424
+#: karesansui.git/karesansui/lib/checker.py:429
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:476
 #, python-format
 msgid "%s must begin with alphabet or number."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:478
+#: karesansui.git/karesansui/lib/checker.py:483
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:563
 #, python-format
 msgid "%s must include at least one dot . character."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:482
+#: karesansui.git/karesansui/lib/checker.py:487
 #, python-format
 msgid "%s must be specified like %s."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:487
+#: karesansui.git/karesansui/lib/checker.py:492
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:589
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:641
 msgid "a-z A-Z 0-9 . -"
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:531
+#: karesansui.git/karesansui/lib/checker.py:536
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:620
 #, python-format
 msgid "%s must not include dot . character."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:535
+#: karesansui.git/karesansui/lib/checker.py:540
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:629
 #, python-format
 msgid "%s cannot begin or end with a hyphen."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:540
+#: karesansui.git/karesansui/lib/checker.py:545
 msgid "a-z A-Z 0-9 -"
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:593
+#: karesansui.git/karesansui/lib/checker.py:598
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:684
 #, python-format
 msgid "Domain name part of %s"
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:596
+#: karesansui.git/karesansui/lib/checker.py:601
 #, python-format
 msgid "%s is in an invalid format."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:597
+#: karesansui.git/karesansui/lib/checker.py:602
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:689
 #, python-format
 msgid "Please specify like username@%s."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:877
+#: karesansui.git/karesansui/lib/checker.py:882
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:515
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:535
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:957
@@ -3206,70 +3206,70 @@ msgstr ""
 msgid "%s includes invalid character[s]."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:882
+#: karesansui.git/karesansui/lib/checker.py:887
 #, python-format
 msgid "WARNING: %s is too short."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:888
+#: karesansui.git/karesansui/lib/checker.py:893
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:979
 #, python-format
 msgid "%s must not consist of only numbers."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:904
-#: karesansui.git/karesansui/lib/checker.py:943
-#: karesansui.git/karesansui/lib/checker.py:1204
-#: karesansui.git/karesansui/lib/checker.py:1727
+#: karesansui.git/karesansui/lib/checker.py:909
+#: karesansui.git/karesansui/lib/checker.py:948
+#: karesansui.git/karesansui/lib/checker.py:1209
+#: karesansui.git/karesansui/lib/checker.py:1732
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:257
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:687
 #, python-format
 msgid "%s is invalid format."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:1163
+#: karesansui.git/karesansui/lib/checker.py:1168
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:953
 #, python-format
 msgid "%s is mismatch."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:1287
+#: karesansui.git/karesansui/lib/checker.py:1292
 #, python-format
 msgid "Values for %s should be unique."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:1322
+#: karesansui.git/karesansui/lib/checker.py:1327
 #, python-format
 msgid "%(ip)s for %(name)s is not in network %(cidr)s"
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:1327
+#: karesansui.git/karesansui/lib/checker.py:1332
 #, python-format
 msgid "IP address for %s should be unique."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:1359
+#: karesansui.git/karesansui/lib/checker.py:1364
 #, python-format
 msgid "IP address range %s to %s is not valid."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:1366
+#: karesansui.git/karesansui/lib/checker.py:1371
 #, python-format
 msgid "IP address %s should not be in range %s to %s"
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:1416
+#: karesansui.git/karesansui/lib/checker.py:1421
 #, python-format
 msgid "Network address %s for %s is used by other network (%s)"
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:1676
+#: karesansui.git/karesansui/lib/checker.py:1681
 #: karesansui.git/karesansui/templates/default/data/js/checker.js:1554
 #, python-format
 msgid "%s is not integer or decimal fraction."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/checker.py:1679
+#: karesansui.git/karesansui/lib/checker.py:1684
 #, python-format
 msgid "(%s) Length of figures after point must be equal or less than %s."
 msgstr ""
@@ -3314,7 +3314,10 @@ msgstr ""
 msgid "Page Number"
 msgstr ""
 
-#: karesansui.git/karesansui/lib/rest.py:302
+#: karesansui.git/karesansui/lib/rest.py:303
+#: karesansui.git/karesansui/templates/default/host/host.input:166
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:170
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:172
 msgid "Karesansui"
 msgstr ""
 
@@ -3331,16 +3334,16 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guest/guest.part:114
 #: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:35
 #: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:40
-#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:230
+#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:228
 #: karesansui.git/karesansui/templates/default/guestby1snapshotby1/guestby1snapshotby1.part:87
 #: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:43
 #: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:48
-#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:240
+#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:239
 #: karesansui.git/karesansui/templates/default/job/job.html:10
 #: karesansui.git/karesansui/templates/default/job/job.part:40
 #: karesansui.git/karesansui/templates/default/job/job.part:45
-#: karesansui.git/karesansui/templates/default/job/job.part:188
-#: karesansui.git/karesansui/templates/default/job/job.part:242
+#: karesansui.git/karesansui/templates/default/job/job.part:187
+#: karesansui.git/karesansui/templates/default/job/job.part:241
 #: karesansui.git/karesansui/templates/default/tagby1/tagby1.part:23
 msgid "Created"
 msgstr ""
@@ -3408,7 +3411,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/hostby1watchby1/hostby1watchby1.input:641
 #: karesansui.git/karesansui/templates/default/hostby1watchby1/hostby1watchby1.input:648
 #: karesansui.git/karesansui/templates/default/hostby1watchby1/hostby1watchby1.input:650
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:270
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:269
 msgid "Enabled"
 msgstr ""
 
@@ -3418,7 +3421,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guest/guest.part:559
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:283
 #: karesansui.git/karesansui/templates/default/hostby1networksettingsnicby1/hostby1networksettingsnicby1.part:14
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:272
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:271
 msgid "Disabled"
 msgstr ""
 
@@ -3691,7 +3694,7 @@ msgid "Dropped"
 msgstr ""
 
 #: karesansui.git/karesansui/lib/rrd/load.py:63
-#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:153
+#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:152
 #: karesansui.git/karesansui/templates/default/hostby1watch/hostby1watch.input:670
 msgid "Load Average"
 msgstr ""
@@ -3737,7 +3740,7 @@ msgid "mins"
 msgstr ""
 
 #: karesansui.git/karesansui/lib/rrd/uptime.py:72
-#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:159
+#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:158
 msgid "Uptime"
 msgstr ""
 
@@ -3754,13 +3757,13 @@ msgid "Users "
 msgstr ""
 
 #: karesansui.git/karesansui/lib/rrd/users.py:110
-#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:165
+#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:164
 msgid "Users"
 msgstr ""
 
 #: karesansui.git/karesansui/lib/virt/snapshot.py:79
 #: karesansui.git/karesansui/lib/virt/virt.py:139
-#: karesansui.git/karesansui/lib/virt/virt.py:4468
+#: karesansui.git/karesansui/lib/virt/virt.py:4486
 #, python-format
 msgid "Cannot open '%s'"
 msgstr ""
@@ -3774,102 +3777,121 @@ msgstr ""
 msgid "%s: unsupported image format %s"
 msgstr ""
 
-#: karesansui.git/karesansui/lib/virt/virt.py:689
-#: karesansui.git/karesansui/lib/virt/virt.py:2449
-#: karesansui.git/karesansui/lib/virt/virt.py:2495
-#: karesansui.git/karesansui/lib/virt/virt.py:2541
-#: karesansui.git/karesansui/lib/virt/virt.py:2568
-#: karesansui.git/karesansui/lib/virt/virt.py:2595
+#: karesansui.git/karesansui/lib/virt/virt.py:692
+#: karesansui.git/karesansui/lib/virt/virt.py:2467
+#: karesansui.git/karesansui/lib/virt/virt.py:2513
+#: karesansui.git/karesansui/lib/virt/virt.py:2559
+#: karesansui.git/karesansui/lib/virt/virt.py:2586
+#: karesansui.git/karesansui/lib/virt/virt.py:2613
 #, python-format
 msgid "Storage pool could not be found. pool=%s"
 msgstr ""
 
-#: karesansui.git/karesansui/lib/virt/virt.py:712
+#: karesansui.git/karesansui/lib/virt/virt.py:715
 msgid "Storage path could not be retrieved."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/virt/virt.py:1140
-#: karesansui.git/karesansui/lib/virt/virt.py:1290
-#: karesansui.git/karesansui/lib/virt/virt.py:2682
-#: karesansui.git/karesansui/lib/virt/virt.py:2866
+#: karesansui.git/karesansui/lib/virt/virt.py:1148
+#: karesansui.git/karesansui/lib/virt/virt.py:1298
+#: karesansui.git/karesansui/lib/virt/virt.py:2700
+#: karesansui.git/karesansui/lib/virt/virt.py:2884
 #, python-format
 msgid "Domain could not be found. name=%s"
 msgstr ""
 
-#: karesansui.git/karesansui/lib/virt/virt.py:1293
+#: karesansui.git/karesansui/lib/virt/virt.py:1301
 #, python-format
 msgid "Failed to set autostart flag. - dom=%s flag=%s"
 msgstr ""
 
-#: karesansui.git/karesansui/lib/virt/virt.py:1323
-#: karesansui.git/karesansui/lib/virt/virt.py:1522
-#: karesansui.git/karesansui/lib/virt/virt.py:1554
+#: karesansui.git/karesansui/lib/virt/virt.py:1331
+#: karesansui.git/karesansui/lib/virt/virt.py:1530
+#: karesansui.git/karesansui/lib/virt/virt.py:1562
 #, python-format
 msgid "Directory '%s' not found."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/virt/virt.py:1345
+#: karesansui.git/karesansui/lib/virt/virt.py:1353
 #, python-format
 msgid "Directory '%s' found."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/virt/virt.py:1533
+#: karesansui.git/karesansui/lib/virt/virt.py:1541
 #, python-format
 msgid "'%s' is invalid format."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/virt/virt.py:1535
+#: karesansui.git/karesansui/lib/virt/virt.py:1543
 #, python-format
 msgid "'%s' not found."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/virt/virt.py:1573
+#: karesansui.git/karesansui/lib/virt/virt.py:1581
 #, python-format
 msgid "Disk storage pools were found to import. - pool=%s"
 msgstr ""
 
-#: karesansui.git/karesansui/lib/virt/virt.py:1580
+#: karesansui.git/karesansui/lib/virt/virt.py:1588
 #, python-format
 msgid ""
 "When exporting, there are differences in the storage pool information. "
 "(Storage pool path) = export=%s, import=%s"
 msgstr ""
 
-#: karesansui.git/karesansui/lib/virt/virt.py:1585
+#: karesansui.git/karesansui/lib/virt/virt.py:1593
 #, python-format
 msgid "Could not find the exported disk image. src_file=%s"
 msgstr ""
 
-#: karesansui.git/karesansui/lib/virt/virt.py:1617
+#: karesansui.git/karesansui/lib/virt/virt.py:1625
 #, python-format
 msgid "Export data not found. - path=%s"
 msgstr ""
 
-#: karesansui.git/karesansui/lib/virt/virt.py:1622
+#: karesansui.git/karesansui/lib/virt/virt.py:1630
 #, python-format
 msgid "Failed to import guest image. Image not found.- path=%s"
 msgstr ""
 
-#: karesansui.git/karesansui/lib/virt/virt.py:2629
-#: karesansui.git/karesansui/lib/virt/virt.py:2931
+#: karesansui.git/karesansui/lib/virt/virt.py:2647
+#: karesansui.git/karesansui/lib/virt/virt.py:2949
 msgid "No storage pools could be found."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/virt/virt.py:2770
-#: karesansui.git/karesansui/lib/virt/virt.py:2802
-#: karesansui.git/karesansui/lib/virt/virt.py:2997
+#: karesansui.git/karesansui/lib/virt/virt.py:2788
+#: karesansui.git/karesansui/lib/virt/virt.py:2820
+#: karesansui.git/karesansui/lib/virt/virt.py:3015
 #, python-format
 msgid "No storage pool '%s' could be found."
 msgstr ""
 
-#: karesansui.git/karesansui/lib/virt/virt.py:4077
+#: karesansui.git/karesansui/lib/virt/virt.py:4095
 #, python-format
 msgid "Could not start network '%s' (%s)"
 msgstr ""
 
-#: karesansui.git/karesansui/lib/virt/virt.py:4087
+#: karesansui.git/karesansui/lib/virt/virt.py:4105
 #, python-format
 msgid "Could not stop network '%s' (%s)"
+msgstr ""
+
+#: karesansui.git/karesansui/templates/default/console/console.part:17
+#, python-format
+msgid "%s is not found or installed."
+msgstr ""
+
+#: karesansui.git/karesansui/templates/default/console/console.part:18
+msgid "Please install it, then try again."
+msgstr ""
+
+#: karesansui.git/karesansui/templates/default/console/console.part:20
+#, python-format
+msgid "%s is not located under Karesansui's directory."
+msgstr ""
+
+#: karesansui.git/karesansui/templates/default/console/console.part:21
+#, python-format
+msgid "Please symlink or copy %s to %s, then try again."
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/data/js/ajax.js:62
@@ -3908,7 +3930,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guestexport/guestexport.input:56
 #: karesansui.git/karesansui/templates/default/hostby1networksettings/hostby1networksettings.input:34
 #: karesansui.git/karesansui/templates/default/me/me.part:26
-#: karesansui.git/karesansui/templates/default/userby1/userby1.part:33
+#: karesansui.git/karesansui/templates/default/userby1/userby1.part:34
 msgid "Close"
 msgstr ""
 
@@ -4091,9 +4113,9 @@ msgstr ""
 
 #: karesansui.git/karesansui/templates/default/data/js/grayout.js:102
 #: karesansui.git/karesansui/templates/default/guest/guest.part:904
-#: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.part:186
+#: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.part:184
 #: karesansui.git/karesansui/templates/default/guestby1snapshot/guestby1snapshot.part:174
-#: karesansui.git/karesansui/templates/default/host/host.part:272
+#: karesansui.git/karesansui/templates/default/host/host.part:273
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.part:266
 #: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.part:184
 #: karesansui.git/karesansui/templates/default/hostby1networksettings/hostby1networksettings.part:166
@@ -4111,7 +4133,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guest/guest.input:524
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.input:128
 #: karesansui.git/karesansui/templates/default/guestreplicate/guestreplicate.input:168
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:266
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:261
 #: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.input:128
 msgid "Cancel"
 msgstr ""
@@ -4173,7 +4195,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guestreplicate/guestreplicate.input:13
 #: karesansui.git/karesansui/templates/default/guestreplicate/guestreplicate.input:105
 #: karesansui.git/karesansui/templates/default/guestreplicate/guestreplicate.input:155
-#: karesansui.git/karesansui/templates/default/host/host.input:14
+#: karesansui.git/karesansui/templates/default/host/host.input:15
 #: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.input:18
 #: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.input:87
 #: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.input:114
@@ -4189,12 +4211,12 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guestby1cpu/guestby1cpu.input:29
 #: karesansui.git/karesansui/templates/default/guestby1graphics/guestby1graphics.input:19
 #: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:55
-#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:32
+#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:31
 #: karesansui.git/karesansui/templates/default/guestby1snapshot/guestby1snapshot.input:27
 #: karesansui.git/karesansui/templates/default/guestby1snapshotby1/guestby1snapshotby1.input:29
 #: karesansui.git/karesansui/templates/default/guestexport/guestexport.input:20
 #: karesansui.git/karesansui/templates/default/guestreplicate/guestreplicate.input:84
-#: karesansui.git/karesansui/templates/default/host/host.input:109
+#: karesansui.git/karesansui/templates/default/host/host.input:110
 #: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:107
 #: karesansui.git/karesansui/templates/default/hostby1firewallpolicy/hostby1firewallpolicy.input:10
 #: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:63
@@ -4456,8 +4478,8 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.input:258
 #: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.input:311
 #: karesansui.git/karesansui/templates/default/guestby1graphics/guestby1graphics.input:93
-#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:83
-#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:91
+#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:82
+#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:90
 #: karesansui.git/karesansui/templates/default/guestby1nicby1/guestby1nicby1.input:62
 #: karesansui.git/karesansui/templates/default/guestby1snapshot/guestby1snapshot.input:67
 #: karesansui.git/karesansui/templates/default/guestby1snapshotby1/guestby1snapshotby1.input:70
@@ -4466,22 +4488,22 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guestreplicate/guestreplicate.input:188
 #: karesansui.git/karesansui/templates/default/guestreplicate/guestreplicate.input:193
 #: karesansui.git/karesansui/templates/default/guestreplicate/guestreplicate.input:197
-#: karesansui.git/karesansui/templates/default/host/host.input:153
-#: karesansui.git/karesansui/templates/default/host/host.input:173
-#: karesansui.git/karesansui/templates/default/host/host.input:195
-#: karesansui.git/karesansui/templates/default/host/host.input:224
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:163
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:188
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:190
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:218
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:220
+#: karesansui.git/karesansui/templates/default/host/host.input:155
+#: karesansui.git/karesansui/templates/default/host/host.input:175
+#: karesansui.git/karesansui/templates/default/host/host.input:183
+#: karesansui.git/karesansui/templates/default/host/host.input:206
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:158
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:183
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:185
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:213
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:215
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:185
 #: karesansui.git/karesansui/templates/default/hostby1iptables/hostby1iptables.input:44
-#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:80
-#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:86
-#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:91
-#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:96
-#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:101
+#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:81
+#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:87
+#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:92
+#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:97
+#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:102
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:73
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:79
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:84
@@ -4492,9 +4514,9 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/hostby1networksettingsgeneral/hostby1networksettingsgeneral.input:99
 #: karesansui.git/karesansui/templates/default/hostby1networksettingsnicby1/hostby1networksettingsnicby1.input:115
 #: karesansui.git/karesansui/templates/default/hostby1networksettingsnicby1/hostby1networksettingsnicby1.input:120
-#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:127
-#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:145
-#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:151
+#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:126
+#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:144
+#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:150
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:163
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:169
 #: karesansui.git/karesansui/templates/default/hostby1settingby1mail/hostby1settingby1mail.input:68
@@ -4529,7 +4551,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guest/guest.input:521
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.input:125
 #: karesansui.git/karesansui/templates/default/guestreplicate/guestreplicate.input:165
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:263
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:258
 #: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.input:125
 msgid "Upload"
 msgstr ""
@@ -4596,9 +4618,9 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guestby1snapshotby1/guestby1snapshotby1.input:67
 #: karesansui.git/karesansui/templates/default/guestby1snapshotby1/guestby1snapshotby1.part:40
 #: karesansui.git/karesansui/templates/default/guestreplicate/guestreplicate.input:199
-#: karesansui.git/karesansui/templates/default/host/host.input:227
+#: karesansui.git/karesansui/templates/default/host/host.input:233
 #: karesansui.git/karesansui/templates/default/host/host.part:157
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:272
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:267
 #: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.input:132
 msgid "Notebook"
 msgstr ""
@@ -4654,7 +4676,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/hostby1staticrouteby1/hostby1staticrouteby1.part:20
 #: karesansui.git/karesansui/templates/default/hostby1watchby1/hostby1watchby1.part:22
 #: karesansui.git/karesansui/templates/default/jobby1/jobby1.part:26
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:221
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:220
 msgid "General Information"
 msgstr ""
 
@@ -4685,7 +4707,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guest/guest.part:318
 #: karesansui.git/karesansui/templates/default/guest/guest.part:594
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:350
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:316
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:315
 msgid "CPU Info"
 msgstr ""
 
@@ -4725,7 +4747,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guest/guest.part:391
 #: karesansui.git/karesansui/templates/default/guest/guest.part:605
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:522
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:342
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:341
 msgid "Memory Info"
 msgstr ""
 
@@ -4773,7 +4795,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:573
 #: karesansui.git/karesansui/templates/default/guestby1nicby1/guestby1nicby1.input:31
 #: karesansui.git/karesansui/templates/default/guestby1nicby1/guestby1nicby1.input:56
-#: karesansui.git/karesansui/templates/default/guestby1nicby1/guestby1nicby1.part:26
+#: karesansui.git/karesansui/templates/default/guestby1nicby1/guestby1nicby1.part:24
 msgid "Source Bridge"
 msgstr ""
 
@@ -4805,15 +4827,15 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guest/guest.part:1032
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:301
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:316
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:290
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:305
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:289
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:304
 msgid "Unknown"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/guest/guest.part:293
 #: karesansui.git/karesansui/templates/default/guest/guest.part:581
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:307
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:296
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:295
 msgid "OS Type"
 msgstr ""
 
@@ -4828,7 +4850,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guest/guest.part:315
 #: karesansui.git/karesansui/templates/default/guest/guest.part:591
 #: karesansui.git/karesansui/templates/default/guestby1cpu/guestby1cpu.input:71
-#: karesansui.git/karesansui/templates/default/guestby1cpu/guestby1cpu.part:15
+#: karesansui.git/karesansui/templates/default/guestby1cpu/guestby1cpu.part:13
 msgid "CPU Time (seconds)"
 msgstr ""
 
@@ -4855,8 +4877,8 @@ msgid "Modified User"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/guest/guest.part:534
-#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:179
-#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:189
+#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:177
+#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:188
 #: karesansui.git/karesansui/templates/default/msg/msg.part:112
 msgid "Date Created"
 msgstr ""
@@ -4889,7 +4911,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guest/guest.part:707
 #: karesansui.git/karesansui/templates/default/guest/guest.part:725
 #: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.input:52
-#: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.part:142
+#: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.part:141
 #: karesansui.git/karesansui/templates/default/guestby1snapshot/guestby1snapshot.part:30
 #: karesansui.git/karesansui/templates/default/guestby1snapshot/guestby1snapshot.part:48
 #: karesansui.git/karesansui/templates/default/guestby1snapshot/guestby1snapshot.part:64
@@ -4924,22 +4946,22 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guest/guest.part:882
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.input:146
 #: karesansui.git/karesansui/templates/default/guestby1cpu/guestby1cpu.input:94
-#: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.part:175
+#: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.part:173
 #: karesansui.git/karesansui/templates/default/guestby1graphics/guestby1graphics.input:133
-#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:97
+#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:96
 #: karesansui.git/karesansui/templates/default/guestby1snapshot/guestby1snapshot.part:162
 #: karesansui.git/karesansui/templates/default/guestby1snapshotby1/guestby1snapshotby1.input:79
-#: karesansui.git/karesansui/templates/default/host/host.part:261
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:286
+#: karesansui.git/karesansui/templates/default/host/host.part:262
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:281
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.part:255
 #: karesansui.git/karesansui/templates/default/hostby1firewallpolicy/hostby1firewallpolicy.input:76
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:244
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:240
 #: karesansui.git/karesansui/templates/default/hostby1iptables/hostby1iptables.part:124
 #: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.part:173
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:117
 #: karesansui.git/karesansui/templates/default/hostby1networksettings/hostby1networksettings.part:144
 #: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.part:192
-#: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:187
+#: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:184
 #: karesansui.git/karesansui/templates/default/hostby1settingby1mail/hostby1settingby1mail.input:81
 #: karesansui.git/karesansui/templates/default/hostby1settingby1proxy/hostby1settingby1proxy.input:146
 #: karesansui.git/karesansui/templates/default/hostby1staticrouteby1/hostby1staticrouteby1.input:115
@@ -4974,10 +4996,10 @@ msgid "Exported"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/guest/guest.part:1077
-#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:282
+#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:280
 #: karesansui.git/karesansui/templates/default/guestby1snapshot/guestby1snapshot.part:236
-#: karesansui.git/karesansui/templates/default/host/host.part:355
-#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:292
+#: karesansui.git/karesansui/templates/default/host/host.part:356
+#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:291
 #: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.part:267
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.part:49
 #: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.part:307
@@ -4988,7 +5010,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/hostby1storagepool/hostby1storagepool.part:251
 #: karesansui.git/karesansui/templates/default/hostby1watch/hostby1watch.part:247
 #: karesansui.git/karesansui/templates/default/hostby1watchby1/hostby1watchby1.part:55
-#: karesansui.git/karesansui/templates/default/job/job.part:296
+#: karesansui.git/karesansui/templates/default/job/job.part:295
 msgid "Details"
 msgstr ""
 
@@ -5031,7 +5053,7 @@ msgid "Job"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.html:83
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.html:75
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.html:76
 msgid "Console"
 msgstr ""
 
@@ -5052,61 +5074,61 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.part:195
 #: karesansui.git/karesansui/templates/default/hostby1service/hostby1service.part:170
 #: karesansui.git/karesansui/templates/default/hostby1storagepool/hostby1storagepool.part:145
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:95
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:94
 msgid "Start"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:107
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:107
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:106
 msgid "Shutdown"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:118
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:118
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:117
 msgid "Reboot"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:132
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:132
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:131
 msgid "Suspend"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:144
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:144
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:143
 msgid "Resume"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:158
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:158
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:157
 msgid "Destroy"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:171
 #: karesansui.git/karesansui/templates/default/hostby1service/hostby1service.part:214
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:171
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:170
 msgid "Disable Autostart"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:183
 #: karesansui.git/karesansui/templates/default/hostby1service/hostby1service.part:203
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:183
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:182
 msgid "Enable Autostart"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:252
 #: karesansui.git/karesansui/templates/default/host/host.part:120
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:252
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:251
 msgid "Unique key"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:322
-#: karesansui.git/karesansui/templates/default/host/host.input:234
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:279
+#: karesansui.git/karesansui/templates/default/host/host.input:240
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:274
 msgid "Tags"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/guestby1/guestby1.part:372
-#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:325
+#: karesansui.git/karesansui/templates/default/uriguestby1/uriguestby1.part:324
 msgid "CPU time(seconds)"
 msgstr ""
 
@@ -5155,7 +5177,7 @@ msgid "CPU Information"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/guestby1cpu/guestby1cpu.input:79
-#: karesansui.git/karesansui/templates/default/guestby1cpu/guestby1cpu.part:38
+#: karesansui.git/karesansui/templates/default/guestby1cpu/guestby1cpu.part:36
 #: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.input:170
 #: karesansui.git/karesansui/templates/default/guestby1graphics/guestby1graphics.input:48
 #: karesansui.git/karesansui/templates/default/guestby1graphics/guestby1graphics.input:91
@@ -5164,7 +5186,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guestby1graphics/guestby1graphics.part:45
 #: karesansui.git/karesansui/templates/default/guestby1graphics/guestby1graphics.part:56
 #: karesansui.git/karesansui/templates/default/guestby1graphics/guestby1graphics.part:72
-#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:78
+#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:77
 #: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.part:40
 msgid "This will be enabled on next guest bootup"
 msgstr ""
@@ -5178,7 +5200,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.input:182
 #: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.input:216
 #: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:71
-#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:117
+#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:116
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:71
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:129
 msgid "Device Type"
@@ -5216,7 +5238,7 @@ msgid "Type of disk device to emulate."
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.input:212
-#: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.part:248
+#: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.part:246
 msgid "Device Settings"
 msgstr ""
 
@@ -5225,17 +5247,17 @@ msgid "Disk"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.input:378
-#: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.part:164
+#: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.part:162
 #: karesansui.git/karesansui/templates/default/guestby1snapshot/guestby1snapshot.part:138
-#: karesansui.git/karesansui/templates/default/host/host.input:241
-#: karesansui.git/karesansui/templates/default/host/host.part:250
+#: karesansui.git/karesansui/templates/default/host/host.input:247
+#: karesansui.git/karesansui/templates/default/host/host.part:251
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.part:243
 #: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.part:92
-#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:120
+#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:121
 #: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.part:162
 #: karesansui.git/karesansui/templates/default/hostby1networksettings/hostby1networksettings.input:166
 #: karesansui.git/karesansui/templates/default/hostby1networksettings/hostby1networksettings.part:155
-#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:169
+#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:165
 #: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.part:181
 #: karesansui.git/karesansui/templates/default/hostby1staticroute/hostby1staticroute.input:89
 #: karesansui.git/karesansui/templates/default/hostby1staticroute/hostby1staticroute.part:97
@@ -5250,17 +5272,17 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.part:77
+#: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.part:76
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.part:173
 #: karesansui.git/karesansui/templates/default/hostby1networksettings/hostby1networksettings.part:108
 msgid "Received an unexpected value."
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.part:93
+#: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.part:92
 msgid "Add device"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.part:124
+#: karesansui.git/karesansui/templates/default/guestby1device/guestby1device.part:123
 msgid "Edit device"
 msgstr ""
 
@@ -5315,7 +5337,7 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/guestby1graphics/guestby1graphics.input:97
 #: karesansui.git/karesansui/templates/default/guestby1graphics/guestby1graphics.part:35
 #: karesansui.git/karesansui/templates/default/guestby1graphics/guestby1graphics.part:63
-#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:115
+#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:116
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:109
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:111
 msgid "Yes"
@@ -5358,7 +5380,7 @@ msgstr ""
 msgid "Error in specified time. Start time > end time."
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:132
+#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:131
 #: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:127
 #: karesansui.git/karesansui/templates/default/job/job.part:136
 msgid ""
@@ -5368,54 +5390,54 @@ msgid ""
 "execution error."
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:185
-#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:195
-#: karesansui.git/karesansui/templates/default/hostby1log/hostby1log.part:276
+#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:183
+#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:194
+#: karesansui.git/karesansui/templates/default/hostby1log/hostby1log.part:275
 #: karesansui.git/karesansui/templates/default/hostby1watch/hostby1watch.part:184
-#: karesansui.git/karesansui/templates/default/job/job.part:194
+#: karesansui.git/karesansui/templates/default/job/job.part:193
 #: karesansui.git/karesansui/templates/default/tag/tag.part:177
 #: karesansui.git/karesansui/templates/default/user/user.part:171
 msgid "Search"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:229
-#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:239
-#: karesansui.git/karesansui/templates/default/job/job.part:241
+#: karesansui.git/karesansui/templates/default/guestby1job/guestby1job.part:227
+#: karesansui.git/karesansui/templates/default/hostby1job/hostby1job.part:238
+#: karesansui.git/karesansui/templates/default/job/job.part:240
 #: karesansui.git/karesansui/templates/default/msg/msg.part:111
 msgid "Progress"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:14
+#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:13
 #: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.part:38
 msgid "Max Memory Size (MB)"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:44
-#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:70
+#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:43
+#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:69
 #: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.part:26
 msgid "Total Memory Size on Host (MB)"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:45
+#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:44
 msgid "Total RAM size of the host (in mega-bytes)."
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:48
-#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:75
+#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:47
+#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:74
 msgid "Maximum Allocatable Memory Size (MB)"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:49
+#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:48
 msgid ""
 "Maximum memory size which could be allocated to the guest (in mega-"
 "bytes). This should be lower than the total memory size on host."
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:53
+#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:52
 msgid "Current memory size of the guest (in mega-bytes)."
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:63
+#: karesansui.git/karesansui/templates/default/guestby1memory/guestby1memory.input:62
 msgid "Memory Information"
 msgstr ""
 
@@ -5549,22 +5571,22 @@ msgstr ""
 msgid "Replicate Guest"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/host/host.input:64
+#: karesansui.git/karesansui/templates/default/host/host.input:56
 msgid "Karesansui Unique Key"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/host/host.input:126
+#: karesansui.git/karesansui/templates/default/host/host.input:127
 #: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:134
 msgid ""
 "FQDN of the host. If the Karesansui server on the host waits on the port "
 "other than 80, then specify in 'FQDN:portnumber' format."
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/host/host.input:128
-#: karesansui.git/karesansui/templates/default/host/host.input:151
+#: karesansui.git/karesansui/templates/default/host/host.input:129
+#: karesansui.git/karesansui/templates/default/host/host.input:153
 #: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:20
 #: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:129
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:161
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:156
 #: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:13
 #: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:75
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:13
@@ -5572,14 +5594,14 @@ msgstr ""
 msgid "Host Name"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/host/host.input:129
+#: karesansui.git/karesansui/templates/default/host/host.input:130
 #: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:130
 msgid ""
 "Name of the host. This will be used in Karesansui control panel. Any "
 "letters, including spaces and symbols are allowed."
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/host/host.input:132
+#: karesansui.git/karesansui/templates/default/host/host.input:133
 #: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:142
 msgid ""
 "Tag to add to the host to be used in Karesansui control panel. Can be "
@@ -5588,7 +5610,7 @@ msgid ""
 "Any letters, including spaces and symbols are allowed."
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/host/host.input:136
+#: karesansui.git/karesansui/templates/default/host/host.input:137
 msgid ""
 "A unique ID to distinguish each host when using Karesansui in multi-host "
 "configuration. Should be a unique value between all hosts and guests. "
@@ -5596,18 +5618,18 @@ msgid ""
 "letters."
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/host/host.input:145
+#: karesansui.git/karesansui/templates/default/host/host.input:147
 msgid "Add Host"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/host/host.input:156
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:166
+#: karesansui.git/karesansui/templates/default/host/host.input:158
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:161
 msgid "Connection Type"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/host/host.input:186
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:205
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:207
+#: karesansui.git/karesansui/templates/default/host/host.input:197
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:200
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:202
 msgid "Libvirt URI"
 msgstr ""
 
@@ -5661,15 +5683,15 @@ msgstr ""
 msgid "Disk (MB)"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/host/host.part:295
+#: karesansui.git/karesansui/templates/default/host/host.part:296
 msgid "Now Loading"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/host/host.part:318
+#: karesansui.git/karesansui/templates/default/host/host.part:319
 msgid "My Host"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/host/host.part:338
+#: karesansui.git/karesansui/templates/default/host/host.part:339
 msgid "Host"
 msgstr ""
 
@@ -5741,16 +5763,16 @@ msgid "Service"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:137
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:257
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:252
 msgid "Host Icon"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:155
+#: karesansui.git/karesansui/templates/default/hostby1/hostby1.input:150
 msgid "Edit Host Settings"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:86
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:80
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:76
 msgid "Can only be specified in conjunction with tcp or udp."
 msgstr ""
 
@@ -5763,24 +5785,24 @@ msgid "Priority for applying firewall rules. Smaller ID applies earlier."
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:126
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:116
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:112
 msgid "Action when the packet matches the rule. "
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:126
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:116
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:112
 msgid ""
 "ACCEPT accepts the packet. DROP drops the packet silently. REJECT rejects"
 " the packet and returns an error response to the sender."
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:130
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:120
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:116
 msgid "Packets matching the protocol specified here will be checked."
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:134
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:124
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:120
 msgid ""
 "Packets having the source address specified here will be checked. To "
 "specify network address, use formats like '192.168.0.0/24'. Leave this "
@@ -5788,14 +5810,14 @@ msgid ""
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:138
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:128
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:124
 msgid ""
 "Packets having the source port specified here will be checked. This item "
 "can be specified when you choose 'tcp' or 'udp' for 'Protocol'."
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:141
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:132
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:128
 msgid ""
 "Packets having the destination address specified here will be checked. To"
 " specify network address, use formats like '192.168.0.0/24'. Leave this "
@@ -5804,34 +5826,34 @@ msgid ""
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:145
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:136
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:132
 msgid ""
 "Packets having the destination port specified here will be checked. This "
 "item can be specified when you choose 'tcp' or 'udp' for 'Protocol'."
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:147
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:139
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:135
 msgid "Inbound Interface"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:148
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:140
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:136
 msgid "Packets received through this interface will be checked."
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:151
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:143
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:139
 msgid "Outbound Interface"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:152
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:144
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:140
 msgid "Packets sent through this interface will be checked."
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:160
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:151
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:147
 msgid "Rule Settings"
 msgstr ""
 
@@ -5867,9 +5889,9 @@ msgstr ""
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:196
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:208
 #: karesansui.git/karesansui/templates/default/hostby1firewall/hostby1firewall.input:222
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:187
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:203
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:221
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:183
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:199
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:217
 msgid "All"
 msgstr ""
 
@@ -5937,7 +5959,7 @@ msgstr ""
 msgid "DROP"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:156
+#: karesansui.git/karesansui/templates/default/hostby1firewallruleby1/hostby1firewallruleby1.input:152
 msgid "Edit Rule"
 msgstr ""
 
@@ -5963,21 +5985,21 @@ msgstr ""
 msgid "Get last lines specified here."
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1log/hostby1log.part:254
+#: karesansui.git/karesansui/templates/default/hostby1log/hostby1log.part:253
 msgid "Date"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1log/hostby1log.part:260
-#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:193
+#: karesansui.git/karesansui/templates/default/hostby1log/hostby1log.part:259
+#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:192
 msgid "Set now time"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1log/hostby1log.part:265
+#: karesansui.git/karesansui/templates/default/hostby1log/hostby1log.part:264
 msgid "Lines"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1logby1/hostby1logby1.part:29
-#: karesansui.git/karesansui/templates/default/hostby1logby1appby1/hostby1logby1appby1.part:22
+#: karesansui.git/karesansui/templates/default/hostby1logby1/hostby1logby1.part:28
+#: karesansui.git/karesansui/templates/default/hostby1logby1appby1/hostby1logby1appby1.part:21
 msgid "Log content not found."
 msgstr ""
 
@@ -6023,7 +6045,7 @@ msgid ""
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:59
-#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:104
+#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:105
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:52
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:97
 #: karesansui.git/karesansui/templates/default/hostby1staticrouteby1/hostby1staticrouteby1.input:60
@@ -6037,19 +6059,19 @@ msgstr ""
 msgid "When checked, enables IP masquerading to outer network from this network."
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:61
+#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:60
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:53
 msgid ""
 "Configure the network to be automatically started when the host machine "
 "boots."
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:69
+#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:70
 msgid "Add Network"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:107
-#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:109
+#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:108
+#: karesansui.git/karesansui/templates/default/hostby1network/hostby1network.input:110
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:100
 #: karesansui.git/karesansui/templates/default/hostby1networkby1/hostby1networkby1.input:102
 #: karesansui.git/karesansui/templates/default/hostby1staticrouteby1/hostby1staticrouteby1.input:107
@@ -6254,14 +6276,14 @@ msgid "Broadcast"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:28
-#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:142
+#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:141
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:28
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:160
 msgid "Authentication User"
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:38
-#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:148
+#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:147
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:38
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:166
 msgid "Authentication Password"
@@ -6286,7 +6308,7 @@ msgid ""
 msgstr ""
 
 #: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:83
-#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:135
+#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:134
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:87
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:153
 msgid "Authentication"
@@ -6313,44 +6335,44 @@ msgid ""
 " to 256 characters. "
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:96
-#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:156
+#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:95
+#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:154
 #: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.part:265
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:99
-#: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:174
+#: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:173
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.part:31
 msgid "Auto Connect"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:97
+#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:96
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:100
 msgid "When checked, the connection automatically at startup."
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:108
+#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:107
 msgid "Add Network Storage"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:120
+#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:119
 msgid "iSCSI"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:124
+#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:123
 #: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.part:262
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:135
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.part:69
 msgid "Target Host Name"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:137
+#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:136
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:155
 msgid "CHAP"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:160
-#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:163
+#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:157
+#: karesansui.git/karesansui/templates/default/hostby1networkstorage/hostby1networkstorage.input:159
+#: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:176
 #: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:178
-#: karesansui.git/karesansui/templates/default/hostby1networkstorageby1/hostby1networkstorageby1.input:181
 msgid "Enable Auto Connect"
 msgstr ""
 
@@ -6416,30 +6438,30 @@ msgstr ""
 msgid "Volumes Connected"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:123
+#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:122
 #: karesansui.git/karesansui/templates/default/hostby1watch/hostby1watch.input:665
 msgid "CPU"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:135
+#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:134
 #: karesansui.git/karesansui/templates/default/hostby1watch/hostby1watch.input:667
 msgid "Disk Space"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:141
+#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:140
 msgid "Disk Performance"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:171
+#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:170
 #: karesansui.git/karesansui/templates/default/hostby1watch/hostby1watch.input:669
 msgid "Virtual Machine"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:187
+#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:186
 msgid "Report Period"
 msgstr ""
 
-#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:196
+#: karesansui.git/karesansui/templates/default/hostby1report/hostby1report.part:195
 msgid "View"
 msgstr ""
 
