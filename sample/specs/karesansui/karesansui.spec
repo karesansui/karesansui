@@ -136,8 +136,6 @@ pushd sample
 %{__cp} -f  cron_cleantmp.example    $RPM_BUILD_ROOT/etc/cron.d/%{__app}_cleantmp
 popd
 
-find $RPM_BUILD_ROOT%{python_sitelib} -type d -exec chmod g+rwx \{\} \; 2>/dev/null
-
 %{__rm} -f $RPM_BUILD_ROOT%{python_sitelib}/karesansui*egg-info
 
 %clean

@@ -38,28 +38,25 @@ from karesansui.lib.utils import get_xml_xpath as XMLXpath, get_xml_parse as XML
 from karesansui.db.access.machine import findbyguest1, findbyhost1
 from karesansui.lib.const import KVM_BRIDGE_PREFIX
 
-def _prep_console():
-    java_dir = karesansui.dirname + '/static/java'
-
+def _get_applet_source_path():
+    path = ""
     sources = ['/usr/lib/tightvnc/classes/VncViewer.jar',
                '/usr/share/tightvnc-java/VncViewer.jar',
               ]
-
-    target = java_dir + '/VncViewer.jar'
-
-    if not os.path.lexists(target):
-        if not os.path.exists(java_dir):
-            os.makedirs(java_dir)
-
-        for source in sources:
-          if os.path.exists(source):
-            os.symlink(source,target) 
+    for source in sources:
+        if os.path.exists(source):
+            path = source
+    return path
 
 class Console(Rest):
 
     @auth
     def _GET(self, *param, **params):
-        _prep_console()
+
+        java_dir = karesansui.dirname + '/static/java'
+        self.view.applet_dst_path = java_dir + '/VncViewer.jar'
+        self.view.applet_src_path = _get_applet_source_path()
+        self.view.found_applet_located = os.path.exists(self.view.applet_dst_path)
 
         (host_id, guest_id) = self.chk_guestby1(param)
         if guest_id is None: return web.notfound()

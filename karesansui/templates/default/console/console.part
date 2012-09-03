@@ -1,6 +1,7 @@
 <%doc>Copyright (C) 2009-2012 HDE, Inc.</%doc>
 <%inherit file="../include/common.part" />
 
+% if found_applet_located is True:
 <div style="vertical-align:middle; text-align:center; background-color:#E9E9E9;">
     <applet code='VncViewer.class' archive='${ctx.homepath}/static/java/VncViewer.jar' width='760' height='600'>
         <param name="Show controls" value="Yes">
@@ -10,3 +11,14 @@
         <param name="HOST" value='${host_ipaddr}'>
     </applet>
 </div>
+
+% else:
+% if applet_src_path == "":
+${_('%s is not found or installed.') % "VncViewer.jar"}
+${_('Please install it, then try again.')}
+% else:
+${_("%s is not located under Karesansui's directory.") % "VncViewer.jar"}
+${_('Please symlink or copy %s to %s, then try again.') % (applet_src_path, applet_dst_path)}
+% endif
+
+% endif
