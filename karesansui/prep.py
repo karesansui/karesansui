@@ -224,8 +224,6 @@ def built_in():
         for y in [x.strip() for x in config['application.search.path'].split(',') if x]:
             if (y in sys.path) is False: sys.path.insert(0, y)
 
-    create__cmd__(config, conf)
-
     import karesansui
     karesansui.config = config
     return config, opts, args
@@ -267,8 +265,6 @@ def fcgi():
 #        for y in [x.strip() for x in env.get('SEARCH_PATH').split(',') if x]:
 #            if (y in sys.path) is False: sys.path.insert(0, y)
 
-    create__cmd__(config, conf)
-       
     import karesansui
     karesansui.config = config
     return config , None, None

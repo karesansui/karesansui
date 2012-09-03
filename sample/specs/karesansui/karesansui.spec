@@ -136,8 +136,6 @@ pushd sample
 %{__cp} -f  cron_cleantmp.example    $RPM_BUILD_ROOT/etc/cron.d/%{__app}_cleantmp
 popd
 
-find $RPM_BUILD_ROOT%{python_sitelib} -type d -exec chmod g+rwx \{\} \; 2>/dev/null
-
 %{__rm} -f $RPM_BUILD_ROOT%{python_sitelib}/karesansui*egg-info
 
 %clean
@@ -235,8 +233,9 @@ fi
 #%doc doc tools sample
 
 %files
-%defattr(-,root,%{_group})
+%defattr(-,root,root)
 %doc doc tools sample AUTHORS COPYING TRADEMARKS.TXT INSTALL.md INSTALL.ja.md README.md README.ja.md
+%defattr(-,root,root)
 %dir %{python_sitelib}/
 %dir %{python_sitelib}/karesansui/
 %dir %{python_sitelib}/karesansui/db/
@@ -245,14 +244,15 @@ fi
 %{python_sitelib}/karesansui/db/*.py*
 %{python_sitelib}/karesansui/db/access/*.py*
 %{python_sitelib}/karesansui/db/model/*.py*
+%{python_sitelib}/karesansui/static/java/*
 %{python_sitelib}/karesansui/static/js/*
 %{python_sitelib}/karesansui/static/lib/*
-%{_kss_sysconfdir}/*.example
 %defattr(0770,root,%{_group})
 %config(noreplace) %{_kss_sysconfdir}/*.conf
 %config(noreplace) %{_kss_sysconfdir}/*.xml
 %dir %{_kss_sysconfdir}/
 %dir %{_kss_sysconfdir}/virt/
+%{_kss_sysconfdir}/*.example
 %dir /var/log/%{__app}/
 %dir %{_tmpdir}/
 %defattr(0770,root,%{_group})
@@ -261,12 +261,12 @@ fi
 %dir %{_datarootdir}/%{__app}
 
 %files lib
-%defattr(-,root,%{_group})
+%defattr(-,root,root)
 %dir %{python_sitelib}/karesansui/lib/
 %{python_sitelib}/karesansui/lib/*
 
 %files data
-%defattr(-,root,%{_group})
+%defattr(-,root,root)
 %dir %{python_sitelib}/karesansui/static/css/
 %dir %{python_sitelib}/karesansui/static/icon/
 %dir %{python_sitelib}/karesansui/static/images/
@@ -277,7 +277,7 @@ fi
 %{python_sitelib}/karesansui/locale/*/LC_MESSAGES/*.mo
 
 %files gadget
-%defattr(-,root,%{_group})
+%defattr(-,root,root)
 %dir %{python_sitelib}/karesansui/gadget/
 %dir %{python_sitelib}/karesansui/templates/default/
 %{python_sitelib}/karesansui/gadget/*
@@ -290,13 +290,13 @@ fi
 %{_bindir}/*
 
 %files test
-%defattr(-,root,%{_group})
+%defattr(-,root,root)
 %dir %{python_sitelib}/karesansui/tests/
 %{python_sitelib}/karesansui/tests/*
 #%{python_sitelib}/karesansui*egg-info
 
 %files plus
-%defattr(-,root,%{_group})
+%defattr(-,root,root)
 %dir %{python_sitelib}/karesansui/plus/
 %{python_sitelib}/karesansui/plus/*
 

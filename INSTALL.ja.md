@@ -292,8 +292,6 @@ Karesansuiと同じく、Karesansui Project Teamによって開発されたソ�
     # chmod -R 0700  /var/log/karesansui
     # chgrp -R kss   /var/lib/karesansui
     # chmod -R 0770  /var/lib/karesansui
-    # chgrp -R kss `python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()"`/karesansui
-    # find `python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()"`/karesansui -type d -exec chmod g+rwx \{\} \;
     # find /usr/share/karesansui/ -type d -exec chgrp -R kss \{\} \;
     # find /usr/share/karesansui/ -type d -exec chmod g+rwx \{\} \;
 
@@ -480,7 +478,7 @@ libvirtのqemuモニターと接続が可能かどうか確認してください
     # KARESANSUI_CONF=/etc/karesansui/application.conf python -c "from karesansui.prep import built_in; built_in()"
     # /usr/share/karesansui/bin/create_storage_pool.py --name=default --target_path=/var/lib/libvirt/domains --mode=0770 --owner=0 --group=`id -g kss` --type=dir
     # virsh pool-refresh default
-    # rm -fr /usr/share/karesansui/bin/__cmd__.py /var/log/karesansui/*
+    # rm -fr /var/log/karesansui/*
 
 
 ## Karesansuiの管理コンソールへの接続確認
@@ -560,7 +558,7 @@ _/etc/lighttpd/modules.conf_ で以下のモジュールを有効にします。
 
 既に他のWebサーバーでKaresansuiを試している場合は、下記コマンドで既存ファイルのいくつかを削除する必要があります。
 
-    # rm -fr /usr/share/karesansui/bin/__cmd__.py /var/log/karesansui/*log
+    # rm -fr /var/log/karesansui/*log
 
 サービスを再起動し、マシン起動時に自動で有効になるように設定します。
 
@@ -628,7 +626,7 @@ _apache_ ユーザーを _kss_ グループに、 _kss_ ユーザーを _apache_
 
 既に他のWebサーバーでKaresansuiを試している場合は、下記コマンドで既存ファイルのいくつかを削除する必要があります。
 
-    # rm -fr /usr/share/karesansui/bin/__cmd__.py /var/log/karesansui/*log
+    # rm -fr /var/log/karesansui/*log
 
 サービスを再起動し、マシン起動時に自動で有効になるように設定します。
 
@@ -688,7 +686,7 @@ _nginx_ ユーザーを _kss_ グループに、 _kss_ ユーザーを _nginx_ �
 
 既に他のWebサーバーでKaresansuiを試している場合は、下記コマンドで既存ファイルのいくつかを削除する必要があります。
 
-    # rm -fr /usr/share/karesansui/bin/__cmd__.py /var/log/karesansui/*log
+    # rm -fr /var/log/karesansui/*log
 
 Karesansuiをwebpyの内蔵サーバーで立ち上げます。
 
