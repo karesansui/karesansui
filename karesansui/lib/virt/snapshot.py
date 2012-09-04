@@ -138,6 +138,8 @@ class KaresansuiVirtSnapshot:
                     try:
                         if info['driver_type'] == "qcow2":
                             pass
+                        elif info['device'] == "cdrom":
+                            pass
                         else:
                             if info['disk_type'] != "block":
                                 self.append_error_msg(_("%s: unsupported image format %s") % (info['target'],info['driver_type']))

@@ -817,7 +817,8 @@ function check_cidr(form, check, name){
       ret_val = check_ipaddr(form, check,
                      minisprintf("${_('Network address part of %s')}", name));
       form.value = old_value;
-      if(ret_val){
+
+      if(is_cidr == true && ret_val){
         old_value = form.value;
         form.value = len;
         ret_val = check_number(form, check|CHECK_MIN|CHECK_MAX, 
