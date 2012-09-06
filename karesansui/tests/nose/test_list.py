@@ -61,7 +61,7 @@ class TestList(object):
         assert uuid_1 != uuid_2
 
     def test_file_type(self):
-        assert_equal(file_type("/etc/hosts"),"ASCII text")
+        assert_regexp_matches(file_type("/etc/hosts"),"ASCII .*text")
         assert_regexp_matches(file_type("/bin/ls"),"bit LSB executable")
 
 def test_sample():
