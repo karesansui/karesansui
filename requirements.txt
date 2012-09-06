@@ -1,0 +1,2 @@
+nose>=0.10
+coverage>=3.0
