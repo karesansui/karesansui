@@ -429,7 +429,7 @@ class Guest(Rest):
         uris = available_virt_uris()
 
         #import pdb; pdb.set_trace()
-        if model.attribute == 2:
+        if model.attribute == MACHINE_ATTRIBUTE["URI"]:
             uri_guests = []
             uri_guests_status = {}
             uri_guests_kvg = {}
@@ -477,9 +477,9 @@ class Guest(Rest):
                     self.view.uri_guests = uri_guests
                     self.view.uri_guests_status = uri_guests_status
 
-
         self.kvc = KaresansuiVirtConnection()
         try: # libvirt connection scope -->
+
             # Storage Pool
             #inactive_pool = self.kvc.list_inactive_storage_pool()
             inactive_pool = []
@@ -671,6 +671,8 @@ class Guest(Rest):
                     self.view.guests = guests
 
             return True
+        except:
+            pass
         finally:
             #self.kvc.close()
             pass # libvirt connection scope --> Guest#_post()
@@ -681,11 +683,9 @@ class Guest(Rest):
         if host_id is None: return web.notfound()
 
         model = findbyhost1(self.orm, host_id)
-
-        uris = available_virt_uris()
-        if model.attribute == 0 and model.hypervisor == 1:
+        if model.attribute == 0 and model.hypervisor == MACHINE_HYPERVISOR["XEN"]:
             uri = uris["XEN"]
-        elif model.attribute == 0 and model.hypervisor == 2:
+        elif model.attribute == 0 and model.hypervisor == MACHINE_HYPERVISOR["KVM"]:
             uri = uris["KVM"]
         else:
             uri = None
