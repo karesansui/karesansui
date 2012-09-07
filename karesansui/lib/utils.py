@@ -2109,7 +2109,11 @@ def available_virt_uris():
                XEN_VIRT_URI_RW, XEN_VIRT_URI_RO
 
     uris = {}
-    for _mech in available_virt_mechs():
+    mechs = available_virt_mechs()
+    if len(mechs) == 0:
+        mechs = ['KVM']
+
+    for _mech in mechs:
         hostname = "127.0.0.1"
         if _mech == "XEN":
             uris[_mech] = XEN_VIRT_URI_RW
