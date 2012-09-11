@@ -1,0 +1,11 @@
+karesansui (3.0.2-1) unstable; urgency=low
+
+  * build against git version
+
+ -- Alex 'AdUser' Z <ad_user@lavabit.com>  Tue, 11 Sep 2012 15:44:58 +1100
+
+karesansui (3.0.1-1) unstable; urgency=low
+
+  * Initial release
+
+ -- Alex 'AdUser' Z <ad_user@lavabit.com>  Sun, 09 Sep 2012 14:40:33 +1100
