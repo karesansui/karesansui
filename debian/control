@@ -1,0 +1,22 @@
+Source: karesansui
+Section: admin
+Priority: extra
+Maintainer: Alex <ad_user@lavabit.com>
+Build-Depends: debhelper (>= 8.0.0), git, python-setuptools, python-virtualenv, python-pip, pbuilder, cdbs, python-dev
+Standards-Version: 3.9.3
+Homepage: http://karesansui-project.info
+X-Python-Version: >= 2.4
+Vcs-Git: git://github.com/karesansui/karesansui.git
+Vcs-Browser: https://github.com/karesansui/karesansui
+
+Package: karesansui
+Architecture: all
+Depends: qemu-kvm, qemu, libvirt-bin, vlan, ifenslave, bridge-utils, python-mako, python-sqlalchemy, python-simplejson, rrdtool, python-rrdtool, python-flup, collectd, collectd-utils, python-webpy, tightvnc-java, python-libvirt, ${misc:Depends}
+# note: add python-xml to dependencies
+Description: Virtualization management tool (Web Application)
+ Karesansui is an open-source virtualization management application made in Japan.
+ Main features is:
+ - Simple, easy web-based interface.
+ - Free for all. Distributed with the MIT license.
+ - Supports Kernel-based Virtual Machine(KVM) hypervisor.
+   Other hypervisors/virtualization support on future plan.

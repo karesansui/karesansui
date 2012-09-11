@@ -1,0 +1,5 @@
+usr/share/doc/karesansui/example/service.xml.example       etc/karesansui/service.xml
+usr/share/doc/karesansui/example/logview.xml.example       etc/karesansui/logview.xml
+usr/share/doc/karesansui/example/log.conf.example          etc/karesansui/log.conf
+usr/share/doc/karesansui/example/application.conf.example  etc/karesansui/application.conf
+usr/share/doc/karesansui/example/whitelist.conf.example    etc/pysilhouette/whitelist-karesansui.conf
