@@ -1,0 +1,45 @@
+--- a/sample/lighttpd/karesansui.conf	2012-09-10 00:02:55.234127248 +1100
++++ b/sample/lighttpd/karesansui.conf	2012-09-10 00:03:31.630128094 +1100
+@@ -4,15 +4,17 @@
+ var.vendor-prefix     = "/usr"
+ var.vendor-sysconfdir = "/etc"
+ var.vendor-datadir    = "/var/run/lighttpd"
+-var.vendor-pythonpath = var.vendor-prefix + "/lib/python2.6/site-packages"
++var.vendor-pythonpath = var.vendor-prefix + "/share/pyshared"
+ 
+ var.pysilhouette-prefix = "/usr"
+-var.pysilhouette-pythonpath = var.pysilhouette-prefix + "/lib/python2.6/site-packages"
++var.pysilhouette-pythonpath = var.pysilhouette-prefix + "/share/pyshared"
+ 
+ var.karesansui-prefix = "/usr"
+-var.karesansui-pythonpath = var.karesansui-prefix + "/lib/python2.6/site-packages"
++var.karesansui-pythonpath = var.karesansui-prefix + "/share/pyshared"
+ var.karesansui-bindir = var.karesansui-prefix + "/share/karesansui/bin"
+ 
++server.modules += ( "mod_rewrite" )
++
+ url.rewrite += (
+     "^/karesansui/v3/favicon.ico$" => "/karesansui/v3/favicon.ico",
+     "^/karesansui/v3/static/(.*)$" => "/karesansui/static/$1",
+@@ -23,19 +25,12 @@
+     "/karesansui/ks/" => var.vendor-sysconfdir + "/karesansui/ks/"
+ )
+ 
+-$HTTP["url"] =~ "^/karesansui.fcgi"{
+-
+-  server.port = 80
+-  $SERVER["socket"] == ":443" {
+-    ssl.engine = "enable"
+-    ssl.pemfile = "/etc/lighttpd/ssl/server.pem"
+-    server.document-root = "/var/www/karesansui"
+-  }
++$HTTP["url"] =~ "^/karesansui.fcgi" {
+ 
+   server.tag = "lighttpd/hidden"
+ 
+   #fastcgi.debug = 1
+-  fastcgi.server = (
++  fastcgi.server += (
+     "/karesansui.fcgi" => ((
+       "bin-path"        => var.karesansui-bindir + "/karesansui.fcgi",
+       "bin-environment" => (

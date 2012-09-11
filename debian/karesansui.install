@@ -1,0 +1,7 @@
+sample/*.conf.example usr/share/doc/karesansui/example
+sample/*.xml.example usr/share/doc/karesansui/example
+sample/apache/ usr/share/doc/karesansui/example
+sample/lighttpd/ usr/share/doc/karesansui/example
+sample/nginx/ usr/share/doc/karesansui/example
+sample/tables/* usr/share/doc/karesansui/sql
+tools/* usr/share/karesansui/tools

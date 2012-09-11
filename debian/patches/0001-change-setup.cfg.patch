@@ -1,0 +1,15 @@
+--- a/setup.cfg	2012-09-09 21:30:47.841910667 +1100
++++ b/setup.cfg	2012-09-09 21:30:44.681910518 +1100
+@@ -1,7 +1,10 @@
+ [global]
+-verbose=1
++verbose=0
++[build]
++build-base=build/
+ [install]
+-optimize = 1
++optimize=1
++install-scripts=usr/share/karesansui/bin
+ [bdist_rpm]
+ release=1
+ doc_files=doc tools sample
