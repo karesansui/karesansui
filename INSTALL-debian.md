@@ -518,7 +518,7 @@ If the connection attempt succeed, it will display message as below:
     # KARESANSUI_CONF=/etc/karesansui/application.conf python -c "from karesansui.prep import built_in; built_in()"
     # /usr/share/karesansui/bin/create_storage_pool.py --name=default --target_path=/var/lib/libvirt/domains --mode=0770 --owner=0 --group=`id -g kss` --type=dir
     # virsh pool-refresh default
-    # rm -fr /usr/share/karesansui/bin/__cmd__.py /var/log/karesansui/*
+    # rm -fr /var/log/karesansui/*
 
 
 ## Checking for connectivity to Karesansui management console
@@ -595,7 +595,7 @@ Copy the sample configuration file bundled with the source code to the location 
 
 If you have already tried to run Karesansui with other web server, you need to remove existing files with the following command:
 
-    # rm -fr /usr/share/karesansui/bin/__cmd__.py /var/log/karesansui/*log
+    # rm -fr /var/log/karesansui/*log
 
 Restart service and enable it for auto start at bootup.
 
@@ -651,7 +651,7 @@ Copy the sample configuration file bundled with the source code to the location 
 
 If you have already tried to run Karesansui with other web server, you need to remove existing files with the following command:
 
-    # rm -fr /usr/share/karesansui/bin/__cmd__.py /var/log/karesansui/*log
+    # rm -fr /var/log/karesansui/*log
 
 Restart service and enable it for auto start at bootup.
 
@@ -707,7 +707,7 @@ Copy the sample configuration file bundled with the source code to the location 
 
 If you have already tried to run Karesansui with other web server, you need to remove existing files with the following command:
 
-    # rm -fr /usr/share/karesansui/bin/__cmd__.py /var/log/karesansui/*log
+    # rm -fr /var/log/karesansui/*log
 
 First, run the karesansui program using the built-in server.
 
