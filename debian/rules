@@ -1,0 +1,27 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+DEB_PYTHON2_MODULE_PACKAGES=karesansui
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/class/python-distutils.mk
+
+DEB_PYTHON_INSTALL_ARGS_ALL = --install-layout=deb --prefix=/usr --quiet --no-compile
+
+#clean::
+#	python ./setup.py clean
+#	find . -name *\.py[co] -delete
+#	rm -rf build/
+
+#build-indep:
+#	python ./setup.py build --build-base=build/
+
+#binary-indep:
+#	python ./setup.py install --root=$(DEB_DESTDIR)

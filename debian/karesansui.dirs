@@ -1,0 +1,8 @@
+etc/pysilhouette/
+etc/karesansui/
+etc/karesansui/virt/
+usr/share/karesansui/
+usr/share/karesansui/bin/
+var/lib/karesansui/
+var/lib/karesansui/tmp/
+var/log/karesansui/
