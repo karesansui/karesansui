@@ -275,6 +275,7 @@ It is also developed by Karesansui Project Team.
     #### Copy several programs, configuration files and SysV init script ####
     # cp -f pysilhouette/debian/silhouetted.init /etc/init.d/silhouetted 
     # cp -f pysilhouette/debian/performerd.init /etc/init.d/performerd 
+    # cp -f pysilhouette/debian/schedulerd.init /etc/init.d/schedulerd 
     # cp -f pysilhouette/debian/silhouetted.default /etc/default/silhouetted
     # cp -f pysilhouette/sample/log.conf.example /etc/pysilhouette/log.conf
     # cp -f pysilhouette/sample/silhouette.conf.example /etc/pysilhouette/silhouette.conf
@@ -283,7 +284,7 @@ It is also developed by Karesansui Project Team.
     # cp -f pysilhouette/tools/psil-cleandb /usr/sbin
     # cp -f pysilhouette/tools/psil-set /usr/sbin
     # chmod 0744 /usr/sbin/psil-*
-    # chmod +x /etc/init.d/silhouetted /etc/init.d/performerd
+    # chmod +x /etc/init.d/silhouetted /etc/init.d/performerd /etc/init.d/schedulerd
 
     #### Modify the following files if necessary. 
     ## vi /etc/init.d/silhouetted
