@@ -1,7 +1,7 @@
 karesansui for Debian
 ---------------------
 
-At this moment, this package requires manual reconfiguretion of machine's
+At this moment, this package requires manual reconfiguration of machine's
 network interfaces. See detail instructions in /usr/share/doc/karesansui/
 
  -- Alex 'AdUser' Z <ad_user@lavabit.com>  Sun, 09 Sep 2012 14:40:33 +1100
