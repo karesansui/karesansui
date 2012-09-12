@@ -7,8 +7,7 @@
 +[build]
 +build-base=build/
  [install]
--optimize = 1
-+optimize=1
+ optimize=1
 +install-scripts=usr/share/karesansui/bin
  [bdist_rpm]
  release=1
