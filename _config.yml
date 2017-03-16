@@ -2,7 +2,7 @@ title: Karesansui Project
 description: Karesansui is an open-source virtualization management application made in Japan.
 google_analytics: UA-74189549-1
 show_downloads: true
-theme: jekyll-theme-leap-day
+theme: jekyll-theme-architect
 
 gems:
   - jekyll-mentions
