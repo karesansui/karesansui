@@ -9,9 +9,7 @@ Please see [here](https://github.com/karesansui/karesansui/issues/26) if you are
 Karesansui is an open-source virtualization management application made in Japan.
 It's smart graphical user interface lowers your management cost, and brings a total management/audit solution for both physical and virtual servers. Its full featured RESTful interface allows customizing and integration with other management/billing systems.
 
-### A set of unique product icons
-
-Feel free to download and share :)
+A set of unique product icons. Feel free to download and share :)
 
 ![Kaeru1](https://raw.githubusercontent.com/karesansui/karesansui/master/karesansui/static/icon/icon-guest1.png)
 ![Kaeru2](https://raw.githubusercontent.com/karesansui/karesansui/master/karesansui/static/icon/icon-guest2.png)
