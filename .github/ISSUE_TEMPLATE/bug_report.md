@@ -22,7 +22,6 @@ A clear and concise description of what you expected to happen.
 
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
-_Note that the attached screenshots will be **open to public**. If the image contains sensitive information, use Google Drive to store the image and put the link here._
 
 **Desktop (please complete the following information):**
  - OS: [e.g. iOS]
