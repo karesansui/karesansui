@@ -54,7 +54,7 @@ from karesansui.db.access.user import login as dba_login
 from karesansui.db.access.machine import is_findbyhost1, is_findbyguest1
 from karesansui.lib.const import LOGOUT_FILE_PREFIX, DEFAULT_LANGS
 from karesansui.db.access.user import findby1email
-
+from karesansui.db import get_session
 BASIC_REALM = 'KARESANSUI_AUTHORIZE'
 """<comment-ja>
 Basic Authの Basic realm 名
@@ -160,7 +160,7 @@ class Rest:
         # self setting
         self.logger = logging.getLogger('karesansui.rest')
         self.logger_trace = logging.getLogger('karesansui_trace.rest')
-        self.orm = web.ctx.orm
+        self.orm = get_session()
         self.pysilhouette = web.ctx.pysilhouette
         self.view.ctx = web.ctx
         self.view.alert = []
@@ -299,8 +299,7 @@ class Rest:
                               % (','.join(self.languages), str(self), path))
 
             try:
-                _r = mako_render(self._, path,
-                                 title=self._('Karesansui'), view=self.view)
+                _r = mako_render(self._, path, title=self._(u'Karesansui'), view=self.view)
                 return _r
             except:
                 if web.wsgi._is_dev_mode() is True and ('FCGI' in os.environ) is False:
@@ -891,7 +890,7 @@ def mako_render(_, templatename, **kwargs):
         filepath = '/'.join(directories)
         logger.debug(filepath)
 
-        fp = open(filepath, "r")
+        fp = open(filepath, "rb")
         try:
             return fp.read()
         finally:
