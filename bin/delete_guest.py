@@ -45,8 +45,8 @@ try:
     from karesansui.lib.const import XEN_VIRT_CONFIG_DIR, KVM_VIRT_CONFIG_DIR, \
                     VIRT_XML_CONFIG_DIR
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -83,9 +83,9 @@ class DeleteGuest(KssCommand):
                 conn.set_domain_name(opts.name)
                 conn.delete_guest(opts.name, opts.pool, opts.volume)
                 self.up_progress(20)
-            except Exception, e:
-                print >>sys.stderr, '[Warn] Failed to delete the guest OS physical. - dom=%s - detail : %s' \
-                      % (opts.name, str(e.args))
+            except Exception as e:
+                print('[Warn] Failed to delete the guest OS physical. - dom=%s - detail : %s' \
+                      % (opts.name, str(e.args)), file=sys.stderr)
                 self.logger.warn('Failed to delete the guest OS physical. - dom=%s - detail : %s' \
                                  % (opts.name, str(e.args)))
 
@@ -161,9 +161,9 @@ class DeleteGuest(KssCommand):
 
                 self.up_progress(5)
 
-            except Exception, e:
-                print >>sys.stderr, '[Warn] Failed to remove the residual file.. - dom=%s - detail : %s' \
-                      % (opts.name, str(e.args))
+            except Exception as e:
+                print('[Warn] Failed to remove the residual file.. - dom=%s - detail : %s' \
+                      % (opts.name, str(e.args)), file=sys.stderr)
                 self.logger.warn('Failed to remove the residual file.. - dom=%s - detail : %s' \
                                  % (opts.name, str(e.args)))
 
@@ -174,16 +174,16 @@ class DeleteGuest(KssCommand):
 
                 # rollback - machine
                 self.up_progress(5)
-                deleteby1uniquekey(self.kss_session, u"%s" % uuid)
+                deleteby1uniquekey(self.kss_session, "%s" % uuid)
                 self.up_progress(5)
-            except KssCommandException, e:
-                print >>sys.stderr, '[Warn] Failed to delete the guest OS database. - dom=%s - detail : %s' \
-                      % (opts.name, str(e.args))
+            except KssCommandException as e:
+                print('[Warn] Failed to delete the guest OS database. - dom=%s - detail : %s' \
+                      % (opts.name, str(e.args)), file=sys.stderr)
                 self.logger.warn('Failed to delete the guest OS database. - dom=%s - detail : %s' \
                                  % (opts.name, str(e.args)))
 
             self.logger.info('deleted guestos. - dom=%s' % opts.name)
-            print >>sys.stdout, 'deleted guestos. - dom=%s' % opts.name
+            print('deleted guestos. - dom=%s' % opts.name, file=sys.stdout)
             return True
 
         finally:

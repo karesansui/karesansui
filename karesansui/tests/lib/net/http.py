@@ -65,7 +65,7 @@ class SuiteHttp(unittest.TestSuite):
                  'test__wget_proxy_3',
                  'test__wget_proxy_4',
                  ]
-        unittest.TestSuite.__init__(self,map(TestHttp, tests))
+        unittest.TestSuite.__init__(self,list(map(TestHttp, tests)))
 
 def all_suite_http():
     return unittest.TestSuite([SuiteHttp()])

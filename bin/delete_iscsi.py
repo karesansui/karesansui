@@ -41,8 +41,8 @@ try:
         ISCSI_CMD_OPTION_MODE_NODE, ISCSI_CMD_OPTION_OPERATOR, ISCSI_CMD_OPTION_OPERATOR_DELETE, \
         ISCSI_CMD_OPTION_TARGETNAME, ISCSI_CMD_OPTION_PORTAL
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -95,7 +95,7 @@ class DeleteIscsi(KssCommand):
             raise KssCommandException('Failed to delete iSCSI. - host=%s iqn=%s message=%s' % (opts.host, opts.iqn, delete_res))
 
         self.logger.info("Delete iSCSI node successful. - host=%s iqn=%s" % (opts.host, opts.iqn))
-        print >>sys.stdout, _("Delete iSCSI node successful. - host=%s iqn=%s") % (opts.host, opts.iqn)
+        print(_("Delete iSCSI node successful. - host=%s iqn=%s") % (opts.host, opts.iqn), file=sys.stdout)
 
         return True
 

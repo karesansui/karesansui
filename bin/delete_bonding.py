@@ -48,8 +48,8 @@ try:
         VENDOR_DATA_BONDING_EVACUATION_DIR, NETWORK_IFCFG_DIR, NETWORK_COMMAND, \
         SYSTEM_COMMAND_REMOVE_MODULE, NETWORK_IFDOWN_COMMAND, NETWORK_BRCTL_COMMAND
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -94,7 +94,7 @@ class DeleteBonding(KssCommand):
 
         self.up_progress(10)
         restore_dev_list = []
-        for dev in dop.getconf("ifcfg").keys():
+        for dev in list(dop.getconf("ifcfg").keys()):
             if dop.get("ifcfg", [dev, "MASTER"]) == opts.dev:
                 restore_dev_list.append(dev)
 
@@ -219,7 +219,7 @@ class DeleteBonding(KssCommand):
             raise KssCommandException('Failure restart network.')
 
         self.logger.info("Deleted bonding device. - bond=%s dev=%s" % (opts.dev, ','.join(restore_dev_list)))
-        print >>sys.stdout, _("Deleted bonding device. - bond=%s dev=%s" % (opts.dev, ','.join(restore_dev_list)))
+        print(_("Deleted bonding device. - bond=%s dev=%s" % (opts.dev, ','.join(restore_dev_list))), file=sys.stdout)
 
         return True
 

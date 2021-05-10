@@ -72,13 +72,13 @@ class MergeHost:
 
             if model.attribute == 2:
                 #import pdb; pdb.set_trace()
-                user  = User(u"unknown",
-                             unicode("dummydummy"),
-                             unicode("dummydummy"),
-                             u"Unknown User",
-                             u"",
+                user  = User("unknown",
+                             str("dummydummy"),
+                             str("dummydummy"),
+                             "Unknown User",
+                             "",
                             )
-                notebook = Notebook(u"", u"")
+                notebook = Notebook("", "")
 
                 for guest_name in kvc.list_active_guest() + kvc.list_inactive_guest():
                     #print guest_name
@@ -92,14 +92,14 @@ class MergeHost:
                         #import pdb; pdb.set_trace()
                         guest = Machine(user,
                                         user,
-                                        u"%s" % uuid,
-                                        u"%s" % guest_name,
+                                        "%s" % uuid,
+                                        "%s" % guest_name,
                                         MACHINE_ATTRIBUTE['GUEST'],
                                         MACHINE_HYPERVISOR['URI'],
                                         notebook,
                                         [],
-                                        u"%s" % "",
-                                        u'icon-guest3.png',
+                                        "%s" % "",
+                                        'icon-guest3.png',
                                         False,
                                         None,
                                         )

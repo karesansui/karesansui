@@ -43,8 +43,8 @@ try:
     from karesansui.lib.utils import get_xml_xpath        as XMLXpath
     from karesansui.lib.utils import get_nums_xml_xpath   as XMLXpathNum
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -87,15 +87,15 @@ class TakeSnapshot(KssCommand):
 
                     msg = _("Domain snapshot '%s' created. - domain=%s") % (str(snapshot_name),opts.name,)
                     self.logger.info(msg)
-                    print >>sys.stdout, msg
+                    print(msg, file=sys.stdout)
                 else:
                     msg = _("Failed to create snapshot. - domain=%s") % (opts.name,)
                     self.logger.error(msg)
                     raise KssCommandException(msg)
 
-            except KssCommandException, e:
+            except KssCommandException as e:
                 raise KssCommandException(''.join(e.args))
-            except Exception, e:
+            except Exception as e:
                 msg = _("Failed to create snapshot. - domain=%s") % (opts.name,)
                 msg += ": detail %s" % ''.join(e.args)
                 self.logger.error(msg)

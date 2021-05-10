@@ -65,7 +65,7 @@ def read_conf(modules, webobj=None, machine=None, extra_args={}):
         pass
 
     #cmd_name = u"Get Settings - %s" % ":".join(modules)
-    cmd_name = u"Get Settings"
+    cmd_name = "Get Settings"
 
     if type(webobj) == types.InstanceType:
         from karesansui.db.model._2pysilhouette import Job, JobGroup, \
@@ -100,7 +100,7 @@ def read_conf(modules, webobj=None, machine=None, extra_args={}):
         from karesansui.lib.utils import execute_command
 
         opts_str = ""
-        for x in options.keys():
+        for x in list(options.keys()):
             if options[x] is None:
                 opts_str += "--%s " % x 
             else:
@@ -149,7 +149,7 @@ def write_conf(dop, webobj=None, machine=None, modules=[], extra_args={}):
 
     if not os.path.exists(CONF_TMP_DIR):
         os.makedirs(CONF_TMP_DIR)
-        r_chmod(CONF_TMP_DIR,0770)
+        r_chmod(CONF_TMP_DIR,0o770)
         r_chown(CONF_TMP_DIR,KARESANSUI_USER)
         r_chgrp(CONF_TMP_DIR,KARESANSUI_GROUP)
 
@@ -165,7 +165,7 @@ def write_conf(dop, webobj=None, machine=None, modules=[], extra_args={}):
             filename = "%s/%s.%s" % (CONF_TMP_DIR,_module,serial,)
             data = preprint_r(dop.getconf(_module),return_var=True)
             ConfigFile(filename).write(data+"\n")
-            r_chmod(filename,0660)
+            r_chmod(filename,0o660)
             r_chown(filename,KARESANSUI_USER)
             r_chgrp(filename,KARESANSUI_GROUP)
             w_modules.append(_module)
@@ -197,7 +197,7 @@ def write_conf(dop, webobj=None, machine=None, modules=[], extra_args={}):
         pass
 
     #cmd_name = u"Write Settings - %s" % ":".join(w_modules)
-    cmd_name = u"Write Settings"
+    cmd_name = "Write Settings"
 
     if type(webobj) == types.InstanceType:
         from karesansui.db.model._2pysilhouette import Job, JobGroup, \
@@ -243,7 +243,7 @@ def write_conf(dop, webobj=None, machine=None, modules=[], extra_args={}):
         from karesansui.lib.utils import execute_command
 
         opts_str = ""
-        for x in options.keys():
+        for x in list(options.keys()):
             if options[x] is None:
                 opts_str += "--%s " % x 
             else:
@@ -276,7 +276,7 @@ if __name__ == '__main__':
     dop = read_conf(modules)
 
     ipaddr = dop.get("ifcfg",["eth0","IPADDR"])
-    print ipaddr
+    print(ipaddr)
 
     nameservers = dop.get("resolv",["nameserver"])
     if not "127.0.0.1" in nameservers:

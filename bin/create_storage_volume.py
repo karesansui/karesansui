@@ -43,8 +43,8 @@ try:
         STORAGE_VOLUME_SIZE_MIN_LENGTH, STORAGE_VOLUME_SIZE_MAX_LENGTH, STORAGE_VOLUME_UNIT, \
         DISK_USES
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -89,14 +89,14 @@ def chkopts(opts):
         if reg.search(opts.format):
             raise KssCommandOptException('ERROR: Illigal option value. option=%s value=%s' % ('-f or --format', opts.format))
 
-        if opts.format not in STORAGE_VOLUME_FORMAT.values():
+        if opts.format not in list(STORAGE_VOLUME_FORMAT.values()):
             raise KssCommandOptException('ERROR: Format is not available. '
                                          'raw or qcow2... is available. format=%s' % opts.format)
     else:
         raise KssCommandOptException('ERROR: %s option is required.' % '-f or format')
 
     if opts.unit:
-        if opts.unit not in STORAGE_VOLUME_UNIT.keys():
+        if opts.unit not in list(STORAGE_VOLUME_UNIT.keys()):
             raise KssCommandOptException('ERROR: Volume size unit is not available. '
                                          'K or M... is available. unit=%s' % opts.unit)
 
@@ -123,7 +123,7 @@ def chkopts(opts):
             raise KssCommandOptException('ERROR: Illigal permission mode. mode=%s' % (opts.permission_mode))
 
     if opts.use:
-        if opts.use not in DISK_USES.values():
+        if opts.use not in list(DISK_USES.values()):
             raise KssCommandOptException('ERROR: Disk usage is not available. '
                                          'images or disk is available. use=%s' % opts.use)
 
@@ -160,13 +160,13 @@ class CreateStorageVolume(KssCommand):
                 if not pool_info['allocation'] or pool_info['allocation'] == 0:
                     storage_volume_allocation_max_size = STORAGE_VOLUME_SIZE_MAX_LENGTH
                 else:
-                    storage_volume_allocation_max_size = long(pool_info['allocation']) / STORAGE_VOLUME_UNIT.get(opts.unit, 1)
+                    storage_volume_allocation_max_size = int(pool_info['allocation']) / STORAGE_VOLUME_UNIT.get(opts.unit, 1)
                     if pool_info['type'] == 'dir' or pool_info['type'] == 'fs':
-                        storage_volume_allocation_max_size = long(pool_info["available"]) / STORAGE_VOLUME_UNIT.get(opts.unit, 1)
+                        storage_volume_allocation_max_size = int(pool_info["available"]) / STORAGE_VOLUME_UNIT.get(opts.unit, 1)
                 if not pool_info['capacity'] or pool_info['capacity'] == 0:
                     storage_volume_capacity_max_size = STORAGE_VOLUME_SIZE_MAX_LENGTH
                 else:
-                    storage_volume_capacity_max_size = long(pool_info['capacity']) / STORAGE_VOLUME_UNIT.get(opts.unit, 1)
+                    storage_volume_capacity_max_size = int(pool_info['capacity']) / STORAGE_VOLUME_UNIT.get(opts.unit, 1)
 
                 if opts.allocation < STORAGE_VOLUME_SIZE_MIN_LENGTH or storage_volume_allocation_max_size < opts.allocation:
                     raise KssCommandException('Allocation "%s%s" is out of available range. available=%s-%s%s'
@@ -216,9 +216,9 @@ class CreateStorageVolume(KssCommand):
                         % (opts.pool, opts.volume_name))
 
                 self.logger.info('Created storage volume. - vol=%s' % (opts.volume_name))
-                print >>sys.stdout, _('Created storage volume. - vol=%s') % (opts.volume_name)
+                print(_('Created storage volume. - vol=%s') % (opts.volume_name), file=sys.stdout)
                 return True
-            except KssCommandException, e:
+            except KssCommandException as e:
                 raise e
         finally:
             conn.close()

@@ -38,8 +38,8 @@ try:
     from karesansui import __version__
     from karesansui.lib.virt.virt import KaresansuiVirtConnection
     from karesansui.lib.utils import load_locale, generate_mac_address
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -87,8 +87,8 @@ class AddNIC(KssCommand):
 
         self.logger.info('Added interface device. - dom=%s mac=%s bridge=%s network=%s' \
                          % (opts.name, opts.mac, opts.bridge, opts.network))
-        print >>sys.stdout, _('Added interface device. - dom=%s mac=%s bridge=%s network=%s') \
-              % (opts.name, opts.mac, opts.bridge, opts.network)
+        print(_('Added interface device. - dom=%s mac=%s bridge=%s network=%s') \
+              % (opts.name, opts.mac, opts.bridge, opts.network), file=sys.stdout)
 
         return True
 

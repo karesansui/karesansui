@@ -43,7 +43,7 @@ def sha1encrypt(v):
     </comment-en>
     """
     salt = ''
-    for x in xrange(0,16):
+    for x in range(0,16):
         salt += random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
 
     r = sha(v+salt).hexdigest()
@@ -75,11 +75,11 @@ if __name__ == '__main__':
     """Testing
     """
     word = 'password'
-    print 'word=' + word
+    print('word=' + word)
     v, salt = sha1encrypt(word)
-    print 'encrypt=' + v
-    print 'salt=' + salt
+    print('encrypt=' + v)
+    print('salt=' + salt)
     if sha1compare(v, word, salt) is True:
-        print 'Success'
+        print('Success')
     else:
-        print 'Failure'
+        print('Failure')

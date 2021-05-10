@@ -40,8 +40,8 @@ try:
     from karesansui.lib.const import ISCSI_CMD, ISCSI_CMD_OPTION_MODE, ISCSI_CMD_OPTION_MODE_NODE, \
         ISCSI_CMD_OPTION_TARGETNAME, ISCSI_CMD_OPTION_PORTAL, ISCSI_CMD_OPTION_LOGOUT
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -97,7 +97,7 @@ class StopIscsi(KssCommand):
                 continue
 
             self.logger.info("%s" % (line))
-            print >>sys.stdout, _("%s") % (line)
+            print(_("%s") % (line), file=sys.stdout)
 
         return True
 

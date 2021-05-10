@@ -139,7 +139,7 @@ class Me(Rest):
     @auth
     def _GET(self, *param, **params):
         if self.is_mode_input():
-            self.view.locales = DEFAULT_LANGS.keys()
+            self.view.locales = list(DEFAULT_LANGS.keys())
         return True
 
     @auth
@@ -186,7 +186,7 @@ class Me(Rest):
 
         try:
             create_file(fname, "")
-        except IOError, ioe:
+        except IOError as ioe:
             self.logger.error("Logout failed, Failed to create logout file. - filename=%s" % fname)
             raise # return 500(Internal Server Error)
 

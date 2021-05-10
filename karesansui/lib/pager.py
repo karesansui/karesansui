@@ -103,7 +103,7 @@ class Pager(object):
             self.rnow = self.page
 
         page_list = []
-        for x in xrange(self.lnow, self.rnow):
+        for x in range(self.lnow, self.rnow):
             page_list.append(x)
         self.page_list = page_list
 

@@ -41,8 +41,8 @@ try:
     from karesansui.lib.utils import load_locale, get_pwd_info, get_grp_info
     from karesansui.lib.const import STORAGE_POOL_TYPE
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -75,7 +75,7 @@ def chkopts(opts):
         raise KssCommandOptException('ERROR: %s option is required.' % '-n or --name')
 
     if opts.type:
-        if opts.type not in STORAGE_POOL_TYPE.values():
+        if opts.type not in list(STORAGE_POOL_TYPE.values()):
             raise KssCommandOptException('ERROR: Type is not available. type=%s' % opts.type)
     else:
         raise KssCommandOptException('ERROR: %s option is required.' % '-t or --type')
@@ -211,9 +211,9 @@ class CreateStoragePool(KssCommand):
                         % (opts.name, str(ret)))
 
                 self.logger.info('Created storage pool. - pool=%s' % (opts.name))
-                print >>sys.stdout, _('Created storage pool. - pool=%s') % (opts.name)
+                print(_('Created storage pool. - pool=%s') % (opts.name), file=sys.stdout)
                 return True
-            except KssCommandException, e:
+            except KssCommandException as e:
                 raise e
         finally:
             conn.close()

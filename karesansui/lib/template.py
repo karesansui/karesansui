@@ -149,7 +149,7 @@ def str_attribute(attribute):
     """
     from karesansui.lib.const import MACHINE_ATTRIBUTE
 
-    for key, value in MACHINE_ATTRIBUTE.items():
+    for key, value in list(MACHINE_ATTRIBUTE.items()):
         if attribute == value:
             return key
     else:
@@ -164,8 +164,8 @@ def locale_hypervisor(hypervisor, _):
     </comment-en>
     """
     from karesansui.lib.const import MACHINE_HYPERVISOR
-    if (hypervisor in MACHINE_HYPERVISOR.values()) is True:
-        for x in MACHINE_HYPERVISOR.items():
+    if (hypervisor in list(MACHINE_HYPERVISOR.values())) is True:
+        for x in list(MACHINE_HYPERVISOR.items()):
             if hypervisor == x[1]:
                 return _(x[0])
 
@@ -229,14 +229,14 @@ def clipping(text, num):
     ret = text
 
     count = 0
-    for i in xrange(len(text)):
+    for i in range(len(text)):
         if ord(text[i]) <= 255:
             count += 1;
         else:
             count += 2;
 
         if num < count:
-            ret = text[0:i] + u"…"
+            ret = text[0:i] + "…"
             break
 
     return ret
@@ -308,7 +308,7 @@ def autounit(t, unit):
     now = 0
     _u = 1
     while True:
-        ret = long(_t / _u)
+        ret = int(_t / _u)
         if 0 == ret or now == len(unit):
             break
         _u *= 1024

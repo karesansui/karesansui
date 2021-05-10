@@ -175,7 +175,7 @@ class HostBy1Network(Rest):
                             else:
                                 info['activity'] = 'Inactive'
                             networks.append(info)
-                        except KaresansuiVirtException, e:
+                        except KaresansuiVirtException as e:
                             # network not found
                             pass
             finally:
@@ -229,7 +229,7 @@ class HostBy1Network(Rest):
                 url = '%s/%s/%s.part' % (web.ctx.home, web.ctx.path, name)
                 self.logger.debug("Returning url %s as Location." % url)
                 return web.conflict(url)
-            except KaresansuiVirtException, e:
+            except KaresansuiVirtException as e:
                 # OK
                 pass
         finally:

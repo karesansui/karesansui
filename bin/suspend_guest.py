@@ -40,8 +40,8 @@ try:
                  VIR_DOMAIN_PAUSED
     from karesansui.lib.utils import load_locale
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -84,7 +84,7 @@ class SuspendGuest(KssCommand):
                 self.up_progress(10)
                 if status == VIR_DOMAIN_PAUSED:
                     self.logger.info('Succeeded to suspend guest. - dom=%s' % (opts.name))
-                    print >>sys.stdout, _('Succeeded to suspend guest. - dom=%s') % (opts.name)
+                    print(_('Succeeded to suspend guest. - dom=%s') % (opts.name), file=sys.stdout)
 
             else:
                 raise KssCommandException(

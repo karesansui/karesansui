@@ -85,7 +85,7 @@ class ifcfgParser:
     def write_conf(self,conf_arr={},extra_args=None,dryrun=False):
         retval = True
 
-        for device_name,_v in conf_arr.iteritems():
+        for device_name,_v in conf_arr.items():
 
             _afile = "%s/%s%s" % (PARSER_IFCFG_DIR,PARSER_IFCFG_FILE_PREFIX,device_name)
             try:

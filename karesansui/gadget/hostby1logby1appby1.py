@@ -143,7 +143,7 @@ class HostBy1LogBy1AppBy1(Rest):
                                              param_value["k"])
                 if lines is False:
                     return web.notfound()
-            except Exception, e:
+            except Exception as e:
                 self.logger.warning("log file open error: %s" % e)
         else:
             if log_config['dir'] is None:
@@ -162,7 +162,7 @@ class HostBy1LogBy1AppBy1(Rest):
                                  param_value["k"])
                 if lines is False:
                     return web.notfound()
-            except Exception, e:
+            except Exception as e:
                 self.logger.warning("log file open error: %s" % e)
 
         self.view.log_json = json_dumps(lines)

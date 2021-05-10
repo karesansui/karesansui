@@ -213,7 +213,7 @@ class UriGuestBy1Status(Rest):
                                 if creds != '':
                                     passwd_file = KARESANSUI_TMP_DIR + "/" + segs['host'] + ".auth"
                                     open(passwd_file, "w").write(creds)
-                                    os.chmod(passwd_file, 0600)
+                                    os.chmod(passwd_file, 0o600)
                                     opts["passwd-file"] = passwd_file
 
                                 if status == GUEST_ACTION_CREATE:

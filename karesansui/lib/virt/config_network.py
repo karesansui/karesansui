@@ -44,7 +44,7 @@ import time
 import os, stat
 import re
 import errno
-from StringIO import StringIO
+from io import StringIO
 from xml.dom.minidom import DOMImplementation
 implementation = DOMImplementation()
 
@@ -62,7 +62,7 @@ class KaresansuiNetworkConfigParamException(karesansui.KaresansuiLibException):
 
 class NetworkConfigParam:
     def __init__(self, arg):
-        if isinstance(arg, basestring):
+        if isinstance(arg, str):
             # expect name as string
             self.name = arg
             self.uuid = None
@@ -328,7 +328,8 @@ class NetworkXMLConfigGenerator(NetworkXMLGenerator):
     def writecfg(self,cfg):
         try:
             os.makedirs(self.config_dir)
-        except OSError, (err, msg):
+        except OSError as xxx_todo_changeme:
+            (err, msg) = xxx_todo_changeme.args
             if err != errno.EEXIST:
                 raise OSError(err,msg)
 

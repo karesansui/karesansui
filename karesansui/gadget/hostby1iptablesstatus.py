@@ -96,7 +96,7 @@ def validates_iptables_status(obj):
                 _('Status'),
                 obj.input.status,
                 CHECK_EMPTY | CHECK_VALID,
-                IPTABLES_STATUS.values()
+                list(IPTABLES_STATUS.values())
             ) and check
     else:
         check = False

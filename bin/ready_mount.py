@@ -40,8 +40,8 @@ try:
     from karesansui.lib.utils import load_locale, execute_command, pipe_execute_command, generate_phrase, get_filesystem_info
     from karesansui.lib.const import KARESANSUI_TMP_DIR, MOUNT_CMD, UMOUNT_CMD, FORMAT_CMD, YES_CMD
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -136,10 +136,10 @@ class ReadyMount(KssCommand):
 
         if is_mountable is True:
             self.logger.info('Device "%s" is mountable.' % (opts.dev))
-            print >>sys.stdout, _('Device "%s" is mountable.' % (opts.dev))
+            print(_('Device "%s" is mountable.' % (opts.dev)), file=sys.stdout)
         else:
             self.logger.info('Device "%s" is not mountable.' % (opts.dev))
-            print >>sys.stdout, _('Device "%s" is not mountable.' % (opts.dev))
+            print(_('Device "%s" is not mountable.' % (opts.dev)), file=sys.stdout)
 
         return is_mountable
 

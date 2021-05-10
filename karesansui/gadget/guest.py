@@ -279,7 +279,7 @@ def validates_guest_add(obj):
 # public method
 def make_storage_volume_job(uuid, name, pool_name, format,
                             capacity, allocation, unit, order):
-    cmdname = u"Create Storage Volume"
+    cmdname = "Create Storage Volume"
     cmd = VIRT_COMMAND_CREATE_STORAGE_VOLUME
 
     options = {}
@@ -319,7 +319,7 @@ def regist_guest(obj, _guest, icon_filename,
     if icon_filename:
         _guest.icon = icon_filename
 
-    if (karesansui.sheconf.has_key('env.uniqkey') is False) \
+    if (('env.uniqkey' in karesansui.sheconf) is False) \
            or (karesansui.sheconf['env.uniqkey'].strip('') == ''):
         raise 
 
@@ -458,7 +458,7 @@ class Guest(Rest):
                                 uri_guests_kvg[uuid] = _v
                                 uri_guests_name[uuid] = guest.info["model"].name.encode("utf8")
 
-                    for name in sorted(uri_guests_name.values(),key=str.lower):
+                    for name in sorted(list(uri_guests_name.values()),key=str.lower):
                         for uuid in dict_search(name,uri_guests_name):
                             uri_guests.append(MergeGuest(uri_guests_info[uuid]["model"], uri_guests_kvg[uuid]))
                             uri_guests_status[uuid]  = uri_guests_info[uuid]['virt'].status()
@@ -506,7 +506,7 @@ class Guest(Rest):
                                                                        image_type=None,
                                                                        attr='path')
                     if already_vol:
-                        already_vols += already_vol.keys()
+                        already_vols += list(already_vol.keys())
 
                 for pool in pools:
                     pool_obj = self.kvc.search_kvn_storage_pools(pool)[0]
@@ -551,7 +551,7 @@ class Guest(Rest):
 
                 used_ports = {}
 
-                for k,v in MACHINE_HYPERVISOR.iteritems():
+                for k,v in MACHINE_HYPERVISOR.items():
                     if k in available_virt_mechs():
                         self.view.hypervisors[k] = v
                         uri = uris[k]
@@ -570,7 +570,7 @@ class Guest(Rest):
                         # Physical device
                         phydev = []
                         phydev_regex = re.compile(r"%s" % bridge_prefix[k])
-                        for dev,dev_info in get_ifconfig_info().iteritems():
+                        for dev,dev_info in get_ifconfig_info().items():
                             try:
                                 if phydev_regex.match(dev):
                                     phydev.append(dev)
@@ -587,7 +587,7 @@ class Guest(Rest):
 
 
                 exclude_ports = []
-                for k, _used_port in used_ports.iteritems():
+                for k, _used_port in used_ports.items():
                     exclude_ports = exclude_ports + _used_port
                     exclude_ports = sorted(exclude_ports)
                     exclude_ports = [p for p, q in zip(exclude_ports, exclude_ports[1:] + [None]) if p != q]
@@ -602,7 +602,7 @@ class Guest(Rest):
                     # Physical Guest Info
                     self.view.hypervisors = {}
                     for model in models:
-                        for k,v in MACHINE_HYPERVISOR.iteritems():
+                        for k,v in MACHINE_HYPERVISOR.items():
                             if k in available_virt_mechs():
                                 self.view.hypervisors[k] = v
                                 uri = uris[k]
@@ -784,10 +784,10 @@ class Guest(Rest):
 
         if int(self.input.m_hypervisor) == MACHINE_HYPERVISOR['XEN']:
             i_hypervisor = MACHINE_HYPERVISOR['XEN']
-            options['type'] = u"XEN"
+            options['type'] = "XEN"
         elif int(self.input.m_hypervisor) == MACHINE_HYPERVISOR['KVM']:
             i_hypervisor = MACHINE_HYPERVISOR['KVM']
-            options['type'] = u"KVM"
+            options['type'] = "KVM"
         else:
             return web.badrequest("This is not the hypervisor.")
 

@@ -240,7 +240,7 @@ def notification(notify=None, data=None):
     ########################################################
     # 拡張環境変数をセット
     ########################################################
-    for _k,_v in environ.iteritems():
+    for _k,_v in environ.items():
         os.environ[_k] = _v
 
     # 関数読み込み
@@ -249,9 +249,9 @@ def notification(notify=None, data=None):
     ########################################################
     # データを展開
     ########################################################
-    if data is types.DictType:
-        for _k,_v in data.iteritems():
-            if _v is types.StringType:
+    if data is dict:
+        for _k,_v in data.items():
+            if _v is bytes:
                 exec("%s = '%s'" % (_k,_v,))
             else:
                 exec("%s = %s" % (_k,_v,))
@@ -325,7 +325,7 @@ def notification(notify=None, data=None):
         # dictの設定があれば extra_<key> = <value> で変数展開
         try:
             extras
-            for _k,_v in extras.iteritems():
+            for _k,_v in extras.items():
                 exec("extra_%s = %s" % (_k,_v,))
         except:
             pass
@@ -727,7 +727,7 @@ def notification(notify=None, data=None):
             pass
         try:
             params
-            for _k,_v in params.iteritems():
+            for _k,_v in params.items():
                 exec("macros['%s'] = '%s'" % (_k,str(_v),))
         except:
             pass

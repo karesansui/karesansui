@@ -140,7 +140,7 @@ class GuestBy1Job(Rest):
         self.view.JOBGROUP_STATUS = JOBGROUP_STATUS
         self.view.HYPERVISOR = MACHINE_HYPERVISOR
 
-        if self.input.has_key('p') is True:
+        if ('p' in self.input) is True:
             if validates_page(self) is True:
                 start = int(self.input.p)
             else:

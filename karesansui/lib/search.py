@@ -87,7 +87,7 @@ def validates_jobsearch(obj):
             _('Status'), 
             obj.input.status, 
             CHECK_VALID, 
-            JOBGROUP_STATUS.values()
+            list(JOBGROUP_STATUS.values())
             ) and check
 
     if is_param(obj.input, "start", True) is True:

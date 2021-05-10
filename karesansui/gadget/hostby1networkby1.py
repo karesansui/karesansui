@@ -140,7 +140,7 @@ class HostBy1NetworkBy1(Rest):
             try:
                 network = kvc.search_kvn_networks(network_name)[0] # throws KaresansuiVirtException
                 info = network.get_info()
-            except KaresansuiVirtException, e:
+            except KaresansuiVirtException as e:
                 # network not found
                 self.logger.debug("Network not found. name=%s" % network_name)
                 return web.notfound()

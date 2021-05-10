@@ -43,8 +43,8 @@ try:
         ISCSI_CMD_OPTION_MODE_NODE, ISCSI_CMD_OPTION_MODE_SESSION, ISCSI_CMD_RES_NO_NODE, \
         ISCSI_CMD_RES_NO_ACTIVE_SESSION
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -130,14 +130,14 @@ class GetIscsi(KssCommand):
 
             if opts.iqn is None:
                 self.logger.info("%s %s %s" % (iscsi_print_format_node(node), is_active, autostart))
-                print >>sys.stdout, _("%s %s %s") % (iscsi_print_format_node(node), is_active, autostart)
+                print(_("%s %s %s") % (iscsi_print_format_node(node), is_active, autostart), file=sys.stdout)
             else:
                 if opts.iqn == node['iqn']:
                     auth = iscsi_get_auth_type(node)
                     user = iscsi_get_auth_user(node)
 
                     self.logger.info("%s %s %s %s %s" % (iscsi_print_format_node(node), is_active, autostart, auth, user))
-                    print >>sys.stdout, _("%s %s %s %s %s") % (iscsi_print_format_node(node), is_active, autostart, auth, user)
+                    print(_("%s %s %s %s %s") % (iscsi_print_format_node(node), is_active, autostart, auth, user), file=sys.stdout)
                     break
 
         return True

@@ -147,7 +147,7 @@ def dict_ksort(dt):
     </comment-en>
     """
     new_dict = {}
-    for k,v in sorted(dt.iteritems(), lambda x,y : cmp(x[0], y[0])):
+    for k,v in sorted(iter(dt.items()), lambda x,y : cmp(x[0], y[0])):
         new_dict[k] = v
     return new_dict
 
@@ -168,9 +168,9 @@ def dict_search(search_key, dt):
         if _y == search_key:
             return _x
     def except_None(_z):
-        return _z <> None
-    rlist = map(map_find, dt.keys(), dt.values())
-    return filter(except_None, rlist)
+        return _z != None
+    rlist = list(map(map_find, list(dt.keys()), list(dt.values())))
+    return list(filter(except_None, rlist))
 
 def dec2hex(num):
     """<comment-ja>
@@ -333,19 +333,19 @@ def isset(string, vars=globals(), verbose=False):
     """
     retval = False
     try:
-        for _k,_v in vars.iteritems():
+        for _k,_v in vars.items():
             exec("%s = _v" % _k)
         exec("%s" % string)
         retval = True
-    except NameError, e:
+    except NameError as e:
         if verbose is True:
-            print _("Notice: Undefined variable \"%s\"") % str(e.args)
-    except KeyError, e:
+            print(_("Notice: Undefined variable \"%s\"") % str(e.args))
+    except KeyError as e:
         if verbose is True:
-            print _("Notice: Undefined index \"%s\"") % str(e.args)
-    except Exception, e:
+            print(_("Notice: Undefined index \"%s\"") % str(e.args))
+    except Exception as e:
         if verbose is True:
-            print _("Notice: Undefined variable \"%s\"") % str(e.args)
+            print(_("Notice: Undefined variable \"%s\"") % str(e.args))
         pass
     return retval
 
@@ -451,7 +451,7 @@ def generate_mac_address(type="XEN"):
                 random.randint(0x00, 0x7f),
                 random.randint(0x00, 0xff),
                 random.randint(0x00, 0xff) ]
-    return ':'.join(map(lambda x: "%02x" % x, mac))
+    return ':'.join(["%02x" % x for x in mac])
 
 def generate_phrase(len,letters=None):
     """<comment-ja>
@@ -472,7 +472,7 @@ def generate_phrase(len,letters=None):
     if letters is None:
         letters = string.digits + string.letters + '-.'
     random.seed()
-    return ''.join(random.choice(letters) for i in xrange(len))
+    return ''.join(random.choice(letters) for i in range(len))
 
 def detect_encoding(string,encoding_list=None):
     """
@@ -553,7 +553,7 @@ def execute_command(command_args,user=None,env=None):
 
     try:
         pp = subprocess.Popen(command_args, **subproc_args)
-    except OSError, e:
+    except OSError as e:
         #raise KaresansuiLibException("Failed to execute command: %s" % command_args[0])
         return [ret,res]
 
@@ -565,7 +565,7 @@ def execute_command(command_args,user=None,env=None):
         line = line.rstrip()
 
         try:
-            res.append(unicode(line, detect_encoding(line)).encode("utf-8"))
+            res.append(str(line, detect_encoding(line)).encode("utf-8"))
         except:
             res.append(line)
 
@@ -631,7 +631,7 @@ def create_file(file, value) :
     try:
         try:
             fd.write(value)
-        except IOError, err:
+        except IOError as err:
             raise KaresansuiLibException("IOError: %s" % str(err))
     finally:
         fd.close()
@@ -656,7 +656,7 @@ def remove_file(file) :
 
     try:
         os.remove(file)
-    except OSError, err:
+    except OSError as err:
         raise KaresansuiLibException("OSError: %s" % str(err))
 
 def create_raw_disk_img(file,size,is_sparse=True) :
@@ -732,7 +732,7 @@ def create_qemu_disk_img(file,size,type="raw") :
     """
     from karesansui.lib.const import DISK_QEMU_FORMAT
     #available_formats = [ "raw","qcow","qcow2","cow","vmdk","cloop" ]
-    available_formats = DISK_QEMU_FORMAT.values()
+    available_formats = list(DISK_QEMU_FORMAT.values())
 
     if type in available_formats:
         command_args = [
@@ -772,7 +772,7 @@ def create_disk_img(file,size,type="raw",is_sparse=True) :
     """
     from karesansui.lib.const import DISK_QEMU_FORMAT
     #available_formats = [ "raw","qcow","qcow2","cow","vmdk","cloop" ]
-    available_formats = DISK_QEMU_FORMAT.values()
+    available_formats = list(DISK_QEMU_FORMAT.values())
 
     if type in available_formats:
         if type == "raw":
@@ -842,7 +842,7 @@ def copy_file_cb(src,dst,callback=None,sparse=False,each=True):
             all_bytes = all_bytes + os.path.getsize(_src)
 
         text = "Copying"
-        callback.start(filename=None, size=long(all_bytes), text=text)
+        callback.start(filename=None, size=int(all_bytes), text=text)
         cnt = 0
 
     i = 0
@@ -861,7 +861,7 @@ def copy_file_cb(src,dst,callback=None,sparse=False,each=True):
 
         if each is True:
             text = _("Copying %s") % os.path.basename(_src)
-            callback.start(filename=_src, size=long(bytes), text=text)
+            callback.start(filename=_src, size=int(bytes), text=text)
             cnt = 0
 
 
@@ -909,7 +909,7 @@ def copy_file_cb(src,dst,callback=None,sparse=False,each=True):
                     cnt += sz
                     if cnt < bytes:
                         callback.update(cnt)
-            except OSError, e:
+            except OSError as e:
                 raise RuntimeError(_("ERROR: copying %s to %s: %s") % (_src,_dst,str(e)))
         finally:
             if src_fd is not None:
@@ -1038,7 +1038,7 @@ def load_locale():
     import gettext
     try:
       t = gettext.translation('messages', karesansui.dirname + "/locale")
-    except IOError, err:
+    except IOError as err:
       old_lang = os.environ['LANG']
       os.environ['LANG'] = 'en'
       t = gettext.translation('messages', karesansui.dirname + "/locale")
@@ -1093,7 +1093,7 @@ def is_param(input, name, empty=False):
     </comment-en>
     """
     try:
-        if input.has_key(name) is True:
+        if (name in input) is True:
             if empty is True:
                 if is_empty(input[name]) is True:
                     return False
@@ -1107,7 +1107,7 @@ def is_param(input, name, empty=False):
         return False
 
 def is_ascii(value):
-    for x in xrange(len(value)):
+    for x in range(len(value)):
         # Printable characters ASCII is between 0x20(SP) and 0x7e(~)
         if ord(value[x]) < 0x20 or 0x7e < ord(value[x]):
             return False
@@ -1195,7 +1195,7 @@ def get_filesize_MB(size):
     English Comment
     </comment-en>
     """
-    return long(math.ceil(float(size) / 1024 / 1024))
+    return int(math.ceil(float(size) / 1024 / 1024))
 
 def replace_None(obj, replace_item):
     """<comment-ja>
@@ -1207,7 +1207,7 @@ def replace_None(obj, replace_item):
     TODO: English Comment
     </comment-en>
     """
-    for k,v in obj.__dict__.iteritems():
+    for k,v in obj.__dict__.items():
         if v == None or v == '':
             obj.__dict__[k] = replace_item
     return obj
@@ -1406,9 +1406,9 @@ def r_chmod(path,perm):
                 user = "ugo"
 
             mask_perm = 0
-            for k,v in user_table.iteritems():
+            for k,v in user_table.items():
                 if k in user:
-                    for k2,v2 in perm_table.iteritems():
+                    for k2,v2 in perm_table.items():
                         if k2 in value:
                             exec("bit = stat.S_I%s%s" % (v2,v,))
                             mask_perm = mask_perm | bit
@@ -1467,7 +1467,7 @@ def is_dict_value(value, dic):
     TODO: English Comment
     </comment-en>
     """
-    for key in dic.keys():
+    for key in list(dic.keys()):
         if value == dic[key]:
             return True
     return False
@@ -1547,7 +1547,7 @@ def chk_create_disk(target, disk_size):
     </comment-en>
     """
     partition = get_partition_info(target, header=False)
-    available = long(partition[3][0])
+    available = int(partition[3][0])
     if 0 < (available * CHECK_DISK_QUOTA - float(disk_size)):
         return True
     else:
@@ -1620,16 +1620,16 @@ def uni_force(string, system="utf-8"):
     English Comment
     </comment-en>
     """
-    if isinstance(string, unicode) is True:
+    if isinstance(string, str) is True:
         return string
     else:
         try:
-            return unicode(string, system)
+            return str(string, system)
         except:
             encodings = ["ascii", "utf-8", "euc-jp", "cp932", "shift-jis"]
             for encode in encodings:
                 try:
-                    return unicode(string, encode)
+                    return str(string, encode)
                 except:
                     pass
             raise KaresansuiLibException("Character code that can be converted to unicode.")
@@ -1764,7 +1764,7 @@ def get_ifconfig_info(name=None):
     regex_regex = re.compile(r"""^regex:(?P<regex>.*)""")
     m = regex_regex.match(name)
 
-    for dev,value in all_info.iteritems():
+    for dev,value in all_info.items():
         if m == None:
             if dev == name:
                 info[dev] = value
@@ -1929,18 +1929,18 @@ def findFileRecursive(topdir=None, pattern="*.*", nest=False, verbose=False):
     allFilenames = list()
     # current dir
     if verbose:
-        print "*** %s" %topdir
+        print("*** %s" %topdir)
     if topdir is None: topdir = os.getcwd()
     filenames = findFile(topdir, pattern)
     if verbose:
         for filename in [os.path.basename(d) for d in filenames]:
-            print "   %s" %filename
+            print("   %s" %filename)
     allFilenames.extend(filenames)
     # possible sub dirs
     names = [os.path.join(topdir, dir) for dir in os.listdir(topdir)]
     dirs = [n for n in names if os.path.isdir(n)]
     if verbose:
-        print "--> %s" % [os.path.basename(d) for d in dirs]
+        print("--> %s" % [os.path.basename(d) for d in dirs])
     if len(dirs) > 0:
         for dir in dirs:
             filenames = findFileRecursive(dir, pattern, nest, verbose)
@@ -2086,7 +2086,7 @@ def sh_config_write(filename,opts):
     try:
         fp = open(filename,"w")
         fcntl.lockf(fp.fileno(), fcntl.LOCK_EX)
-        for k,v in res.iteritems():
+        for k,v in res.items():
             if type(v) == str and k[0:2] != "__" and k[0:4] != "pass":
                 fp.write("%s = %s\n" % (k, v,))
         fcntl.lockf(fp.fileno(), fcntl.LOCK_UN)
@@ -2201,7 +2201,7 @@ def is_iso9660_filesystem_format(file):
 
         label = ""
         step = 0
-        for cnt in xrange(label_offset, label_offset + 100):
+        for cnt in range(label_offset, label_offset + 100):
             f.seek(cnt)
             char = f.read(1)
             #print cnt,  
@@ -2254,7 +2254,7 @@ def is_windows_bootable_iso(file):
      }
     label = is_iso9660_filesystem_format(file)
     if label is not False:
-        for k,v in regexes.iteritems():
+        for k,v in regexes.items():
             regex_str = "%s.*\(bootable\)" % v
             regex = re.compile(regex_str)
             if regex.search(label):
@@ -2281,7 +2281,7 @@ def is_linux_bootable_iso(file):
      }
     label = is_iso9660_filesystem_format(file)
     if label is not False:
-        for k,v in regexes.iteritems():
+        for k,v in regexes.items():
             regex_str = "%s.*\(bootable\)" % v
             regex = re.compile(regex_str)
             if regex.search(label):
@@ -2296,7 +2296,7 @@ def is_darwin_bootable_iso(file):
      }
     label = is_iso9660_filesystem_format(file)
     if label is not False:
-        for k,v in regexes.iteritems():
+        for k,v in regexes.items():
             regex_str = "%s.*\(bootable\)" % v
             regex = re.compile(regex_str)
             if regex.search(label):
@@ -2460,7 +2460,7 @@ def get_inspect_stack(prettyprint=False):
     ]
     context, frame = 1, 2
 
-    retval = dict(zip(stack_content, inspect.stack(context)[frame]))
+    retval = dict(list(zip(stack_content, inspect.stack(context)[frame])))
 
     if prettyprint is True:
         preprint_r(retval)
@@ -2490,7 +2490,7 @@ def get_dom_type(domain):
 def base64_encode(string=""):
     import base64
 
-    if type(string) == unicode:
+    if type(string) == str:
         string = string.encode("utf-8")
     elif type(string) == str:
         pass
@@ -2906,7 +2906,7 @@ def symlink2real(symlink):
         return (os.path.dirname(path), sfilename[0], "")
     else:
         name = ""
-        for x in xrange(len(sfilename)-1):
+        for x in range(len(sfilename)-1):
             name = os.path.join(name, sfilename[x])
         return (os.path.dirname(path), name, sfilename[len(sfilename)-1])
 
@@ -2988,7 +2988,7 @@ def get_bonding_info(name=None):
     regex_regex = re.compile(r"""^regex:(?P<regex>.*)""")
     m = regex_regex.match(name)
 
-    for dev,value in all_info.iteritems():
+    for dev,value in all_info.items():
         if m == None:
             if dev == name:
                 info[dev] = value
@@ -3117,7 +3117,7 @@ class ReverseFile(object):
     def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self):
         if self.end == 0:
             raise StopIteration
 
@@ -3136,7 +3136,7 @@ class ReverseFile(object):
         return self.fp.read(end)
 
     def readline(self):
-        return self.next()
+        return next(self)
 
     def fileno(self):
         return self.fp.fileno()

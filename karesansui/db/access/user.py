@@ -176,4 +176,4 @@ if __name__ == '__main__':
     u = User('pass', 'hoge@example.com', 'karesansui', 'ja-JP')
     if save(session, u):
         u = login(session, 'karesansui', 'pass')
-        print u
+        print(u)

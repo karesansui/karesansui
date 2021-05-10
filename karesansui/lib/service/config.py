@@ -38,7 +38,7 @@ Generate configuration file of service.xml.
 
 import os
 import errno
-from StringIO import StringIO
+from io import StringIO
 from xml.dom.minidom import DOMImplementation
 implementation = DOMImplementation()
 
@@ -94,7 +94,7 @@ class ServiceConfigParam:
 
         self.services = []
         service_num = XMLXpathNum(document, '/services/service')
-        for n in xrange(1, service_num + 1):
+        for n in range(1, service_num + 1):
             system_name = XMLXpath(document, '/services/service[%i]/system/name/text()' % n)
             system_command = XMLXpath(document, '/services/service[%i]/system/command/text()' % n)
             system_readonly = XMLXpath(document, '/services/service[%i]/system/readonly/text()' % n)
@@ -197,7 +197,7 @@ if __name__ == '__main__':
   </service>
 </services>"""
     param = ServiceConfigParam()
-    for i in xrange(10):
+    for i in range(10):
         param.add_service("system_name_%s" % i,
                           "system_command_%s" % i,
                           "0",

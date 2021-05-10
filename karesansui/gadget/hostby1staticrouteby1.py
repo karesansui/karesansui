@@ -67,8 +67,8 @@ class HostBy1StaticRouteBy1(Rest):
 
         parser = Parser()
         status = parser.do_status()
-        for _k,_v in status.iteritems():
-            for _k2,_v2 in _v.iteritems():
+        for _k,_v in status.items():
+            for _k2,_v2 in _v.items():
                 if name == "%s@%s" % (_k2,_k,):
                     gateway = _v2['gateway']
                     flags   = _v2['flags']

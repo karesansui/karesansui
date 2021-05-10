@@ -33,7 +33,7 @@ from karesansui import KaresansuiLibException
 Prepare for using orm (start)
 """
 environ = {"KARESANSUI_CONF":"/etc/karesansui/application.conf"}
-for _k,_v in environ.iteritems():
+for _k,_v in environ.items():
     os.environ[_k] = _v
 
 from karesansui.lib.file.k2v import K2V
@@ -42,13 +42,13 @@ if config_file: # read file
     _k2v = K2V(config_file)
     config = _k2v.read()
 
-if config and config.has_key('application.search.path'):
+if config and 'application.search.path' in config:
     for y in [x.strip() for x in config['application.search.path'].split(',') if x]:
         if (y in sys.path) is False: sys.path.insert(0, y)
 
 karesansui.config = config
 if not karesansui.config:
-    print >>sys.stderr, '[Error] Failed to load configuration file.'
+    print('[Error] Failed to load configuration file.', file=sys.stderr)
     sys.exit(1)
 
 """
@@ -234,7 +234,7 @@ def evaluate_macro(string,macros={}):
 
     pattern = []
     replace = []
-    for _k,_v in macros.iteritems():
+    for _k,_v in macros.items():
         pattern.append("%%{%s}" % _k)
         replace.append(str(_v))
 
@@ -287,12 +287,12 @@ if __name__ == '__main__':
         for column_name in watch_column:
             exec("%s = watch_data[0]['%s']" % (column_name,column_name,))
             exec("_var = %s" % (column_name,))
-            print "%s: %s"  % (column_name,_var)
+            print("%s: %s"  % (column_name,_var))
 
         macros = {"host":"localhost.localdomain"}
-        print evaluate_macro(okay_mail_body,macros)
+        print(evaluate_macro(okay_mail_body,macros))
     except:
-        print "Error: cannot get watch data."
+        print("Error: cannot get watch data.")
         sys.exit(0)
 
     pass 

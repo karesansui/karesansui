@@ -100,7 +100,7 @@ xml sample:
 import os
 import time
 
-from StringIO import StringIO
+from io import StringIO
 import errno
 
 import karesansui

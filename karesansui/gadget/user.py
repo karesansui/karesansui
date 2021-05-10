@@ -144,7 +144,7 @@ class User(Rest):
         self.view.pager = pager
 
         if self.is_mode_input():
-            locales = DEFAULT_LANGS.keys()
+            locales = list(DEFAULT_LANGS.keys())
             self.view.locales = locales
             self.view.user = new('', '', '', '', '')
 

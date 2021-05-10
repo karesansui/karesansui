@@ -188,7 +188,7 @@ def change_mac_job(obj, guest, name, old_mac, new_mac, options={}):
     _cmd = dict2command(
         "%s/%s" % (karesansui.config['application.bin.dir'], VIRT_COMMAND_SET_MAC_ADDRESS), options)
 
-    cmdname = u"Change MAC Address"
+    cmdname = "Change MAC Address"
     _jobgroup = JobGroup(cmdname, karesansui.sheconf['env.uniqkey'])
     _jobgroup.jobs.append(Job("%s command" % cmdname, 0, _cmd))
 
@@ -215,7 +215,7 @@ def delete_nic_job(obj, guest, name, mac, options={}):
     _cmd = dict2command(
         "%s/%s" % (karesansui.config['application.bin.dir'], VIRT_COMMAND_DELETE_NIC), options)
 
-    cmdname = u"Delete NIC"
+    cmdname = "Delete NIC"
     _jobgroup = JobGroup(cmdname, karesansui.sheconf['env.uniqkey'])
     _jobgroup.jobs.append(Job("%s command" % cmdname, 0, _cmd))
     

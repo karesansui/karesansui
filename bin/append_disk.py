@@ -39,8 +39,8 @@ try:
     from karesansui.lib.virt.virt import KaresansuiVirtConnection
     from karesansui.lib.utils import load_locale
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -88,8 +88,8 @@ class AppendDisk(KssCommand):
 
         self.logger.info('Appended disk device. - dom=%s target=%s path=%s' \
                          % (opts.name, opts.target, opts.disk))
-        print >>sys.stdout, _('Appended disk device. - dom=%s target=%s path=%s') \
-              % (opts.name,opts.target,opts.disk)
+        print(_('Appended disk device. - dom=%s target=%s path=%s') \
+              % (opts.name,opts.target,opts.disk), file=sys.stdout)
         return True
 
 if __name__ == "__main__":

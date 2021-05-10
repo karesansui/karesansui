@@ -149,7 +149,7 @@ class CountUp:
     def get(self,key,attr=None):
         retval = []
 
-        if self.db.has_key(key) == 1:
+        if (key in self.db) == 1:
             exec("retval = %s" % self.db[key])
 
             if attr is not None:
@@ -182,13 +182,13 @@ class CountUp:
     def set(self,key,value,attr=None):
         retval = False
 
-        if self.db.has_key(key) == 1:
+        if (key in self.db) == 1:
 
             exec("data = %s" % self.get(key))
 
             modified = False
             if attr is None:
-                if type(value) is types.ListType:
+                if type(value) is list:
                     data = value
                     modified = True
             else:
@@ -204,7 +204,7 @@ class CountUp:
                     pass
 
         else:
-            if type(value) is types.ListType:
+            if type(value) is list:
                 try:
                     self.db[key] = str(value)
                     retval = True
@@ -217,7 +217,7 @@ class CountUp:
         retval = False
 
         now = time.time()
-        if self.db.has_key(key) == 1:
+        if (key in self.db) == 1:
             data = self.get(key)
             try:
                 total = int(data[self.attrs.index("total")])
@@ -269,7 +269,7 @@ class CountUp:
         retval = False
 
         now = time.time()
-        if self.db.has_key(key) == 1:
+        if (key in self.db) == 1:
             data = self.get(key)
 
             if attr is None:
@@ -305,26 +305,26 @@ if __name__ == '__main__':
   countup = CountUp()
 
   countup.init("memory_used_exceeded")
-  print countup.get("memory_used_exceeded")
+  print(countup.get("memory_used_exceeded"))
 
   countup.up("memory_used_exceeded")
-  print countup.get("memory_used_exceeded")
+  print(countup.get("memory_used_exceeded"))
 
   countup.up("memory_used_exceeded")
-  print countup.get_hitcount("memory_used_exceeded")
-  print countup.get_mtime("memory_used_exceeded")
+  print(countup.get_hitcount("memory_used_exceeded"))
+  print(countup.get_mtime("memory_used_exceeded"))
 
   countup.reset("memory_used_exceeded",attr="hitcount")
-  print countup.get("memory_used_exceeded")
+  print(countup.get("memory_used_exceeded"))
 
   countup.up("memory_used_exceeded",attr="continuation")
-  print countup.get("memory_used_exceeded")
+  print(countup.get("memory_used_exceeded"))
 
   countup.up("memory_used_exceeded")
-  print countup.get("memory_used_exceeded")
+  print(countup.get("memory_used_exceeded"))
 
   countup.reset("memory_used_exceeded")
-  print countup.get("memory_used_exceeded")
+  print(countup.get("memory_used_exceeded"))
 
   countup.finish()
 

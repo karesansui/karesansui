@@ -34,7 +34,7 @@ from __cmd__ import karesansui_conf, search_path, pysilhouette_conf
 
 # init -- read file
 if os.path.isfile(karesansui_conf) is False:
-    print >>sys.stderr, '[Error] karesansui : Initializing a database error - %s' % str(e)
+    print('[Error] karesansui : Initializing a database error - %s' % str(e), file=sys.stderr)
     sys.exit(1)
 
 for y in [x.strip() for x in search_path.split(',') if x]:
@@ -44,7 +44,7 @@ try:
     import karesansui
     import pysilhouette
 except ImportError:
-    print >>sys.stderr, '[Error] No libraries needed at runtime.(karesansui, pysilhouette)'
+    print('[Error] No libraries needed at runtime.(karesansui, pysilhouette)', file=sys.stderr)
     sys.exit(1)
 
 from pysilhouette.command import Command, CommandException
@@ -67,8 +67,8 @@ class KssCommand(Command):
         try:
             _k2v = K2V(karesansui_conf)
             karesansui.config = _k2v.read()
-        except Exception, e:
-            print >>sys.stderr, '[Error] Failed to load configuration file. - %s : msg=%s' % (karesansui_conf, str(e))
+        except Exception as e:
+            print('[Error] Failed to load configuration file. - %s : msg=%s' % (karesansui_conf, str(e)), file=sys.stderr)
             sys.exit(1)
 
         karesansui.lib.log.logger.reload_conf(karesansui.config['application.log.config'])
@@ -83,8 +83,8 @@ class KssCommand(Command):
             # Karesansui Database
             self.kss_db = karesansui.db.get_engine()
             self.kss_session = karesansui.db.get_session()
-        except Exception, e:
-            print >>sys.stderr, '[Error] KssCommand : Initializing a database error.'
+        except Exception as e:
+            print('[Error] KssCommand : Initializing a database error.', file=sys.stderr)
             self.logger.error('Initializing a database error.')
             self.logger_trace.error(traceback.format_exc())
             sys.exit(1)
@@ -107,31 +107,31 @@ class KssCommand(Command):
                     self.up_progress(100)
                     return 0
 
-                except KssCommandOptException, e:
+                except KssCommandOptException as e:
                     self.logger.error("Karesansui : Command option error - %s" % str(e))
-                    print >>sys.stderr, "Karesansui : Command option error - %s" % str(e)
+                    print("Karesansui : Command option error - %s" % str(e), file=sys.stderr)
                     return 2
 
-                except KssCommandException, e:
+                except KssCommandException as e:
                     self.logger.error("Karesansui : Command execution error - %s" % str(e))
-                    print >>sys.stderr, "Karesansui : Command execution error - %s" % str(e)
+                    print("Karesansui : Command execution error - %s" % str(e), file=sys.stderr)
                     raise
 
-                except SystemExit, e:
+                except SystemExit as e:
                     self.session.rollback() # pysilhouette
                     self.kss_session.rollback()
                     return e.code
 
-                except KeyboardInterrupt, e:
+                except KeyboardInterrupt as e:
                     self.logger.error("Aborted by user request.")
-                    print >> sys.stderr, _("Aborted by user request.")
+                    print(_("Aborted by user request."), file=sys.stderr)
                     raise
 
-            except Exception, e:
+            except Exception as e:
                 #logging.exception(e)
                 self.session.rollback() # pysilhouette
                 self.kss_session.rollback()
-                print >> sys.stderr, str(e)
+                print(str(e), file=sys.stderr)
                 self.logger_trace.error(traceback.format_exc())
                 return 1
 

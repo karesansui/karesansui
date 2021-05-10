@@ -47,7 +47,7 @@ import libvirtmod
 import logging
 import glob
 
-from StringIO import StringIO
+from io import StringIO
 from xml.dom.minidom import DOMImplementation
 implementation = DOMImplementation()
 
@@ -212,7 +212,7 @@ class KaresansuiVirtSnapshot:
         retval = []
 
         try:
-            for domain,names in self.listNames().iteritems():
+            for domain,names in self.listNames().items():
                 if name in names:
                     retval.append(domain)
         except:
@@ -341,7 +341,7 @@ class KaresansuiVirtSnapshot:
 
         names = self.listNames()
         try:
-            for _domain,_names in names.iteritems():
+            for _domain,_names in names.items():
                 for _name in _names:
                     if domain == _domain and _name != name and self.getParentName(_name,domain=_domain) == name:
                         retval.append(_name)

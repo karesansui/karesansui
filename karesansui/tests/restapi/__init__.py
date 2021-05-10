@@ -117,7 +117,7 @@ class SuiteRestAPI(unittest.TestSuite):
                  'test_get_host_1_guest_2_json',
                  'test_post_host_1_guest',
                  ]
-        unittest.TestSuite.__init__(self,map(TestRestAPI, tests))
+        unittest.TestSuite.__init__(self,list(map(TestRestAPI, tests)))
 
 def all_suite_restapi():
     return unittest.TestSuite([SuiteRestAPI()])

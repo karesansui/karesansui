@@ -41,8 +41,8 @@ try:
     from karesansui.lib.utils import load_locale, is_uuid, is_iso9660_filesystem_format
     from karesansui.lib.const import DEFAULT_KEYMAP, GRAPHICS_PORT_MIN_NUMBER, GRAPHICS_PORT_MAX_NUMBER
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -210,9 +210,9 @@ class CreateGuest(KssCommand):
                                          ) is True:
                     raise KssCommandException('Failed to create guest. - dom=%s' % (opts.name))
 
-            except Exception, e:
+            except Exception as e:
                 self.logger.error('Failed to create guest. - dom=%s - detail %s' % (opts.name, str(e.args)))
-                print >>sys.stderr, _('Failed to create guest. - dom=%s - detail %s') % (opts.name, str(e.args))
+                print(_('Failed to create guest. - dom=%s - detail %s') % (opts.name, str(e.args)), file=sys.stderr)
                 raise e
 
             self.up_progress(40)
@@ -222,7 +222,7 @@ class CreateGuest(KssCommand):
                 raise KssCommandException('Guest OS is not recognized. - dom=%s' % (opts.name))
 
             self.logger.info('Created guest. - dom=%s' % (opts.name))
-            print >>sys.stdout, 'Created guest. - dom=%s' % opts.name
+            print('Created guest. - dom=%s' % opts.name, file=sys.stdout)
             return True
 
         finally:

@@ -131,7 +131,7 @@ class genericConfParser:
     def _value_to_lines(self,value):
         lines = []
 
-        for _k,_v in value.iteritems():
+        for _k,_v in value.items():
 
             try:
                 if _v['action'] == "delete":
@@ -198,7 +198,7 @@ class genericConfParser:
         self.dop.addconf(self._module,conf_arr)
         orders_key = "%sORDERS" % (self._reserved_key_prefix,)
 
-        for _path,_v in conf_arr.iteritems():
+        for _path,_v in conf_arr.items():
 
             if _path[0:1] != "/":
                 continue
@@ -225,7 +225,7 @@ class genericConfParser:
                             pass
 
             # オーダにないものは最後に追加
-            for _k2,_v2 in self.dop.get(self._module,[_path]).iteritems():
+            for _k2,_v2 in self.dop.get(self._module,[_path]).items():
                 m = re.match(exclude_regex,_k2)
                 if not m:
                     try:
@@ -242,9 +242,9 @@ class genericConfParser:
                     ConfigFile(_path).write("")
             else:
                 if len(lines) > 0:
-                    print "\n".join(lines)
+                    print("\n".join(lines))
                 if len(lines) == 0:
-                    print ""
+                    print("")
 
         return retval
 

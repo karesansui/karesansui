@@ -97,7 +97,7 @@ def validates_watch(obj):
                                      CHECK_EMPTY | CHECK_ONLYSPACE,
                                      None,
                                      ) and check
-        if obj.input.watch_target not in WATCH_PLUGINS.values():
+        if obj.input.watch_target not in list(WATCH_PLUGINS.values()):
             check = False
             # TRANSLATORS:
             #  %sは監視対象ではありません。
@@ -214,10 +214,10 @@ class HostBy1Watch(Rest):
             self.view.load_ds = COLLECTD_LOAD_DS
 
             cpu_logical_number = len(get_proc_cpuinfo())
-            self.view.cpu_logical_number = range(1, cpu_logical_number+1)
+            self.view.cpu_logical_number = list(range(1, cpu_logical_number+1))
             self.view.memory_size = string.atol(get_proc_meminfo()["MemTotal"][0]) / 1024
             self.view.df_list = get_fs_info()
-            self.view.interface_list = get_ifconfig_info().keys()
+            self.view.interface_list = list(get_ifconfig_info().keys())
 
             ## guest os list
             from karesansui.lib.utils import get_dom_list
@@ -248,8 +248,8 @@ class HostBy1Watch(Rest):
             for disk_data in get_fs_info():
                 self.view.disk_size_info[disk_data['Filesystem']] = disk_data['1048576-blocks']
 
-            self.view.processer_num = len(get_proc_cpuinfo().keys())
-            self.view.supported_langs = DEFAULT_LANGS.keys()
+            self.view.processer_num = len(list(get_proc_cpuinfo().keys()))
+            self.view.supported_langs = list(DEFAULT_LANGS.keys())
             self.view.myaddress = self.me.email
             self.view.mta = "%s:%s" % (karesansui.config['application.mail.server'],
                                        karesansui.config['application.mail.port'])
@@ -418,7 +418,7 @@ class HostBy1Watch(Rest):
                           "enable_okay_script"]
         bool_values = {}
         for key in bool_input_key:
-            if self.input.has_key(key):
+            if key in self.input:
                 bool_values.update({key:True})
             else:
                 bool_values.update({key:False})

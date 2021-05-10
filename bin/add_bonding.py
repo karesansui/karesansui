@@ -50,8 +50,8 @@ try:
         VENDOR_DATA_BONDING_EVACUATION_DIR, NETWORK_IFCFG_DIR, NETWORK_COMMAND, \
         NETWORK_IFDOWN_COMMAND,             NETWORK_BRCTL_COMMAND
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -106,7 +106,7 @@ class AddBonding(KssCommand):
 
         exist_bond_max_num = -1
         exist_bond_list = get_ifconfig_info("regex:^bond")
-        for bond_name in exist_bond_list.keys():
+        for bond_name in list(exist_bond_list.keys()):
             try:
                 num = int(bond_name.replace("bond",""))
             except ValueError:
@@ -241,7 +241,7 @@ class AddBonding(KssCommand):
             raise KssCommandException('Failure restart network.')
 
         self.logger.info("Created bonding device. - dev=%s bond=%s" % (opts.dev, bridge_bond_name))
-        print >>sys.stdout, _("Created bonding device. - dev=%s bond=%s" % (opts.dev, bridge_bond_name))
+        print(_("Created bonding device. - dev=%s bond=%s" % (opts.dev, bridge_bond_name)), file=sys.stdout)
 
         return True
 

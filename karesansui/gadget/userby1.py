@@ -172,7 +172,7 @@ class UserBy1(Rest):
         self.view.user = user
 
         if self.is_mode_input():
-            locales = DEFAULT_LANGS.keys()
+            locales = list(DEFAULT_LANGS.keys())
             self.view.locales = locales
         return True
 

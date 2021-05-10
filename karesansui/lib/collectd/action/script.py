@@ -52,7 +52,7 @@ def exec_script(script="",user="root",msg="",watch_name="",logfile="/dev/null"):
     SCRIPT_TMP_DIR = "%s/tmp/.script" % (KARESANSUI_DATA_DIR,)
     if not os.path.exists(SCRIPT_TMP_DIR):
         os.makedirs(SCRIPT_TMP_DIR)
-        r_chmod(SCRIPT_TMP_DIR,0770)
+        r_chmod(SCRIPT_TMP_DIR,0o770)
         r_chown(SCRIPT_TMP_DIR,KARESANSUI_USER)
         r_chgrp(SCRIPT_TMP_DIR,KARESANSUI_GROUP)
         append_line(logfile,"[%s] Create directory '%s'." % (func_name,SCRIPT_TMP_DIR,))
@@ -74,7 +74,7 @@ def exec_script(script="",user="root",msg="",watch_name="",logfile="/dev/null"):
         fp.write(script)
         fcntl.lockf(fp.fileno(), fcntl.LOCK_UN)
         fp.close()
-        os.chmod(fname,0700)
+        os.chmod(fname,0o700)
         os.chown(fname,user_id,-1)
 
     except:
@@ -149,8 +149,8 @@ echo '%{msg}'        >>${logfile}
 exit 0
 """
     user       = "kss"
-    watch_name = u'\u30e1\u30e2\u30ea\u4f7f\u7528\u91cf\u3067\u3059'
-    alert_msg  = u"foo blahhh"
+    watch_name = '\u30e1\u30e2\u30ea\u4f7f\u7528\u91cf\u3067\u3059'
+    alert_msg  = "foo blahhh"
     logfile = "/dev/stdout"
 
     exec_script(script=script,user=user,msg=alert_msg,watch_name=watch_name,logfile=logfile)

@@ -114,7 +114,7 @@ def send_mail(recipient=None, sender=None, server="localhost", port=25, message=
 
             header  = eml['@message']['value']['header']['value']
             rawbody += eml['@message']['value']['rawbody']['value']
-            for _k,_v in header.iteritems():
+            for _k,_v in header.items():
                 headers[_k] = _v['value']
         except:
             pass
@@ -135,7 +135,7 @@ def send_mail(recipient=None, sender=None, server="localhost", port=25, message=
         mail.create_message()
 
         #preprint_r(mail.msg._headers)
-        for _k,_v in headers.iteritems():
+        for _k,_v in headers.items():
             append_line(logfile,"[%s] Headers %-12s: %s" % (func_name,_k,_v))
             try:
                 del mail.msg[_k]
@@ -162,7 +162,7 @@ def send_mail(recipient=None, sender=None, server="localhost", port=25, message=
         try:
             mail.send()
             retval = True
-        except MAIL_LIB_Exception, msg:
+        except MAIL_LIB_Exception as msg:
             append_line(logfile,"[%s] Error: %s" % (func_name,str(msg),))
         except Exception:
             append_line(logfile,"[%s] Error: failed to send mail." % (func_name,))
@@ -181,7 +181,7 @@ if __name__ == '__main__':
     sender    = None
     server = "localhost"
     logfile = "/dev/stdout"
-    watch_name = u'\u30e1\u30e2\u30ea\u4f7f\u7528\u91cf\u3067\u3059'
+    watch_name = '\u30e1\u30e2\u30ea\u4f7f\u7528\u91cf\u3067\u3059'
 
     message = """Message-ID: <67147291.1.1231874007256.JavaMail.taizo@karesansui-project.info>
 Subject: Hello, World!!
@@ -234,7 +234,7 @@ Content-Transfer-Encoding: 8bit
 
     """
 
-    extra_message = u'\u30e1\u30e2\u30ea\u4f7f\u7528\u91cf\u3067\u3059'
+    extra_message = '\u30e1\u30e2\u30ea\u4f7f\u7528\u91cf\u3067\u3059'
     send_mail(recipient=recipient,sender=sender,server=server,message=message,extra_message=extra_message,watch_name=watch_name,logfile=logfile)
     pass
 

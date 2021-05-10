@@ -174,7 +174,7 @@ warning
     _findbyname_or_plugin = findbyname_or_plugin(session, 'mmy')
     _is_uniq_duplication = is_uniq_duplication(session, 'dummy_watch_13161', 'cpu', machine)
     import pdb; pdb.set_trace()
-    print ''
+    print('')
 
 if __name__ == '__main__':
     test()

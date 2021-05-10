@@ -45,7 +45,7 @@ import os, stat
 import re
 import shutil
 import errno
-from StringIO import StringIO
+from io import StringIO
 from xml.dom.minidom import DOMImplementation
 implementation = DOMImplementation()
 
@@ -212,7 +212,7 @@ class ConfigParam:
     def append_commandline(self, *args, **kwargs):
         for opt in args:
             self.cmdline.append(opt)
-        for k,v in kwargs.iteritems():
+        for k,v in kwargs.items():
             self.cmdline.append("%s=%s" % (k,v))
 
     def get_commandline(self):
@@ -347,7 +347,7 @@ class ConfigParam:
     def set_memory(self, memory):
         try:
             memory = str(memory).strip().lower()
-        except Exception, e:
+        except Exception as e:
             param_err = KaresansuiConfigParamException("invalid memory: %s" % str(memory))
             param_err.exception = e
         p = re.compile(r"""^(?P<bytes>\d+)(?P<unit>[gmkb]?)$""")
@@ -358,14 +358,14 @@ class ConfigParam:
         if (self.memory <= 0): raise KaresansuiConfigParamException("invalid memory: %d" % self.memory)
         
     def get_memory(self, unit="b"):
-        if not unit in SIZE_UNIT_MAP.keys():
+        if not unit in list(SIZE_UNIT_MAP.keys()):
             raise KaresansuiConfigParamException("no such unit: %s" % unit)
         return int(self.memory / SIZE_UNIT_MAP.get(unit))
 
     def set_max_memory(self, memory):
         try:
             memory = str(memory).strip().lower()
-        except Exception, e:
+        except Exception as e:
             param_err = KaresansuiConfigParamException("invalid memory: %s" % str(memory))
             param_err.exception = e
         import re
@@ -379,7 +379,7 @@ class ConfigParam:
     def get_max_memory(self, unit="b"):
         if self.maxmem == None and self.memory != None:
             self.maxmem = self.memory
-        if not unit in SIZE_UNIT_MAP.keys():
+        if not unit in list(SIZE_UNIT_MAP.keys()):
             raise KaresansuiConfigParamException("no such unit: %s" % unit)
         return int(self.maxmem / SIZE_UNIT_MAP.get(unit))
 
@@ -626,20 +626,20 @@ class ConfigGenerator:
 
     def _print_param(self, key, value):
         if value != '':
-            print >>self.out, key, "=", "%s" % repr(value)
+            print(key, "=", "%s" % repr(value), file=self.out)
 
     def print_header(self):
-        print >>self.out, "# This is an automatically generated xen configuration file: %s" % self.config.get_domain_name()
-        print >>self.out, "# Generated Date: %s" % time.ctime()
-        print >>self.out
+        print("# This is an automatically generated xen configuration file: %s" % self.config.get_domain_name(), file=self.out)
+        print("# Generated Date: %s" % time.ctime(), file=self.out)
+        print(file=self.out)
         self._print_param("name", self.config.get_domain_name())
         self._print_param("uuid", self.config.get_uuid())
         if self.config.get_current_snapshot() is not None:
             self._print_param("current_snapshot", self.config.get_current_snapshot())
-        print >>self.out
+        print(file=self.out)
 
     def print_kernel_section(self):
-        print >>self.out, "# Kernel configuration"
+        print("# Kernel configuration", file=self.out)
         if self.config.get_kernel():
             self._print_param("kernel", self.config.get_kernel())
         if self.config.get_initrd():
@@ -653,28 +653,28 @@ class ConfigGenerator:
             self._print_param("acpi", 1)
         if self.config.get_features_apic() is True:
             self._print_param("apic", 1)
-        print >>self.out
+        print(file=self.out)
 
     def print_bootloader_section(self):
-        print >>self.out, "# Bootloader configuration"
+        print("# Bootloader configuration", file=self.out)
         if self.config.get_bootloader():
             self._print_param("bootloader", self.config.get_bootloader())
-        print >>self.out
+        print(file=self.out)
 
     def print_memory_section(self):
-        print >>self.out, "# Memory configuration"
+        print("# Memory configuration", file=self.out)
         self._print_param("maxmem", self.config.get_max_memory("m"))
         self._print_param("memory", self.config.get_memory("m"))
-        print >>self.out
+        print(file=self.out)
 
     def print_vcpu_section(self):
-        print >>self.out, "# CPU configuration"
+        print("# CPU configuration", file=self.out)
         self._print_param("vcpus", self.config.get_max_vcpus())
-        print >>self.out
+        print(file=self.out)
 
     def print_disks_section(self):
         
-        print >>self.out, "# Disk device configuration"
+        print("# Disk device configuration", file=self.out)
         
         # root
         self._print_param("root", "/dev/"+self.config.get_disk()[0]["target"])
@@ -689,19 +689,19 @@ class ConfigGenerator:
             disk_param = ftype+":%(path)s,%(target)s,w" % disk
             disks.append( str(disk_param) )
         self._print_param("disk", disks)
-        print >>self.out
+        print(file=self.out)
 
     def print_network_section(self):
-        print >>self.out, "# Network configuration"
+        print("# Network configuration", file=self.out)
         vif = []
         for interface in self.config.get_interface():
             vif_param = "mac=%(mac)s, bridge=%(bridge)s" % interface
             vif.append( str(vif_param) )
         self._print_param("vif", vif)
-        print >>self.out
+        print(file=self.out)
 
     def print_graphics_section(self):
-        print >>self.out, "# Graphics configuration"
+        print("# Graphics configuration", file=self.out)
         if self.config.get_graphics_port():
             if self.config.get_graphics_type() == "sdl":
                 self._print_param("sdl", 1)
@@ -723,10 +723,10 @@ class ConfigGenerator:
                 self._print_param("keymap", self.config.get_graphics_keymap())
             if self.config.get_graphics_passwd() is not None and self.config.get_graphics_passwd() != "":
                 self._print_param("vncpasswd", self.config.get_graphics_passwd())
-        print >>self.out
+        print(file=self.out)
 
     def print_behavior_section(self):
-        print >>self.out, "# Behavior configuration"
+        print("# Behavior configuration", file=self.out)
         self._print_param("on_poweroff", self.config.get_behavior("on_poweroff"))
         self._print_param("on_reboot", self.config.get_behavior("on_reboot"))
         self._print_param("on_crash", self.config.get_behavior("on_crash"))
@@ -1171,7 +1171,8 @@ class XMLConfigGenerator(XMLGenerator):
             config_dir = self.config_dir
         try:
             os.makedirs(config_dir)
-        except OSError, (err, msg):
+        except OSError as xxx_todo_changeme:
+            (err, msg) = xxx_todo_changeme.args
             if err != errno.EEXIST:
                 raise OSError(err,msg)
         filename = "%s/%s.xml" %(config_dir,self.config.get_domain_name())
@@ -1184,7 +1185,8 @@ class XMLConfigGenerator(XMLGenerator):
     def copycfg(self,src_dir):
         try:
             os.makedirs(self.config_dir)
-        except OSError, (err, msg):
+        except OSError as xxx_todo_changeme1:
+            (err, msg) = xxx_todo_changeme1.args
             if err != errno.EEXIST:
                 raise OSError(err,msg)
             

@@ -175,7 +175,7 @@ class HostBy1(Rest):
     @auth
     def _GET(self, *param, **params):
 
-        if self.input.has_key('job_id') is True:
+        if ('job_id' in self.input) is True:
             self.view.job_id = self.input.job_id
         else:
             self.view.job_id = None

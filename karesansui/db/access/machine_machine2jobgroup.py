@@ -34,7 +34,7 @@ def findbyall(session, machine_name=None, created_start=None,
     query = session.query(Machine).add_entity(Machine2Jobgroup).join(Machine2Jobgroup)
 
     if machine_name:
-        query = query.filter(Machine.name.like(u"%%%s%%" % machine_name))
+        query = query.filter(Machine.name.like("%%%s%%" % machine_name))
 
     if not created_user_id is None:
         query = query.filter(Machine2Jobgroup.created_user_id.in_(created_user_id))

@@ -40,7 +40,7 @@ import os
 import time
 
 import errno
-from StringIO import StringIO
+from io import StringIO
 from xml.dom.minidom import DOMImplementation
 implementation = DOMImplementation()
 
@@ -289,15 +289,15 @@ class ExportXMLGenerator:
         database = self.config.get_database()
         self.database = doc.createElement("database")
 
-        for _k,_v in database.iteritems():
+        for _k,_v in database.items():
             if _v is not None:
                 if type(_v) is dict:
                     child_elem = doc.createElement(_k)
-                    for _n_k, _n_v in _v.iteritems():
+                    for _n_k, _n_v in _v.items():
                         child_node = self._create_text_node(_n_k, _n_v)
                         child_elem.appendChild(child_node)
                     self.database.appendChild(child_elem)
-                elif type(_v) in (str, unicode):
+                elif type(_v) in (str, str):
                     node = self._create_text_node(_k, str(_v.encode('utf-8')))
                 else:
                     node = self._create_text_node(_k, str(_v))

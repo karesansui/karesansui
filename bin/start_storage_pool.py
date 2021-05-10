@@ -41,8 +41,8 @@ try:
     from karesansui.lib.utils import load_locale
     from karesansui.lib.const import STORAGE_POOL_TYPE
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -99,9 +99,9 @@ class StartStoragePool(KssCommand):
                         'Could not start the storage pool. - pool=%s' % (opts.name))
 
                 self.logger.info('Start storage pool. - pool=%s' % (opts.name))
-                print >>sys.stdout, _('Start storage pool. - pool=%s') % (opts.name)
+                print(_('Start storage pool. - pool=%s') % (opts.name), file=sys.stdout)
                 return True
-            except KssCommandException, e:
+            except KssCommandException as e:
                 raise e
         finally:
             conn.close()

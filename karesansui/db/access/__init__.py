@@ -50,7 +50,7 @@ def dbsave(func):
         model_id = model.id  # If you do not flush the session, Unable to retrieve the model id.
         try:
             func(*args, **kwargs)
-        except UnmappedInstanceError, ui:
+        except UnmappedInstanceError as ui:
             logger.error(('Data to insert is failed, '
                           'Invalid value was inputed. '
                           '- %s=%s, error=%s') % (model_name, model_id, ''.join(ui)))
@@ -89,7 +89,7 @@ def dbupdate(func):
         model_id = model.id
         try:
             func(*args, **kwargs)
-        except UnmappedInstanceError, ui:
+        except UnmappedInstanceError as ui:
             logger.error(('Data to update is failed, '
                           'Invalid value was inputed '
                           '- %s=%s, error=%s') % (model_name, model_id, ''.join(ui)))
@@ -128,7 +128,7 @@ def dbdelete(func):
         model_id = model.id
         try:
             func(*args, **kwargs)
-        except UnmappedInstanceError, ui:
+        except UnmappedInstanceError as ui:
             logger.error(('Data to delete is failed, '
                           'Invalid value was inputed '
                           '- %s=%s, error=%s') % (model_name, model_id, ''.join(ui)))
@@ -176,32 +176,32 @@ if __name__ == '__main__':
     session = Session()
     # --
     # insert
-    u = User('hoge@example.com', u'pass', u'salt', u'karesansui', u'ja-JP')  
+    u = User('hoge@example.com', 'pass', 'salt', 'karesansui', 'ja-JP')  
     try:
         ret = save(session, u)
-    except KaresansuiDBException, kdae:
-        print kdae
+    except KaresansuiDBException as kdae:
+        print(kdae)
     session.commit()
     hoge = session.query(User).filter(User.email == "hoge@example.com").first()
-    print hoge, ret
+    print(hoge, ret)
 
     # update
     hoge = session.query(User).filter(User.email == "hoge@example.com").first()
     hoge.email = 'karesansui@example.com'
     try:
         ret = update(session, hoge)
-    except KaresansuiDBException, kdae:
-        print kdae
+    except KaresansuiDBException as kdae:
+        print(kdae)
     session.commit()
     kare = session.query(User).filter(User.email == "karesansui@example.com").first()
-    print kare, ret
+    print(kare, ret)
 
     # delete 
     kare = session.query(User).filter(User.email == "karesansui@example.com").first()
     try:
         ret = delete(session, kare)
-    except KaresansuiDBException, kdae:
-        print kdae
+    except KaresansuiDBException as kdae:
+        print(kdae)
     session.commit()
     kare = session.query(User).filter(User.email == "karesansui@example.com").first()
-    print kare, ret
+    print(kare, ret)

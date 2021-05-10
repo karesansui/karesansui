@@ -41,8 +41,8 @@ try:
     from karesansui.lib.service.sysvinit_rh import SysVInit_RH
     from karesansui.lib.const import SERVICE_XML_FILE
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -104,7 +104,7 @@ class AutostartService(KssCommand):
             message = 'Disable service. - service=%s' % (opts.name)
 
         self.logger.info(message)
-        print >>sys.stdout, _(message)
+        print(_(message), file=sys.stdout)
 
         return True
 

@@ -31,38 +31,38 @@ class TestNetworkAddress(unittest.TestCase):
       return True
 
     def test_valid_addr(self):
-        for target in self._targets.keys():
+        for target in list(self._targets.keys()):
           p = re.compile("^valid_")
           if p.match(target):
             self._t = NetworkAddress(self._targets[target])
             self.assertEqual(self._t.valid_addr(),True)
 
     def test_invalid_addr(self):
-        for target in self._targets.keys():
+        for target in list(self._targets.keys()):
           p = re.compile("^invalid_")
           if p.match(target):
             self._t = NetworkAddress(self._targets[target])
             self.assertEqual(self._t.valid_addr(),False)
 
     def test_valid_netlen(self):
-        for i in xrange(0,32):
+        for i in range(0,32):
             self._t = NetworkAddress()
             self.assertEqual(self._t.valid_netlen(i),True)
  
     def test_invalid_netlen(self):
-        for i in xrange(33,35):
+        for i in range(33,35):
             self._t = NetworkAddress()
             self.assertEqual(self._t.valid_netlen(i),False)
 
     def test_valid_netmask(self):
-        for target in self._targets.keys():
+        for target in list(self._targets.keys()):
           p = re.compile("^valid_netmask")
           if p.match(target):
             self._t = NetworkAddress()
             self.assertEqual(self._t.valid_netmask(self._targets[target]),True)
  
     def test_invalid_netmask(self):
-        for target in self._targets.keys():
+        for target in list(self._targets.keys()):
           p = re.compile("^invalid_netmask")
           if p.match(target):
             self._t = NetworkAddress()
@@ -74,7 +74,7 @@ class SuiteNetworkAddress(unittest.TestSuite):
                  'test_valid_netlen', 'test_invalid_netlen',
                  'test_valid_netmask', 'test_invalid_netmask',
                  ]
-        unittest.TestSuite.__init__(self,map(TestNetworkAddress, tests))
+        unittest.TestSuite.__init__(self,list(map(TestNetworkAddress, tests)))
 
 def all_suite_networkaddress():
     return unittest.TestSuite([SuiteNetworkAddress()])

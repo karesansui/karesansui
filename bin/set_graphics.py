@@ -41,8 +41,8 @@ try:
     from karesansui.lib.utils import load_locale, generate_phrase
     from karesansui.lib.const import DEFAULT_KEYMAP
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -98,11 +98,11 @@ class SetGraphics(KssCommand):
                     finally:
                         fp.close()
 
-                except Exception, e:
+                except Exception as e:
                     self.logger.error('Failed to read file. - dom=%s passwd_file=%s' \
                                       % (opts.name,opts.passwd_file))
-                    print >>sys.stderr, _('Failed to read file. - dom=%s passwd_file=%s') \
-                          % (opts.name,opts.passwd_file)
+                    print(_('Failed to read file. - dom=%s passwd_file=%s') \
+                          % (opts.name,opts.passwd_file), file=sys.stderr)
                     raise e
 
                 os.remove(opts.passwd_file)
@@ -128,12 +128,12 @@ class SetGraphics(KssCommand):
 
                     self.logger.info('Set graphics. - dom=%s type=%s port=%s listen=%s passwd=%s keymap=%s' \
                                      % (opts.name, info['setting']['type'], info['setting']['port'], info['setting']['listen'],"xxxxxx", info['setting']['keymap']))
-                    print >>sys.stdout, _('Set graphics. - dom=%s type=%s port=%s listen=%s passwd=%s keymap=%s') \
-                          % (opts.name, info['setting']['type'], info['setting']['port'], info['setting']['listen'],"xxxxxx", info['setting']['keymap'])
+                    print(_('Set graphics. - dom=%s type=%s port=%s listen=%s passwd=%s keymap=%s') \
+                          % (opts.name, info['setting']['type'], info['setting']['port'], info['setting']['listen'],"xxxxxx", info['setting']['keymap']), file=sys.stdout)
 
-                except Exception, e:
+                except Exception as e:
                     self.logger.error('Failed to set graphics. - dom=%s' % (opts.name))
-                    print >>sys.stderr, _('Failed to set graphics. - dom=%s') % (opts.name)
+                    print(_('Failed to set graphics. - dom=%s') % (opts.name), file=sys.stderr)
                     raise e
 
             else:

@@ -94,7 +94,7 @@ def firewall_save(obj, model, options={}):
     _cmd = dict2command(
         "%s/%s" % (karesansui.config['application.bin.dir'], FIREWALL_COMMAND_SAVE_FIREWALL), options)
 
-    cmdname = u"Initialize Firewall"
+    cmdname = "Initialize Firewall"
     _jobgroup = JobGroup(cmdname, karesansui.sheconf['env.uniqkey'])
     _jobgroup.jobs.append(Job("%s command" % cmdname, 0, _cmd))
     
@@ -125,7 +125,7 @@ def validates_fw_status(obj):
                 _('Status'),
                 obj.input.status,
                 CHECK_EMPTY | CHECK_VALID,
-                FIREWALL_STATUS.values()
+                list(FIREWALL_STATUS.values())
             ) and check
     else:
         check = False

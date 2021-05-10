@@ -39,8 +39,8 @@ try:
     from karesansui.lib.utils import load_locale, execute_command
     from karesansui.lib.const import NETWORK_COMMAND
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()

@@ -78,7 +78,7 @@ def create_storage_volume_dir(obj, guest, domname, volume_name, pool_name, forma
     </comment-en>
     """
     # create volume
-    cmdname = u"Create Storage Volume"
+    cmdname = "Create Storage Volume"
     cmd = VIRT_COMMAND_CREATE_STORAGE_VOLUME
 
     options = {}
@@ -121,7 +121,7 @@ def create_disk_job(obj, guest, domain_name, pool, volume,
     TODO: To include comments in English
     </comment-en>
     """
-    cmdname = u"Add Disk"
+    cmdname = "Add Disk"
     cmd = VIRT_COMMAND_ADD_DISK
 
     options = {}
@@ -154,7 +154,7 @@ def exec_disk_job(obj,
     TODO: To include comments in English
     </comment-en>
     """
-    cmdname = u"Add Disk"
+    cmdname = "Add Disk"
     _jobgroup = JobGroup(cmdname, karesansui.sheconf['env.uniqkey'])
     if volume_job is not None:
         _jobgroup.jobs.append(volume_job)

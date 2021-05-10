@@ -171,7 +171,7 @@ class HostBy1NetworkStorageBy1Status(Rest):
 
         if status == NETWORK_STORAGE_START:
             network_storage_cmd = ISCSI_COMMAND_START
-            cmd_name = u'Start iSCSI'
+            cmd_name = 'Start iSCSI'
             jobgroup = JobGroup(cmd_name, karesansui.sheconf['env.uniqkey'])
 
             for pool in inactive_used_pool:
@@ -184,7 +184,7 @@ class HostBy1NetworkStorageBy1Status(Rest):
 
         elif status == NETWORK_STORAGE_STOP:
             network_storage_cmd = ISCSI_COMMAND_STOP
-            cmd_name = u'Stop iSCSI'
+            cmd_name = 'Stop iSCSI'
             jobgroup = JobGroup(cmd_name, karesansui.sheconf['env.uniqkey'])
 
             for pool in active_used_pool:

@@ -30,7 +30,7 @@ try:
     from karesansui.db.model.machine import Machine
 
 except ImportError:
-    print >>sys.stderr, "[Error] karesansui package was not found."
+    print("[Error] karesansui package was not found.", file=sys.stderr)
     sys.exit(1)
 
 usage = '%prog [options]'
@@ -122,22 +122,22 @@ try:
     metadata.drop_all()   
     metadata.tables['machine2jobgroup'].create()
     metadata.create_all()   
-except Exception, e:
+except Exception as e:
     traceback.format_exc()
     raise Exception('Initializing/Updating a database error - %s' % ''.join(e.args))
 
 session = get_session()
 try:
-    (password, salt) = sha1encrypt(u"%s" % password)
+    (password, salt) = sha1encrypt("%s" % password)
     user = session.query(User).filter(User.email == email).first()
 
     if user is None:
         # User Table set.
-        new_user  = User(u"%s" % email,
-                              unicode(password),
-                              unicode(salt),
-                              u"Administrator",
-                              u"%s" % lang,
+        new_user  = User("%s" % email,
+                              str(password),
+                              str(salt),
+                              "Administrator",
+                              "%s" % lang,
                               )
 
         if string.atof(sqlalchemy.__version__[0:3]) >= 0.6:
@@ -156,7 +156,7 @@ try:
         session.commit()
 
     # Tag Table set.
-    tag = Tag(u"default")
+    tag = Tag("default")
     if string.atof(sqlalchemy.__version__[0:3]) >= 0.6:
         session.add(tag)
     else:
@@ -165,17 +165,17 @@ try:
         
     # Machine Table set.
     user     = session.query(User).filter(User.email == email).first()
-    notebook = Notebook(u"", u"")
+    notebook = Notebook("", "")
     machine  = Machine(user,
                        user,
-                       u"%s" % uuid,
-                       u"%s" % fqdn,
+                       "%s" % uuid,
+                       "%s" % fqdn,
                        MACHINE_ATTRIBUTE['HOST'],
                        MACHINE_HYPERVISOR['REAL'],
                        notebook,
                        [tag],
-                       u"%s" % fqdn,
-                       u'icon-guest1.png',
+                       "%s" % fqdn,
+                       'icon-guest1.png',
                        False,
                        None,
                       )
@@ -187,7 +187,7 @@ try:
     session.commit()
 
     session.close()
-except Exception, e:
+except Exception as e:
     traceback.format_exc()
     raise Exception('Initializing/Updating a database error - %s' % ''.join(e.args))
 

@@ -83,7 +83,7 @@ class lineParser:
     def write_conf(self,conf_arr={},dryrun=False):
         retval = True
 
-        for _path,_v in conf_arr.iteritems():
+        for _path,_v in conf_arr.items():
 
             if _path[0:1] != "/":
                 continue
@@ -96,7 +96,7 @@ class lineParser:
             if dryrun is False:
                 ConfigFile(_path).write("\n".join(_v['value']) + "\n")
             else:
-                print "\n".join(_v['value'])
+                print("\n".join(_v['value']))
 
         return retval
 

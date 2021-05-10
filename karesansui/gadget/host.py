@@ -178,7 +178,7 @@ class Host(Rest):
         else:
             self.view.hosts = findbyhostall(self.orm)
             self.view.application_uniqkey = karesansui.config['application.uniqkey']
-            if self.input.has_key('job_id') is True:
+            if ('job_id' in self.input) is True:
                 self.view.job_id = self.input.job_id
             else:
                 self.view.job_id = None

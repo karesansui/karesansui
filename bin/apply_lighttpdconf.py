@@ -41,8 +41,8 @@ try:
     from karesansui.lib.const import LIGHTTPD_CONF_TEMP_DIR,\
         LIGHTTPD_PORT_CONFIG, LIGHTTPD_ACCESS_CONFIG, LIGHTTPD_SSL_CONFIG
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -93,14 +93,14 @@ class LighttpdConfigFile(KssCommand):
         }
         self.up_progress(10)
 
-        for srcfile in tmp_configfiles.values():
+        for srcfile in list(tmp_configfiles.values()):
             if os.path.isfile(srcfile) is False:
                 raise KssCommandException(
                     'Temporary config file is not found. -path=%s' % srcfile)
 
         self.up_progress(20)
         try:
-            for dest, src in tmp_configfiles.items():
+            for dest, src in list(tmp_configfiles.items()):
                 copy_file(src, opts.dest + '/' + dest)
                 remove_file(src)
 
@@ -109,7 +109,7 @@ class LighttpdConfigFile(KssCommand):
             raise KssCommandException('Failed to copy config file -src=%s dest=%s' % (src, dest))
 
         self.logger.info('Applied lighttpd settings.')
-        print >>sys.stdout, _('Applied lighttpd settings.')
+        print(_('Applied lighttpd settings.'), file=sys.stdout)
 
         return True
 

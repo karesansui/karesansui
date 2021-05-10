@@ -39,8 +39,8 @@ try:
     from karesansui.lib.virt.virt import KaresansuiVirtConnection
     from karesansui.lib.utils import load_locale
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -90,7 +90,7 @@ class AutostartNetwork(KssCommand):
             self.up_progress(40)
 
             self.logger.info('Set autostart flag. - net=%s flag=%s' % (opts.name,flag))
-            print >>sys.stdout, _('Set autostart flag. - net=%s flag=%s') % (opts.name,flag)
+            print(_('Set autostart flag. - net=%s flag=%s') % (opts.name,flag), file=sys.stdout)
 
             return True
         finally:

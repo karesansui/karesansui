@@ -63,7 +63,7 @@ def get_user_table(metadata, now):
                                               nullable=False,
                                               ),
                             sqlalchemy.Column('languages', sqlalchemy.Unicode(6),
-                                              default=u'ja_JP',
+                                              default='ja_JP',
                                               ),
                             sqlalchemy.Column('created', sqlalchemy.DateTime,
                                               default=now,
@@ -166,20 +166,20 @@ if __name__ == '__main__':
 
     # INSERT
     from karesansui.lib.crypt import sha1encrypt
-    (password, salt) = sha1encrypt(u'password')
+    (password, salt) = sha1encrypt('password')
     from karesansui.lib.utils import uni_force
-    _m_u = User(u'hoge@localhost', uni_force(password), unicode(salt, 'utf-8'), u'ja', u'ja_JP')
+    _m_u = User('hoge@localhost', uni_force(password), str(salt, 'utf-8'), 'ja', 'ja_JP')
     session.add(_m_u)
     session.commit()
     # SELECT One
-    u = session.query(User).filter(User.email == u'hoge@localhost').one()
+    u = session.query(User).filter(User.email == 'hoge@localhost').one()
     
-    print _m_u.__repr__()
+    print(_m_u.__repr__())
     # UPDATE
-    _m_u.email = u'foo@localhost'
+    _m_u.email = 'foo@localhost'
     session.add(_m_u)
     session.commit()
     # DELETE
-    _m_u = session.query(User).filter(User.email == u'foo@localhost').one()
+    _m_u = session.query(User).filter(User.email == 'foo@localhost').one()
     session.delete(_m_u)
     session.commit()

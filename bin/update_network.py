@@ -40,8 +40,8 @@ try:
     from karesansui.lib.const import NETWORK_IFCONFIG_COMMAND, NETWORK_BRCTL_COMMAND
     from karesansui.lib.utils import load_locale
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -99,7 +99,7 @@ class UpdateNetwork(KssCommand):
             if not (opts.name in active_networks):
                 try:
                     conn.start_network(opts.name)
-                except KaresansuiVirtException, e:
+                except KaresansuiVirtException as e:
                     # try to bring down existing bridge
                     kvn = conn.search_kvn_networks(opts.name)[0]
                     try:
@@ -120,7 +120,7 @@ class UpdateNetwork(KssCommand):
                 raise KssCommandException('Updated network but it\'s dead. - net=%s' % (opts.name))
 
             self.logger.info('Updated network. - net=%s' % (opts.name))
-            print >>sys.stdout, _('Updated network. - net=%s') % (opts.name)
+            print(_('Updated network. - net=%s') % (opts.name), file=sys.stdout)
             return True
         finally:
             conn.close()

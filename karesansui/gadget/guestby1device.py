@@ -98,7 +98,7 @@ class GuestBy1Device(Rest):
                 phydev = []
                 phydev_regex = re.compile(r"%s" % bridge_prefix[VMType])
 
-                for dev,dev_info in get_ifconfig_info().iteritems():
+                for dev,dev_info in get_ifconfig_info().items():
                     try:
                         if phydev_regex.match(dev):
                             phydev.append(dev)
@@ -134,7 +134,7 @@ class GuestBy1Device(Rest):
                                                                        image_type=None,
                                                                        attr='path')
                     if already_vol:
-                        already_vols += already_vol.keys()
+                        already_vols += list(already_vol.keys())
 
                 for pool in pools:
                     pool_obj = self.kvc.search_kvn_storage_pools(pool)[0]

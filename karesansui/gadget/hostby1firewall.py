@@ -75,7 +75,7 @@ class HostBy1Firewall(Rest):
                 devs['oth'] = []
                 cidrs = []
                 ips = []
-                for dev,dev_info in get_ifconfig_info().iteritems():
+                for dev,dev_info in get_ifconfig_info().items():
                     try:
                         if devtype_phy_regex.match(dev):
                             devs['phy'].append(dev)

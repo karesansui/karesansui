@@ -128,7 +128,7 @@ class GuestBy1(Rest):
     def _GET(self, *param, **params):
         (host_id, guest_id) = self.chk_guestby1(param)
 
-        if self.input.has_key('job_id') is True:
+        if ('job_id' in self.input) is True:
             self.view.job_id = self.input.job_id
         else:
             self.view.job_id = None
@@ -319,7 +319,7 @@ class GuestBy1(Rest):
 
                     disk_volumes = self.kvc.get_storage_volume_bydomain(domname, 'disk', 'key')
                     volume = None
-                    for key in disk_volumes.keys():
+                    for key in list(disk_volumes.keys()):
                         if disk['source']['file'] == os.path.realpath(disk_volumes[key]):
                             volume = key # disk image
 
@@ -329,9 +329,9 @@ class GuestBy1(Rest):
                         if not os_volume:
                             return web.badrequest(_("OS storage volume for guest could not be found. domname=%s") % domname)
 
-                        if disk['source']['file'] == os.path.realpath(os_volume.values()[0]):
+                        if disk['source']['file'] == os.path.realpath(list(os_volume.values())[0]):
                             use = DISK_USES['IMAGES']
-                            volume = os_volume.keys()[0]
+                            volume = list(os_volume.keys())[0]
                             os_storage["pool"] = pool
                             os_storage["volume"] = volume
                             continue # OS delete command to do "VIRT_COMMAND_DELETE_GUEST" image.
@@ -362,7 +362,7 @@ class GuestBy1(Rest):
                     if not os_volume:
                         return web.badrequest(_("OS storage volume for guest could not be found. domname=%s") % domname)
                     else:
-                        volume = os_volume.values()[0]
+                        volume = list(os_volume.values())[0]
                         if disk['source']['dev'] == volume:
                             os_storage["pool"] = pool
                             os_storage["volume"] = volume

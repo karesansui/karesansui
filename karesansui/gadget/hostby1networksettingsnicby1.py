@@ -249,7 +249,7 @@ class HostBy1NetworkSettingsNicBy1(Rest):
         device = param[1]
         if device is None: return web.notfound()
 
-        cmdname = u"Delete Bonding Setting"
+        cmdname = "Delete Bonding Setting"
         cmd = BONDING_COMMAND_DELETE
         options = {}
 

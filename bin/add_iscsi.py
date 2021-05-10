@@ -88,8 +88,8 @@ try:
         ISCSI_CMD, ISCSI_CMD_OPTION_MODE, ISCSI_CMD_OPTION_MODE_DISCOVERY, ISCSI_CMD_OPTION_TYPE, \
         ISCSI_CMD_OPTION_TYPE_SENDTARGETS, ISCSI_CMD_OPTION_PORTAL
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -221,7 +221,7 @@ class AddIscsi(KssCommand):
                 continue
 
             self.logger.info("%s" % (iscsi_print_format_node(node)))
-            print >>sys.stdout, _("%s") % (iscsi_print_format_node(node))
+            print(_("%s") % (iscsi_print_format_node(node)), file=sys.stdout)
 
         return True
 

@@ -91,7 +91,7 @@ class HostBy1ReportBy1(Rest):
 
         elif target == "interface":
             group_display = True
-            if_list = get_ifconfig_info().keys()
+            if_list = list(get_ifconfig_info().keys())
             for dev in if_list:
                 if rrd.check_rrd_file_exist("interface", dev):
                     dev_list.append(dev)

@@ -292,7 +292,7 @@ class xmlLikeConfParser:
         dop = DictOp()
         dop.addconf("__",conf_arr)
 
-        for _k,_v in dop.getconf("__").iteritems():
+        for _k,_v in dop.getconf("__").items():
 
             action = dop.action("__",[_k])
             if action == "delete":
@@ -362,7 +362,7 @@ class xmlLikeConfParser:
                     elif type(kk) is str:
                         orders.append(kk)
 
-                for kk in _val.keys():
+                for kk in list(_val.keys()):
                     if not kk in orders:
                         orders.append(kk)
 
@@ -398,7 +398,7 @@ class xmlLikeConfParser:
 
                     is_sect = False
                     if _k in self.opt_multi and _k2 == _v2["value"][0]:
-                        for _k3,_v3 in sub_value.iteritems():
+                        for _k3,_v3 in sub_value.items():
                             try:
                                 iscomment3 = sub_value[_k3]['comment']
                             except:
@@ -467,7 +467,7 @@ class xmlLikeConfParser:
         orders_key = "%sORDERS" % (self._reserved_key_prefix,)
         eof_key    = "%sEOF"    % (self._reserved_key_prefix,)
 
-        for _path,_v in conf_arr.iteritems():
+        for _path,_v in conf_arr.items():
 
             if _path[0:1] != "/":
                 continue
@@ -505,7 +505,7 @@ class xmlLikeConfParser:
                         pass
 
             # オーダにないものは最後に追加
-            for _k2,_v2 in self.dop.get(self._module,[_path]).iteritems():
+            for _k2,_v2 in self.dop.get(self._module,[_path]).items():
 
                 #if _k2 != orders_key:
                 m = re.match(exclude_regex,_k2)
@@ -516,7 +516,7 @@ class xmlLikeConfParser:
                         _search_key = [_path] + _k2
 
                         if _k2[0] in self.opt_multi:
-                            for _k3,_v3 in self.dop.get(self._module,_search_key).iteritems():
+                            for _k3,_v3 in self.dop.get(self._module,_search_key).items():
                                 _search_key.append(_k3)
                                 new_lines = self._new_lines(_search_key,_k2)
                                 lines = lines + new_lines
@@ -552,8 +552,8 @@ class xmlLikeConfParser:
                 if len(lines) > 0:
                     ConfigFile(_path).write("\n".join(lines) + "\n")
             else:
-                print "%s -- filename: %s" % (self._comment,_path,)
-                print "\n".join(lines)
+                print("%s -- filename: %s" % (self._comment,_path,))
+                print("\n".join(lines))
 
         return retval
 

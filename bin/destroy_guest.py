@@ -40,8 +40,8 @@ try:
                  VIR_DOMAIN_SHUTOFF, VIR_DOMAIN_SHUTDOWN
     from karesansui.lib.utils import load_locale
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -75,9 +75,9 @@ class DestroyGuest(KssCommand):
                     self.up_progress(10)
                     conn.destroy_guest()
                     self.up_progress(40)
-                except Exception, e:
+                except Exception as e:
                     self.logger.error('Failed to destroy guest. - dom=%s' % (opts.name))
-                    print >>sys.stderr, _('Failed to destroy guest. - dom=%s') % (opts.name)
+                    print(_('Failed to destroy guest. - dom=%s') % (opts.name), file=sys.stderr)
                     raise e
 
                 status = conn.guest.status()
@@ -86,7 +86,7 @@ class DestroyGuest(KssCommand):
 
                 if status == VIR_DOMAIN_SHUTOFF or status == VIR_DOMAIN_SHUTDOWN:
                     self.logger.info('Succeeded to destroy guest. - dom=%s' % (opts.name))
-                    print >>sys.stdout, _('Succeeded to destroy guest. - dom=%s') % (opts.name)
+                    print(_('Succeeded to destroy guest. - dom=%s') % (opts.name), file=sys.stdout)
 
             else:
                 raise KssCommandException(

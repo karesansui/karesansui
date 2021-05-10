@@ -42,7 +42,7 @@ def iptables_lint_contents(contents, webobj=None, machine=None):
     
     if not os.path.exists(CONF_TMP_DIR):
         os.makedirs(CONF_TMP_DIR)
-        r_chmod(CONF_TMP_DIR,0770)
+        r_chmod(CONF_TMP_DIR,0o770)
         r_chown(CONF_TMP_DIR,KARESANSUI_USER)
         r_chgrp(CONF_TMP_DIR,KARESANSUI_GROUP)
 
@@ -56,7 +56,7 @@ def iptables_lint_contents(contents, webobj=None, machine=None):
     filename = "%s/iptables-save.%s" % (CONF_TMP_DIR,serial,)
 
     ConfigFile(filename).write(contents)
-    r_chmod(filename,0660)
+    r_chmod(filename,0o660)
     r_chown(filename,KARESANSUI_USER)
     r_chgrp(filename,KARESANSUI_GROUP)
 
@@ -67,7 +67,7 @@ def iptables_lint(filepath, webobj=None, machine=None, delete=False):
 
     options = {"config" : filepath, "lint" : None}
 
-    cmd_name = u"Check iptables settings - %s" % filepath
+    cmd_name = "Check iptables settings - %s" % filepath
 
     if type(webobj) == types.InstanceType:
         from karesansui.db.model._2pysilhouette import Job, JobGroup, \
@@ -105,7 +105,7 @@ def iptables_lint(filepath, webobj=None, machine=None, delete=False):
         from karesansui.lib.utils import execute_command
 
         opts_str = ""
-        for x in options.keys():
+        for x in list(options.keys()):
             if options[x] is None:
                 opts_str += "--%s " % x 
             else:

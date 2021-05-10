@@ -79,7 +79,7 @@ def create_nic_job(obj, guest, name, mac, bridge, network, options={}):
     _cmd = dict2command(
         "%s/%s" % (karesansui.config['application.bin.dir'], VIRT_COMMAND_ADD_NIC), options)
 
-    cmdname = u"Create NIC"
+    cmdname = "Create NIC"
     _jobgroup = JobGroup(cmdname, karesansui.sheconf['env.uniqkey'])
     _jobgroup.jobs.append(Job('%s command' % cmdname, 0, _cmd))
     

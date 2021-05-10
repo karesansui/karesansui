@@ -41,8 +41,8 @@ try:
     from karesansui.lib.utils import gettimeofday
     from karesansui.lib.utils import load_locale
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -64,7 +64,7 @@ class GetCpuUsage(KssCommand):
                 now = gettimeofday()
                 sec = now[0]
                 usec = now[1]
-                infos.append({"id": id, "cpu_time": info[4], "real_time_sec": long(sec), "real_time_usec": long(usec)})
+                infos.append({"id": id, "cpu_time": info[4], "real_time_sec": int(sec), "real_time_usec": int(usec)})
     
             #print infos
             time.sleep(1.1)
@@ -74,7 +74,7 @@ class GetCpuUsage(KssCommand):
               id = guest.ID()
               if id > -1:
                 name = guest.name()
-                print name
+                print(name)
                 info = guest.info()
     
                 now = gettimeofday()
@@ -89,7 +89,7 @@ class GetCpuUsage(KssCommand):
                 #print cpu_diff
     
                 #real_diff = 1000 *(long(sec) - infos[cnt]["real_time_sec"]) + (usec - infos[cnt]["real_time_usec"])
-                real_diff = ((long(sec) - infos[cnt]["real_time_sec"]) * 1000) + ((usec - infos[cnt]["real_time_usec"]) / 1000);
+                real_diff = ((int(sec) - infos[cnt]["real_time_sec"]) * 1000) + ((usec - infos[cnt]["real_time_usec"]) / 1000);
     
                 #real_diff = 1000 *(sec - infos[cnt]["real_time_sec"])
                 #real_diff2 = (usec - infos[cnt]["real_time_usec"])
@@ -102,7 +102,7 @@ class GetCpuUsage(KssCommand):
                 #print "cpu_diff:%10ld" % cpu_diff
     
                 usage = cpu_diff / float(real_diff);  
-                print "%.3f%%" % usage
+                print("%.3f%%" % usage)
      
                 # print the results
                 #printf("%d\t%.3f%\t%lu\t%lu\t%hu\t%0X\t%s\n", id, usage, info.memory / 1024,  

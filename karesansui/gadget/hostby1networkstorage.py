@@ -90,7 +90,7 @@ def get_network_storages(data):
                                       })
 
             for disk in disk_list:
-                for key in unmountable_flag.keys():
+                for key in list(unmountable_flag.keys()):
                     if disk['symlink_name'] == key:
                         disk['is_partitionable'] = True
 
@@ -100,7 +100,7 @@ def get_network_storages(data):
     return network_storages
 
 def get_iscsi_cmd(obj, host_id):
-    cmd_name = u'Get iSCSI List'
+    cmd_name = 'Get iSCSI List'
     jobgroup = JobGroup(cmd_name, karesansui.sheconf['env.uniqkey'])
     jobgroup.jobs.append(Job('%s command' % cmd_name, 0, "%s/%s" \
                              % (karesansui.config['application.bin.dir'], ISCSI_COMMAND_GET)))
@@ -241,7 +241,7 @@ class HostBy1NetworkStorage(Rest):
                 password_file_name = '/tmp/' + generate_phrase(12,'abcdefghijklmnopqrstuvwxyz')
                 create_file(password_file_name, password)
                 options['password-file'] = password_file_name
-            except Exception, e:
+            except Exception as e:
                 self.logger.error('Failed to create tmp password file. - file=%s' % (password_file_name))
                 options['password'] = password
 
@@ -251,7 +251,7 @@ class HostBy1NetworkStorage(Rest):
         if auto_start:
             _cmd = _cmd + " --autostart"
 
-        cmd_name = u'Add iSCSI'
+        cmd_name = 'Add iSCSI'
         jobgroup = JobGroup(cmd_name, karesansui.sheconf['env.uniqkey'])
         jobgroup.jobs.append(Job('%s command' % cmd_name, 0, _cmd))
 

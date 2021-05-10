@@ -47,8 +47,8 @@ try:
     from karesansui.lib.collectd.config import initialize_collectd_settings, COLLECTD_PLUGINS
     from karesansui.lib.dict_op import DictOp
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -91,9 +91,9 @@ class InitializeCollectdConf(KssCommand):
             self.logger.info("execute command - %s" % command)
 
             if opts.dry_run is True:
-                print ""
-                print ">>>Execute pre command: %s" % command
-                print ""
+                print("")
+                print(">>>Execute pre command: %s" % command)
+                print("")
             else:
                 (_ret,_res) = execute_command(command.split())
                 if _ret != 0:
@@ -129,9 +129,9 @@ class InitializeCollectdConf(KssCommand):
             self.logger.info("execute command - %s" % command)
 
             if opts.dry_run is True:
-                print ""
-                print ">>>Execute post command: %s" % command
-                print ""
+                print("")
+                print(">>>Execute post command: %s" % command)
+                print("")
             else:
                 (_ret,_res) = execute_command(command.split())
                 if _ret != 0:

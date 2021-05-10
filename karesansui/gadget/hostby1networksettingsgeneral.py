@@ -166,7 +166,7 @@ class HostBy1NetworkSettingsGeneral(Rest):
 
         # hosts
         hosts_arr = dop.getconf("hosts")
-        for _k,_v in hosts_arr.iteritems():
+        for _k,_v in hosts_arr.items():
             _host = dop.get("hosts",[_k])
             _value   = _host[0]
             _comment = _host[1]

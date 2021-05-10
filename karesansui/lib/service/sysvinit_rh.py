@@ -432,9 +432,9 @@ if __name__ == '__main__':
     """
 
     sysv = SysVInit_RH("libvirtd","libvirtd")
-    print sysv.status()
-    print sysv.onboot()
-    print sysv.onboot(True)
+    print(sysv.status())
+    print(sysv.onboot())
+    print(sysv.onboot(True))
     """
     print sysv.onboot()
     print sysv.onboot(False)

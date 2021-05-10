@@ -46,8 +46,8 @@ def main():
     session2 = Session()
     session3 = Session()
     hoge = session1.query(JobGroup).all()
-    jg1 = JobGroup(u'Test Success', '')
-    jg1.jobs.append(Job(u'日付取得','0','/bin/date', 'fdaf'))
+    jg1 = JobGroup('Test Success', '')
+    jg1.jobs.append(Job('日付取得','0','/bin/date', 'fdaf'))
     session1.add(jg1)
     session1.close()
                                         

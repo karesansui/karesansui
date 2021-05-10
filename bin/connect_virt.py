@@ -39,8 +39,8 @@ try:
                  VIR_DOMAIN_SHUTOFF, VIR_DOMAIN_SHUTDOWN
     from karesansui.lib.utils import load_locale
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -66,12 +66,12 @@ class ConnectVirt(KssCommand):
 
         step = 100 / opts.count
 
-        for cnt in xrange(0,opts.count):
+        for cnt in range(0,opts.count):
             self.up_progress(step)
             try:
-                print cnt
+                print(cnt)
                 conn = KaresansuiVirtConnection(readonly=False)
-                print conn
+                print(conn)
             finally:
                 pass
                 #conn.close()

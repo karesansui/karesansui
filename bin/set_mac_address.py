@@ -39,8 +39,8 @@ try:
     from karesansui.lib.virt.virt import KaresansuiVirtConnection
     from karesansui.lib.utils import load_locale
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -76,7 +76,7 @@ class SetMAC(KssCommand):
             conn.guest.modify_mac_address(opts.old,opts.new)
             self.up_progress(40)
             self.logger.info('Set MAC address. - dom=%s from=%s to=%s' % (opts.name,opts.old, opts.new))
-            print >>sys.stdout, _('Set MAC address. - dom=%s from=%s to=%s') % (opts.name, opts.old, opts.new)
+            print(_('Set MAC address. - dom=%s from=%s to=%s') % (opts.name, opts.old, opts.new), file=sys.stdout)
             return True
 
         finally:

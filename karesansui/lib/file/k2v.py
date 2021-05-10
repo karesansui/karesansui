@@ -26,7 +26,7 @@
 
 import re
 
-from securefile import SecureFile
+from .securefile import SecureFile
 
 __all__ = ['K2V']
 
@@ -70,9 +70,9 @@ class K2V(SecureFile):
         TODO: English Comment
         </comment-en>
         """
-        for val in data.iteritems():
+        for val in data.items():
             self._data[val[0]] = val[1]
-        for line in self._data.iteritems():
+        for line in self._data.items():
             f.write("%s=%s\n" % (line[0], line[1]))
             
         return self.read()

@@ -60,7 +60,7 @@ def add_prefix(msg, prefix):
     if isinstance(msg, str):
         msg = [msg]
 
-    for i in xrange(len(msg)):
+    for i in range(len(msg)):
         msg[i] =  prefix + ":" + msg[i]
     return msg
 
@@ -85,7 +85,7 @@ class Icon(Rest):
 
         try:
             create_file(icon_realpath, icon_filevalue)
-        except IOError, ioe:
+        except IOError as ioe:
             self.logger.error("Failed to write icon file. - filename=%s" % icon_filename)
             return web.internalerror(add_prefix("Failed to create icon file.", "500"))
 
@@ -105,7 +105,7 @@ class IconBy1(Rest):
 
         try:
             remove_file(icon_realpath)
-        except OSError, ose:
+        except OSError as ose:
             self.logger.error("Failed to remove icon file. - filename=%s" % icon_filename)
             raise  # return 500(Internal Server Error)
 

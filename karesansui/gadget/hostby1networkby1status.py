@@ -148,7 +148,7 @@ def network_start_stop_job(obj, host_id, network_name, action):
     if not network_name:
         raise KaresansuiException
 
-    if (karesansui.sheconf.has_key('env.uniqkey') is False) \
+    if (('env.uniqkey' in karesansui.sheconf) is False) \
            or (karesansui.sheconf['env.uniqkey'].strip('') == ''):
         raise KaresansuiException
 

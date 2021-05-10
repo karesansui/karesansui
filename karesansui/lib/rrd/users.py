@@ -48,8 +48,8 @@ def create_users_graph(_, lang, graph_dir, rrd_dir, start, end, dev=None, type=N
                            "last":_('Last'),
                            }
 
-    for key in legend_header_label.keys():
-        if re.search(u"[^a-zA-Z0-9]", legend_header_label[key]):
+    for key in list(legend_header_label.keys()):
+        if re.search("[^a-zA-Z0-9]", legend_header_label[key]):
             legend_header_label[key] = "</tt>%s<tt>" % (legend_header_label[key].encode("utf-8"))
         else:
             legend_header_label[key] = "%s" % (legend_header_label[key].encode("utf-8"))
@@ -62,13 +62,13 @@ def create_users_graph(_, lang, graph_dir, rrd_dir, start, end, dev=None, type=N
     # TRANSLATORS:
     #  ユーザ数のグラフのタイトル
     title = _('Users Logged In')
-    if re.search(u"[^a-zA-Z0-9_\-\.]", title):
+    if re.search("[^a-zA-Z0-9_\-\.]", title):
         title = "%s" % (title.encode("utf-8"))
     else:
         title = "<tt>%s</tt>" % (title.encode("utf-8"))
 
     created_label = _('Graph created')
-    if re.search(u"[^a-zA-Z0-9 ]", created_label):
+    if re.search("[^a-zA-Z0-9 ]", created_label):
         created_label = "</tt>%s<tt>" % (created_label.encode("utf-8"))
     else:
         created_label = "%s" % (created_label.encode("utf-8"))

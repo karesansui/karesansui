@@ -91,8 +91,8 @@ class SecureFile:
                     self.__lock_UN(f)
             finally:
                 f.close()
-        except Exception, e:
-            print >>sys.stdout, '"%s" : Error reading config file. %s' % (self._path, e.args)
+        except Exception as e:
+            print('"%s" : Error reading config file. %s' % (self._path, e.args), file=sys.stdout)
             raise
 
     def do_write(self, data):
@@ -110,8 +110,8 @@ class SecureFile:
             finally:
                 f.close()
                     
-        except Exception, e:
-            print >>sys.stdout, '"%s" : Error writing config file. %s' % (self._path, e.args)
+        except Exception as e:
+            print('"%s" : Error writing config file. %s' % (self._path, e.args), file=sys.stdout)
             raise
         
 if __name__ == '__main__':
