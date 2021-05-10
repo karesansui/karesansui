@@ -29,7 +29,7 @@ from karesansui.lib.const import MACHINE_HYPERVISOR
 import simplejson as json 
 from karesansui.lib.utils import json_dumps
 
-json_hypervisor = json_dumps(MACHINE_HYPERVISOR.keys())
+json_hypervisor = json_dumps(MACHINE_HYPERVISOR)
 
 %>
 function locale_hypervisor(hypervisor){

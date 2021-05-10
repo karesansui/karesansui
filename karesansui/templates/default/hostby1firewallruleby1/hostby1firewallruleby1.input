@@ -198,7 +198,7 @@ $(document).ready(function(){
                     <select name="inif" id="inif">
                         <option value="">${_('All')}</option>
 % for dev_v in devs:
-    % for type,type_v in dev_v.iteritems():
+    % for type,type_v in dev_v.items():
                         <optgroup label='${type}'>
         % for dev in type_v:
             % if rule['in-interface'] == dev:
@@ -216,7 +216,7 @@ $(document).ready(function(){
                     <select name="outif" id="outif">
                         <option value="">${_('All')}</option>
 % for dev_v in devs:
-    % for type,type_v in dev_v.iteritems():
+    % for type,type_v in dev_v.items():
                         <optgroup label='${type}'>
         % for dev in type_v:
             % if rule['out-interface'] == dev:
