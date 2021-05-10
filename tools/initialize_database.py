@@ -6,6 +6,7 @@ import re
 import string
 from optparse import OptionParser
 import traceback
+from locale import atof
 
 try:
     from distutils.sysconfig import get_python_lib
@@ -14,24 +15,20 @@ try:
 except:
     pass
 
-try:
-    import sqlalchemy
-    import karesansui
-    from karesansui import __version__
-    from karesansui.lib.utils import is_uuid, is_int
-    from karesansui.lib.utils import generate_phrase, generate_uuid, string_from_uuid
-    from karesansui.lib.file.k2v import K2V
-    from karesansui.lib.crypt import sha1encrypt
-    from karesansui.lib.const import MACHINE_ATTRIBUTE, MACHINE_HYPERVISOR
-    from karesansui.db import get_engine, get_metadata, get_session
-    from karesansui.db.model.user import User
-    from karesansui.db.model.notebook import Notebook
-    from karesansui.db.model.tag import Tag
-    from karesansui.db.model.machine import Machine
 
-except ImportError:
-    print("[Error] karesansui package was not found.", file=sys.stderr)
-    sys.exit(1)
+import sqlalchemy
+import karesansui
+from karesansui import __version__
+from karesansui.lib.utils import is_uuid, is_int
+from karesansui.lib.utils import generate_phrase, generate_uuid, string_from_uuid
+from karesansui.lib.file.k2v import K2V
+from karesansui.lib.crypt import sha1encrypt
+from karesansui.lib.const import MACHINE_ATTRIBUTE, MACHINE_HYPERVISOR
+from karesansui.db import get_engine, get_metadata, get_session
+from karesansui.db.model.user import User
+from karesansui.db.model.notebook import Notebook
+from karesansui.db.model.tag import Tag
+from karesansui.db.model.machine import Machine
 
 usage = '%prog [options]'
 
@@ -140,7 +137,7 @@ try:
                               "%s" % lang,
                               )
 
-        if string.atof(sqlalchemy.__version__[0:3]) >= 0.6:
+        if atof(sqlalchemy.__version__[0:3]) >= 0.6:
             session.add(new_user)
         else:
             session.save(new_user)
@@ -149,7 +146,7 @@ try:
         user.password  = password
         user.salt      = salt
         user.languages = lang
-        if string.atof(sqlalchemy.__version__[0:3]) >= 0.6:
+        if atof(sqlalchemy.__version__[0:3]) >= 0.6:
             session.add(user)
         else:
             session.update(user)
@@ -157,7 +154,7 @@ try:
 
     # Tag Table set.
     tag = Tag("default")
-    if string.atof(sqlalchemy.__version__[0:3]) >= 0.6:
+    if atof(sqlalchemy.__version__[0:3]) >= 0.6:
         session.add(tag)
     else:
         session.save(tag)
@@ -180,7 +177,7 @@ try:
                        None,
                       )
 
-    if string.atof(sqlalchemy.__version__[0:3]) >= 0.6:
+    if atof(sqlalchemy.__version__[0:3]) >= 0.6:
         session.add(machine)
     else:
         session.save(machine)
