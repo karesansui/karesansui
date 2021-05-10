@@ -1,3 +1,8 @@
+Notes for this fork
+===================
+This fork is being updated to support Python3.6+ and modern version of its dependencies. Right now it is unlikely you would be able to install this on any modern system. Currently the code is workable enough to initialize the database but not actually start the web console. 
+
+
 Karesansui
 ==========
 
@@ -14,7 +19,7 @@ Karesansui requires (or is dependent on) other software.
 
 To install Karesansui, you will need:
 
-* [Python](http://www.python.org/) 2.6 (2.4 might work?)
+* [Python](http://www.python.org/) 3.6+, 2.x support dropped on this fork
 * [libvirt](http://libvirt.org/) 0.9.4 (or better)
 * [RRDtool](http://oss.oetiker.ch/rrdtool/) 1.3 (or better)
 * [Mako](http://www.makotemplates.org/) 0.3.2 (or better)
