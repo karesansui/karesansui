@@ -795,7 +795,8 @@ def auth(func):
             if 'HTTP_AUTHORIZATION' in web.ctx.env:
                 _http_auth = web.ctx.env['HTTP_AUTHORIZATION'].strip()
                 if _http_auth[:5] == 'Basic':
-                    email, password = b64decode(_http_auth[6:].strip()).split(':')
+                    b = bytes(_http_auth[6:].strip(), 'utf-8')
+                    email, password = b64decode(b).decode('utf-8').split(':')
                     session = web.ctx.orm
                     user = findby1email(session, email)
                     languages = user.languages
@@ -862,7 +863,9 @@ def login():
     """
     _http_auth = web.ctx.env['HTTP_AUTHORIZATION'].strip()
     if _http_auth[:5] == 'Basic':
-        email, password = b64decode(_http_auth[6:].strip()).split(':')
+        b = bytes(_http_auth[6:].strip(), 'utf-8')
+        print(b)
+        email, password = b64decode(b).decode('utf-8').split(':')
         session = web.ctx.orm
         user = dba_login(session, str(email), str(password))
         return (user, email)
@@ -947,7 +950,7 @@ def mako_translation(languages, domain='messages', localedir='locale'):
     </comment-en>
     """
     localedir = '/'.join([karesansui.dirname, localedir])
-    return translation(domain, localedir, tuple(languages)).ugettext 
+    return translation(domain, localedir, tuple(languages)).gettext 
 
 if __name__ == "__main__":
     pass

@@ -65,7 +65,7 @@ def sha1compare(target, plain, salt=''):
     TODO: English Comment
     </comment-en>
     """
-    x = sha(plain+salt).hexdigest()
+    x = sha(plain.encode('ascii')+salt.encode('ascii')).hexdigest()
     if target == x:
         return True
     else:

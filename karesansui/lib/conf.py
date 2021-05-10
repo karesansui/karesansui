@@ -65,9 +65,9 @@ def read_conf(modules, webobj=None, machine=None, extra_args={}):
         pass
 
     #cmd_name = u"Get Settings - %s" % ":".join(modules)
-    cmd_name = "Get Settings"
+    cmd_name = "Get Settings" 
 
-    if type(webobj) == types.InstanceType:
+    if type(webobj) == type:
         from karesansui.db.model._2pysilhouette import Job, JobGroup, \
                                                        JOBGROUP_TYPE
         from karesansui.db.access._2pysilhouette import jg_findby1, jg_save,corp

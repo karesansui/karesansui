@@ -80,8 +80,8 @@ except:
   os.environ['LANG'] = "en_US" # Sets default language.
   t = gettext.translation('messages', karesansui.dirname + "/locale")
 
-_ = t.ugettext
-#_ = t.gettext
+_ = t.gettext
+
 
 class Checker(object):
     """<comment-ja>
