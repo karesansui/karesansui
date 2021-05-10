@@ -985,13 +985,17 @@ def get_xml_xpath(document, expression):
     @return: Returns node list containing all nodes matching the given XPath expression
     </comment-en>
     """
-    from xml import xpath
 
-    result = None
-    for i in xpath.Evaluate(expression, document.documentElement):
-        result = i.nodeValue
+    from lxml import etree
 
-    return result
+    tree = etree.fromstring(document.toxml())
+
+    result = tree.xpath(expression)
+    if result:
+        return result[0]
+    else:
+        return None
+
 
 def get_nums_xml_xpath(document, expression):
     """
