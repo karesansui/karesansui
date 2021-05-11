@@ -123,6 +123,8 @@ def mapper(metadata):
     """
     reload_mappers(metadata)
 
+__session = None
+
 def get_session():
     """<comment-ja>
     thread-localでセッションを取得します。
@@ -131,8 +133,10 @@ def get_session():
     TODO: English Comment
     </comment-en>
     """
-    return scoped_session(
-        sessionmaker(bind=get_engine(), autoflush=False))
+    global __session
+    if __session is None:
+        __session = scoped_session(sessionmaker(bind=get_engine(), autoflush=False))
+    return __session
 
 
 if __name__ == '__main__':
