@@ -78,7 +78,7 @@ class GetIscsi(KssCommand):
         (node_rc, node_res) = execute_command(node_command_args)
         if node_rc != 0:
             for node_line in node_res:
-                if node_line.lower().find(ISCSI_CMD_RES_NO_NODE) != -1:
+                if node_line.decode('utf-8').lower().find(ISCSI_CMD_RES_NO_NODE) != -1:
                     self.logger.info("iSCSI node not found")
                     return True
 
