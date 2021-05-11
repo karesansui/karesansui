@@ -1014,10 +1014,11 @@ def get_nums_xml_xpath(document, expression):
     @return: Returns the number of node containing all nodes matching the given XPath expression
     </comment-en>
     """
-    from xml import xpath
+    from lxml import etree
 
-    result = None
-    return xpath.Evaluate('count(%s)' % expression, document.documentElement)
+    tree = etree.fromstring(document.toxml())
+    result = tree.xpath('count(%s)' % expression)
+    return result
 
 def gettimeofday():
     """
