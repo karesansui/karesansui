@@ -87,11 +87,11 @@ class LogViewConfigParam:
         self.applications = []
         
         app_num = XMLXpathNum(document, '/applications/application')
-        for n in range(1, app_num + 1):
+        for n in range(1, int(app_num) + 1):
             app_name = XMLXpath(document, '/applications/application[%i]/name/text()' % n)
             logs = []
             logs_num = XMLXpathNum(document, '/applications/application[%i]/logs/log' % n)
-            for i in range(1, logs_num + 1):
+            for i in range(1, int(logs_num) + 1):
                 log_name = XMLXpath(document, '/applications/application[%i]/logs/log[%i]/name/text()' %
                                     (n, i))
                 log_filename = XMLXpath(document, '/applications/application[%i]/logs/log[%i]/filename/text()' %
