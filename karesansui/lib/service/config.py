@@ -94,7 +94,7 @@ class ServiceConfigParam:
 
         self.services = []
         service_num = XMLXpathNum(document, '/services/service')
-        for n in range(1, service_num + 1):
+        for n in range(1, int(service_num) + 1):
             system_name = XMLXpath(document, '/services/service[%i]/system/name/text()' % n)
             system_command = XMLXpath(document, '/services/service[%i]/system/command/text()' % n)
             system_readonly = XMLXpath(document, '/services/service[%i]/system/readonly/text()' % n)

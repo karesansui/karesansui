@@ -147,7 +147,7 @@ def dict_ksort(dt):
     </comment-en>
     """
     new_dict = {}
-    for k,v in sorted(iter(dt.items()), lambda x,y : cmp(x[0], y[0])):
+    for k,v in sorted(dt.items()):
         new_dict[k] = v
     return new_dict
 
@@ -1719,7 +1719,7 @@ def get_ifconfig_info(name=None):
                            "cidr":cidr,
                            "netlen":netlen,
                            }
-        m = device_regex.match(aline)
+        m = device_regex.match(aline.decode('utf-8'))
         if m:
             device = m.group('device')
             link = m.group('link')
@@ -1736,18 +1736,18 @@ def get_ifconfig_info(name=None):
             mtu = None
             metric = None
 
-        m = ipv4_regex.match(aline)
+        m = ipv4_regex.match(aline.decode('utf-8'))
         if m:
             ipaddr = m.group('ipaddr')
             bcast = m.group('bcast')
             mask = m.group('mask')
 
-        m = ipv6_regex.match(aline)
+        m = ipv6_regex.match(aline.decode('utf-8'))
         if m:
             ipv6addr = m.group('ipv6addr')
             scope = m.group('scope')
 
-        m = status_regex.match(aline)
+        m = status_regex.match(aline.decode('utf-8'))
         if m:
             if m.group('up') == 'UP':
                 up = True
@@ -2535,7 +2535,7 @@ def get_system_user_list():
         return info
 
     for user in res:
-        info.append(user.split(':'))
+        info.append(user.decode().split(':'))
     return info
 
 def get_system_group_list():
