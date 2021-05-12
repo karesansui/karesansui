@@ -225,14 +225,8 @@ def validates_guest_add(obj):
                 check = False
                 checker.add_error(_('Parameter vm_iso does not exist.'))
             else:
-                check = checker.check_startfile(
-                        _('ISO Image'),
-                        obj.input.vm_iso,
-                        CHECK_EMPTY | CHECK_VALID | CHECK_EXIST,
-                    ) and check
-                if check:
-                    check = is_iso9660_filesystem_format(obj.input.vm_iso)
-                    checker.add_error(_('"%s" is not valid ISO 9660 CD-ROM filesystem data.') % obj.input.vm_iso)
+                check = is_iso9660_filesystem_format(obj.input.vm_iso) and check
+                checker.add_error(_('"%s" is not valid ISO 9660 CD-ROM filesystem data.') % obj.input.vm_iso)
 
     if not is_param(obj.input, 'keymap'):
         check = False

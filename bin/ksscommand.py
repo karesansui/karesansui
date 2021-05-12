@@ -34,7 +34,7 @@ from __cmd__ import karesansui_conf, search_path, pysilhouette_conf
 
 # init -- read file
 if os.path.isfile(karesansui_conf) is False:
-    print('[Error] karesansui : Initializing a database error - %s' % str(e), file=sys.stderr)
+    print('[Error] karesansui : Initializing a database error', file=sys.stderr)
     sys.exit(1)
 
 for y in [x.strip() for x in search_path.split(',') if x]:

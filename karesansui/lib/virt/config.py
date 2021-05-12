@@ -556,9 +556,9 @@ class ConfigParam:
 
         if not self.uuid:
             raise KaresansuiConfigParamException("ConfigParam: uuid is None")
-        if self.graphics_port < 5900:
+        if int(self.graphics_port) < 5900:
             raise KaresansuiConfigParamException("ConfigParam: graphics port < 5900: %d" % self.graphics_port)
-        if self.vcpus < 1:
+        if int(self.vcpus) < 1:
             raise KaresansuiConfigParamException("ConfigParam: vcpus < 1: %d" % self.vcpus)
         if self.vcpus_limit and self.vcpus_limit < self.vcpus:
             raise KaresansuiConfigParamException("ConfigParam: vcpus > %d: %d" % (self.vcpus_limit, self.vcpus))

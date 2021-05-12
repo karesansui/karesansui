@@ -2192,6 +2192,7 @@ def is_iso9660_filesystem_format(file):
     extra_offset = 34823
 
     if not os.path.exists(file) or os.stat(file).st_size < offset+len(magic):
+        print("File does not exist", file=sys.stdout)
         return retval
 
     try:
@@ -2201,7 +2202,7 @@ def is_iso9660_filesystem_format(file):
         f.seek(offset)
         header = f.read(len(magic))
 
-        if header != magic:
+        if header.decode() != magic: 
             return retval
 
         label = ""
@@ -2217,20 +2218,19 @@ def is_iso9660_filesystem_format(file):
                     break
             #elif regex.match(char):
             else:
-                label += char
+                label += char.decode()
 
         label = label.strip()
-
-        f.seek(extra_offset)
-        data = f.read(len(extra_magic))
-        if data == extra_magic:
-            label += "(bootable)"
-
         f.close()
+
+        command_args = [ "file", file]
+        (rc, res) = execute_command(command_args)
+        if "bootable" in res[0].decode():
+            label += " (bootable)"
 
         retval = label
     except:
-        pass
+        raise
 
     return retval
 

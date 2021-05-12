@@ -1624,7 +1624,9 @@ class Checker(object):
             ret_val = self.check_empty(name, value)
 
         if ret_val and value and (check & CHECK_EXIST):
-            exec("keymap_dir = %s_KEYMAP_DIR" % domain_type.upper())
+            # All the exec statements broken when upgrading to py3, for now just removing all support for XEN and forcing KVM keymaps
+            #exec("keymap_dir = %s_KEYMAP_DIR" % domain_type.upper())
+            keymap_dir = KVM_KEYMAP_DIR  
             if not os.path.exists(keymap_dir + '/' + value):
                 ret_val = False
                 self.add_error(_('No such %s [%s].') % (name, value))
