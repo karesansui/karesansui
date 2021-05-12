@@ -31,11 +31,13 @@
           Junichi Shinohara <junichi@karesansui-project.info>
           Kazuya Hayashi <kazuya@karesansui-project.info>
           Kazuhiro Ogura <rgoura@karesansui-project.info>
+          Kairi Sheena <kairi@kairi.io>
 """
 
 __author__ = "Kei Funagayama <kei@karesansui-project.info>"
-__version__ = '3.0'
-__release__ = '2'
+__maintainer__ = "Kairi Sheena <kairi@kairi.io>"
+__version__ = '4.0'
+__release__ = '0'
 __app__ = 'karesansui'
 
 import os
