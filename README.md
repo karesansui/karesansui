@@ -1,8 +1,3 @@
-Notes for this fork
-===================
-This fork is being updated to support Python3.6+ and modern version of its dependencies. Right now it is unlikely you would be able to install this on any modern system. Currently the code is workable enough to initialize the database but not actually start the web console. 
-
-
 Karesansui
 ==========
 

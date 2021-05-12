@@ -1,3 +1,18 @@
+## 4.0.0 (May 12, 2021
+
+Changes:
+
+  - Changes needed to support Python 3.6+
+  - Changed to using SqlAlchemy 1.4
+  - Switched XML library from PyXML to lxml
+
+Known Issues:
+
+  - All documentation is out of date and needs updated
+  - Network storage support is currently broken
+  - Adding guest virts is currently broken, create input validation fails when assigning an ISO image and the graphic keymap drop down is not loading
+  - Some static assets are not loading properly
+
 ## 3.0.2 (Sep 12, 2012)
 
 Bugfixes:
