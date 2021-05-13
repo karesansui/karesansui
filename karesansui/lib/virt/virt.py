@@ -880,11 +880,7 @@ class KaresansuiVirtConnection:
 
         config = "%s/%s.xml" %(VIRT_XML_CONFIG_DIR,name,)
         if os.path.exists(config):
-            f = open(config, "r")
-            cfgxml= f.read()
-            f.close()
-            self._conn.defineXML(cfgxml)
-
+            
             r_chmod(config,"o-rwx")
             r_chmod(config,"g+rw")
             if os.getuid() == 0:

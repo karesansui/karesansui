@@ -1415,7 +1415,10 @@ def r_chmod(path,perm):
                 if k in user:
                     for k2,v2 in perm_table.items():
                         if k2 in value:
-                            exec("bit = stat.S_I%s%s" % (v2,v,))
+                            #exec("bit = stat.S_I%s%s" % (v2,v,))
+                            method_name = "S_I%s%s" % (v2,v)
+                            class_method = getattr(stat, method_name)
+                            bit = class_method 
                             mask_perm = mask_perm | bit
 
 
@@ -2172,7 +2175,7 @@ def file_type(file):
     if rc != 0:
         return None
     else:
-        return res[0].replace("%s: " % file, "")
+        return res[0].decode().replace("%s: " % file, "")
 
 def is_vmdk_format(file):
     try:

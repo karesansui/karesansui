@@ -470,7 +470,7 @@ class ConfigParam:
 
         self.interfaces = []
         interface_num = XMLXpathNum(document,'/domain/devices/interface')
-        for n in range(1, interface_num + 1):
+        for n in range(1, int(interface_num) + 1):
             type = XMLXpath(document,'/domain/devices/interface[%i]/@type' % n)
             mac = XMLXpath(document,'/domain/devices/interface[%i]/mac/@address' % n)
             if str(type) == "network":
@@ -490,7 +490,7 @@ class ConfigParam:
 
         self.disks = []
         disk_num = XMLXpathNum(document,'/domain/devices/disk')
-        for n in range(1, disk_num + 1):
+        for n in range(1, int(disk_num) + 1):
             device_type = XMLXpath(document,'/domain/devices/disk[%i]/@device' % n)
             if device_type == None:
                 device_type = "disk"
@@ -1241,16 +1241,23 @@ def sync_config_generator(param, domname=None):
     try:
         config_generator.writecfg(cfg, tmp_dir)
         xml_generator.writecfg(cfgxml, tmp_xml_dir)
+        print(tmp_xml_dir)
     except:
         config_generator.removecfg(tmp_dir)
         xml_generator.removecfg(tmp_xml_dir)
-        raise KaresansuiConfigParamException("Failed to update tmp configuration files. - domname=" + str(domname))
+        raise KaresansuiConfigParamException("Failed to update tmp configuration files. - domname=" + str(param.get_domain_name()))
+
+    import libvirt
+    connection = libvirt.open("qemu:///system")
+    domain_xml = str()
+    with open(tmp_xml_dir + "/" + str(param.get_domain_name()) + ".xml", "r") as f:
+        domain_xml = f.read()
 
     try:
-        config_generator.copycfg(tmp_dir)
-        xml_generator.copycfg(tmp_xml_dir)
+        connection.defineXML(domain_xml)
     except:
-        raise KaresansuiConfigParamException("Failed to update configuration files. - domname=" + str(domname))
+        raise KaresansuiConfigParamException("Failed to update configuration files. - domname=" + str(param.get_domain_name()))
+    connection.close()
 
     if os.path.exists(tmp_dir):
         shutil.rmtree(tmp_dir)
