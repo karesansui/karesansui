@@ -94,7 +94,7 @@ class HostBy1LogBy1(Rest):
 
         lines = []
         param_value = {}
-        if self.input.has_key("k"):
+        if "k" in self.input:
             param_value["k"] = self.input.k
         else:
             param_value["k"] = ""

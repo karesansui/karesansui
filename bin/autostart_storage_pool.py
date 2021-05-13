@@ -40,8 +40,8 @@ try:
     from karesansui.lib.virt.virt import KaresansuiVirtConnection
     from karesansui.lib.utils import load_locale
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -114,10 +114,10 @@ class AutostartStoragePool(KssCommand):
             self.up_progress(40)
             if opts.enable:
                 self.logger.info('Set autostart storage pool. - pool=%s' % (opts.name))
-                print >>sys.stdout, _('Set autostart storage pool. - pool=%s') % (opts.name)
+                print(_('Set autostart storage pool. - pool=%s') % (opts.name), file=sys.stdout)
             elif opts.disable:
                 self.logger.info('Unset autostart storage pool. - pool=%s' % (opts.name))
-                print >>sys.stdout, _('Unset autostart storage pool. - pool=%s') % (opts.name)
+                print(_('Unset autostart storage pool. - pool=%s') % (opts.name), file=sys.stdout)
 
             return True
         finally:

@@ -39,7 +39,7 @@ try:
     from karesansui.lib.virt.virt import KaresansuiVirtConnection
     from karesansui.lib.utils import load_locale
 except ImportError:
-    print >>sys.stderr, "[Error] karesansui package was not found."
+    print("[Error] karesansui package was not found.", file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -73,7 +73,7 @@ class DeleteDisk(KssCommand):
             conn.guest.delete_disk(opts.target)
             self.up_progress(40)
             self.logger.info('Deleted disk device. - dom=%s target=%s' % (opts.name,opts.target))
-            print >>sys.stdout, _('Deleted disk device. - dom=%s target=%s') % (opts.name, opts.target)
+            print(_('Deleted disk device. - dom=%s target=%s') % (opts.name, opts.target), file=sys.stdout)
 
             return True
         finally:

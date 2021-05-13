@@ -93,7 +93,7 @@ class HostBy1StaticRoute(Rest):
 
         devices = []
         phydev_regex = re.compile(r"^eth[0-9]+")
-        for dev,dev_info in get_ifconfig_info().iteritems():
+        for dev,dev_info in get_ifconfig_info().items():
             if phydev_regex.match(dev):
                 try:
                     if dev_info['ipaddr'] is not None:
@@ -108,8 +108,8 @@ class HostBy1StaticRoute(Rest):
         parser = Parser()
         status = parser.do_status()
         routes = {}
-        for _k,_v in status.iteritems():
-            for _k2,_v2 in _v.iteritems():
+        for _k,_v in status.items():
+            for _k2,_v2 in _v.items():
                 name = base64_encode("%s@%s" % (_k2,_k,))
                 routes[name] = {}
                 routes[name]['name']    = name
@@ -124,7 +124,7 @@ class HostBy1StaticRoute(Rest):
                 routes[name]['netmask'] = net.netmask
 
                 removable = True
-                for _ex_key,_ex_val in excludes.iteritems():
+                for _ex_key,_ex_val in excludes.items():
                     ex_regex = "|".join(_ex_val)
                     mm = re.search(ex_regex,routes[name][_ex_key])
                     if mm:

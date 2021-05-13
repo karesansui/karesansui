@@ -70,8 +70,8 @@ try:
     from karesansui.lib.virt.snapshot import KaresansuiVirtSnapshot
     from karesansui.lib.utils import load_locale
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -123,11 +123,11 @@ class DeleteSnapshot(KssCommand):
 
                 msg = _("Domain snapshot '%s' deleted.") % (opts.id,)
                 self.logger.info(msg)
-                print >>sys.stdout, msg
+                print(msg, file=sys.stdout)
 
-            except KssCommandException, e:
+            except KssCommandException as e:
                 raise KssCommandException(''.join(e.args))
-            except Exception, e:
+            except Exception as e:
                 msg = _("Failed to delete snapshot '%s'.") % (opts.id,)
                 msg += ": detail %s" % ''.join(e.args)
                 self.logger.error(msg)

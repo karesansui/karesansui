@@ -44,8 +44,8 @@ try:
         ISCSI_CMD_OPTION_PORTAL,     ISCSI_CMD_OPTION_LOGIN, \
         ISCSI_CMD_RES_NO_ACTIVE_SESSION
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -111,7 +111,7 @@ class StartIscsi(KssCommand):
 
         if already_exist:
             self.logger.info("[target: %s]: already exists" % (opts.iqn))
-            print >>sys.stdout, _("[target: %s]: already exists") % (opts.iqn)
+            print(_("[target: %s]: already exists") % (opts.iqn), file=sys.stdout)
         else:
             login_command_args = [ISCSI_CMD,
                                   ISCSI_CMD_OPTION_MODE,
@@ -136,7 +136,7 @@ class StartIscsi(KssCommand):
                     continue
 
                 self.logger.info("%s" % (line))
-                print >>sys.stdout, _("%s") % (line)
+                print(_("%s") % (line), file=sys.stdout)
 
         return True
 

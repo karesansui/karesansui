@@ -84,9 +84,9 @@ class HostBy1SettingBy1Mail(Rest):
             _K2V = K2V(conf)
             config = _K2V.read()
             self.view.config = config
-        except (IOError, KaresansuiGadgetException), kge:
+        except (IOError, KaresansuiGadgetException) as kge:
             self.logger.debug(kge)
-            raise KaresansuiGadgetException, kge
+            raise KaresansuiGadgetException(kge)
 
         if self.is_mode_input() is True:
             pass
@@ -112,7 +112,7 @@ class HostBy1SettingBy1Mail(Rest):
             sock.settimeout(5.0)
             try:
                 sock.connect((hostname, int(port)))
-            except Exception, e:
+            except Exception as e:
                 self.logger.error("Could not connect to specified MTA \n%s" % e)
                 """
                 TRANSLATORS:
@@ -131,8 +131,8 @@ class HostBy1SettingBy1Mail(Rest):
             self.view.config = config
             return True
 
-        except IOError, kge:
+        except IOError as kge:
             self.logger.debug(kge)
-            raise KaresansuiGadgetException, kge
+            raise KaresansuiGadgetException(kge)
 
 urls = ('/host/(\d+)/setting/mail?(\.input|\.part)$', HostBy1SettingBy1Mail,)

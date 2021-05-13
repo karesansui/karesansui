@@ -39,8 +39,8 @@ try:
     from karesansui.lib.virt.snapshot import KaresansuiVirtSnapshot
     from karesansui.lib.utils import load_locale
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -93,19 +93,19 @@ class ApplySnapshot(KssCommand):
 
                 msg = _("Domain snapshot '%s' reverted.") % (opts.id,)
                 self.logger.info(msg)
-                print >>sys.stdout, msg
+                print(msg, file=sys.stdout)
 
-            except KssCommandException, e:
+            except KssCommandException as e:
                 raise KssCommandException(''.join(e.args))
 
-            except Exception, e:
+            except Exception as e:
                 msg = _("Failed to revert to snapshot '%s'.") % (opts.id,)
                 msg += ": detail %s" % ''.join(str(e.args))
                 self.logger.error(msg)
                 raise KssCommandException(msg)
 
             self.logger.info('Completed revertion to the snapshot - id=%s,name=%s' % (opts.id, opts.name))
-            print >>sys.stdout, _('Completed revertion to the snapshot - id=%s,name=%s' % (opts.id, opts.name))
+            print(_('Completed revertion to the snapshot - id=%s,name=%s' % (opts.id, opts.name)), file=sys.stdout)
             return True
         finally:
             kvs.finish()

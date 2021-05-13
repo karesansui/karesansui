@@ -40,8 +40,8 @@ try:
     from karesansui.lib.virt.virt import KaresansuiVirtConnection
     from karesansui.lib.utils import load_locale
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -97,9 +97,9 @@ class DestroyStoragePool(KssCommand):
                                         % (opts.name))
 
                 self.logger.info('Stop storage pool. - pool=%s' % (opts.name))
-                print >>sys.stdout, _('Stop storage pool. - pool=%s') % (opts.name)
+                print(_('Stop storage pool. - pool=%s') % (opts.name), file=sys.stdout)
                 return True
-            except KssCommandException, e:
+            except KssCommandException as e:
                 raise e
         finally:
             conn.close()

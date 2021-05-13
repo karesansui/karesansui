@@ -7,7 +7,7 @@ from karesansui.lib.utils import *
 
 def assert_regexp_matches(text, regexp):
     import re
-    if isinstance(regexp, basestring):
+    if isinstance(regexp, str):
         regexp = re.compile(regexp)
     if not regexp.search(text):
         message = '''Regexp didn't match: %r not found in %r''' % (regexp.pattern, text)
@@ -16,7 +16,7 @@ def assert_regexp_matches(text, regexp):
 class TestList(object):
 
     def test_sample(self):
-        numbers = xrange(10)
+        numbers = range(10)
         eq_(len(numbers), 10)
         assert max(numbers) == 9
         assert_equal(sum(numbers), 45)
@@ -65,7 +65,7 @@ class TestList(object):
         assert_regexp_matches(file_type("/bin/ls"),"bit LSB executable")
 
 def test_sample():
-    numbers = xrange(10)
+    numbers = range(10)
     assert_equal(len(numbers), 10)
     assert_equal(max(numbers), 9)
     assert_equal(sum(numbers), 45)

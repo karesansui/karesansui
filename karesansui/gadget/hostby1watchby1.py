@@ -212,12 +212,12 @@ class HostBy1WatchBy1(Rest):
         if self.is_mode_input() is True:
             warning_value = threshold_value_to_dict(watch.warning_value)
             failure_value = threshold_value_to_dict(watch.failure_value)
-            self.view.threshold_value_1 = warning_value.values()[0]
-            self.view.threshold_value_2 = failure_value.values()[0]
-            self.view.threshold_type = failure_value.keys()[0]
+            self.view.threshold_value_1 = list(warning_value.values())[0]
+            self.view.threshold_value_2 = list(failure_value.values())[0]
+            self.view.threshold_type = list(failure_value.keys())[0]
             self.view.use_percentage = watch.is_failure_percentage
 
-            self.view.supported_langs = DEFAULT_LANGS.keys()
+            self.view.supported_langs = list(DEFAULT_LANGS.keys())
 
         self.view.memory_size = string.atol(get_proc_meminfo()["MemTotal"][0]) / 1024
         ## disk info 
@@ -227,7 +227,7 @@ class HostBy1WatchBy1(Rest):
             disk_target = re.sub(r'/', '_', disk_target)
             self.view.disk_size_info[disk_target] = disk_data['1048576-blocks']
         self.view.interface_type = COLLECTD_INTERFACE_TYPE
-        self.view.processer_num = len(get_proc_cpuinfo().keys())
+        self.view.processer_num = len(list(get_proc_cpuinfo().keys()))
         self.view.mta = "%s:%s" % (karesansui.config['application.mail.server'],
                                    karesansui.config['application.mail.port'])
         self.view.watch_interval = WATCH_INTERVAL
@@ -308,7 +308,7 @@ class HostBy1WatchBy1(Rest):
                           "enable_okay_script"]
         bool_values = {}
         for key in bool_input_key:
-            if self.input.has_key(key):
+            if key in self.input:
                 bool_values.update({key:True})
             else:
                 bool_values.update({key:False})

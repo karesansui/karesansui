@@ -25,8 +25,8 @@
 #
 
 import socket
-import urllib
-import urllib2
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
 import base64
 import logging
 import traceback
@@ -73,7 +73,7 @@ def is_proxy(config):
     English Comment
     </comment-en>
     """
-    if config.has_key("application.proxy.status") is False:
+    if ("application.proxy.status" in config) is False:
         return False
     
     if config["application.proxy.status"] == "1":
@@ -87,10 +87,10 @@ def get_proxy(config):
 
     host = None
     port = None
-    if config.has_key("application.proxy.server") is True:
+    if ("application.proxy.server" in config) is True:
         host = config["application.proxy.server"]
 
-    if config.has_key("application.proxy.port") is True:
+    if ("application.proxy.port" in config) is True:
         port = config["application.proxy.port"]
 
     if is_empty(host) is True:
@@ -105,10 +105,10 @@ def get_proxy_user(config):
     user = ""
     password = ""
 
-    if config.has_key("application.proxy.user") is True:
+    if ("application.proxy.user" in config) is True:
         user = config["application.proxy.user"]
 
-    if config.has_key("application.proxy.password") is True:
+    if ("application.proxy.password" in config) is True:
         password = config["application.proxy.password"]
 
     if is_empty(user) is True:
@@ -144,11 +144,11 @@ def _wget_proxy(url, file, proxy_host, proxy_port, user=None, password=None):
         return False
 
     try:
-        proxy_handler = urllib2.ProxyHandler(_proxies)
-        auth_handler = urllib2.ProxyBasicAuthHandler()
-        opener = urllib2.build_opener(proxy_handler, auth_handler)
-        urllib2.install_opener(opener)
-        response = urllib2.urlopen(url)
+        proxy_handler = urllib.request.ProxyHandler(_proxies)
+        auth_handler = urllib.request.ProxyBasicAuthHandler()
+        opener = urllib.request.build_opener(proxy_handler, auth_handler)
+        urllib.request.install_opener(opener)
+        response = urllib.request.urlopen(url)
 
         fp = open(file, "w")
         try:
@@ -157,7 +157,7 @@ def _wget_proxy(url, file, proxy_host, proxy_port, user=None, password=None):
             fp.close()
 
         return True
-    except Exception, e:
+    except Exception as e:
         logger_trace = logging.getLogger('karesansui_trace.net.http')
         logger_trace.error(traceback.format_exc())
         return False
@@ -182,6 +182,6 @@ def wget(url, file=None, proxy_host=None, proxy_port=None, proxy_user=None, prox
 
     else:
         logger.info("not proxy connect - %s" % (url))
-        urllib.urlretrieve(url, file)
+        urllib.request.urlretrieve(url, file)
         return True
 

@@ -39,8 +39,8 @@ try:
     from karesansui.lib.virt.virt import KaresansuiVirtConnection
     from karesansui.lib.utils import load_locale
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -87,12 +87,12 @@ class SetMemory(KssCommand):
 
                     self.logger.info('Set memory size. - dom=%s max=%d mem=%d' \
                                      % (opts.name, info['maxMem'], info['memory']))
-                    print >>sys.stdout, _('Set memory size. - dom=%s max=%d mem=%d') \
-                          % (opts.name, info['maxMem'], info['memory'])
+                    print(_('Set memory size. - dom=%s max=%d mem=%d') \
+                          % (opts.name, info['maxMem'], info['memory']), file=sys.stdout)
 
-                except Exception, e:
+                except Exception as e:
                     self.logger.error('Failed to set memory size. - dom=%s' % (opts.name))
-                    print >>sys.stderr, _('Failed to set memory size. - dom=%s') % (opts.name)
+                    print(_('Failed to set memory size. - dom=%s') % (opts.name), file=sys.stderr)
                     raise e
 
             else:

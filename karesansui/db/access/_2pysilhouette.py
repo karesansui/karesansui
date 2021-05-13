@@ -184,7 +184,7 @@ def corp(karesansui_session,
             break
         time.sleep(waittime)
 
-    print 'Reading JobGroup - runtime=%d' % (int(time.time() - start_time))
+    print('Reading JobGroup - runtime=%d' % (int(time.time() - start_time)))
     logger.fatal('Reading JobGroup - runtime=%d' % (int(time.time() - start_time)))
     return res
 

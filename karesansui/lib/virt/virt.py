@@ -564,7 +564,7 @@ class KaresansuiVirtConnection:
             xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, guest.name())
             dom = self._conn.lookupByName(guest.name())
             if not os.path.exists(xml_file):
-                if dom._conn.getURI() in available_virt_uris().values():
+                if dom._conn.getURI() in list(available_virt_uris().values()):
                     ConfigFile(xml_file).write(dom.XMLDesc(0))
                     if os.getuid() == 0 and os.path.exists(xml_file):
                         r_chgrp(xml_file,KARESANSUI_GROUP)
@@ -593,7 +593,7 @@ class KaresansuiVirtConnection:
             xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, guest.name())
             dom = self._conn.lookupByName(guest.name())
             if not os.path.exists(xml_file):
-                if dom._conn.getURI() in available_virt_uris().values():
+                if dom._conn.getURI() in list(available_virt_uris().values()):
                     ConfigFile(xml_file).write(dom.XMLDesc(0))
                     if os.getuid() == 0 and os.path.exists(xml_file):
                         r_chgrp(xml_file,KARESANSUI_GROUP)
@@ -880,11 +880,7 @@ class KaresansuiVirtConnection:
 
         config = "%s/%s.xml" %(VIRT_XML_CONFIG_DIR,name,)
         if os.path.exists(config):
-            f = open(config, "r")
-            cfgxml= f.read()
-            f.close()
-            self._conn.defineXML(cfgxml)
-
+            
             r_chmod(config,"o-rwx")
             r_chmod(config,"g+rw")
             if os.getuid() == 0:
@@ -984,13 +980,13 @@ class KaresansuiVirtConnection:
 
         vols = self.get_storage_volume_bydomain(name, 'os')
         if vols:
-            vol_path = "%s/%s" % (domains_dir, vols.keys()[0])
+            vol_path = "%s/%s" % (domains_dir, list(vols.keys())[0])
         else:
             vol_path = "%s/%s" % (domains_dir, volume)
 
         try:
             self.destroy_guest(name)
-        except libvirt.libvirtError, e:
+        except libvirt.libvirtError as e:
             self.logger.info("Could not remove the guest. - name=%s" % name)
 
         try:
@@ -1134,7 +1130,7 @@ class KaresansuiVirtConnection:
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, source_name)
         dom = self._conn.lookupByName(source_name)
         if not os.path.exists(xml_file):
-            if dom._conn.getURI() in available_virt_uris().values():
+            if dom._conn.getURI() in list(available_virt_uris().values()):
                 ConfigFile(xml_file).write(dom.XMLDesc(0))
                 if os.getuid() == 0 and os.path.exists(xml_file):
                     r_chgrp(xml_file,KARESANSUI_GROUP)
@@ -1371,7 +1367,7 @@ class KaresansuiVirtConnection:
                 self.guest.get_domain_name(), 'disk', 'key')
 
             disks_info = []
-            for key in disk_keys.keys():
+            for key in list(disk_keys.keys()):
                 _volume = key
                 _path = disk_keys[key]
                 _pool_name = self.get_storage_pool_name_byimage(_path)
@@ -1599,7 +1595,7 @@ class KaresansuiVirtConnection:
                 dst_symlinks.append("%s/%s" % (pool.get_json()['target']['path'], volume))
 
             copy_file_cb(src_files,dst_files,progresscb,each=False)
-            for i in xrange(len(dst_symlinks)):
+            for i in range(len(dst_symlinks)):
                 os.symlink(dst_files[i], dst_symlinks[i])
 
 
@@ -1707,7 +1703,7 @@ class KaresansuiVirtConnection:
 
         try:
             retval = self.guest.get_info()['VMType']
-        except libvirt.libvirtError, e:
+        except libvirt.libvirtError as e:
             pass
 
         return retval
@@ -1814,9 +1810,9 @@ class KaresansuiVirtConnection:
         param.set_default_networks(cidr,dhcp_start,dhcp_end)
         param.set_ipaddr_and_netmask(cidr)
         if forward:
-            if 'dev' in forward.keys():
+            if 'dev' in list(forward.keys()):
                 param.set_forward_dev(forward['dev'])
-            if 'mode' in forward.keys():
+            if 'mode' in list(forward.keys()):
                 param.set_forward_mode(forward['mode'])
         if bridge:
             param.set_bridge(bridge)
@@ -1878,12 +1874,12 @@ class KaresansuiVirtConnection:
         if dhcp_end:
             param.set_dhcp_end(dhcp_end)
         if forward:
-            if 'dev' in forward.keys():
+            if 'dev' in list(forward.keys()):
                 if forward['dev'] == '':
                     param.set_forward_dev(None)
                 else:
                     param.set_forward_dev(forward['dev'])
-            if 'mode' in forward.keys():
+            if 'mode' in list(forward.keys()):
                 if forward['mode'] == '':
                     param.set_forward_mode(None)
                 else:
@@ -2010,7 +2006,7 @@ class KaresansuiVirtConnection:
         """
         pools = self._conn.listDefinedStoragePools()
         ret = []
-        for i in xrange(len(pools)):
+        for i in range(len(pools)):
             path = "%s/%s.xml" % (VIRT_STORAGE_CONFIG_DIR, pools[i])
             if os.path.isfile(path) is False:
                 continue
@@ -2313,7 +2309,7 @@ class KaresansuiVirtConnection:
         try:
             vir_storage_vol = self.storage_volume._conn.storageVolLookupByPath(path)
             return True
-        except libvirt.libvirtError, e:
+        except libvirt.libvirtError as e:
             # _("The specified path is not registered in the storage volume. '%s' (%s)")
             return False
 
@@ -2334,7 +2330,7 @@ class KaresansuiVirtConnection:
                 return vol
             if vol_name in pools[0].listVolumes():
                 vol = pools[0].storageVolLookupByName(vol_name)
-        except libvirt.libvirtError, e:
+        except libvirt.libvirtError as e:
             return vol
 
         return vol
@@ -2354,7 +2350,7 @@ class KaresansuiVirtConnection:
                 return None
             vol_path = vol.path()
             return vol_path
-        except libvirt.libvirtError, e:
+        except libvirt.libvirtError as e:
             return None
 
     def get_storage_pool_UUIDString2kvn_storage_pool(self, uuidstr):
@@ -2651,7 +2647,7 @@ class KaresansuiVirtConnection:
                 name        = pool_info['name']
                 pool_type   = pool_info['type']
 
-                for vol_name,vol_path in self.get_storage_volume_bypool(name, attr="path").iteritems():
+                for vol_name,vol_path in self.get_storage_volume_bypool(name, attr="path").items():
                     for _path in paths:
                         if pool_type == "dir":
                             if ( vol_path == _path or os.path.realpath(vol_path) == _path ) and not name in retval:
@@ -2913,11 +2909,11 @@ class KaresansuiVirtConnection:
                 if len(pools) > 0:
                     for _pool in pools:
                         vols = self.get_storage_volume_bypool(_pool, attr=attr)
-                        for vol,value in vols.iteritems():
+                        for vol,value in vols.items():
                             path = self.get_storage_volume_iscsi_rpath_bystorage(_pool,vol)
                             if path[0:5] != "/dev/":
                                 path = os.path.realpath(path)
-                            if source == path and not vol in retval.keys():
+                            if source == path and not vol in list(retval.keys()):
                                 retval[vol] = value
 
         except:
@@ -2982,7 +2978,7 @@ class KaresansuiVirtConnection:
             name = pool.get_storage_name()
             if self.get_storage_pool_type(name) == 'iscsi':
                 volumes = self.get_storage_volume_bypool(name, 'key')
-                for vkey in volumes.keys():
+                for vkey in list(volumes.keys()):
                     if rpath == volumes[vkey]:
                         ret = {"pool" : name,
                                "volume" : vkey,
@@ -3079,7 +3075,7 @@ class KaresansuiVirtGuest:
             param = ConfigParam(dom.name())
             xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, dom.name())
             if not os.path.exists(xml_file):
-                if dom._conn.getURI() in available_virt_uris().values():
+                if dom._conn.getURI() in list(available_virt_uris().values()):
                     ConfigFile(xml_file).write(dom.XMLDesc(0))
                     if os.getuid() == 0 and os.path.exists(xml_file):
                         r_chgrp(xml_file,KARESANSUI_GROUP)
@@ -3138,11 +3134,11 @@ class KaresansuiVirtGuest:
         if self.get_info()["VMType"] == "kvm":
             #eth_info = get_ifconfig_info("regex:^eth")
             eth_info = get_ifconfig_info("regex:^br")
-            for dev,value in eth_info.iteritems():
+            for dev,value in eth_info.items():
                 info[dev] = value
         else:
             vif_info = get_ifconfig_info("regex:^vif%d\.[0-9]" % dom_id)
-            for dev,value in vif_info.iteritems():
+            for dev,value in vif_info.items():
                 dev = dev.replace("vif%d." % (dom_id,), "eth")
                 info[dev] = value
         return info
@@ -3154,7 +3150,7 @@ class KaresansuiVirtGuest:
         param = ConfigParam(dom.name())
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, dom.name())
         if not os.path.exists(xml_file):
-            if dom._conn.getURI() in available_virt_uris().values():
+            if dom._conn.getURI() in list(available_virt_uris().values()):
                 ConfigFile(xml_file).write(dom.XMLDesc(0))
                 if os.getuid() == 0 and os.path.exists(xml_file):
                     r_chgrp(xml_file,KARESANSUI_GROUP)
@@ -3212,7 +3208,7 @@ class KaresansuiVirtGuest:
         param = ConfigParam(dom.name())
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, dom.name())
         if not os.path.exists(xml_file):
-            if dom._conn.getURI() in available_virt_uris().values():
+            if dom._conn.getURI() in list(available_virt_uris().values()):
                 ConfigFile(xml_file).write(dom.XMLDesc(1))
                 if os.getuid() == 0 and os.path.exists(xml_file):
                     r_chgrp(xml_file,KARESANSUI_GROUP)
@@ -3248,7 +3244,7 @@ class KaresansuiVirtGuest:
         param = ConfigParam(dom.name())
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, dom.name())
         if not os.path.exists(xml_file):
-            if dom._conn.getURI() in available_virt_uris().values():
+            if dom._conn.getURI() in list(available_virt_uris().values()):
                 ConfigFile(xml_file).write(dom.XMLDesc(0))
                 if os.getuid() == 0 and os.path.exists(xml_file):
                     r_chgrp(xml_file,KARESANSUI_GROUP)
@@ -3293,7 +3289,7 @@ class KaresansuiVirtGuest:
         param = ConfigParam(dom.name())
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, dom.name())
         if not os.path.exists(xml_file):
-            if dom._conn.getURI() in available_virt_uris().values():
+            if dom._conn.getURI() in list(available_virt_uris().values()):
                 ConfigFile(xml_file).write(dom.XMLDesc(0))
                 if os.getuid() == 0 and os.path.exists(xml_file):
                     r_chgrp(xml_file,KARESANSUI_GROUP)
@@ -3318,7 +3314,7 @@ class KaresansuiVirtGuest:
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
         dom = self._conn.lookupByName(self.get_domain_name())
         if not os.path.exists(xml_file):
-            if dom._conn.getURI() in available_virt_uris().values():
+            if dom._conn.getURI() in list(available_virt_uris().values()):
                 ConfigFile(xml_file).write(dom.XMLDesc(0))
                 if os.getuid() == 0 and os.path.exists(xml_file):
                     r_chgrp(xml_file,KARESANSUI_GROUP)
@@ -3436,7 +3432,7 @@ class KaresansuiVirtGuest:
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
         dom = self._conn.lookupByName(self.get_domain_name())
         if not os.path.exists(xml_file):
-            if dom._conn.getURI() in available_virt_uris().values():
+            if dom._conn.getURI() in list(available_virt_uris().values()):
                 ConfigFile(xml_file).write(dom.XMLDesc(0))
                 if os.getuid() == 0 and os.path.exists(xml_file):
                     r_chgrp(xml_file,KARESANSUI_GROUP)
@@ -3455,7 +3451,7 @@ class KaresansuiVirtGuest:
     def autostart(self, flag=None):
         dom = self._conn.lookupByName(self.get_domain_name())
 
-        if dom._conn.getURI() in available_virt_uris().values():
+        if dom._conn.getURI() in list(available_virt_uris().values()):
             if self.connection.get_hypervisor_type() == "Xen":
                 autostart_file = "%s/%s" %(VIRT_XENDOMAINS_AUTO_DIR,self.get_domain_name())
 
@@ -3499,7 +3495,7 @@ class KaresansuiVirtGuest:
         param = ConfigParam(dom.name())
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, dom.name())
         if not os.path.exists(xml_file):
-            if dom._conn.getURI() in available_virt_uris().values():
+            if dom._conn.getURI() in list(available_virt_uris().values()):
                 ConfigFile(xml_file).write(dom.XMLDesc(0))
                 if os.getuid() == 0 and os.path.exists(xml_file):
                     r_chgrp(xml_file,KARESANSUI_GROUP)
@@ -3572,7 +3568,7 @@ class KaresansuiVirtGuest:
 
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
         if not os.path.exists(xml_file):
-            if dom._conn.getURI() in available_virt_uris().values():
+            if dom._conn.getURI() in list(available_virt_uris().values()):
                 ConfigFile(xml_file).write(dom.XMLDesc(0))
                 if os.getuid() == 0 and os.path.exists(xml_file):
                     r_chgrp(xml_file,KARESANSUI_GROUP)
@@ -3637,7 +3633,7 @@ class KaresansuiVirtGuest:
 
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
         if not os.path.exists(xml_file):
-            if dom._conn.getURI() in available_virt_uris().values():
+            if dom._conn.getURI() in list(available_virt_uris().values()):
                 ConfigFile(xml_file).write(dom.XMLDesc(0))
                 if os.getuid() == 0 and os.path.exists(xml_file):
                     r_chgrp(xml_file,KARESANSUI_GROUP)
@@ -3676,9 +3672,9 @@ class KaresansuiVirtGuest:
 
             if status == VIR_DOMAIN_PAUSED:
                 self.suspend()
-        except KaresansuiConfigParamException, e:
+        except KaresansuiConfigParamException as e:
             raise e
-        except Exception, e:
+        except Exception as e:
             raise e
 
         sync_config_generator(param, self.get_domain_name())
@@ -3691,7 +3687,7 @@ class KaresansuiVirtGuest:
 
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
         if not os.path.exists(xml_file):
-            if dom._conn.getURI() in available_virt_uris().values():
+            if dom._conn.getURI() in list(available_virt_uris().values()):
                 ConfigFile(xml_file).write(dom.XMLDesc(0))
                 if os.getuid() == 0 and os.path.exists(xml_file):
                     r_chgrp(xml_file,KARESANSUI_GROUP)
@@ -3749,7 +3745,7 @@ class KaresansuiVirtGuest:
 
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
         if not os.path.exists(xml_file):
-            if dom._conn.getURI() in available_virt_uris().values():
+            if dom._conn.getURI() in list(available_virt_uris().values()):
                 ConfigFile(xml_file).write(dom.XMLDesc(0))
                 if os.getuid() == 0 and os.path.exists(xml_file):
                     r_chgrp(xml_file,KARESANSUI_GROUP)
@@ -3816,7 +3812,7 @@ class KaresansuiVirtGuest:
 
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
         if not os.path.exists(xml_file):
-            if dom._conn.getURI() in available_virt_uris().values():
+            if dom._conn.getURI() in list(available_virt_uris().values()):
                 ConfigFile(xml_file).write(dom.XMLDesc(0))
                 if os.getuid() == 0 and os.path.exists(xml_file):
                     r_chgrp(xml_file,KARESANSUI_GROUP)
@@ -3863,7 +3859,7 @@ class KaresansuiVirtGuest:
 
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
         if not os.path.exists(xml_file):
-            if dom._conn.getURI() in available_virt_uris().values():
+            if dom._conn.getURI() in list(available_virt_uris().values()):
                 ConfigFile(xml_file).write(dom.XMLDesc(0))
                 if os.getuid() == 0 and os.path.exists(xml_file):
                     r_chgrp(xml_file,KARESANSUI_GROUP)
@@ -3895,7 +3891,7 @@ class KaresansuiVirtGuest:
 
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
         if not os.path.exists(xml_file):
-            if dom._conn.getURI() in available_virt_uris().values():
+            if dom._conn.getURI() in list(available_virt_uris().values()):
                 ConfigFile(xml_file).write(dom.XMLDesc(0))
                 if os.getuid() == 0 and os.path.exists(xml_file):
                     r_chgrp(xml_file,KARESANSUI_GROUP)
@@ -3934,7 +3930,7 @@ class KaresansuiVirtGuest:
 
         xml_file = "%s/%s.xml" % (VIRT_XML_CONFIG_DIR, self.get_domain_name())
         if not os.path.exists(xml_file):
-            if dom._conn.getURI() in available_virt_uris().values():
+            if dom._conn.getURI() in list(available_virt_uris().values()):
                 ConfigFile(xml_file).write(dom.XMLDesc(0))
                 if os.getuid() == 0 and os.path.exists(xml_file):
                     r_chgrp(xml_file,KARESANSUI_GROUP)
@@ -4091,7 +4087,7 @@ class KaresansuiVirtNetwork:
         net = self._conn.networkLookupByName(self.get_network_name())
         try:
             net.create()
-        except libvirt.libvirtError, e:
+        except libvirt.libvirtError as e:
             raise KaresansuiVirtException(_("Could not start network '%s' (%s)") % (self.network_name, e))
 
     def stop(self):
@@ -4101,7 +4097,7 @@ class KaresansuiVirtNetwork:
             # if net.isActive() != 0:
             if net.name() in self._conn.listNetworks():
                 net.destroy()
-        except libvirt.libvirtError, e:
+        except libvirt.libvirtError as e:
             raise KaresansuiVirtException(_("Could not stop network '%s' (%s)") % (self.network_name, e))
 
     def undefine(self):
@@ -4137,7 +4133,7 @@ class KaresansuiVirtNetwork:
         try:
             net = self._conn.networkLookupByName(self.get_network_name())
             autostart = net.autostart()
-        except Exception, e:
+        except Exception as e:
             raise KaresansuiVirtException("Could not get network: %s"
                                             % str(e))
 
@@ -4224,7 +4220,7 @@ class KaresansuiVirtStoragePool(KaresansuiVirtStorage):
         pool = self._conn.storagePoolLookupByName(self.get_storage_name())
         try:
             return pool.build(libvirt.VIR_STORAGE_POOL_BUILD_NEW)
-        except Exception, e:
+        except Exception as e:
             raise KaresansuiVirtException("Could not build storage pool: %s"
                                             % str(e))
 
@@ -4236,7 +4232,7 @@ class KaresansuiVirtStoragePool(KaresansuiVirtStorage):
             ret = pool.create(flags)
             pool.refresh(0)
             return ret
-        except Exception, e:
+        except Exception as e:
             raise KaresansuiVirtException("Could not create storage pool: %s"
                                             % str(e))
 
@@ -4248,7 +4244,7 @@ class KaresansuiVirtStoragePool(KaresansuiVirtStorage):
         try:
             ret = self._conn.storagePoolDefineXML(cfgxml, flags) # virStoragePoolDefineXML
             #ret = libvirtmod.virStoragePoolCreateXML(self._conn._o,cfgxml, 0)
-        except libvirt.libvirtError, e:
+        except libvirt.libvirtError as e:
             raise KaresansuiVirtException("Could not start pool '%s' (%s)" \
                                           % (self.get_storage_name, e))
         ret1 = self.build()
@@ -4265,7 +4261,7 @@ class KaresansuiVirtStoragePool(KaresansuiVirtStorage):
         pool = self._conn.storagePoolLookupByName(self.get_storage_name())
         try:
             return pool.destroy()
-        except Exception, e:
+        except Exception as e:
             raise KaresansuiVirtException("Could not destroy storage pool: %s" \
                                             % str(e))
 
@@ -4273,7 +4269,7 @@ class KaresansuiVirtStoragePool(KaresansuiVirtStorage):
         pool = self._conn.storagePoolLookupByName(self.get_storage_name())
         try:
             return pool.delete(flags)
-        except Exception, e:
+        except Exception as e:
             raise KaresansuiVirtException("Could not delete storage pool: %s" \
                                             % str(e))
 
@@ -4310,7 +4306,7 @@ class KaresansuiVirtStoragePool(KaresansuiVirtStorage):
     def get_info(self):
         try:
             pool = self._conn.storagePoolLookupByName(self.get_storage_name())
-        except Exception, e:
+        except Exception as e:
             raise KaresansuiVirtException("Could not get the storage pool: %s" \
                                             % str(e))
 
@@ -4350,7 +4346,7 @@ class KaresansuiVirtStoragePool(KaresansuiVirtStorage):
         pool = self._conn.storagePoolLookupByName(self.get_storage_name())
         try:
             return pool.createXML(xmldesc, flags)
-        except Exception, e:
+        except Exception as e:
             raise KaresansuiVirtException("Could not create storage volume: %s" % str(e))
 
     def vol_numOfVolumes(self):
@@ -4395,7 +4391,7 @@ class KaresansuiVirtStorageVolume(KaresansuiVirtStorage):
         try:
             vol = pool.storageVolLookupByName(self.get_storage_volume_name())
             return vol.delete(flags)
-        except Exception, e:
+        except Exception as e:
             raise KaresansuiVirtException("Could not delete storage volume: %s"
                                             % str(e))
 
@@ -4417,14 +4413,14 @@ class KaresansuiVirtStorageVolume(KaresansuiVirtStorage):
         pool = self._conn.storagePoolLookupByName(self.get_storage_name())
         try:
             vol = pool.storageVolLookupByName(self.get_storage_volume_name())
-        except Exception, e:
+        except Exception as e:
             raise KaresansuiVirtException("Could not get the storage volume: %s"
                                             % str(e))
 
         param = StorageVolumeConfigParam(self.get_storage_name())
         try:
             param.load_xml_config(vol.XMLDesc(0))
-        except libvirt.libvirtError, le:
+        except libvirt.libvirtError as le:
             # TODO test!!
             self.connection.refresh_pools()
             param.load_xml_config(vol.XMLDesc(0))

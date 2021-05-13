@@ -241,16 +241,16 @@ if __name__ == '__main__':
     #preprint_r(conf)
 
     parser.do_stop()
-    print parser.is_running()
+    print(parser.is_running())
     parser.do_start()
-    print parser.is_running()
+    print(parser.is_running())
     parser.do_stop()
-    print parser.is_running()
+    print(parser.is_running())
 
     parser.write_conf(conf,dryrun=True)
     #parser.do_sync(True)
-    print parser.do_sync(False)
+    print(parser.do_sync(False))
 
     contents = open("/etc/sysconfig/iptables.corrupted").read()
-    print parser.do_lint(contents)
+    print(parser.do_lint(contents))
 

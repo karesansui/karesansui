@@ -41,8 +41,8 @@ try:
     from karesansui.lib.utils import gettimeofday
     from karesansui.lib.utils import load_locale
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -61,7 +61,7 @@ class GetMemoryUsage(KssCommand):
                 id = guest.ID()
                 if id > -1:
                     name = guest.name()
-                    print name
+                    print(name)
                     info = guest.info()
                     maxMem = info[1]
                     memory = info[2]
@@ -69,7 +69,7 @@ class GetMemoryUsage(KssCommand):
                     pcentCurrMem = memory * 100.0 / (nodeinfo["memory"]*1024)
                     pcentMaxMem  = maxMem * 100.0 / (nodeinfo["memory"]*1024)
                     
-                    print "%.3f%%" % pcentCurrMem
+                    print("%.3f%%" % pcentCurrMem)
                     #print pcentMaxMem
                     
             return True

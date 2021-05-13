@@ -431,11 +431,11 @@ class DictOp:
                     if type(_value) == list:
                         for _value2 in _value:
                             if type(_value2) == dict:
-                                for _k2,_v2 in _value2.iteritems():
+                                for _k2,_v2 in _value2.items():
                                     r_key = key + [_k2]
                                     self._comment(module, r_key, flag, recursive, is_cdp, multiple_file)
                     elif type(_value) == dict:
-                        for _k2,_v2 in _value.iteritems():
+                        for _k2,_v2 in _value.items():
                             r_key = key + [_k2]
                             self._comment(module, r_key, flag, recursive, is_cdp, multiple_file)
 
@@ -455,7 +455,7 @@ class DictOp:
         retval = self.get(module,key)
         if type(retval) is dict:
             new_retval = []
-            for _k,_v in retval.iteritems():
+            for _k,_v in retval.items():
                 new_retval.append(_k)
             retval = new_retval
 

@@ -141,7 +141,7 @@ def read_log(path, max_line, log_config, start_datetime="", end_datetime="", key
 
     try:
         fd = open(path, "r")
-    except Exception,e:
+    except Exception as e:
         raise
         
     if is_gzip(fd):

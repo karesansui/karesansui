@@ -177,14 +177,14 @@ class MAIL_LIB:
 
         if self.timeout is not None:
             if self.verbose is True:
-                print "set timeout %d seconds" % self.timeout
+                print("set timeout %d seconds" % self.timeout)
             socket.setdefaulttimeout(self.timeout)
 
         try:
             s = smtplib.SMTP(self.smtp_server,self.smtp_port)
-        except socket.error, msg:
+        except socket.error as msg:
             if self.verbose is True:
-                print >>sys.stderr, "Error: %s." % msg
+                print("Error: %s." % msg, file=sys.stderr)
             raise MAIL_LIB_Exception("Error: %s." % msg)
         except:
             raise MAIL_LIB_Exception("Error: connection error")
@@ -193,16 +193,16 @@ class MAIL_LIB:
         if self.tls is True:
             s.ehlo()
             if self.verbose is True:
-                print "send starttls cmd..."
+                print("send starttls cmd...")
             s.starttls()
         if self.auth_user is not None and self.auth_passwd is not None:
             s.ehlo()
             if self.verbose is True:
-                print "send login cmd..."
+                print("send login cmd...")
             s.login(self.auth_user, self.auth_passwd)
 
         if self.verbose is True:
-            print "send mail to %s..." % ",".join(self.recipients)
+            print("send mail to %s..." % ",".join(self.recipients))
         s.sendmail(self.sender, self.recipients, self.msg.as_string())
         s.close()
 

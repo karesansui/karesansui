@@ -42,11 +42,11 @@ def sha1encrypt(v):
     TODO: English Comment
     </comment-en>
     """
-    salt = ''
-    for x in xrange(0,16):
+    salt = str()
+    for x in range(0,16):
         salt += random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
-
-    r = sha(v+salt).hexdigest()
+ 
+    r = sha(v.encode('ascii')+salt.encode('ascii')).hexdigest()
     return r, salt
 
 def sha1compare(target, plain, salt=''):
@@ -65,7 +65,7 @@ def sha1compare(target, plain, salt=''):
     TODO: English Comment
     </comment-en>
     """
-    x = sha(plain+salt).hexdigest()
+    x = sha(plain.encode('ascii')+salt.encode('ascii')).hexdigest()
     if target == x:
         return True
     else:
@@ -75,11 +75,11 @@ if __name__ == '__main__':
     """Testing
     """
     word = 'password'
-    print 'word=' + word
+    print('word=' + word)
     v, salt = sha1encrypt(word)
-    print 'encrypt=' + v
-    print 'salt=' + salt
+    print('encrypt=' + v)
+    print('salt=' + salt)
     if sha1compare(v, word, salt) is True:
-        print 'Success'
+        print('Success')
     else:
-        print 'Failure'
+        print('Failure')

@@ -98,7 +98,7 @@ class HostBy1NetworkSettings(Rest):
         if self.is_mode_input() is True:
             exist_bond_max_num = -1
             exist_bond_list = get_ifconfig_info("regex:^bond")
-            for bond_name in exist_bond_list.keys():
+            for bond_name in list(exist_bond_list.keys()):
                 try:
                     num = int(bond_name.replace("bond",""))
                 except ValueError:
@@ -159,7 +159,7 @@ class HostBy1NetworkSettings(Rest):
         primary = self.input.bonding_target_dev_primary
         mode    = self.input.bonding_mode
 
-        cmdname = u"Add Bonding Setting"
+        cmdname = "Add Bonding Setting"
         cmd = BONDING_COMMAND_ADD
         options = {}
 
@@ -203,7 +203,7 @@ class HostBy1NetworkSettings(Rest):
         if status != NETWORK_RESTART:
             return web.badrequest()
 
-        cmdname = u"Restart Network"
+        cmdname = "Restart Network"
         cmd = NETWORK_COMMAND_RESTART
         options = {}
 

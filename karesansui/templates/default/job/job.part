@@ -174,7 +174,7 @@ $(document).ready(function(){
                                                     selected="selected"
 % endif
                                                     >-</option>
-% for k,v in JOBGROUP_STATUS.iteritems():
+% for k,v in JOBGROUP_STATUS.items():
                                                     <option value="${v}"
     % if status == v:
                                                     selected="selected"
@@ -255,7 +255,7 @@ $(document).ready(function(){
         % endif
     % endfor
 
-    % for k,v in JOBGROUP_STATUS.iteritems():
+    % for k,v in JOBGROUP_STATUS.items():
         % if v == x.status:
                                                 <td>
             % if v == JOBGROUP_STATUS['NG'] or v == JOBGROUP_STATUS['APPERR']:

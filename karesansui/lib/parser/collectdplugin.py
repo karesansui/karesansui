@@ -131,7 +131,7 @@ class collectdpluginParser:
 
         conf_arr = self._pre_write_conf(conf_arr)
 
-        for plugin_name,_v in conf_arr.iteritems():
+        for plugin_name,_v in conf_arr.items():
 
             _afile = "%s/%s.conf" % (PARSER_COLLECTD_PLUGIN_DIR,plugin_name,)
             try:
@@ -207,7 +207,7 @@ if __name__ == '__main__':
     dop.cdp_set("dum",[new_plugin_name,"Plugin","foobar","View","hoge","SubOpt1"],"gege",multiple_file=True)
     dop.cdp_set_post_comment("dum",[new_plugin_name,"Plugin","foobar","View","hoge","SubOpt1"],"post",multiple_file=True)
 
-    print dop.get("dum",["filter","@ORDERS"],multiple_file=True)
+    print(dop.get("dum",["filter","@ORDERS"],multiple_file=True))
 
     # 複数ファイルを読み込むパーサーの場合は、is_parent_parser=Trueにすること
     # '<Plugin foobar>' を 先頭にする

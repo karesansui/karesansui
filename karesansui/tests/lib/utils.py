@@ -93,7 +93,7 @@ class SuiteUtils(unittest.TestSuite):
                  'test_execute_command_success',
                  'test_execute_command_failure',
                  ]
-        unittest.TestSuite.__init__(self,map(TestUtils, tests))
+        unittest.TestSuite.__init__(self,list(map(TestUtils, tests)))
 
 def all_suite_utils():
     return unittest.TestSuite([SuiteUtils()])

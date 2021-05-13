@@ -141,7 +141,7 @@ def validates_pool_iscsi(obj, now_pools):
 # create job
 def create_pool_dir_job(obj, machine, name, type_, target_path,
                         options={}, rollback_options={}):
-    cmdname = u"Create Storage Pool"
+    cmdname = "Create Storage Pool"
     cmd = VIRT_COMMAND_CREATE_STORAGE_POOL
 
     options['name'] = name
@@ -184,7 +184,7 @@ def create_pool_dir_job(obj, machine, name, type_, target_path,
 # create job
 def create_pool_iscsi_job(obj, machine, name, type_, host_name, device_path, automount_list,
                           options={}, rollback_options={}):
-    cmdname = u"Create Storage Pool"
+    cmdname = "Create Storage Pool"
     cmd = VIRT_COMMAND_CREATE_STORAGE_POOL
 
     options['name'] = name

@@ -124,7 +124,7 @@ class Init(Rest):
 
         self.view.database_bind = karesansui.config['database.bind'] 
         self.view.default_locale = karesansui.config['application.default.locale'] 
-        self.view.locales = DEFAULT_LANGS.keys()
+        self.view.locales = list(DEFAULT_LANGS.keys())
 
         if karesansui_database_exists() is True:
             return web.tempredirect("/", absolute=False)
@@ -149,23 +149,23 @@ class Init(Rest):
             metadata.drop_all()   
             metadata.tables['machine2jobgroup'].create()
             metadata.create_all()   
-        except Exception, e:
+        except Exception as e:
             traceback.format_exc()
             raise Exception('Initializing/Updating a database error - %s' % ''.join(e.args))
 
         (password, salt) = sha1encrypt(self.input.password)
 
-        user  = User(u"%s" % self.input.email,
-                              unicode(password),
-                              unicode(salt),
-                              u"%s" % self.input.nickname,
-                              u"%s" % self.input.languages,
+        user  = User("%s" % self.input.email,
+                              str(password),
+                              str(salt),
+                              "%s" % self.input.nickname,
+                              "%s" % self.input.languages,
                               )
         session.add(user)
         session.commit()
 
         # Tag Table set.
-        tag = Tag(u"default")
+        tag = Tag("default")
         session.add(tag)
         session.commit()
         
@@ -173,17 +173,17 @@ class Init(Rest):
         #user = session.query(User).filter(User.email == self.input.email).first()
         uuid = string_from_uuid(generate_uuid())
         fqdn = socket.gethostname() 
-        notebook = Notebook(u"", u"")
+        notebook = Notebook("", "")
         machine  = Machine(user,
                        user,
-                       u"%s" % uuid,
-                       u"%s" % fqdn,
+                       "%s" % uuid,
+                       "%s" % fqdn,
                        MACHINE_ATTRIBUTE['HOST'],
                        MACHINE_HYPERVISOR['REAL'],
                        notebook,
                        [tag],
-                       u"%s" % fqdn,
-                       u'icon-guest1.png',
+                       "%s" % fqdn,
+                       'icon-guest1.png',
                        False,
                        None,
                       )

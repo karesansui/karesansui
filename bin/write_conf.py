@@ -47,8 +47,8 @@ try:
     from karesansui.lib.utils import php_array_to_python_dict
     from karesansui.lib.dict_op import DictOp
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()

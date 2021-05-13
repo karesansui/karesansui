@@ -142,7 +142,7 @@ class NetworkAddress:
                 mask = (int(x) << (24 - 8*cnt)) | mask
                 cnt = cnt + 1
             flag = True
-            for x in xrange(32):
+            for x in range(32):
                 bit = mask & (0x01 << 31-x)
                 if bit > 0:
                     if flag == False:
@@ -265,7 +265,7 @@ class NetworkAddress:
         for x in octets:
             mask = (int(x) << (24 - 8*cnt)) | mask
             cnt = cnt + 1
-        for x in xrange(32):
+        for x in range(32):
             bit = mask & (0x01 << 31-x)
             if bit > 0:
                 netlen = netlen + 1
@@ -292,7 +292,7 @@ class NetworkAddress:
         """
         netmask_bit = "%08x" %( (0xffffffff >> netlen) ^ 0xffffffff)
         netmask = ''
-        for x in xrange(0,8,2):
+        for x in range(0,8,2):
             if netmask != '':
                 netmask += "."
             netmask += str(int(netmask_bit[x:x+2],16))
@@ -354,7 +354,7 @@ class NetworkAddress:
                 cnt = cnt + 1
             broadcast_bit = "%08x" %( mask | bit )
             self.broadcast = ''
-            for x in xrange(0,8,2):
+            for x in range(0,8,2):
                 if self.broadcast != '':
                     self.broadcast += "."
                 if x == 6:
@@ -419,7 +419,7 @@ class NetworkAddress:
     def addrtonum(cls, addr):
         num = 0
         fields = addr.split('.')
-        for i in xrange(0, len(fields)):
+        for i in range(0, len(fields)):
             num += pow(256, len(fields) - i - 1) * int(fields[i])
         return num
 

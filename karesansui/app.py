@@ -34,13 +34,13 @@ import traceback
 from os import environ as env
 import logging
 
-from prep import fcgi, built_in, chkconfig, have_privilege
+from .prep import fcgi, built_in, chkconfig, have_privilege
 
 # Initialization
 if __name__ == "__main__":
     (config, opts, args) = built_in() # build-in server
     
-elif env.has_key('FCGI') is True:
+elif ('FCGI' in env) is True:
     (config, opts, args) = fcgi() # FastCGI server
     
 else:
@@ -48,13 +48,13 @@ else:
 
 try:
     import karesansui
-except ImportError, e:
-    print >>sys.stderr, '[Error] There are not enough libraries. - %s' % ''.join(e.args)
+except ImportError as e:
+    print('[Error] There are not enough libraries. - %s' % ''.join(e.args), file=sys.stderr)
     traceback.format_exc()
     sys.exit(1)
     
 if not karesansui.config:
-    print >>sys.stderr, '[Error] Failed to load configuration file.'
+    print('[Error] Failed to load configuration file.', file=sys.stderr)
     sys.exit(1)
 
 if chkconfig(karesansui.config) is False:
@@ -62,8 +62,8 @@ if chkconfig(karesansui.config) is False:
 
 # Check privilege
 if have_privilege() is not True:
-    from lib.const import KARESANSUI_GROUP
-    print >>sys.stderr, "[Error] Only users who belong to '%s' group are able to run this program." % KARESANSUI_GROUP
+    from .lib.const import KARESANSUI_GROUP
+    print("[Error] Only users who belong to '%s' group are able to run this program." % KARESANSUI_GROUP, file=sys.stderr)
     sys.exit(1)
 
 # Import
@@ -73,14 +73,14 @@ try:
     import web
     import mako
     import sqlalchemy
-    if env.has_key('FCGI') is True:
+    if ('FCGI' in env) is True:
         import flup
     import simplejson
     import libvirt
     # pysilhouette module
     import pysilhouette
-except ImportError, e:
-    print >>sys.stderr, '[Error] There are not enough libraries. - %s' % ''.join(e.args)
+except ImportError as e:
+    print('[Error] There are not enough libraries. - %s' % ''.join(e.args), file=sys.stderr)
     traceback.format_exc()
     sys.exit(1)
 
@@ -89,7 +89,7 @@ from pysilhouette.prep import readconf
 karesansui.sheconf = readconf(karesansui.config['pysilhouette.conf.path'])
 
 if karesansui.sheconf is None:
-    print >>sys.stderr, '[Error] Failed to load configuration file. (PySilhouette)'
+    print('[Error] Failed to load configuration file. (PySilhouette)', file=sys.stderr)
     sys.exit(1)
     
 import pysilhouette.prep
@@ -123,10 +123,10 @@ def main():
 
     if not os.popen("ps -eo cmd | grep -e ^libvirtd -e ^/usr/sbin/libvirtd").read():
         logger.error('libvirtd not running."/etc/init.d/libvirtd start" Please start.')
-        print >>sys.stderr, '[Error] libvirtd not running."/etc/init.d/libvirtd start" Please start.'
+        print('[Error] libvirtd not running."/etc/init.d/libvirtd start" Please start.', file=sys.stderr)
         sys.exit(1)
     
-    if web.wsgi._is_dev_mode() is True and env.has_key('FCGI') is False:
+    if web.wsgi._is_dev_mode() is True and ('FCGI' in env) is False:
         logger.info('Start Mode [development]')
         app = web.application(urls, globals(), autoreload=True)
         app.internalerror = web.debugerror
@@ -155,10 +155,10 @@ def main():
             shell()
         else:
             app.run() # Web Application Start!
-    except Exception, e:
+    except Exception as e:
         logger_trace.critical(traceback.format_exc())
-        print >>sys.stderr, "[ERROR] %s" % str(e.args)
-        print >>sys.stderr, traceback.format_exc()
+        print("[ERROR] %s" % str(e.args), file=sys.stderr)
+        print(traceback.format_exc(), file=sys.stderr)
         return 1
 
 # webpy - processor
@@ -260,8 +260,8 @@ def shell():
     
     try:
         from IPython.Shell import IPShellEmbed
-    except ImportError, e:
-        print >>sys.stderr, '[Error] Shell function requires IPython. - %s' % ''.join(e.args)
+    except ImportError as e:
+        print('[Error] Shell function requires IPython. - %s' % ''.join(e.args), file=sys.stderr)
         traceback.format_exc()
         sys.exit(1)
 
@@ -282,6 +282,6 @@ def shell():
 if __name__ == "__main__":
     try:
         sys.exit(main())
-    except Exception, e:
-        print >>sys.stderr, traceback.format_exc()
+    except Exception as e:
+        print(traceback.format_exc(), file=sys.stderr)
         sys.exit(1)

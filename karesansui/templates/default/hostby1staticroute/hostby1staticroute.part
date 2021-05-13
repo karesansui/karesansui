@@ -54,7 +54,7 @@ $(document).ready(function(){
             });
 
 	    tool_invalid("#delete_route");
-% for name,route in routes.iteritems():
+% for name,route in routes.items():
 %   if route['removable'] is True:
             if("${name}" == target_id) {
                 tool_reset("#delete_route");
@@ -136,7 +136,7 @@ $(document).ready(function(){
                                         </thead>
                                         <tbody>
 
-% for name,route in routes.iteritems():
+% for name,route in routes.items():
                                             <tr id="route_row${name}">
                                                 <td>${route['ipaddr'] |h}</td>
                                                 <td>${route['netmask']|h}</td>

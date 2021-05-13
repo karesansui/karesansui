@@ -41,8 +41,8 @@ try:
     from karesansui.lib.utils import load_locale
     from karesansui.lib.utils import execute_command
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -76,7 +76,7 @@ class RestartNetwork(KssCommand):
             self.up_progress(10)
             try:
                 conn.stop_network(opts.name)
-            except KaresansuiVirtException, e:
+            except KaresansuiVirtException as e:
                 if opt.force is not True:
                     raise KssCommandException('Could not stop the specified network. - net=%s' % (opts.name))
 
@@ -84,7 +84,7 @@ class RestartNetwork(KssCommand):
 
             try:
                 conn.start_network(opts.name)
-            except KaresansuiVirtException, e:
+            except KaresansuiVirtException as e:
                 if opts.force is not True:
                     raise KssCommandException('Could not start the specified network. - net=%s' % (opts.name))
 
@@ -106,7 +106,7 @@ class RestartNetwork(KssCommand):
                 raise KssCommandException('Failed to start network. - net=%s' % (opts.name))
 
             self.logger.info('Restarted network. - net=%s' % (opts.name))
-            print >>sys.stdout, _('Restarted network. - net=%s') % (opts.name)
+            print(_('Restarted network. - net=%s') % (opts.name), file=sys.stdout)
 
             return True
         finally:

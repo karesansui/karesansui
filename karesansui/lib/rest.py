@@ -54,7 +54,7 @@ from karesansui.db.access.user import login as dba_login
 from karesansui.db.access.machine import is_findbyhost1, is_findbyguest1
 from karesansui.lib.const import LOGOUT_FILE_PREFIX, DEFAULT_LANGS
 from karesansui.db.access.user import findby1email
-
+from karesansui.db import get_session
 BASIC_REALM = 'KARESANSUI_AUTHORIZE'
 """<comment-ja>
 Basic Authの Basic realm 名
@@ -160,12 +160,12 @@ class Rest:
         # self setting
         self.logger = logging.getLogger('karesansui.rest')
         self.logger_trace = logging.getLogger('karesansui_trace.rest')
-        self.orm = web.ctx.orm
+        self.orm = get_session()
         self.pysilhouette = web.ctx.pysilhouette
         self.view.ctx = web.ctx
         self.view.alert = []
         self.me = None
-        self.languages = [ unicode(karesansui.config['application.default.locale']), ]
+        self.languages = [ str(karesansui.config['application.default.locale']), ]
         self._ = mako_translation(languages=self.languages)
         
         # templates
@@ -190,7 +190,7 @@ class Rest:
         </comment-en>
         """
         multi = {}
-        for x in web.input(_unicode=False).keys():
+        for x in list(web.input(_unicode=False).keys()):
             if x.startswith('multi') is True:
                 multi[x] = {}
         self.input = web.input(**multi)
@@ -200,13 +200,13 @@ class Rest:
                 resource = web.websafe(param[len(param)-1])
                 self.__template__.media = resource[resource.rindex('.')+1:]
                 
-        except (IndexError, ValueError), ve:
+        except (IndexError, ValueError) as ve:
             self.__template__.media = DEFAULT_MEDIA
             self.logger.debug(
                 '%s - The media-type has not been specified, or that violate the format, so use a standard format. :Media=%s' \
                 % (' '.join(ve.args), self.__template__.media))
 
-        if self.input.has_key('mode') and self.input.mode == 'input':
+        if 'mode' in self.input and self.input.mode == 'input':
             self.__template__.media = self.input.mode
 
     def _post(self, f):
@@ -299,11 +299,10 @@ class Rest:
                               % (','.join(self.languages), str(self), path))
 
             try:
-                _r = mako_render(self._, path,
-                                 title=self._('Karesansui'), view=self.view)
+                _r = mako_render(self._, path, title=self._(u'Karesansui'), view=self.view)
                 return _r
             except:
-                if web.wsgi._is_dev_mode() is True and os.environ.has_key('FCGI') is False:
+                if web.wsgi._is_dev_mode() is True and ('FCGI' in os.environ) is False:
                     return exceptions.html_error_template().render(full=True)
                 else:
                     self.logger.error('"mako render" execution error - path=%s' % path)
@@ -348,7 +347,7 @@ class Rest:
         </comment-en>
         """
         try:
-            if web.input(_unicode=False).has_key(OVERLOAD_METHOD):
+            if OVERLOAD_METHOD in web.input(_unicode=False):
                 self.__method__ = web.input(_unicode=False)[OVERLOAD_METHOD].upper()
                 if self.__method__ == PUT:
                     self.__method__ = PUT
@@ -368,7 +367,7 @@ class Rest:
             self._pre(*param, **params)
             _r = self.__method_call(prefix='_', *param, **params)
             return self._post(_r)
-        except web.HTTPError, e:
+        except web.HTTPError as e:
             raise
         except:
             self.logger_trace.error(traceback.format_exc())
@@ -388,7 +387,7 @@ class Rest:
             self._pre(*param, **params)
             _r = self.__method_call(prefix='_', *param, **params)
             return self._post(_r)
-        except web.HTTPError, e:
+        except web.HTTPError as e:
             raise
         except:
             self.logger_trace.error(traceback.format_exc())
@@ -409,7 +408,7 @@ class Rest:
             self._pre(*param, **params)
             _r = self.__method_call(prefix='_', *param, **params)
             return self._post(_r)
-        except web.HTTPError, e:
+        except web.HTTPError as e:
             raise
         except:
             self.logger_trace.error(traceback.format_exc())
@@ -430,7 +429,7 @@ class Rest:
             self._pre(*param, **params)
             _r = self.__method_call(prefix='_', *param, **params)
             return self._post(_r)
-        except web.HTTPError, e:
+        except web.HTTPError as e:
             raise
         except:
             self.logger_trace.error(traceback.format_exc())
@@ -448,7 +447,7 @@ class Rest:
         TODO: English Comment
         </comment-en>
         """
-        if params.has_key('prefix'):
+        if 'prefix' in params:
             prefix = params.pop('prefix')
         else:
             prefix = ''
@@ -791,26 +790,27 @@ def auth(func):
     def wrapper(self, *args, **kwargs):
 
         if web.ctx.path[0:6] == '/data/':
-            languages = unicode(karesansui.config['application.default.locale'])
-            if web.ctx.env.has_key('HTTP_AUTHORIZATION'):
+            languages = str(karesansui.config['application.default.locale'])
+            if 'HTTP_AUTHORIZATION' in web.ctx.env:
                 _http_auth = web.ctx.env['HTTP_AUTHORIZATION'].strip()
                 if _http_auth[:5] == 'Basic':
-                    email, password = b64decode(_http_auth[6:].strip()).split(':')
+                    b = bytes(_http_auth[6:].strip(), 'utf-8')
+                    email, password = b64decode(b).decode('utf-8').split(':')
                     session = web.ctx.orm
                     user = findby1email(session, email)
                     languages = user.languages
 
-            self._ = mako_translation(languages=[ unicode(languages), ])
+            self._ = mako_translation(languages=[ str(languages), ])
             return func(self, *args, **kwargs)
 
         if karesansui_database_exists() is False:
             return web.tempredirect(web.ctx.path + "init", absolute=False)
 
-        if not web.ctx.env.has_key('HTTP_AUTHORIZATION'):
-            if web.ctx.env.has_key('Authorization'):
+        if 'HTTP_AUTHORIZATION' not in web.ctx.env:
+            if 'Authorization' in web.ctx.env:
                 web.ctx.env['HTTP_AUTHORIZATION'] = web.ctx.env['Authorization']
 
-        if web.ctx.env.has_key('HTTP_AUTHORIZATION'):
+        if 'HTTP_AUTHORIZATION' in web.ctx.env:
             (user, email) = login()
 
             if user:
@@ -862,9 +862,11 @@ def login():
     """
     _http_auth = web.ctx.env['HTTP_AUTHORIZATION'].strip()
     if _http_auth[:5] == 'Basic':
-        email, password = b64decode(_http_auth[6:].strip()).split(':')
+        b = bytes(_http_auth[6:].strip(), 'utf-8')
+        print(b)
+        email, password = b64decode(b).decode('utf-8').split(':')
         session = web.ctx.orm
-        user = dba_login(session, unicode(email), unicode(password))
+        user = dba_login(session, str(email), str(password))
         return (user, email)
 
 # -- Template Engine
@@ -888,7 +890,7 @@ def mako_render(_, templatename, **kwargs):
         filepath = '/'.join(directories)
         logger.debug(filepath)
 
-        fp = open(filepath, "r")
+        fp = open(filepath, "rb")
         try:
             return fp.read()
         finally:
@@ -896,7 +898,7 @@ def mako_render(_, templatename, **kwargs):
 
     else:
         directories = [karesansui.dirname, 'templates']
-        if karesansui.config.has_key('application.template.theme'):
+        if 'application.template.theme' in karesansui.config:
             directories.append(karesansui.config['application.template.theme'])
         else:
             directories.append('default')
@@ -909,7 +911,7 @@ def mako_render(_, templatename, **kwargs):
     
     try:
         t = tl.get_template(templatename)
-    except exceptions.TopLevelLookupException, tlle:
+    except exceptions.TopLevelLookupException as tlle:
         logger.error('We could not find the template directory. - %s/%s'
                      % ('/'.join(directories), templatename))
         return web.notfound()
@@ -918,16 +920,16 @@ def mako_render(_, templatename, **kwargs):
     kwargs['_'] = _ # gettex
     
     view = {}
-    if kwargs.has_key('view'):
-        for x in kwargs['view'].keys():
+    if 'view' in kwargs:
+        for x in list(kwargs['view'].keys()):
             view[x] = kwargs['view'][x]
         kwargs.pop('view')
     kwargs.update(view)
 
     try:
         return t.render(**kwargs)
-    except Exception, e:
-        print >>sys.stderr, '[Error] failed to render. - %s' % ''.join(e.args)
+    except Exception as e:
+        print('[Error] failed to render. - %s' % ''.join(e.args), file=sys.stderr)
         traceback.format_exc()
         raise
 
@@ -947,7 +949,7 @@ def mako_translation(languages, domain='messages', localedir='locale'):
     </comment-en>
     """
     localedir = '/'.join([karesansui.dirname, localedir])
-    return translation(domain, localedir, tuple(languages)).ugettext 
+    return translation(domain, localedir, tuple(languages)).gettext 
 
 if __name__ == "__main__":
     pass

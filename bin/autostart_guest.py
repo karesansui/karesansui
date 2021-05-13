@@ -42,8 +42,8 @@ try:
     from karesansui.lib.utils import load_locale
     from karesansui.lib.utils import uri_split, uri_join
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -98,11 +98,11 @@ class AutostartGuest(KssCommand):
                 finally:
                     fp.close()
 
-            except Exception, e:
+            except Exception as e:
                 self.logger.error('Failed to read.- dom=%s passwd_file=%s' \
                       % (opts.name,opts.passwd_file))
-                print >>sys.stderr,_('Failed to read.- dom=%s passwd_file=%s') \
-                      % (opts.name,opts.passwd_file)
+                print(_('Failed to read.- dom=%s passwd_file=%s') \
+                      % (opts.name,opts.passwd_file), file=sys.stderr)
                 raise e
 
             os.remove(opts.passwd_file)
@@ -133,14 +133,14 @@ class AutostartGuest(KssCommand):
             ret = conn.autostart_guest(flag)
             self.up_progress(40)
 
-        except Exception, e:
+        except Exception as e:
 
             if flag is True:
                 self.logger.error('Failed to configure a domain to be automatically started at boot. - dom=%s' % (opts.name))
-                print >>sys.stderr, _('Failed to configure a domain to be automatically started at boot. - dom=%s') % (opts.name)
+                print(_('Failed to configure a domain to be automatically started at boot. - dom=%s') % (opts.name), file=sys.stderr)
             else:
                 self.logger.error('Failed to configure a domain not to be automatically started at boot. - dom=%s' % (opts.name))
-                print >>sys.stderr, _('Failed to configure a domain not to be automatically started at boot. - dom=%s') % (opts.name)
+                print(_('Failed to configure a domain not to be automatically started at boot. - dom=%s') % (opts.name), file=sys.stderr)
 
             raise e
 
@@ -154,8 +154,8 @@ class AutostartGuest(KssCommand):
 
         self.logger.info('Set autostart flag. - dom=%s flag=%s' \
                          % (opts.name,flag))
-        print >>sys.stdout, _('Set autostart flag. - dom=%s flag=%s') \
-              % (opts.name,flag)
+        print(_('Set autostart flag. - dom=%s flag=%s') \
+              % (opts.name,flag), file=sys.stdout)
         return True
 
 if __name__ == "__main__":

@@ -52,8 +52,8 @@ try:
     from karesansui.lib.utils import load_locale, is_uuid
     from karesansui.lib.const import PORT_MIN_NUMBER, PORT_MAX_NUMBER
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -188,7 +188,7 @@ class ReplicateGuest(KssCommand):
             inactive_guests = conn1.list_inactive_guest()
             if opts.name in active_guests or opts.name in inactive_guests:
                 self.logger.info('Replicated guest. - src=%s dom=%s' % (opts.src_name,opts.name))
-                print >>sys.stdout, _('Replicated guest. - src=%s dom=%s') % (opts.src_name,opts.name)
+                print(_('Replicated guest. - src=%s dom=%s') % (opts.src_name,opts.name), file=sys.stdout)
                 return True
             else:
                 raise KssCommandException(

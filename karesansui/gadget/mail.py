@@ -104,9 +104,9 @@ class Mail(Rest):
             self.view.mail = get_view_mail(config)
             return True
         
-        except IOError, kge:
+        except IOError as kge:
             self.logger.debug(kge)
-            raise KaresansuiGadgetException, kge
+            raise KaresansuiGadgetException(kge)
 
     
     @auth
@@ -125,9 +125,9 @@ class Mail(Rest):
             self.view.mail = get_view_mail(config)
             return True
 
-        except IOError, kge:
+        except IOError as kge:
             self.logger.debug(kge)
-            raise KaresansuiGadgetException, kge
+            raise KaresansuiGadgetException(kge)
 
 
 urls = ('/setting/mail/?(\.input|\.part)?$', Mail,)

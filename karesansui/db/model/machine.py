@@ -285,7 +285,7 @@ if __name__ == '__main__':
     metadata.create_all()
     Session = sqlalchemy.orm.sessionmaker(bind=engine, autoflush=False)
     session = Session()
-    print ""
+    print("")
     # INSERT
     # SELECT One
     # UPDATE

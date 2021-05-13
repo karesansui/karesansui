@@ -42,8 +42,8 @@ try:
     from karesansui.lib.utils import load_locale
     from karesansui.lib.utils import uri_split, uri_join
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -90,11 +90,11 @@ class StartGuest(KssCommand):
                 finally:
                     fp.close()
 
-            except Exception, e:
+            except Exception as e:
                 self.logger.error('Failed to read.- dom=%s passwd_file=%s' \
                       % (opts.name,opts.passwd_file))
-                print >>sys.stderr,_('Failed to read.- dom=%s passwd_file=%s') \
-                      % (opts.name,opts.passwd_file)
+                print(_('Failed to read.- dom=%s passwd_file=%s') \
+                      % (opts.name,opts.passwd_file), file=sys.stderr)
                 raise e
 
             os.remove(opts.passwd_file)
@@ -123,9 +123,9 @@ class StartGuest(KssCommand):
                     self.up_progress(10)
                     conn.start_guest()
                     self.up_progress(30)
-                except Exception, e:
+                except Exception as e:
                     self.logger.error('Failed to start guest. - dom=%s' % (opts.name))
-                    print >>sys.stderr, _('Failed to start guest. - dom=%s') % (opts.name)
+                    print(_('Failed to start guest. - dom=%s') % (opts.name), file=sys.stderr)
                     raise e
 
                 self.up_progress(10)
@@ -133,7 +133,7 @@ class StartGuest(KssCommand):
                 self.up_progress(10)
                 if status != VIR_DOMAIN_SHUTOFF and status != VIR_DOMAIN_SHUTDOWN:
                     self.logger.info('Succeeded to start guest. - dom=%s' % (opts.name))
-                    print >>sys.stdout, _('Succeeded to start guest. - dom=%s') % (opts.name)
+                    print(_('Succeeded to start guest. - dom=%s') % (opts.name), file=sys.stdout)
 
             else:
                 raise KssCommandException(
@@ -141,9 +141,9 @@ class StartGuest(KssCommand):
 
             return True
 
-        except Exception, e:
+        except Exception as e:
             self.logger.error('Failed to start guest. - dom=%s' % (opts.name))
-            print >>sys.stderr, _('Failed to start guest. - dom=%s') % (opts.name)
+            print(_('Failed to start guest. - dom=%s') % (opts.name), file=sys.stderr)
             raise e
 
         finally:

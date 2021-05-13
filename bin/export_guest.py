@@ -47,8 +47,8 @@ try:
     from karesansui.lib.virt.snapshot import KaresansuiVirtSnapshot
     from karesansui.db.access.snapshot import findbyname_guestby1 as s_findbyname_guestby1
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -205,10 +205,10 @@ class ExportGuest(KssCommand):
 
                 self.up_progress(40)
                 self.logger.info('Export guest completed. - pool=%s, uuid=%s' % (opts.pool, uuid))
-                print >>sys.stdout, _('Export guest completed. - pool=%s, uuid=%s' % (opts.pool, uuid))
+                print(_('Export guest completed. - pool=%s, uuid=%s' % (opts.pool, uuid)), file=sys.stdout)
                 return True
 
-            except KaresansuiVirtException, e:
+            except KaresansuiVirtException as e:
                 raise KssCommandException('Failed to export guest. - %s to %s [%s]' \
                                           % (opts.name,target_dir, ''.join(e.args)))
 

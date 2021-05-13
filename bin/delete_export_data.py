@@ -44,8 +44,8 @@ try:
     from karesansui.lib.virt.config_export import ExportConfigParam
     from karesansui.lib.virt.config import ConfigParam
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -160,7 +160,7 @@ class DeleteExportData(KssCommand):
             pass
 
         self.logger.info('Deleted export data. - uuid=%s' % (opts.uuid))
-        print >>sys.stdout, _('Deleted export data. - uuid=%s') % (opts.uuid)
+        print(_('Deleted export data. - uuid=%s') % (opts.uuid), file=sys.stdout)
         return True
 
 if __name__ == "__main__":

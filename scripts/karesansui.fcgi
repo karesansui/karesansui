@@ -52,7 +52,7 @@ def main():
         for y in [x.strip() for x in os.environ.get('SEARCH_PATH').split(':') if x]: 
             if (y in sys.path) is False: sys.path.insert(0, y)
 
-    if os.environ.has_key('FCGI') is False:
+    if os.environ.get('FCGI') is None:
         os.environ['FCGI'] = '1'
 
     import karesansui, karesansui.app

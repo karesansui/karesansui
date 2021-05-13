@@ -46,7 +46,7 @@ from pysilhouette.command import dict2command
 
 # lib public
 def delete_storage_volume(obj, volume, pool, order, use=DISK_USES["DISK"]):
-    cmdname = u"Delete Storage Volume"
+    cmdname = "Delete Storage Volume"
     cmd = VIRT_COMMAND_DELETE_STORAGE_VOLUME
 
     options = {}
@@ -174,10 +174,10 @@ class GuestBy1DiskBy1(Rest):
             guest = MergeGuest(model, virt)
             disk_info = virt.get_disk_info()[disk_id]
 
-            if disk_info['source'].has_key('file'):
+            if 'file' in disk_info['source']:
                 pool_type = 'file'
                 volume_rpath = disk_info['source']['file']
-            elif disk_info['source'].has_key('dev'):
+            elif 'dev' in disk_info['source']:
                 pool_type = 'iscsi'
                 volume_rpath = disk_info['source']['dev']
 
@@ -198,7 +198,7 @@ class GuestBy1DiskBy1(Rest):
                 disk_volumes = kvc.get_storage_volume_bydomain(domname, 'disk', 'key')
                 volume = None
 
-                for key in disk_volumes.keys():
+                for key in list(disk_volumes.keys()):
                     if volume_rpath == os.path.realpath(disk_volumes[key]):
                         volume = key
 

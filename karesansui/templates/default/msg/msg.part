@@ -130,7 +130,7 @@ $(document).ready(function(){
     % else:
                             <td id="msg_create_user${msg['id']}">${msg['user_name'] | h}</td>
     % endif
-    % for k,v in JOBGROUP_STATUS.iteritems():
+    % for k,v in JOBGROUP_STATUS.items():
         % if v == msg['status']:
             % if v == JOBGROUP_STATUS['NG'] or v == JOBGROUP_STATUS['APPERR']:
                             <td id="msg_status${msg['id']}">

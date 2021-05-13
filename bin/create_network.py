@@ -39,8 +39,8 @@ try:
     from karesansui.lib.virt.virt import KaresansuiVirtConnection
     from karesansui.lib.utils import load_locale
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -114,7 +114,7 @@ class CreateNetwork(KssCommand):
                 raise KssCommandException('Failed to create the network. - net=%s' % (opts.name))
 
             self.logger.info('Created network. - net=%s' % (opts.name))
-            print >>sys.stdout, _('Created network. - net=%s') % (opts.name)
+            print(_('Created network. - net=%s') % (opts.name), file=sys.stdout)
             self.up_progress(10)
 
             return True

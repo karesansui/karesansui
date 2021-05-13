@@ -40,8 +40,8 @@ try:
                  VIR_DOMAIN_PAUSED
     from karesansui.lib.utils import load_locale
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -74,9 +74,9 @@ class ResumeGuest(KssCommand):
                     self.up_progress(10)
                     conn.resume_guest()
                     self.up_progress(30)
-                except Exception, e:
+                except Exception as e:
                     self.logger.error('Failed to resume guest. - dom=%s' % (opts.name))
-                    print >>sys.stderr, _('Failed to resume guest. - dom=%s') % (opts.name)
+                    print(_('Failed to resume guest. - dom=%s') % (opts.name), file=sys.stderr)
                     raise e
 
                 self.up_progress(10)
@@ -84,11 +84,11 @@ class ResumeGuest(KssCommand):
                 self.up_progress(10)
                 if status != VIR_DOMAIN_PAUSED:
                     self.logger.info('Succeeded to resume guest. - dom=%s' % (opts.name))
-                    print >>sys.stdout, _('Succeeded to resume guest. - dom=%s') % (opts.name)
+                    print(_('Succeeded to resume guest. - dom=%s') % (opts.name), file=sys.stdout)
 
             else:
                 self.logger.error('Guest not found. - dom=%s' % (opts.name))
-                print >>sys.stderr, _('Guest not found. - dom=%s') % (opts.name)
+                print(_('Guest not found. - dom=%s') % (opts.name), file=sys.stderr)
                 return False
 
             return True

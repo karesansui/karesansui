@@ -6,6 +6,7 @@ import re
 import string
 from optparse import OptionParser
 import traceback
+from locale import atof
 
 try:
     from distutils.sysconfig import get_python_lib
@@ -14,24 +15,20 @@ try:
 except:
     pass
 
-try:
-    import sqlalchemy
-    import karesansui
-    from karesansui import __version__
-    from karesansui.lib.utils import is_uuid, is_int
-    from karesansui.lib.utils import generate_phrase, generate_uuid, string_from_uuid
-    from karesansui.lib.file.k2v import K2V
-    from karesansui.lib.crypt import sha1encrypt
-    from karesansui.lib.const import MACHINE_ATTRIBUTE, MACHINE_HYPERVISOR
-    from karesansui.db import get_engine, get_metadata, get_session
-    from karesansui.db.model.user import User
-    from karesansui.db.model.notebook import Notebook
-    from karesansui.db.model.tag import Tag
-    from karesansui.db.model.machine import Machine
 
-except ImportError:
-    print >>sys.stderr, "[Error] karesansui package was not found."
-    sys.exit(1)
+import sqlalchemy
+import karesansui
+from karesansui import __version__
+from karesansui.lib.utils import is_uuid, is_int
+from karesansui.lib.utils import generate_phrase, generate_uuid, string_from_uuid
+from karesansui.lib.file.k2v import K2V
+from karesansui.lib.crypt import sha1encrypt
+from karesansui.lib.const import MACHINE_ATTRIBUTE, MACHINE_HYPERVISOR
+from karesansui.db import get_engine, get_metadata, get_session
+from karesansui.db.model.user import User
+from karesansui.db.model.notebook import Notebook
+from karesansui.db.model.tag import Tag
+from karesansui.db.model.machine import Machine
 
 usage = '%prog [options]'
 
@@ -122,25 +119,25 @@ try:
     metadata.drop_all()   
     metadata.tables['machine2jobgroup'].create()
     metadata.create_all()   
-except Exception, e:
+except Exception as e:
     traceback.format_exc()
     raise Exception('Initializing/Updating a database error - %s' % ''.join(e.args))
 
 session = get_session()
 try:
-    (password, salt) = sha1encrypt(u"%s" % password)
+    (password, salt) = sha1encrypt("%s" % password)
     user = session.query(User).filter(User.email == email).first()
 
     if user is None:
         # User Table set.
-        new_user  = User(u"%s" % email,
-                              unicode(password),
-                              unicode(salt),
-                              u"Administrator",
-                              u"%s" % lang,
+        new_user  = User("%s" % email,
+                              str(password),
+                              str(salt),
+                              "Administrator",
+                              "%s" % lang,
                               )
 
-        if string.atof(sqlalchemy.__version__[0:3]) >= 0.6:
+        if atof(sqlalchemy.__version__[0:3]) >= 0.6:
             session.add(new_user)
         else:
             session.save(new_user)
@@ -149,15 +146,15 @@ try:
         user.password  = password
         user.salt      = salt
         user.languages = lang
-        if string.atof(sqlalchemy.__version__[0:3]) >= 0.6:
+        if atof(sqlalchemy.__version__[0:3]) >= 0.6:
             session.add(user)
         else:
             session.update(user)
         session.commit()
 
     # Tag Table set.
-    tag = Tag(u"default")
-    if string.atof(sqlalchemy.__version__[0:3]) >= 0.6:
+    tag = Tag("default")
+    if atof(sqlalchemy.__version__[0:3]) >= 0.6:
         session.add(tag)
     else:
         session.save(tag)
@@ -165,29 +162,29 @@ try:
         
     # Machine Table set.
     user     = session.query(User).filter(User.email == email).first()
-    notebook = Notebook(u"", u"")
+    notebook = Notebook("", "")
     machine  = Machine(user,
                        user,
-                       u"%s" % uuid,
-                       u"%s" % fqdn,
+                       "%s" % uuid,
+                       "%s" % fqdn,
                        MACHINE_ATTRIBUTE['HOST'],
                        MACHINE_HYPERVISOR['REAL'],
                        notebook,
                        [tag],
-                       u"%s" % fqdn,
-                       u'icon-guest1.png',
+                       "%s" % fqdn,
+                       'icon-guest1.png',
                        False,
                        None,
                       )
 
-    if string.atof(sqlalchemy.__version__[0:3]) >= 0.6:
+    if atof(sqlalchemy.__version__[0:3]) >= 0.6:
         session.add(machine)
     else:
         session.save(machine)
     session.commit()
 
     session.close()
-except Exception, e:
+except Exception as e:
     traceback.format_exc()
     raise Exception('Initializing/Updating a database error - %s' % ''.join(e.args))
 

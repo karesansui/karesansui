@@ -40,8 +40,8 @@ try:
     from karesansui.lib.service.sysvinit_rh import SysVInit_RH
     from karesansui.lib.const import SERVICE_XML_FILE
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -75,7 +75,7 @@ class RestartService(KssCommand):
 
         self.up_progress(50)
         self.logger.info('Restarted service. - service=%s' % (opts.name))
-        print >>sys.stdout, _('Restarted service. - service=%s') % (opts.name)
+        print(_('Restarted service. - service=%s') % (opts.name), file=sys.stdout)
         
         return True
 

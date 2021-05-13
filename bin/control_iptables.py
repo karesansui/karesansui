@@ -39,8 +39,8 @@ try:
     from karesansui.lib.parser.iptables import iptablesParser as Parser
     from karesansui.lib.utils import load_locale
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -84,7 +84,7 @@ class ControlIptables(KssCommand):
         if opts.lint is True:
             (ret, stdout, stderr) = parser.do_lint(open(config).read())
             if ret != 0:
-                print stderr
+                print(stderr)
 
         elif opts.action is not None:
             try:
@@ -96,7 +96,7 @@ class ControlIptables(KssCommand):
                     self.logger.error(error_msg)
                     raise KssCommandOptException(error_msg)
                 self.up_progress(30)
-            except KssCommandOptException, e:
+            except KssCommandOptException as e:
                 raise KssCommandOptException(''.join(e.args))
             except:
                 error_msg = "ERROR: unknown action '%s'." % (opts.action)

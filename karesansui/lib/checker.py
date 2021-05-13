@@ -80,8 +80,8 @@ except:
   os.environ['LANG'] = "en_US" # Sets default language.
   t = gettext.translation('messages', karesansui.dirname + "/locale")
 
-_ = t.ugettext
-#_ = t.gettext
+_ = t.gettext
+
 
 class Checker(object):
     """<comment-ja>
@@ -96,7 +96,7 @@ class Checker(object):
         self.errors = []
 
     def add_error(self, msg):
-        self.errors.append(unicode(msg))
+        self.errors.append(str(msg))
 
     def check_empty(self, name, value):
         """<comment-ja>
@@ -984,13 +984,13 @@ class Checker(object):
 
         if empty_val is True:
             if check & CHECK_DICTVALUE:
-                if value in str(extra_args.values()):
+                if value in str(list(extra_args.values())):
                     ret_val = True
                 if not ret_val:
                     self.add_error(_('%s is in invalid format.') % (name,))
 
             if check & CHECK_DICTKEY:
-                if extra_args.has_key(value):
+                if value in extra_args:
                     ret_val = True
                 if not ret_val:
                     self.add_error(_('%s is in invalid format.') % (name,))
@@ -1071,7 +1071,7 @@ class Checker(object):
 
         if value.strip() != "":
             if ret_val and (check & CHECK_VALID):
-                if not value in DEFAULT_LANGS.keys():
+                if not value in list(DEFAULT_LANGS.keys()):
                     ret_val = False
                     self.add_error(_('%s is mismatched.') % (name,))
 
@@ -1163,7 +1163,7 @@ class Checker(object):
 
         if ret_val and (check & CHECK_VALID):
             value = int(value)
-            if not value in MACHINE_HYPERVISOR.values():
+            if not value in list(MACHINE_HYPERVISOR.values()):
                 ret_val = False
                 self.add_error(_('%s is mismatch.') % (name,))
 
@@ -1569,7 +1569,7 @@ class Checker(object):
             devs['oth'] = []
             cidrs = []
             ips = []
-            for dev,dev_info in get_ifconfig_info().iteritems():
+            for dev,dev_info in get_ifconfig_info().items():
                 try:
                     if devtype_phy_regex.match(dev):
                         devs['phy'].append(dev)
@@ -1585,7 +1585,7 @@ class Checker(object):
                             cidrs.append(dev_info['cidr'])
                 except:
                     pass
-            for devlist in devs.itervalues():
+            for devlist in devs.values():
                 interfaces.extend(devlist)
 
             if not value in interfaces:
@@ -1624,7 +1624,9 @@ class Checker(object):
             ret_val = self.check_empty(name, value)
 
         if ret_val and value and (check & CHECK_EXIST):
-            exec("keymap_dir = %s_KEYMAP_DIR" % domain_type.upper())
+            # All the exec statements broken when upgrading to py3, for now just removing all support for XEN and forcing KVM keymaps
+            #exec("keymap_dir = %s_KEYMAP_DIR" % domain_type.upper())
+            keymap_dir = KVM_KEYMAP_DIR  
             if not os.path.exists(keymap_dir + '/' + value):
                 ret_val = False
                 self.add_error(_('No such %s [%s].') % (name, value))

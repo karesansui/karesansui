@@ -41,9 +41,9 @@ use_read_conf = True
 
 for _mod in ['ifcfg','network','resolv']:
 
-    print _("################################")
-    print _("Processing module '%s'... ") % (_mod)
-    print _("################################")
+    print(_("################################"))
+    print(_("Processing module '%s'... ") % (_mod))
+    print(_("################################"))
 
     dop = DictOp()
     try:
@@ -54,9 +54,9 @@ for _mod in ['ifcfg','network','resolv']:
     parser = Parser()
 
     source_file = parser.source_file()
-    print ">" + _("Detecting configuration files")
-    print "\n".join(source_file)
-    print "<" + _("Detecting configuration files")
+    print(">" + _("Detecting configuration files"))
+    print("\n".join(source_file))
+    print("<" + _("Detecting configuration files"))
 
     output_file = "%s/%s_dict.py" % (save_path,_mod,)
     if use_read_conf is True:
@@ -66,25 +66,25 @@ for _mod in ['ifcfg','network','resolv']:
         command_args.append(_mod)
         command_args.append("--file")
         command_args.append(output_file)
-        print ">" + _("Reading configuration files")
-        print ">>" + _("Execute") + "=>" + " ".join(command_args)
+        print(">" + _("Reading configuration files"))
+        print(">>" + _("Execute") + "=>" + " ".join(command_args))
         (ret, res) = execute_command(command_args)
         if len(res) > 0:
-            print ">>" + _("Execute Result") + "=>\n" + "\n".join(res)
-        print "<" + _("Reading configuration files")
+            print(">>" + _("Execute Result") + "=>\n" + "\n".join(res))
+        print("<" + _("Reading configuration files"))
 
     else:
-        print ">" + _("Reading configuration files")
+        print(">" + _("Reading configuration files"))
         dop.addconf(_mod,parser.read_conf())
-        print "<" + _("Reading configuration files")
+        print("<" + _("Reading configuration files"))
 
-        print ">" + _("Writing module dict files")
+        print(">" + _("Writing module dict files"))
         conf = dop.getconf(_mod)
         ConfigFile(output_file).write(str(conf))
-        print "<" + _("Writing module dict files")
+        print("<" + _("Writing module dict files"))
 
     if os.path.exists(output_file):
-        print ">>Wrote %s" % output_file
+        print(">>Wrote %s" % output_file)
 
         if once_execute is False:
             command_args = []
@@ -93,12 +93,12 @@ for _mod in ['ifcfg','network','resolv']:
             command_args.append(_mod)
             command_args.append("--file")
             command_args.append(output_file)
-            print ">" + _("Writing configuration files")
-            print ">>" + _("Execute") + "=>" + " ".join(command_args)
+            print(">" + _("Writing configuration files"))
+            print(">>" + _("Execute") + "=>" + " ".join(command_args))
             (ret, res) = execute_command(command_args)
             if len(res) > 0:
-                print ">>" + _("Execute Result") + "=>\n" + "\n".join(res)
-            print "<" + _("Writing configuration files")
+                print(">>" + _("Execute Result") + "=>\n" + "\n".join(res))
+            print("<" + _("Writing configuration files"))
 
         else:
             try:
@@ -119,11 +119,11 @@ if once_execute is True:
     command_args.append(":".join(module_args))
     command_args.append("--file")
     command_args.append(":".join(file_args))
-    print ">" + _("Writing configuration files")
-    print ">>" + _("Execute") + "=>" + " ".join(command_args)
+    print(">" + _("Writing configuration files"))
+    print(">>" + _("Execute") + "=>" + " ".join(command_args))
     (ret, res) = execute_command(command_args)
     if len(res) > 0:
-        print ">>" + _("Execute Result") + "=>\n" + "\n".join(res)
-    print "<" + _("Writing configuration files")
+        print(">>" + _("Execute Result") + "=>\n" + "\n".join(res))
+    print("<" + _("Writing configuration files"))
 
 

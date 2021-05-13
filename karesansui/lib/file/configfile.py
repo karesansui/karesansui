@@ -28,7 +28,7 @@ import sys
 
 from os import environ as env
 from mako.lookup import TemplateLookup
-from securefile import SecureFile
+from .securefile import SecureFile
 from karesansui.lib.file.k2v import K2V
 
 class ConfigFile(SecureFile):

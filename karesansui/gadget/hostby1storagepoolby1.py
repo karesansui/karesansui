@@ -67,7 +67,7 @@ def delete_storage_pool_job(obj, host, name, options={}):
     _cmd = dict2command(
         "%s/%s" % (karesansui.config['application.bin.dir'], VIRT_COMMAND_DELETE_STORAGE_POOL), options)
 
-    cmdname = u"Delete Storage Pool"
+    cmdname = "Delete Storage Pool"
     _jobgroup = JobGroup(cmdname, karesansui.sheconf['env.uniqkey'])
     _jobgroup.jobs.append(Job("%s command" % cmdname, 0, _cmd))
 

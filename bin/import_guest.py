@@ -43,8 +43,8 @@ try:
     from karesansui.lib.utils import load_locale
     from karesansui.lib.virt.config_export import ExportConfigParam
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -125,10 +125,10 @@ class ImportGuest(KssCommand):
 
                 self.up_progress(40)
                 self.logger.info('Import guest completed. - export=%s, dest=%s' % (opts.exportuuid, opts.destuuid))
-                print >>sys.stdout, _('Import guest completed. - export=%s, dest=%s' % (opts.exportuuid, opts.destuuid))
+                print(_('Import guest completed. - export=%s, dest=%s' % (opts.exportuuid, opts.destuuid)), file=sys.stdout)
                 return True
 
-            except KaresansuiVirtException, e:
+            except KaresansuiVirtException as e:
                 raise KssCommandException('Failed to import guest. - [%s]' \
                                       % (''.join(str(e.args))))
         finally:

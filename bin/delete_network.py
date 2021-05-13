@@ -39,8 +39,8 @@ try:
     from karesansui.lib.virt.virt import KaresansuiVirtConnection
     from karesansui.lib.utils import load_locale
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -83,7 +83,7 @@ class DeleteNetwork(KssCommand):
                 raise KssCommandException('Failed to delete the network. - net=%s' % (opts.name))
 
             self.logger.info('Deleted network. - net=%s' % (opts.name))
-            print >>sys.stdout, _('Deleted network. - net=%s') % (opts.name)
+            print(_('Deleted network. - net=%s') % (opts.name), file=sys.stdout)
             return True
         finally:
             conn.close()

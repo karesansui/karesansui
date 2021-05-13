@@ -94,7 +94,7 @@ def get_collectd_param(param=None, section=None, dop=None, webobj=None, host=Non
             extra_args = {"include":"^(%s)$" % section}
             new_conf_arr =  collectdpluginParser().read_conf(extra_args)
 
-            for _k,_v in new_conf_arr.iteritems():
+            for _k,_v in new_conf_arr.items():
                 if _k[0:1] != "@":
                     dop.set("collectdplugin",[_k],_v['value'])
 
@@ -120,7 +120,7 @@ def plugin_list(webobj=None, host=None, dop=None):
 
     try:
         plugins = dop.getconf("collectdplugin")
-        for _k,_v in plugins.iteritems():
+        for _k,_v in plugins.items():
             _load_plugins = dop.query("collectdplugin",[_k,"LoadPlugin"])
             if type(_load_plugins) is list or (_load_plugins is not False and len(_load_plugins) > 0):
                 load_plugins = load_plugins + _load_plugins
@@ -150,7 +150,7 @@ def active_plugin_list(webobj=None, host=None, dop=None):
 
         if iscomment is True:
             plugins = dop.getconf("collectdplugin")
-            for _k,_v in plugins.iteritems():
+            for _k,_v in plugins.items():
                 if dop.isset("collectdplugin",[_k,"LoadPlugin",plugin_name]) is True:
                     iscomment = dop.iscomment("collectdplugin",[_k,"LoadPlugin",plugin_name])
                     break
@@ -210,7 +210,7 @@ def enabled_plugin(plugin_name, dop=None, webobj=None, host=None):
             retval = dop.cdp_uncomment("collectd",["LoadPlugin",plugin_name])
         else:
             plugins = dop.getconf("collectdplugin")
-            for _k,_v in plugins.iteritems():
+            for _k,_v in plugins.items():
                 if dop.cdp_isset("collectdplugin",[_k,"LoadPlugin",plugin_name],multiple_file=True) is True:
                     retval = dop.cdp_uncomment("collectdplugin",[_k,"LoadPlugin",plugin_name],multiple_file=True)
                     break
@@ -234,7 +234,7 @@ def disabled_plugin(plugin_name, dop=None, webobj=None, host=None):
             retval = dop.cdp_comment("collectd",["LoadPlugin",plugin_name])
         else:
             plugins = dop.getconf("collectdplugin")
-            for _k,_v in plugins.iteritems():
+            for _k,_v in plugins.items():
                 if dop.cdp_isset("collectdplugin",[_k,"LoadPlugin",plugin_name],multiple_file=True) is True:
                     retval = dop.cdp_comment("collectdplugin",[_k,"LoadPlugin",plugin_name],multiple_file=True)
                     break
@@ -290,7 +290,7 @@ def where_is_plugin(plugin_name, dop=None, webobj=None, host=None):
         retval = "@global"
 
     plugins = dop.getconf("collectdplugin")
-    for _k,_v in plugins.iteritems():
+    for _k,_v in plugins.items():
         if dop.cdp_isset("collectdplugin",[_k,keyword,plugin_name]) is True:
             retval = _k
             break
@@ -315,7 +315,7 @@ def switch_python_plugin(flag=True, dop=None, webobj=None, host=None):
     if dop.isset("collectdplugin",[configName]) is False:
         extra_args = {"include":"^(%s)$" % configName}
         new_conf_arr =  collectdpluginParser().read_conf(extra_args)
-        for _k,_v in new_conf_arr.iteritems():
+        for _k,_v in new_conf_arr.items():
             if _k[0:1] != "@":
                 dop.set("collectdplugin",[_k],_v['value'])
 
@@ -1067,7 +1067,7 @@ def switch_sensors_plugin(flag=True, dop=None, webobj=None, host=None):
     # 既存の設定を削除
     keys = _keys + ["Sensor"]
     if dop.cdp_isset("collectdplugin",keys,multiple_file=True) is True:
-        for _k in dop.cdp_get("collectdplugin",keys,multiple_file=True).keys():
+        for _k in list(dop.cdp_get("collectdplugin",keys,multiple_file=True).keys()):
             keys = _keys + ["Sensor",_k]
             dop.cdp_delete("collectdplugin",keys,multiple_file=True)
 
@@ -1565,13 +1565,13 @@ def initialize_collectd_settings(dop=None, webobj=None, host=None, force=False, 
               "ReadThreads":"5",
               }
 
-    for _k,_v in default_params.iteritems():
+    for _k,_v in default_params.items():
         if dop.cdp_isset("collectd",[_k]) is False or force is True:
             # Include行は複数設定可(is_opt_multi)なのでis_opt_multi=Trueでset
             if _k == "Include":
                 # 既存Include行を削除
                 if dop.cdp_isset("collectd",[_k]) is True:
-                    for _k2 in dop.cdp_get("collectd",[_k]).keys():
+                    for _k2 in list(dop.cdp_get("collectd",[_k]).keys()):
                         dop.cdp_delete("collectd",[_k,_k2])
                 dop.cdp_set("collectd",[_k,_v] ,_v,is_opt_multi=True)
             else:
@@ -1588,7 +1588,7 @@ def initialize_collectd_settings(dop=None, webobj=None, host=None, force=False, 
     if len(includes) != 0:
         extra_args = {"include":"^(%s)$" % "|".join(includes)}
         new_conf_arr =  collectdpluginParser().read_conf(extra_args)
-        for _k,_v in new_conf_arr.iteritems():
+        for _k,_v in new_conf_arr.items():
             if _k[0:1] != "@":
                 dop.set("collectdplugin",[_k],_v['value'])
 
@@ -1596,7 +1596,7 @@ def initialize_collectd_settings(dop=None, webobj=None, host=None, force=False, 
     for _plugin in COLLECTD_PLUGINS:
         if dop.isset("collectdplugin",[_plugin,"LoadPlugin"]) is True:
             loadplugins = dop.get("collectdplugin",[_plugin,"LoadPlugin"])
-            for _k,_v in loadplugins.iteritems():
+            for _k,_v in loadplugins.items():
                 if _v['comment'] is True:
                     if reverse is True:
                         disabled_plugin(_plugin, dop=dop, webobj=webobj, host=host)
@@ -1722,31 +1722,31 @@ if __name__ == '__main__':
 
     # プラグインが有効かどうか(syslog)
     plugin_name = "syslog"
-    print is_enabled_plugin(plugin_name,dop=DictOp)
+    print(is_enabled_plugin(plugin_name,dop=DictOp))
 
     # プラグインが有効かどうか(logfile)
     plugin_name = "logfile"
-    print is_enabled_plugin(plugin_name,dop=DictOp)
+    print(is_enabled_plugin(plugin_name,dop=DictOp))
 
     # プラグインを有効化(iptables)
     plugin_name = "iptables"
     enabled_plugin(plugin_name,dop=DictOp)
     # プラグインが有効かどうか(iptables)
-    print is_enabled_plugin(plugin_name,dop=DictOp)
+    print(is_enabled_plugin(plugin_name,dop=DictOp))
 
     # プラグインを無効化(logfile)
     plugin_name = "logfile"
     disabled_plugin(plugin_name,dop=DictOp)
     # プラグインが有効かどうか(logfile)
-    print is_enabled_plugin(plugin_name,dop=DictOp)
+    print(is_enabled_plugin(plugin_name,dop=DictOp))
 
     # Intervalパラメータの取得
-    print get_global_parameter("Interval",dop=DictOp)
+    print(get_global_parameter("Interval",dop=DictOp))
 
     # Intervalパラメータの変更
-    print set_global_parameter("Interval","23",dop=DictOp)
+    print(set_global_parameter("Interval","23",dop=DictOp))
     # Intervalパラメータの取得
-    print get_global_parameter("Interval")
+    print(get_global_parameter("Interval"))
 
     # ここまでの設定内容を確認（メモリ上）
     #preprint_r(DictOp.getconf("collectdplugin"))
@@ -1754,7 +1754,7 @@ if __name__ == '__main__':
     # プラグイン設定がどのファイルに記述されているか(iptables)
     # xxxx.conf の xxxx の部分が返される
     plugin_name = "iptables"
-    print where_is_plugin(plugin_name)
+    print(where_is_plugin(plugin_name))
 
     #################################
     # Filterの設定
@@ -1811,9 +1811,9 @@ if __name__ == '__main__':
     #DictOp.comment("collectdplugin",["filter","Chain","PostTestChain","Rule","cpua_exceeded"],is_cdp=True,multiple_file=True)
     #DictOp.uncomment("collectdplugin",["filter","Chain","PostTestChain","Rule","cpub_exceeded"],is_cdp=True,multiple_file=True)
     #print DictOp.action("collectdplugin",["filter","Chain","PostTestChain","Rule","cpua_exceeded","Match"],is_cdp=True,multiple_file=True)
-    print DictOp.unset("collectdplugin",["filter","Chain","PostTestChain","Rule","cpua_exceeded","Match"],is_cdp=True,multiple_file=True)
-    print DictOp.isset("collectdplugin",["filter","Chain","PostTestChain","Rule","cpua_exceeded","Match"],is_cdp=True,multiple_file=True)
-    print DictOp.cdp_isset("collectdplugin",["filter","Chain","PostTestChain","Rule","cpua_exceeded","Match"],multiple_file=True)
+    print(DictOp.unset("collectdplugin",["filter","Chain","PostTestChain","Rule","cpua_exceeded","Match"],is_cdp=True,multiple_file=True))
+    print(DictOp.isset("collectdplugin",["filter","Chain","PostTestChain","Rule","cpua_exceeded","Match"],is_cdp=True,multiple_file=True))
+    print(DictOp.cdp_isset("collectdplugin",["filter","Chain","PostTestChain","Rule","cpua_exceeded","Match"],multiple_file=True))
 
 
     #################################
@@ -1890,8 +1890,8 @@ if __name__ == '__main__':
     parser = collectdpluginParser()
     parser.write_conf(conf,dryrun=True)
 
-    print get_collectd_param(param="BaseDir"     , section=None)
-    print get_collectd_param(param="DataDir"     , section="rrdtool")
-    print get_collectd_param(param="CacheTimeout", section="rrdtool")
+    print(get_collectd_param(param="BaseDir"     , section=None))
+    print(get_collectd_param(param="DataDir"     , section="rrdtool"))
+    print(get_collectd_param(param="CacheTimeout", section="rrdtool"))
 
     pass

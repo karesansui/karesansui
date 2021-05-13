@@ -59,8 +59,8 @@ try:
     from karesansui.lib.virt.virt import KaresansuiVirtConnection
     from karesansui.lib.utils import load_locale
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -94,10 +94,10 @@ class UpdateSoftware(KssCommand):
 
         if ret:
             self.logger.info('Has been updated.')
-            print >>sys.stdout, 'Has been updated.'
+            print('Has been updated.', file=sys.stdout)
         else:
             self.logger.info('Which did not have to be updated..')
-            print >>sys.stdout, 'Which did not have to be updated.'
+            print('Which did not have to be updated.', file=sys.stdout)
 
         self.up_progress(10)
 

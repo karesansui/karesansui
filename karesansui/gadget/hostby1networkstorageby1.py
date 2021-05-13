@@ -127,7 +127,7 @@ class HostBy1NetworkStorageBy1(Rest):
         _cmd = dict2command(
             "%s/%s" % (karesansui.config['application.bin.dir'], ISCSI_COMMAND_GET), options)
 
-        cmd_name = u'Get iSCSI Detail'
+        cmd_name = 'Get iSCSI Detail'
         jobgroup = JobGroup(cmd_name, karesansui.sheconf['env.uniqkey'])
         jobgroup.jobs.append(Job('%s command' % cmd_name, 0, _cmd))
         jobgroup.type = JOBGROUP_TYPE['PARALLEL']
@@ -222,7 +222,7 @@ class HostBy1NetworkStorageBy1(Rest):
                 password_file_name = '/tmp/' + generate_phrase(12,'abcdefghijklmnopqrstuvwxyz')
                 create_file(password_file_name, password)
                 options['password-file'] = password_file_name
-            except Exception, e:
+            except Exception as e:
                 self.logger.error('Failed to create tmp password file. - file=%s' % (password_file_name))
                 options['password'] = password
 
@@ -232,7 +232,7 @@ class HostBy1NetworkStorageBy1(Rest):
         if auto_start:
             _cmd = _cmd + " --autostart"
 
-        cmd_name = u'Update iSCSI'
+        cmd_name = 'Update iSCSI'
         jobgroup = JobGroup(cmd_name, karesansui.sheconf['env.uniqkey'])
         jobgroup.jobs.append(Job('%s command' % cmd_name, 0, _cmd))
 
@@ -267,7 +267,7 @@ class HostBy1NetworkStorageBy1(Rest):
 
         options = {'iqn' : iqn}
         job_order = 0
-        cmd_name = u'Delete iSCSI'
+        cmd_name = 'Delete iSCSI'
         jobgroup = JobGroup(cmd_name, karesansui.sheconf['env.uniqkey'])
 
         if is_param(self.input, "host") and is_param(self.input, "port"):

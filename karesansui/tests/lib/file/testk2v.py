@@ -26,12 +26,12 @@ class TestK2V(unittest.TestCase):
 
     def test_write_0(self):
         _d = self._t.write(self._w)
-        for i in xrange(1,6):
+        for i in range(1,6):
             self.assertEqual(self._w['key.%d'%i],_d['key.%d'%i])
 
     def test_read_0(self):
         _d = self._t.read()
-        for i in xrange(1,6):
+        for i in range(1,6):
             self.assertEqual(self._w['key.%d'%i],_d['key.%d'%i])
         
     def test_lock_sh_0(self):
@@ -48,7 +48,7 @@ class SuiteK2V(unittest.TestSuite):
     def __init__(self):
         tests = ['test_write_0', 'test_read_0',
                  'test_lock_ex_0', 'test_lock_un_0']
-        unittest.TestSuite.__init__(self,map(TestK2V, tests))
+        unittest.TestSuite.__init__(self,list(map(TestK2V, tests)))
 
 def all_suite_k2v():
     return unittest.TestSuite([SuiteK2V()])

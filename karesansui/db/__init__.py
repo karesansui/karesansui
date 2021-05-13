@@ -27,7 +27,7 @@
 import logging
 
 from sqlalchemy import create_engine, MetaData
-from sqlalchemy.orm import sessionmaker, mapper, SessionExtension, scoped_session
+from sqlalchemy.orm import sessionmaker, mapper, scoped_session
 from sqlalchemy.pool import SingletonThreadPool, QueuePool
 
 import karesansui
@@ -35,16 +35,6 @@ from karesansui.db.model import reload_mappers
 
 #: SQLAlchemy#Engine
 __engine = None
-
-class KaresansuiSessionExtension(SessionExtension):
-    """<comment-ja>
-    データベースセッション例外クラス
-    </comment-ja>
-    <comment-en>
-    TODO: English Comment
-    </comment-en>
-    """
-    pass
 
 # function
 def get_engine():
@@ -133,6 +123,8 @@ def mapper(metadata):
     """
     reload_mappers(metadata)
 
+__session = None
+
 def get_session():
     """<comment-ja>
     thread-localでセッションを取得します。
@@ -141,8 +133,10 @@ def get_session():
     TODO: English Comment
     </comment-en>
     """
-    return scoped_session(
-        sessionmaker(bind=get_engine(), autoflush=False))
+    global __session
+    if __session is None:
+        __session = scoped_session(sessionmaker(bind=get_engine(), autoflush=False))
+    return __session
 
 
 if __name__ == '__main__':

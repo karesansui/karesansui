@@ -41,8 +41,8 @@ try:
     from karesansui.lib.utils import load_locale
     from karesansui.lib.const import DISK_USES
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -73,7 +73,7 @@ def chkopts(opts):
         raise KssCommandOptException('ERROR: %s option is required.' % '-p or --pool_name')
 
     if opts.use:
-        if opts.use not in DISK_USES.values():
+        if opts.use not in list(DISK_USES.values()):
             raise KssCommandOptException('ERROR: Disk usage is not available. '
                                          'images or disk is available. use=%s' % opts.use)
 
@@ -119,9 +119,9 @@ class DeleteStorageVolume(KssCommand):
 
                 self.up_progress(30)
                 self.logger.info('Deleted storage volume. - pool=%s, vol=%s' % (opts.pool_name, opts.name))
-                print >>sys.stdout, _('Deleted storage volume. - pool=%s, vol=%s') % (opts.pool_name, opts.name)
+                print(_('Deleted storage volume. - pool=%s, vol=%s') % (opts.pool_name, opts.name), file=sys.stdout)
                 return True
-            except KssCommandException, e:
+            except KssCommandException as e:
                 raise e
         finally:
             conn.close()

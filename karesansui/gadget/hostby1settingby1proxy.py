@@ -119,9 +119,9 @@ class HostBy1SettingBy1Proxy(Rest):
             _K2V = K2V(conf)
             config = _K2V.read()
             self.view.config = config
-        except (IOError, KaresansuiGadgetException), kge:
+        except (IOError, KaresansuiGadgetException) as kge:
             self.logger.debug(kge)
-            raise KaresansuiGadgetException, kge
+            raise KaresansuiGadgetException(kge)
 
         if self.is_mode_input() is True:
             self.view.enable = ""
@@ -147,7 +147,7 @@ class HostBy1SettingBy1Proxy(Rest):
             sock.settimeout(5.0)
             try:
                 sock.connect((self.input.proxy_server, int(self.input.proxy_port)))
-            except Exception, e:
+            except Exception as e:
                 self.logger.error("Could not connect to specified proxy server\n%s" % e)
                 """
                 TRANSLATORS:
@@ -168,9 +168,9 @@ class HostBy1SettingBy1Proxy(Rest):
                 config['application.proxy.user'] = self.input.proxy_user
                 config['application.proxy.password'] = self.input.proxy_password
             _K2V.write(config)
-        except (IOError, KaresansuiGadgetException), kge:
+        except (IOError, KaresansuiGadgetException) as kge:
             self.logger.debug(kge)
-            raise KaresansuiGadgetException, kge
+            raise KaresansuiGadgetException(kge)
         return web.accepted(url=web.ctx.path)
 
 urls = ('/host/(\d+)/setting/proxy?(\.input|\.part)$', HostBy1SettingBy1Proxy,)

@@ -41,7 +41,7 @@ def validates_watch(obj, target, lang):
     _ = obj._
     checker.errors = []
 
-    if target not in WATCH_PLUGINS.values():
+    if target not in list(WATCH_PLUGINS.values()):
         check = False
         checker.add_error(_('"%s" is not watch target.') %_(target))
 

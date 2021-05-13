@@ -39,8 +39,8 @@ try:
     from karesansui.lib.virt.virt import KaresansuiVirtConnection
     from karesansui.lib.utils import load_locale
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -73,7 +73,7 @@ class DeleteNIC(KssCommand):
             self.up_progress(50)
 
             self.logger.info('Deleted interface device. - dom=%s mac=%s' % (opts.name,opts.mac))
-            print >>sys.stdout, _('Deleted interface device. - dom=%s mac=%s') % (opts.name, opts.mac)
+            print(_('Deleted interface device. - dom=%s mac=%s') % (opts.name, opts.mac), file=sys.stdout)
 
             return True
         finally:

@@ -41,8 +41,8 @@ try:
     from karesansui.lib.utils import load_locale, get_disk_img_info
     from karesansui.lib.const import ISCSI_DEVICE_DIR, DISK_USES
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -179,8 +179,8 @@ class AddDisk(KssCommand):
 
         self.logger.info('Added disk device. - dom=%s target=%s path=%s' \
                          % (opts.name, target, real_volume_path))
-        print >>sys.stdout, 'Added disk device. - dom=%s target=%s path=%s' \
-              % (opts.name, target, real_volume_path)
+        print('Added disk device. - dom=%s target=%s path=%s' \
+              % (opts.name, target, real_volume_path), file=sys.stdout)
 
         return True
 

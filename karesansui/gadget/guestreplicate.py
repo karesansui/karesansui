@@ -206,7 +206,7 @@ def replicate_storage_volume(obj, orig_name, orig_pool, orig_volume,
     TODO: English Documents(en)
     </comment-en>
     """
-    cmdname = u"Replicate Storage_Volume %s" % dest_name
+    cmdname = "Replicate Storage_Volume %s" % dest_name
     cmd = VIRT_COMMAND_REPLICATE_STORAGE_VOLUME
 
     options = {}
@@ -236,7 +236,7 @@ def replicate_storage_volume(obj, orig_name, orig_pool, orig_volume,
     return job
 
 def replicate_guest(obj, guest, cmd, options, cmdname, rollback_options, order):
-    if (karesansui.sheconf.has_key('env.uniqkey') is False) \
+    if (('env.uniqkey' in karesansui.sheconf) is False) \
            or (karesansui.sheconf['env.uniqkey'].strip('') == ''):
         raise
 
@@ -258,7 +258,7 @@ def exec_replicate_guest(obj, _guest, icon_filename, cmdname,
     if icon_filename:
         _guest.icon = icon_filename
 
-    if (karesansui.sheconf.has_key('env.uniqkey') is False) \
+    if (('env.uniqkey' in karesansui.sheconf) is False) \
            or (karesansui.sheconf['env.uniqkey'].strip('') == ''):
         raise
 
@@ -546,7 +546,7 @@ class GuestReplicate(Rest):
 
                 disk_volumes = kvc.get_storage_volume_bydomain(domname, 'disk', 'key')
                 volume = None
-                for key in disk_volumes.keys():
+                for key in list(disk_volumes.keys()):
                     if disk['source']['file'] == os.path.realpath(disk_volumes[key]):
                         volume = key # disk image
 

@@ -33,10 +33,10 @@ from optparse import OptionParser, OptionValueError
 try:
     import karesansui
 except ImportError:
-    import __init__ as karesansui
+    from . import __init__ as karesansui
 
 from karesansui.lib.utils import is_uuid, is_int
-from lib.file.k2v import K2V 
+from .lib.file.k2v import K2V 
 
 usage = "%prog [options]"
 version = 'karesansui %s' % karesansui.__version__
@@ -68,11 +68,11 @@ def chkopts(opts):
     </comment-en>
     """
     if not opts.cf:
-        print >>sys.stderr, '%s: --config is required.' % karesansui.__app__
+        print('%s: --config is required.' % karesansui.__app__, file=sys.stderr)
         return True
 
     if os.path.isfile(opts.cf) is False:
-        print >>sys.stderr, '-c or --config file is specified in the option does not exist.'
+        print('-c or --config file is specified in the option does not exist.', file=sys.stderr)
         return True
 
 def chkconfig(config):
@@ -90,98 +90,98 @@ def chkconfig(config):
     check = True
 
     # application.log.config
-    if check and config.has_key("application.log.config") is False:
-        print >>sys.stderr, 'Configuration information is missing. - application.log.config'
+    if check and ("application.log.config" in config) is False:
+        print('Configuration information is missing. - application.log.config', file=sys.stderr)
         check = False
 
     if check and os.path.isfile(config["application.log.config"]) is False:
-        print >>sys.stderr, 'There is a mistake in the configuration information. - application.log.config=%s' % config["application.log.config"]
+        print('There is a mistake in the configuration information. - application.log.config=%s' % config["application.log.config"], file=sys.stderr)
         check = False
 
     # application.tmp.dir
-    if check and config.has_key("application.tmp.dir") is False:
-        print >>sys.stderr, 'Configuration information is missing. - application.tmp.dir'
+    if check and ("application.tmp.dir" in config) is False:
+        print('Configuration information is missing. - application.tmp.dir', file=sys.stderr)
         check = False
 
     if check and os.path.isdir(config["application.tmp.dir"]) is False:
-        print >>sys.stderr, 'There is a mistake in the configuration information. - application.tmp.dir=%s' % config["application.tmp.dir"]
+        print('There is a mistake in the configuration information. - application.tmp.dir=%s' % config["application.tmp.dir"], file=sys.stderr)
         check = False
 
     if check and os.access(config["application.tmp.dir"], os.R_OK | os.W_OK) is False:
-        print >>sys.stderr, 'Not set the appropriate permissions to that directory. - application.tmp.dir=%s' % config["application.tmp.dir"]
+        print('Not set the appropriate permissions to that directory. - application.tmp.dir=%s' % config["application.tmp.dir"], file=sys.stderr)
         check = False
 
     # application.bin.dir
-    if check and config.has_key("application.bin.dir") is False:
-        print >>sys.stderr, 'Configuration information is missing. - application.bin.dir'
+    if check and ("application.bin.dir" in config) is False:
+        print('Configuration information is missing. - application.bin.dir', file=sys.stderr)
         check = False
 
     if check and os.path.isdir(config["application.bin.dir"]) is False:
-        print >>sys.stderr, 'There is a mistake in the configuration information. - application.bin.dir=%s' % config["application.bin.dir"]
+        print('There is a mistake in the configuration information. - application.bin.dir=%s' % config["application.bin.dir"], file=sys.stderr)
         check = False
 
     if check and os.access(config["application.bin.dir"], os.R_OK) is False:
-        print >>sys.stderr, 'Not set the appropriate permissions to that directory. - application.bin.dir=%s' % config["application.bin.dir"]
+        print('Not set the appropriate permissions to that directory. - application.bin.dir=%s' % config["application.bin.dir"], file=sys.stderr)
         check = False
 
     # pysilhouette.conf.path
-    if check and config.has_key("pysilhouette.conf.path") is False:
-        print >>sys.stderr, 'Configuration information is missing. - pysilhouette.conf.path'
+    if check and ("pysilhouette.conf.path" in config) is False:
+        print('Configuration information is missing. - pysilhouette.conf.path', file=sys.stderr)
         check = False
         
     if check and os.path.isfile(config["pysilhouette.conf.path"]) is False:
-        print >>sys.stderr, 'There is a mistake in the configuration information. - pysilhouette.conf.path=%s' % config["pysilhouette.conf.path"]
+        print('There is a mistake in the configuration information. - pysilhouette.conf.path=%s' % config["pysilhouette.conf.path"], file=sys.stderr)
         check = False
 
     if check and os.access(config["pysilhouette.conf.path"], os.R_OK) is False:
-        print >>sys.stderr, 'Not set the appropriate permissions to that file. - pysilhouette.conf.path=%s' % config["pysilhouette.conf.path"]
+        print('Not set the appropriate permissions to that file. - pysilhouette.conf.path=%s' % config["pysilhouette.conf.path"], file=sys.stderr)
         check = False
 
     # application.uniqkey
-    if check and config.has_key("application.uniqkey") is False:
-        print >>sys.stderr, 'Configuration information is missing. - application.uniqkey'
+    if check and ("application.uniqkey" in config) is False:
+        print('Configuration information is missing. - application.uniqkey', file=sys.stderr)
         check = False
 
     if check and is_uuid(config["application.uniqkey"]) is False:
-        print >>sys.stderr, 'UUID format is not set. - application.uniqkey'
+        print('UUID format is not set. - application.uniqkey', file=sys.stderr)
         check = False
 
     # database.pool.status
-    if check and config.has_key("database.pool.status") is False:
-        print >>sys.stderr, 'Configuration information is missing. - database.pool.status'
+    if check and ("database.pool.status" in config) is False:
+        print('Configuration information is missing. - database.pool.status', file=sys.stderr)
         check = False
 
     if check and (config["database.pool.status"] in ("0","1")) is False:
-        print >>sys.stderr, 'The mistake is found in the set value. Please set 0 or 1. - database.pool.status'
+        print('The mistake is found in the set value. Please set 0 or 1. - database.pool.status', file=sys.stderr)
         check = False
 
     if check and config["database.pool.status"] == "1":
         # database.pool.max.overflow
-        if check and config.has_key("database.pool.max.overflow") is False:
-            print >>sys.stderr, 'Configuration information is missing. - database.pool.max.overflow'
+        if check and ("database.pool.max.overflow" in config) is False:
+            print('Configuration information is missing. - database.pool.max.overflow', file=sys.stderr)
             check = False
 
         # database.pool.size
-        if check and config.has_key("database.pool.size") is False:
-            print >>sys.stderr, 'Configuration information is missing. - database.pool.size'
+        if check and ("database.pool.size" in config) is False:
+            print('Configuration information is missing. - database.pool.size', file=sys.stderr)
             check = False
 
         # int
         if check and is_int(config["database.pool.max.overflow"]) is False:
-            print >>sys.stderr, 'Please set it by the numerical value. - database.pool.max.overflow'
+            print('Please set it by the numerical value. - database.pool.max.overflow', file=sys.stderr)
             check = False
 
         if check and is_int(config["database.pool.size"]) is False:
-            print >>sys.stderr, 'Please set it by the numerical value. - database.pool.size'
+            print('Please set it by the numerical value. - database.pool.size', file=sys.stderr)
             check = False
 
         if check and int(config["database.pool.size"]) <= 0:
-            print >>sys.stderr, 'Please set values that are larger than 0. - database.pool.size'
+            print('Please set values that are larger than 0. - database.pool.size', file=sys.stderr)
             check = False
 
         # Comparison
         if check and int(config["database.pool.max.overflow"]) < int(config["database.pool.size"]):
-            print >>sys.stderr, 'Please set "database.pool.max.overflow" to a value that is larger than "database.pool.size".'
+            print('Please set "database.pool.max.overflow" to a value that is larger than "database.pool.size".', file=sys.stderr)
             check = False
 
     return check
@@ -204,7 +204,7 @@ def built_in():
     elif env.get('KARESANSUI_CONF'): # envrion
         conf = env.get('KARESANSUI_CONF')
     else: #error
-        print >>sys.stderr, '[built_in] Please specify the configuration file. - Please set the environment variable that "KARESANSUI_CONF". Otherwise, please set the command option that "-c or --config".'
+        print('[built_in] Please specify the configuration file. - Please set the environment variable that "KARESANSUI_CONF". Otherwise, please set the command option that "-c or --config".', file=sys.stderr)
         sys.exit(1)
 
     config = None
@@ -213,14 +213,14 @@ def built_in():
         _k2v = K2V(conf)
         config = _k2v.read()
     else: # error
-        print >>sys.stderr, '[built_in] Please specify the configuration file. - Environment variables or command-option'
+        print('[built_in] Please specify the configuration file. - Environment variables or command-option', file=sys.stderr)
         sys.exit(1)
 
 #    if env.has_key('SEARCH_PATH'):
 #        for y in [x.strip() for x in env.get('SEARCH_PATH').split(',') if x]:
 #            if (y in sys.path) is False: sys.path.insert(0, y)
 
-    if config and config.has_key('application.search.path'):
+    if config and 'application.search.path' in config:
         for y in [x.strip() for x in config['application.search.path'].split(',') if x]:
             if (y in sys.path) is False: sys.path.insert(0, y)
 
@@ -241,7 +241,7 @@ def fcgi():
     if env.get('KARESANSUI_CONF'): # envrion
         conf = env.get('KARESANSUI_CONF')
     else: #error
-        print >>sys.stderr, '[fcgi] Please specify the configuration file. - Please set the environment variable that "KARESANSUI_CONF".'
+        print('[fcgi] Please specify the configuration file. - Please set the environment variable that "KARESANSUI_CONF".', file=sys.stderr)
         sys.exit(1)
 
     config = None
@@ -251,13 +251,13 @@ def fcgi():
 
     try:
         import flup
-    except ImportError, e:
-        print >>sys.stderr, '[Error] There are not enough libraries.(fcgi) - %s' % ''.join(e.args)
+    except ImportError as e:
+        print('[Error] There are not enough libraries.(fcgi) - %s' % ''.join(e.args), file=sys.stderr)
         traceback.format_exc()
         sys.exit(1)
 
 
-    if config and config.has_key('application.search.path'):
+    if config and 'application.search.path' in config:
         for y in [x.strip() for x in config['application.search.path'].split(',') if x]:
             if (y in sys.path) is False: sys.path.insert(0, y)
 
@@ -279,9 +279,9 @@ def create__cmd__(config, conf):
     </comment-en>
     """
     # create __cmd__.py file
-    from lib.file.configfile import ConfigFile
-    from lib.utils import r_chgrp
-    from lib.const import KARESANSUI_GROUP
+    from .lib.file.configfile import ConfigFile
+    from .lib.utils import r_chgrp
+    from .lib.const import KARESANSUI_GROUP
 
     command_py = "%s/__cmd__.py" % config['application.bin.dir']
     ConfigFile(command_py).write("""#!/usr/bin/env python
@@ -306,7 +306,7 @@ def have_privilege(msg=True):
     """
     import os
     import pwd, grp
-    from lib.const import KARESANSUI_USER, KARESANSUI_GROUP
+    from .lib.const import KARESANSUI_USER, KARESANSUI_GROUP
 
     try:
         ok_gr = grp.getgrnam(KARESANSUI_GROUP)[3]
@@ -316,7 +316,7 @@ def have_privilege(msg=True):
 
     ret = (grp.getgrgid(os.getgid())[0] in ok_gr)
     if ret is False and msg is True:
-        print >>sys.stderr, """
+        print("""
 # chgrp -R %s %s
 # chmod -R g+w %s
 # chgrp -R %s %s
@@ -325,7 +325,7 @@ Or check permission of the following directories.
 * log file directory
 * configuration file directory
 """ % (KARESANSUI_GROUP,karesansui.config['application.bin.dir'],karesansui.config['application.bin.dir'], KARESANSUI_GROUP,os.path.dirname(__file__),os.path.dirname(__file__),
-)
+), file=sys.stderr)
     return ret
 
 if __name__ == '__main__':

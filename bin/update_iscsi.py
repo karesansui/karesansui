@@ -45,8 +45,8 @@ try:
         ISCSI_CONFIG_KEY_AUTH_METHOD, ISCSI_CONFIG_KEY_AUTH_USER, ISCSI_CONFIG_KEY_AUTH_PASSWORD, \
         ISCSI_CONFIG_KEY_SATRTUP, ISCSI_CONFIG_VALUE_SATRTUP_ON, ISCSI_CONFIG_VALUE_SATRTUP_OFF
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -154,7 +154,7 @@ class UpdateIscsi(KssCommand):
         self.up_progress(30)
 
         self.logger.info("Updated iSCSI node. - host=%s iqn=%s" % (opts.host, opts.iqn))
-        print >>sys.stdout, _("Updated iSCSI node. - host=%s iqn=%s") % (opts.host, opts.iqn)
+        print(_("Updated iSCSI node. - host=%s iqn=%s") % (opts.host, opts.iqn), file=sys.stdout)
 
         return True
 

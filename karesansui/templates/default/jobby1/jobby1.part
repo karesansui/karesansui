@@ -61,7 +61,7 @@ $(document).ready(function(){
             </td>
             <td>
                 <table cellspacing="0" class="border detail-sub-contents">
-% for k,v in JOBGROUP_STATUS.iteritems():
+% for k,v in JOBGROUP_STATUS.items():
     % if v == jg.status:
                     <tr>
                         <th>${_('Status')}</th>
@@ -93,7 +93,7 @@ $(document).ready(function(){
                             </table>
                         </td>
                     </tr>
-% for k,v in HYPERVISOR.iteritems():
+% for k,v in HYPERVISOR.items():
     % if v == jg.status:
                     <tr>
                         <th>${_('Hypervisor')}</th>

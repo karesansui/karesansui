@@ -39,8 +39,8 @@ try:
     from karesansui.lib.virt.virt import KaresansuiVirtConnection
     from karesansui.lib.utils import load_locale
 
-except ImportError, e:
-    print >>sys.stderr, "[Error] some packages not found. - %s" % e
+except ImportError as e:
+    print("[Error] some packages not found. - %s" % e, file=sys.stderr)
     sys.exit(1)
 
 _ = load_locale()
@@ -81,12 +81,12 @@ class SetVcpus(KssCommand):
 
                     self.logger.info('Set vcpus. - dom=%s vcpus=%s max_vcpus=%s bootup_vcpus=%s' \
                                      % (opts.name, info['vcpus'], info['max_vcpus'], info['bootup_vcpus']))
-                    print >>sys.stdout, _('Set vcpus. - dom=%s vcpus=%s max_vcpus=%s bootup_vcpus=%s') \
-                          % (opts.name, info['vcpus'], info['max_vcpus'], info['bootup_vcpus'])
+                    print(_('Set vcpus. - dom=%s vcpus=%s max_vcpus=%s bootup_vcpus=%s') \
+                          % (opts.name, info['vcpus'], info['max_vcpus'], info['bootup_vcpus']), file=sys.stdout)
 
-                except Exception, e:
+                except Exception as e:
                     self.logger.error('Failed to set vcpus. - dom=%s' % (opts.name))
-                    print >>sys.stderr, _('Failed to set vcpus. - dom=%s') % (opts.name)
+                    print(_('Failed to set vcpus. - dom=%s') % (opts.name), file=sys.stderr)
                     raise e
 
             else:

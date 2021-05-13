@@ -219,7 +219,7 @@ if __name__ == '__main__':
     # 'LoadPlugin target_replace' の設定順を取得
     key = ["LoadPlugin","target_hoge"]
     num = dop.order("dum",key)
-    print num
+    print(num)
 
     # '<Plugin foobar>' を 'LoadPlugin target_hoge' の前にする
     key = ["Plugin","foobar"]
@@ -231,7 +231,7 @@ if __name__ == '__main__':
     # 'Foo' を 'Bar' の後に変更する
     num = dop.order("dum",['Foo'])
     dop.change_order("dum",['Bar'],num+1)
-    print dop.get("dum",['@ORDERS'])
+    print(dop.get("dum",['@ORDERS']))
 
     # 配列確認
     conf = dop.getconf("dum")
